@@ -13,7 +13,7 @@ timezone: 'Asia/Shanghai'
 avatar: /avatar.png
 # URL
 ## Set your site url here. For example, if you use GitHub Page, set url as 'https://username.github.io/project'
-url: https://rssbox-smg.pages.dev/
+url: https://rssbox.imc.re/
 root: /
 
 # hexo-abbrlink
