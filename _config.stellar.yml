@@ -7,7 +7,7 @@ open_graph:
 article:
   auto_cover: false # 自动配图
   auto_excerpt: 200 # 内容摘要
-  license: '本文采用 [CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/) 许可协议，转载请注明出处。'
+  license: '本文采用 [GLWT（Good Luck With That，祝你好运）公共许可证](https://github.com/me-shaon/GLWTPL/blob/master/translations/LICENSE_zh-CN) 许可协议，转载请注明出处。'
   # 分享
   share:  [wechat, weibo, email, link]
   # npm i hexo-related-popular-posts
@@ -84,24 +84,18 @@ footer:
        url: 'https://l.imc.re/discord'
      comments:
        icon: '<img src="https://cdn.jsdelivr.net/gh/SMGCDN/photos/icon/iconfont/comments.svg"/>'
-       url: /contact
+       url: 'https://blog.imc.re/contact'
   sitemap:
-     '博客':
+     '文章':
        - '[分类](/categories)'
        - '[标签](/tags)'
        - '[归档](/archives)'
-     '项目':
-       - '[开源库](/wiki)'
-     '社交':
-       - '[关于](/more)'
-       - '[联系](/more/contact)'
-       - '[站点](more/sites)'
      '更多':
-       - '[赞助](/more/sponsor)'
+       - '[博客](https://blog.imc.re/)'
        - '[IMC.RE](https://imc.re/)'
   content: | # 支持 Markdown 格式
-    [@SMGoro Blog](/) 2019-2023 theme by [Stellar](https://github.com/xaoxuu/hexo-theme-stellar) author by SummerGoro。<br>
-    本博客所有文章除特别声明外均为原创，均采用 [CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/) 许可协议，转载请注明出处。
+    [@RSSBOX](/) 2023 author by [MHuiG](https://github.com/MHG-LAB/RSSBOX) powered by SummerGoro。<br>
+    本博客所有文章除特别声明外，均采用 [GLWT（Good Luck With That，祝你好运）公共许可证](https://github.com/me-shaon/GLWTPL/blob/master/translations/LICENSE_zh-CN) 许可协议，转载请注明出处。
 
 lazyload:
   enable: true # [hexo clean && hexo s] is required after changing this value.
