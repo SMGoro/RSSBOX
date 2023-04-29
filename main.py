@@ -204,19 +204,19 @@ def get_post(res,item):
       from urllib.parse import urlparse
       url = urlparse(link)
       loc = url.scheme+"://"+url.netloc
-      # 反防盗链 cors
-      text = text.replace('src="https://','src="'+CORS_API+'/?r='+loc+'&url=https://')
-      text = text.replace('src="http://','src="'+CORS_API+'/?r='+loc+'&url=http://')
-      text = text.replace('="/','="'+CORS_API+'/?r='+loc+'&url='+loc+'/')
-      text = text.replace('="../','="'+CORS_API+'/?r='+loc+'&url='+loc+'/../')
-      if img:
-        print(img)
-        img = img.replace('https://',CORS_API+'/?r='+loc+'&url=https://')
-        img = img.replace('http://',CORS_API+'/?r='+loc+'&url=http://')
-        img = re.compile(r'^\/').sub(CORS_API+'/?r='+loc+'&url='+loc+'/', img, 1)
-        img = img.replace('../',CORS_API+'/?r='+loc+'&url='+loc+'/../',1)
-    elif img:
-      img = img.replace('http://',CORS_API+'/?url=http://')
+    #   # 反防盗链 cors
+    #   text = text.replace('src="https://','src="'+CORS_API+'/?r='+loc+'&url=https://')
+    #   text = text.replace('src="http://','src="'+CORS_API+'/?r='+loc+'&url=http://')
+    #   text = text.replace('="/','="'+CORS_API+'/?r='+loc+'&url='+loc+'/')
+    #   text = text.replace('="../','="'+CORS_API+'/?r='+loc+'&url='+loc+'/../')
+    #   if img:
+    #     print(img)
+    #     img = img.replace('https://',CORS_API+'/?r='+loc+'&url=https://')
+    #     img = img.replace('http://',CORS_API+'/?r='+loc+'&url=http://')
+    #     img = re.compile(r'^\/').sub(CORS_API+'/?r='+loc+'&url='+loc+'/', img, 1)
+    #     img = img.replace('../',CORS_API+'/?r='+loc+'&url='+loc+'/../',1)
+    # elif img:
+    #   img = img.replace('http://',CORS_API+'/?url=http://')
     if not img:
       img = 'https://picsum.photos/400/300?random='+ str(random.randint(0,10000))
 
