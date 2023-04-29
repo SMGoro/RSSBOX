@@ -1,0 +1,61 @@
+'friends-link':
+    - title: stellar主题wiki
+      url: https://xaoxuu.com/wiki/stellar/
+      screenshot:
+      avatar:
+      description: 顺带也是XAOXUU大佬的博客
+    - title: 坐等大佬
+      url: https://
+      screenshot:
+      avatar:
+      description:
+
+'contact':
+    - title: Dodo
+      url: https://l.imc.re/dodo
+      screenshot:
+      avatar: '/assets/icon/dodo.ico'
+      description:
+    - title: QQ群
+      url: https://l.imc.re/qqgroup
+      screenshot:
+      avatar: '/assets/icon/social-qq.svg'
+      description:
+    - title: Discord
+      url: https://l.imc.re/discord
+      screenshot:
+      avatar: '/assets/icon/discord.svg'
+      description:
+    - title: Bilibili
+      url: https://l.imc.re/bilibili
+      screenshot:
+      avatar: '/assets/icon/bilibili.svg'
+      description:
+    - title: Zhihu
+      url: https://l.imc.re/zhihu
+      screenshot:
+      avatar: '/assets/icon/zhihu.svg'
+      description:
+    - title: Github
+      url: https://l.imc.re/github
+      screenshot:
+      avatar: '/assets/icon/social-github.svg'
+      description:
+
+'IMC':
+  - title: IMC.RE
+    url: https://imc.re
+    screenshot:
+    avatar:
+    description: 'IMC.RE 主页'
+  - title: IMC Store
+    url: https://store.imc.re
+    screenshot:
+    avatar:
+    description: 'IMC Store商店，售卖高频高性价比游戏服务器。'
+  - title: IMC WebMC
+    url: https://ws.imc.re
+    screenshot:
+    avatar:
+    description: 'IMC 网页版MC主站点。'
+

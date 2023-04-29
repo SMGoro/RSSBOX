@@ -1,162 +1,160 @@
-######## Sidebar ########
-sidebar:
-  logo:
-    avatar: '[config.avatar](https://mhuig.top/)' # you can set avatar link in _config.yml or '[https://xxx.png](/about/)'
-    title: '[config.title](/)' # you can set html tag like: '[<img no-lazy height="32px" src="xxx"/>](/)'
-  menu:
-    post: '[RSS](/)'
-    blog: '[博客](https://blog.mhuig.top/)'
-    about: '[关于](https://mhuig.top/)'
-  # Sidebar widgets
-  widget_layout:
-    index: [recent] # for home/wiki/categories/tags/archives/404 pages
-    page: [toc] # for pages using 'layout:page'
-  widgets:
-    # Recent update
-    recent:
-      layout: recent
-      rss: /atom.xml # npm i hexo-generator-feed
-      limit: 5 # Count of posts
-    # TOC (valid only in layout:post/wiki)
-    toc:
-      layout: toc
-      list_number: false
-      min_depth: 2
-      max_depth: 5
-      fallback: recent # Use a backup widget when toc does not exist.
-    # welcome
-    welcome:
-      layout: markdown
-      title: Welcome
-      content: | # support markdown
-        欢迎来到 MHuiGのRSS订阅
+# 主题文档：https://xaoxuu.com/wiki/stellar
 
-######## Article ########
+open_graph:
+  enable: true
+  twitter_id: # for open_graph meta
+
 article:
-  # 如果没有指定封面，是否根据 tags 作为关键词搜索封面？
-  auto_cover: true # search from https://source.unsplash.com/
-  # 如果没有指定 excerpt 和 description，将自动取多长的内容作为文章摘要？
-  auto_excerpt: 200
-  # 分类颜色
-  category_color:
-    '新闻稿': '#DA0F47'
-  # 文章许可协议
-  license: '本文采用 [GLWT（Good Luck With That，祝你好运）公共许可证](https://github.com/me-shaon/GLWTPL/blob/master/translations/LICENSE_zh-CN) 许可协议。'
+  auto_cover: false # 自动配图
+  auto_excerpt: 200 # 内容摘要
+  license: '本文采用 [CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/) 许可协议，转载请注明出处。'
   # 分享
-  share: # [wechat, weibo, email, link]
-  # 相关文章，需要安装插件 (for layout: post)
+  share:  [wechat, weibo, email, link]
   # npm i hexo-related-popular-posts
   related_posts:
     enable: true
-    max_count: 15
-    auto_cover: true # 如果没有封面就根据 tags 作为关键词搜索封面，开了此项将不会自动从文章中提取首张图片作为封面了。
+    title: 您可能感兴趣的文章
 
+sidebar:
+  # logo:
+    # title: '[<img no-lazy height="32px" src="https://q1.qlogo.cn/g?b=qq&nk=2128336160&s=640"/>](/)'
+  menu:
+    # home: '[btn.home](/)'
+    post: '[RSS](/)'
+    blog: '[btn.blog](https://blog.imc.re/)'
+    contact: '[联系](https://blog.imc.re/contact/)'
+  widgets:
+    #### 自动生成的页面 ####
+    # 主页
+    home: search, welcome, recent, tagcloud, timeline # for home
+    # 博客索引页
+    blog_index: search_blog, recent, tagcloud, timeline # for categories/tags/archives
+    # 文档索引页
+    wiki_index: search_docs, recent, timeline # for wiki
+    # 其它（404）
+    others: search, welcome, recent, tagcloud, timeline # for 404 and ...
+    #### 手动创建的页面 ####
+    # 文章内页
+    post: toc, ghrepo, search_blog, ghissues, recent, tagcloud # for pages using 'layout:post'
+    # 文档内页
+    wiki: search_docs, ghrepo, toc, ghissues, related # for pages using 'layout:wiki'
+    # 其它 layout:page 的页面
+    page: welcome, toc, tagcloud, search # for custom pages using 'layout:page'
 
+search:
+  service: local_search # local_search, todo...
+  local_search: # 在 front-matter 中设置 indexing:false 来避免被搜索索引
+    field: all # post, page, all
+    path: /search.json # 搜索文件存放位置
+    content: true # 是否搜索内容
+    codeblock: true # 是否搜索代码块（需要content: true)
 
-######## Comments ########
 comments:
-  service: # beaudar, utterances, valine, twikoo
+  service: giscus
+  # giscus
+  # https://giscus.app/zh-CN
+  giscus:
+    data-repo: SMGoro/contact-data # [在此输入仓库]
+    data-repo-id: R_kgDOJchtuA # [在此输入仓库 ID]
+    data-category: General # [在此输入分类名]
+    data-category-id: DIC_kwDOJchtuM4CWIK_
+    data-mapping: pathname
+    data-strict: 0
+    data-reactions-enabled: 1
+    data-emit-metadata: 0
+    data-input-position: top # top, bottom
+    data-theme: preferred_color_scheme
+    data-lang: zh-CN
+    data-loading: lazy
+    crossorigin: anonymous
 
-######## Footer ########
 footer:
   social:
-    github:
-      icon: '<img src="https://static.mhuig.top/gh/cdn-x/placeholder@1.0.3/social/08a41b181ce68.svg"/>'
-      url: https://github.com/MHuiG
-    music:
-      icon: '<img src="https://static.mhuig.top/gh/cdn-x/placeholder@1.0.3/social/3845874.svg"/>'
-      url: https://music.163.com/#/user/home?id=63035382
-    contact:
-      icon: '<img src="https://static.mhuig.top/gh/cdn-x/placeholder@1.0.3/social/a1b00e20f425d.svg"/>'
-      url: /contact/
-
+     github:
+       icon: '<img src="/assets/icon/social-github.svg"/>'
+       url: 'https://github.com/SMGoro'
+     bilibili:
+       icon: '<img src="/assets/icon/bilibili.svg"/>'
+       url: 'https://space.bilibili.com/359079394'
+     zhihu:
+       icon: '<img src="/assets/icon/zhihu.svg"/>'
+       url: 'https://l.imc.re/zhihu'
+     discord:
+       icon: '<img src="/assets/icon/discord.svg"/>'
+       url: 'https://l.imc.re/discord'
+     comments:
+       icon: '<img src="/assets/icon/comments.svg"/>'
+       url: /contact
   sitemap:
-    'RSS':
-      - '[近期](/)'
-      - '[分类](/categories/)'
-      - '[标签](/tags/)'
-      - '[归档](/archives/)'
-    'Support':
-      - '[博客](https://blog.mhuig.top/)'
-      - '[API](https://api.mhuig.top/)'
-      - '[SSL Status](https://ssl.mhuig.top/)'
-      - '[Status Monitors](https://mhuig.instatus.com/)'
-    '社交':
-      - '[友链](https://blog.mhuig.top/pages/friends/)'
-      - '[留言板](https://blog.mhuig.top/pages/about/)'
-    '更多':
-      - '[关于我](https://mhuig.top/)'
-      - '[GitHub](https://github.com/MHuiG)'
-      - '[Contact](/contact/)'
-      - '[隐私政策](/privacy-policy/)'
+     '博客':
+       - '[分类](/categories)'
+       - '[标签](/tags)'
+       - '[归档](/archives)'
+     '项目':
+       - '[开源库](/wiki)'
+     '社交':
+       - '[关于](/more)'
+       - '[联系](/more/contact)'
+       - '[站点](more/sites)'
+     '更多':
+       - '[赞助](/more/sponsor)'
+       - '[IMC.RE](https://imc.re/)'
   content: | # 支持 Markdown 格式
-    本站由 [MHuiG](https://mhuig.top/) 使用 [Stellar](https://github.com/xaoxuu/hexo-theme-stellar) 主题创建，您可以在 [GitHub](https://github.com/MHG-LAB/RSSBOX) 找到本站源码
-    本博客所有文章除特别声明外，均采用 [GLWT（Good Luck With That，祝你好运）公共许可证](https://github.com/me-shaon/GLWTPL/blob/master/translations/LICENSE_zh-CN) 许可协议，转载请注明出处。
+    [@SMGoro Blog](/) 2019-2023 theme by [Stellar](https://github.com/xaoxuu/hexo-theme-stellar) author by SummerGoro。<br>
+    本博客所有文章除特别声明外均为原创，均采用 [CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/) 许可协议，转载请注明出处。
 
-######## JS Plugins ########
+lazyload:
+  enable: true # [hexo clean && hexo s] is required after changing this value.
+  js: https://gcore.jsdelivr.net/npm/vanilla-lazyload@17.3.1/dist/lazyload.min.js
+  transition: blur # blur, fade
+
+tag_plugins:
+  # {% image %}
+  image:
+    fancybox: true
+
 plugins:
-  ## required plugins ##
   # jquery
-  jquery: https://static.mhuig.top/npm/jquery@3.5.1/dist/jquery.min.js
+  jquery: https://gcore.jsdelivr.net/npm/jquery@3.6.2/dist/jquery.min.js
 
-  # issues api
-  sitesjs: /js/plugins/sites.js
-  friendsjs: /js/plugins/friends.js
-
-  ## optional plugins ##
-  # preload
-  preload:
+  # Katex - The fastest math typesetting library for the web
+  # https://katex.org/docs/autorender.html
+  # https://github.com/KaTeX/KaTeX
+  # 使用 hexo-renderer-markdown-it-plus 作为公式渲染器：npm uninstall hexo-renderer-marked --save npm install hexo-renderer-markdown-it-plus --save
+  katex:
     enable: true
-    service: flying_pages # instant_page, flying_pages
-    instant_page: https://static.mhuig.top/gh/volantis-x/cdn-volantis@4.1.2/js/instant_page.js
-    flying_pages: https://static.mhuig.top/gh/gijo-varghese/flying-pages@2.1.2/flying-pages.min.js
-
-  # image lazyload
-  # https://www.npmjs.com/package/vanilla-lazyload
-  lazyload:
-    enable: true # [hexo clean && hexo s] is required after changing this value.
-    js: https://static.mhuig.top/npm/vanilla-lazyload@17.3.1/dist/lazyload.min.js
-    transition: blur # blur, fade
-
-  # https://scrollrevealjs.org/api/reveal.html
-  scrollreveal:
-    enable: #true
-    js: https://static.mhuig.top/npm/scrollreveal@4.0.9/dist/scrollreveal.min.js
-    distance: 8px
-    duration: 500 # ms
-    interval: 100 # ms
-    scale: 1 # 0.1~1
-
-  # https://fancyapps.com/docs/ui/fancybox/
-  # available for {% image xxx %}
-  fancybox:
+    min_css: <link rel="stylesheet" href="https://gcore.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.css" integrity="sha384-vKruj+a13U8yHIkAyGgK1J3ArTLzrFGBbBc0tDp4ad/EyewESeXE/Iv67Aj8gKZ0" crossorigin="anonymous">
+    min_js: <script defer src="https://gcore.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.js" integrity="sha384-PwRUT/YqbnEjkZO0zZxNqcxACrXe+j766U2amXcgMg5457rve2Y7I6ZJSm2A0mS4" crossorigin="anonymous"></script>
+    auto_render_min_js: <script defer src="https://gcore.jsdelivr.net/npm/katex@0.16.4/dist/contrib/auto-render.min.js" integrity="sha384-+VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4+/RRE05" crossorigin="anonymous"onload="renderMathInElement(document.body);"></script>
+  
+  # Mermaid - markdwon to flow chart, seq chart, class chart ...
+  # 需要安装 npm install --save hexo-filter-mermaid-diagrams
+  # 使用时 需要在Markdown文件开头加入 mermaid: true
+  # 使用示例：
+  # ```mermaid
+  # graph LR
+  #   A(Section A) -->|option 1| B(Section A)
+  #   B -->|option 2| C(Section C)
+  # ```
+  mermaid:
     enable: true
-    js: https://static.mhuig.top/npm/@fancyapps/ui@4.0/dist/fancybox.umd.js
-    css: https://static.mhuig.top/npm/@fancyapps/ui@4.0/dist/fancybox.css
-    # 可以处理评论区的图片（不支持 iframe 类评论系统）例如：
-    # 使用valine评论可以写: .vcontent img:not(.vemoji)
-    # 使用twikoo评论可以写: .tk-content img:not([class*="emo"])
-    selector: .swiper-slide img,article.content img # 多个选择器用英文逗号隔开
-
-  # swiper
-  swiper:
-    enable: true
-    css: https://unpkg.com/swiper@6/swiper-bundle.min.css
-    js: https://unpkg.com/swiper@6/swiper-bundle.min.js
+    # js: https://unpkg.com/mermaid@9.0.0/dist/mermaid.min.js
+    js: https://cdn.jsdelivr.net/npm/mermaid@v9/dist/mermaid.min.js
+    # Available themes: default | dark | forest | neutral
+    # 推荐使用 dark 主题 在夜间模式下显示效果更好
+    theme: dark
 
 style:
   darkmode: auto # auto / always / false
-  theme:
-    light: '#f8f8f8'
-    dark: '#313438'
-  animated_avatar:
-    animate: auto # auto, always
-    background: https://static.mhuig.top/gh/cdn-x/placeholder@1.0.2/avatar/round/rainbow64@3x.webp
-  codeblock:
-    scrollbar: 4px
-
-default:
-  avatar: https://static.mhuig.top/gh/cdn-x/placeholder@1.0.1/avatar/round/3442075.svg
-  link: https://static.mhuig.top/gh/cdn-x/placeholder@1.0.1/link/8f277b4ee0ecd.svg
-  cover: https://static.mhuig.top/gh/cdn-x/placeholder@1.0.1/cover/76b86c0226ffd.svg
-  image: https://static.mhuig.top/gh/cdn-x/placeholder@1.0.1/image/2659360.svg
+  color:
+    # 动态颜色（会根据明暗主题重设明度值，只用关心色相和饱和度即可）
+    background: 'hsl(212 16% 98%)' # 浅色背景颜色
+    block: 'hsl(212 8% 95%)' # 块背景颜色
+    code: 'hsl(14 100% 48%)' # 行内代码颜色
+    text: 'hsl(0 0% 20%)' # 文本颜色
+    # 主题色配置（不会根据明暗动态调整，请设置为通用的颜色）
+    theme: 'hsl(192 98% 55%)' # 主题色
+    accent: 'hsl(14 100% 57%)' # 强调色
+    link: 'hsl(207 90% 54%)' # 超链接颜色
+    button: 'hsl(192 98% 55%)' # 按钮颜色
+    hover: 'hsl(14 100% 57%)' # 按钮高亮颜色
