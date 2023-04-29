@@ -4,16 +4,16 @@
 
 # Site
 title: RSSBOX
-subtitle: 'MHuiGのRSS订阅 | rssbox.mhuig.top'
-description: 'MHuiGのRSS订阅'
+subtitle: 'SMGoroのRSS订阅 | rssbox'
+description: 'SMGoroのRSS订阅'
 keywords:  RSSBOX, RSS, RSSHub, RSS订阅, MHuiG, @MHuiG, iMHuiG
-author: MHuiG
+author: SMGoro
 language: zh-CN
 timezone: 'Asia/Shanghai'
 avatar: /avatar.png
 # URL
 ## Set your site url here. For example, if you use GitHub Page, set url as 'https://username.github.io/project'
-url: https://rssbox.mhuig.top
+url: https://smgoro.github.io/RSSBOX/
 root: /
 
 # hexo-abbrlink
