@@ -106,6 +106,7 @@ date: {date}
 updated: {date}
 # cover: {img}
 comments: false
+post_list: true
 ---
 
 <div>
