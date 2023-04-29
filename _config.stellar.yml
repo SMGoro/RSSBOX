@@ -71,19 +71,19 @@ comments:
 footer:
   social:
      github:
-       icon: '<img src="/assets/icon/social-github.svg"/>'
+       icon: '<img src="https://cdn.jsdelivr.net/gh/SMGCDN/photos/icon/iconfont/social-github.svg"/>'
        url: 'https://github.com/SMGoro'
      bilibili:
-       icon: '<img src="/assets/icon/bilibili.svg"/>'
+       icon: '<img src="https://cdn.jsdelivr.net/gh/SMGCDN/photos/icon/iconfont/bilibili.svg"/>'
        url: 'https://space.bilibili.com/359079394'
      zhihu:
-       icon: '<img src="/assets/icon/zhihu.svg"/>'
+       icon: '<img src="https://cdn.jsdelivr.net/gh/SMGCDN/photos/icon/iconfont/zhihu.svg"/>'
        url: 'https://l.imc.re/zhihu'
      discord:
-       icon: '<img src="/assets/icon/discord.svg"/>'
+       icon: '<img src="https://cdn.jsdelivr.net/gh/SMGCDN/photos/icon/iconfont/discord.svg"/>'
        url: 'https://l.imc.re/discord'
      comments:
-       icon: '<img src="/assets/icon/comments.svg"/>'
+       icon: '<img src="https://cdn.jsdelivr.net/gh/SMGCDN/photos/icon/iconfont/comments.svg"/>'
        url: /contact
   sitemap:
      '博客':
