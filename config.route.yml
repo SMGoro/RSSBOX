@@ -1,35 +1,41 @@
-友链:
-  XAOXUU: https://xaoxuu.com/atom.xml
-  LonelyGod: https://hin.cool/atom.xml
-  By_Xb: https://byxiaobian.github.io/atom.xml
-  枋柚梓的猫会发光: https://raw.githubusercontent.com/inkss/inkss-website/me/atom.xml
-  FANTASY: https://blog.tigerxly.com/feed/atom
-  HKLin: /friends/HKLin
-  7bxing: https://7bxing.com/atom.xml
-  bowenyoung: https://raw.githubusercontent.com/BowenYoung/myBlog/main/atom.xml
+Study:
+  高考动态: /neea/gaokao
+  招生政策: /chsi/zszcgd
+  每日一句: /iciba/7/poster
+  古诗文推荐: /gushiwen/recommend/zhushang
+  数学微课帮: /bilibili/user/video/351583506
+  b站校园学习: /bilibili/partion/208
 
-
-These Blogs:
+Blogs:
   Github: https://github.blog/all.atom
   Cloudflare: https://blog.cloudflare.com/rss/
   RSS3.fun: https://rss3.fun/tag/chinese/rss/
+  XAOXUU: https://xaoxuu.com/atom.xml
+  MHuiG: https://blog.mhuig.top/atom.xml
+  SMGoroBlog: https://blog.imc.re/atom.xml
 
-twitter:
-  Github: /twitter/user/Github
-  Huawei: /twitter/user/HUAWEI
-  Cloudflare: /twitter/user/Cloudflare
-  CloudflareDev: /twitter/user/CloudflareDev
+Own:
+  五郎のb站动态: /bilibili/user/dynamic/359079394
+  五郎の知乎动态: /zhihu/people/activities/smgoro
+  五郎の推特动态: /twitter/user/summergoro
 
-Github Trending:
-  python: /github/trending/daily/python
-  javascript: /github/trending/daily/javascript
-  any: /github/trending/daily/any
+Minecraft:
+  MB互通板块: https://www.minebbs.com/forums/Je-be/index.rss
+  官方推特: /twitter/media/Minecraft
+  官方油管: /youtube/user/TeamMojang
+  MC油管: https://www.youtube.com/feeds/videos.xml?channel_id=UC1sELGmy5jp5fQUugmuYlXQ
+  WuGuangYao: /bilibili/user/video/11602644
+  知乎MC话题: /zhihu/topic/19598367
+  PixivMC: /pixiv/search/Minecraft/new/safe
 
-
-二次元:
+ACG:
   三界异次元: /3ycy/home
   pixiv week: /pixiv/ranking/week
   pixiv day: /pixiv/ranking/day
+  nyaa: https://nyaa.si/?page=rss
+  AGE-Anime: /agefans/update
+  Bangumi: /bangumi/tv/calendar/today
+  Gcores: https://www.gcores.com/rss
 
 知乎:
   知乎热榜: /zhihu/hotlist
