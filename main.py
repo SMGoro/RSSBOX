@@ -104,7 +104,7 @@ categories: {cat}
 tags: {tag}
 date: {date}
 updated: {date}
-# cover: {img}
+cover: {img}
 comments: false
 post_list: true
 ---
