@@ -35,32 +35,32 @@
     - title: Dodo
       url: https://l.imc.re/dodo
       screenshot:
-      avatar: '/assets/icon/dodo.ico'
+      avatar: 'https://cdn.jsdelivr.net/gh/SMGCDN/photos/icon/dodo.ico'
       description:
     - title: QQ群
       url: https://l.imc.re/qqgroup
       screenshot:
-      avatar: '/assets/icon/social-qq.svg'
+      avatar: 'https://cdn.jsdelivr.net/gh/SMGCDN/photos/icon/social-qq.svg'
       description:
     - title: Discord
       url: https://l.imc.re/discord
       screenshot:
-      avatar: '/assets/icon/discord.svg'
+      avatar: 'https://cdn.jsdelivr.net/gh/SMGCDN/photos/icon/discord.svg'
       description:
     - title: Bilibili
       url: https://l.imc.re/bilibili
       screenshot:
-      avatar: '/assets/icon/bilibili.svg'
+      avatar: 'https://cdn.jsdelivr.net/gh/SMGCDN/photos/icon/bilibili.svg'
       description:
     - title: Zhihu
       url: https://l.imc.re/zhihu
       screenshot:
-      avatar: '/assets/icon/zhihu.svg'
+      avatar: 'https://cdn.jsdelivr.net/gh/SMGCDN/photos/icon/zhihu.svg'
       description:
     - title: Github
       url: https://l.imc.re/github
       screenshot:
-      avatar: '/assets/icon/social-github.svg'
+      avatar: 'https://cdn.jsdelivr.net/gh/SMGCDN/photos/icon/social-github.svg'
       description:
 
 'IMC':
