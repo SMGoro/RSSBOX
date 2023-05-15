@@ -1,11 +1,27 @@
 'touhou':
     - title: THBwiki
-      url: ttps://thwiki.cc/
+      url: https://thwiki.cc/
       screenshot:
       avatar:
-      description: 国内优秀的东方wiki
+      description: 国内优秀的中文东方wiki
+    - title: Touhou Wiki
+      url: https://en.touhouwiki.net/wiki/Touhou_Wiki
+      screenshot:
+      avatar: https://en.touhouwiki.net/favicon.ico
+      description: 国外英文的东方wiki
+    - title: Wikipedia Touhou
+      url: https://en.wikipedia.org/wiki/Touhou_Project
+      screenshot:
+      avatar: https://en.wikipedia.org/static/images/icons/wikipedia.png
+      description: Wikipedia上的东方记载
+    - title: Wikipedia Touhou
+      url: https://touhou.fandom.com/wiki/Touhou_Wiki
+      screenshot:
+      avatar: https://touhou.fandom.com/skins-ucp/mw139/common/favicon.ico
+      description: fandom上的Touhou英文wiki
+      
     - title: Touhou.CC
-      url: https://touhou.cc/
+      url: https://en.touhouwiki.net/wiki/Touhou_Wiki
       screenshot:
       avatar: https://touhou.cc/logo.jpg
       description: 相当老牌的国内东方论坛网站

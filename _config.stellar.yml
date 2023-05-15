@@ -35,11 +35,11 @@ sidebar:
     others: search, welcome, recent, tagcloud, timeline # for 404 and ...
     #### 手动创建的页面 ####
     # 文章内页
-    post: toc, ghrepo, search_blog, ghissues, recent, tagcloud # for pages using 'layout:post'
+    post: toc, ghrepo, search_blog, ghissues, recent # for pages using 'layout:post'
     # 文档内页
     wiki: search_docs, ghrepo, toc, ghissues, related # for pages using 'layout:wiki'
     # 其它 layout:page 的页面
-    page: welcome, toc, tagcloud, search # for custom pages using 'layout:page'
+    page: welcome, toc, search # for custom pages using 'layout:page'
 
 search:
   service: local_search # local_search, todo...
