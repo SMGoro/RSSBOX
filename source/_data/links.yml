@@ -1,14 +1,19 @@
-'friends-link':
-    - title: stellar主题wiki
-      url: https://xaoxuu.com/wiki/stellar/
+'touhou':
+    - title: THBwiki
+      url: ttps://thwiki.cc/
       screenshot:
       avatar:
-      description: 顺带也是XAOXUU大佬的博客
-    - title: 坐等大佬
-      url: https://
+      description: 国内优秀的东方wiki
+    - title: Touhou.CC
+      url: https://touhou.cc/
       screenshot:
-      avatar:
-      description:
+      avatar: https://touhou.cc/logo.jpg
+      description: 相当老牌的国内东方论坛网站
+    - title: 喵玉殿
+      url: https://bbs.nyasama.com/
+      screenshot:
+      avatar: https://bbs.nyasama.com/favicon.ico
+      description: 官作集结国内东方论坛网站
 
 'contact':
     - title: Dodo

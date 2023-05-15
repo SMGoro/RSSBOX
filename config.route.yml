@@ -1,22 +1,38 @@
 # touhou rss collection 
 
+文字:
+  文文最速新闻: https://www.touhou.cc/bbs/forum.php?mod=forumdisplay&fid=48&mod=rss
+
 视频:
   御坂14363号-东方: https://rsshub.app/bilibili/fav/699221292/1703917092
+  东方音像馆: https://rsshub.app/bilibili/user/dynamic/630991474
+  曦阳_231-MMD: https://rsshub.app/bilibili/user/dynamic/696721978
 
 音乐:
   御坂14363号-东方音乐: https://rsshub.app/bilibili/fav/699221292/1699573092
+  RickyRister-东方音乐: https://rsshub.app/bilibili/user/dynamic/393639419
 
 图片:
-  pixiv 周排行: https://rsshub.app/pixiv/ranking/week
+  pixiv-touhou: https://rsshub.app/pixiv/search/touhou/popular/safe
+  剑の冰精-同人漫画: https://rsshub.app/bilibili/user/dynamic/384431765
+  百流夜-有声漫画: https://rsshub.app/bilibili/user/dynamic/195533478
+  跃亮-有声漫画: https://rsshub.app/bilibili/user/dynamic/3170013
+  清澈雨滴-同人漫画: https://rsshub.app/bilibili/user/dynamic/503150289
 
 游戏:
   东方夜雀食堂: https://rsshub.app/bilibili/user/collection/86865890/2755
 
 社团:
-  森罗万象: https://rsshub.app/bilibili/user/dynamic/165906284
+  森罗万象-音乐社团: https://rsshub.app/bilibili/user/dynamic/165906284
+  瑶山百灵-音乐社团: https://rsshub.app/bilibili/user/dynamic/210232
+  囧仙-远古の神: https://rsshub.app/bilibili/user/dynamic/12246
+  伊吹小秋-搬运工: https://rsshub.app/bilibili/user/dynamic/448823
 
 开发:
   touhou-midi-collection: https://github.com/AyHa1810/touhou-midi-collection/commits.atom
+
+网站:
+  touhou.cc BBS: https://www.touhou.cc/bbs/?mod=rss
 
 站长:
   SMGoroBlog: https://blog.imc.re/atom.xml
