@@ -20,6 +20,10 @@ sidebar: [search, welcome, recent, tagcloud, timeline]
 
 五郎订阅的各种奇奇怪怪的信息流，目前正在收集东方相关信息中。。
 
+## 东方网站
+
+{% sites touhou %}
+
 
 {% ablock color:info %}
 
