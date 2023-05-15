@@ -2,7 +2,7 @@
     - title: THBwiki
       url: https://thwiki.cc/
       screenshot:
-      avatar:
+      avatar: https://thwiki.cc/favicon.ico
       description: 国内优秀的中文东方wiki
     - title: Touhou Wiki
       url: https://en.touhouwiki.net/wiki/Touhou_Wiki
