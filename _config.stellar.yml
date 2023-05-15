@@ -18,9 +18,12 @@ article:
 sidebar:
   # logo:
     # title: '[<img no-lazy height="32px" src="https://q1.qlogo.cn/g?b=qq&nk=2128336160&s=640"/>](/)'
+  logo:
+    avatar: '[config.avatar](/rss)' # you can set avatar link in _config.yml or '[https://xxx.png](/about/)'
+    title: '[config.title](/)' # you can set html tag like: '[<img no-lazy height="32px" src="xxx"/>](/)'
   menu:
     home: '[btn.home](/)'
-    rssd: '[RSS](/rss)'
+    post: '[RSS](/rss)'
     blog: '[博客](https://blog.imc.re/)'
   widgets:
     #### 自动生成的页面 ####
