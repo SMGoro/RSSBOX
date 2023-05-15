@@ -19,10 +19,9 @@ sidebar:
   # logo:
     # title: '[<img no-lazy height="32px" src="https://q1.qlogo.cn/g?b=qq&nk=2128336160&s=640"/>](/)'
   menu:
-    # home: '[btn.home](/)'
-    post: '[RSS](/)'
-    blog: '[btn.blog](https://blog.imc.re/)'
-    contact: '[联系](https://blog.imc.re/contact/)'
+    home: '[btn.home](/)'
+    rssd: '[RSS](/rss)'
+    blog: '[博客](https://blog.imc.re/)'
   widgets:
     #### 自动生成的页面 ####
     # 主页
