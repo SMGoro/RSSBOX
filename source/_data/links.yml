@@ -30,6 +30,42 @@
       screenshot:
       avatar: https://bbs.nyasama.com/favicon.ico
       description: 官作集结国内东方论坛网站
+      
+    - title: Bilibili-东方频道
+      url: https://www.bilibili.com/v/channel/166
+      screenshot:
+      avatar: https://cdn.jsdelivr.net/gh/SMGCDN/photos/icon/iconfont/bilibili.svg
+      description: B站东方频道分区
+      
+    - title: Youtube-touhou
+      url: https://www.youtube.com/hashtag/touhou
+      screenshot:
+      avatar: https://cdn.jsdelivr.net/gh/SMGCDN/photos/icon/iconfont/youtube.svg
+      description: Youtube Touhou tag videos
+      
+    - title: niconico-東方
+      url: https://www.nicovideo.jp/tag/%E6%9D%B1%E6%96%B9
+      screenshot:
+      avatar: https://cdn.jsdelivr.net/gh/SMGCDN/photos/uploads/202305171610629.png
+      description: niconico touhou tag videos
+      
+    - title: 知乎-东方话题
+      url: https://www.zhihu.com/topic/19701004/top-answers
+      screenshot:
+      avatar: https://cdn.jsdelivr.net/gh/SMGCDN/photos/icon/iconfont/zhihu.svg
+      description: 知乎东方话题分区
+      
+    - title: Twitter-touhou
+      url: https://twitter.com/hashtag/touhou
+      screenshot:
+      avatar: https://cdn.jsdelivr.net/gh/SMGCDN/photos/icon/iconfont/twitter.svg
+      description: 知乎东方话题分区
+      
+    - title: Pixiv-touhou
+      url: https://www.pixiv.net/tags/touhou
+      screenshot:
+      avatar: https://cdn.jsdelivr.net/gh/SMGCDN/photos/uploads/202305171616955.png
+      description: Pixiv东方标签绘图
 
 'contact':
     - title: Dodo
