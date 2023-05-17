@@ -1,31 +1,20 @@
-Notes:
-  name: 笔记
-  title: 笔记
-  description: 一个隐藏项目：笔记
-  index: false
-  # sidebar: [toc]
-  # tags: 知识库
-  sections:
-    '日常随笔': [100, 199]
-    '问题记录': [200, 299]
-    '学习笔记': [300, 399]
-    '在线工具': [400, 499]
-
-联机:
-  name: IMC联机
-  title: IMC联机教程
-  subtitle: 'IMC.RE基于n2n开源项目提供的联机方案 | 现已废弃，敬请期待重置'
-  tags: 服务器
+guides:
+  name: guides
+  title: 新人引导指南
+  subtitle: '东方Project新人入坑引导指南 | 想入坑东方但是因为信息太多不知道怎么办？希望这篇文字指南能够帮到你！'
+  description: 献给想要入坑东方Project的朋友们的一份引导式文字入坑指南~ 想入坑东方但是因为信息太多不知道怎么办？希望这篇文字指南能够帮到你！
   cover: true
   index: true
   #logo:
     #src: /assets/wiki/stellar/icon.svg
     #small: 112px
     #large: 240px
-  description: IMC.RE基于n2n开源项目提供的联机方案，不过现已暂时停止服务，可以自行搭建节点参考相关教程继续进行。
-  #repo: xaoxuu/hexo-theme-stellar
-  comment_title: '评论区仅供交流，有问题请提 [issue](https://github.com/xaoxuu/hexo-theme-stellar/issues) 反馈。'
-  #giscus:
-    #data-repo: xaoxuu/hexo-theme-stellar
-    #data-mapping: number
-    #data-term: 226
+  # sidebar: [toc]
+  # tags: 知识库
+  sections:
+    '主页': [0, 99]
+    '游戏': [100, 199]
+    '视频': [200, 299]
+    '图片': [300, 399]
+    '音乐': [400, 499]
+    '开发': [500, 599]
