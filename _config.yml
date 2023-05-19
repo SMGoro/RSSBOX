@@ -10,7 +10,7 @@ keywords:  RSSBOX, RSS, RSSHub, RSS订阅, SMGoro, @SMGoro, SummerGoro, 东方, 
 author: SMGoro
 language: zh-CN
 timezone: 'Asia/Shanghai'
-avatar: /avatar.png
+avatar: https://cdn.jsdelivr.net/gh/SMGCDN/photos/icon/rsshub.png
 # URL
 ## Set your site url here. For example, if you use GitHub Page, set url as 'https://username.github.io/project'
 url: https://blog.imc.re/RSSBOX/
