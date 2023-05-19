@@ -124,11 +124,10 @@ theme: stellar
 nofollow:
   enable: true
   exclude:
-    - mhuig.top
-    - blog.mhuig.top
+    - imc.re
+    - blog.imc.re
+    - rssbox.imc.re
     - api.mhuig.top
-    - ssl.mhuig.top
-    - blog.mhuig.top
 
 # hexo-generator-feed
 # https://github.com/hexojs/hexo-generator-feed
