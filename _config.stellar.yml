@@ -26,7 +26,7 @@ sidebar:
     post: '[订阅](/)'
     blog: '[博客](https://blog.imc.re/)'
     contact: '[联系](https://blog.imc.re/contact)'
-    contact: '[更多](https://blog.imc.re/more)'
+    more: '[更多](https://blog.imc.re/more)'
   widgets:
     #### 自动生成的页面 ####
     # 主页
