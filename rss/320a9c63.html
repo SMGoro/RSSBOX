@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+  <meta name="generator" content="Hexo 6.3.0">
+  <meta name="hexo-theme" content="https://github.com/xaoxuu/hexo-theme-stellar/tree/1.19.0">
+  <meta charset="utf-8">
+  
+
+  <meta http-equiv="x-dns-prefetch-control" content="on">
+  <link rel="dns-prefetch" href="https://gcore.jsdelivr.net">
+  <link rel="preconnect" href="https://gcore.jsdelivr.net" crossorigin>
+  <link rel="dns-prefetch" href="//unpkg.com">
+
+  <meta name="renderer" content="webkit">
+  <meta name="force-rendering" content="webkit">
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+  <meta name="HandheldFriendly" content="True">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="theme-color" content="#f8f8f8">
+  
+  <title>Introducing the Cloudflare Radar Internet Quality Page - RSSBOX</title>
+
+  
+    <meta name="description" content="This post is also available in 日本語 and Español. Internet connections are most often marketed and sold on the basis of &quot;speed&quot;, with providers touting the number of megabits or gigabits per second tha">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Introducing the Cloudflare Radar Internet Quality Page">
+<meta property="og:url" content="https://blog.imc.re/RSSBOX/rss/320a9c63.html">
+<meta property="og:site_name" content="RSSBOX">
+<meta property="og:description" content="This post is also available in 日本語 and Español. Internet connections are most often marketed and sold on the basis of &quot;speed&quot;, with providers touting the number of megabits or gigabits per second tha">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://blog.cloudflare.com/content/images/2023/06/image6-6.png">
+<meta property="og:image" content="http://blog.cloudflare.com/content/images/2023/06/image6-8.png">
+<meta property="og:image" content="http://blog.cloudflare.com/content/images/2023/06/image10.png">
+<meta property="og:image" content="http://blog.cloudflare.com/content/images/2023/06/image2-32.png">
+<meta property="og:image" content="http://blog.cloudflare.com/content/images/2023/06/image3-25.png">
+<meta property="og:image" content="http://blog.cloudflare.com/content/images/2023/06/image7-7.png">
+<meta property="og:image" content="http://blog.cloudflare.com/content/images/2023/06/image12-1.png">
+<meta property="og:image" content="http://blog.cloudflare.com/content/images/2023/06/image4-21.png">
+<meta property="og:image" content="http://blog.cloudflare.com/content/images/2023/06/image11-3.png">
+<meta property="og:image" content="http://blog.cloudflare.com/content/images/2023/06/image13.png">
+<meta property="og:image" content="http://blog.cloudflare.com/content/images/2023/06/image8-3.png">
+<meta property="og:image" content="http://blog.cloudflare.com/content/images/2023/06/image1-34.png">
+<meta property="og:image" content="http://blog.cloudflare.com/content/images/2023/06/June-5---Philippines---PLDT---bandwidth---shaded.png">
+<meta property="og:image" content="http://blog.cloudflare.com/content/images/2023/06/image9.png">
+<meta property="article:published_time" content="2023-06-23T13:00:09.000Z">
+<meta property="article:modified_time" content="2023-06-23T13:00:09.000Z">
+<meta property="article:author" content="SMGoro">
+<meta property="article:tag" content="Blogs">
+<meta property="article:tag" content="Cloudflare">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="http://blog.cloudflare.com/content/images/2023/06/image6-6.png">
+  
+  
+  
+  <meta name="keywords" content="Blogs,Cloudflare">
+
+  <!-- feed -->
+  
+    <link rel="alternate" href="/RSSBOX/atom.xml" title="RSSBOX" type="application/atom+xml">
+  
+
+  
+    
+<link rel="stylesheet" href="/RSSBOX/css/main.css">
+
+  
+
+  
+
+  
+
+  
+    <link rel="stylesheet" href="https://gcore.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.css" integrity="sha384-vKruj+a13U8yHIkAyGgK1J3ArTLzrFGBbBc0tDp4ad/EyewESeXE/Iv67Aj8gKZ0" crossorigin="anonymous">
+    <script defer src="https://gcore.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.js" integrity="sha384-PwRUT/YqbnEjkZO0zZxNqcxACrXe+j766U2amXcgMg5457rve2Y7I6ZJSm2A0mS4" crossorigin="anonymous"></script>
+    <script defer src="https://gcore.jsdelivr.net/npm/katex@0.16.4/dist/contrib/auto-render.min.js" integrity="sha384-+VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4+/RRE05" crossorigin="anonymous" onload="renderMathInElement(document.body);"></script>
+  
+
+
+  
+
+<!--百度统计-->
+<script>
+  var _hmt = _hmt || [];
+  (function() {
+    var hm = document.createElement("script");
+    hm.src = "https://hm.baidu.com/hm.js?f42afe3e5b76d22c8b1a8060171c7184";
+    var s = document.getElementsByTagName("script")[0]; 
+    s.parentNode.insertBefore(hm, s);
+  })();
+</script>  
+  <!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-V2NSKYGXNG"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-V2NSKYGXNG');
+</script>
+<!--Google Adsense-->
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4773172018528901" crossorigin="anonymous"></script>
+</head>
+
+<body>
+  
+
+
+
+
+  <div class="l_body" id="start">
+    <aside class="l_left" layout="post">
+    
+
+  
+
+<header class="header"><div class="logo-wrap"><a class="avatar" href="/RSSBOX/archives"><div class="bg" style="opacity:0;background-image:url(https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.4/avatar/round/rainbow64@3x.webp);"></div><img no-lazy class="avatar" src="https://cdn.jsdelivr.net/gh/SMGCDN/photos/icon/rsshub.png" onerror="javascript:this.classList.add('error');this.src='https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.4/image/2659360.svg';"></a><a class="title" href="/RSSBOX/"><div class="main" ff="title">RSSBOX</div><div class="sub normal cap">SMGoroのRSS订阅</div><div class="sub hover cap" style="opacity:0"> 一些好康的东西</div></a></div>
+
+<nav class="menu dis-select"><a class="nav-item active" href="/RSSBOX/">订阅</a><a class="nav-item" href="https://blog.imc.re/">博客</a><a class="nav-item" href="https://blog.imc.re/contact">联系</a><a class="nav-item" href="https://blog.imc.re/more">更多</a></nav>
+</header>
+
+
+<div class="widgets">
+
+<widget class="widget-wrapper toc single" id="data-toc"><div class="widget-header cap dis-select"><span class="name">Introducing the Cloudflare Radar Internet Quality Page</span></div><div class="widget-body fs14"><div class="doc-tree active"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#the-new-cloudflare-radar-internet-quality-page"><span class="toc-text">The new Cloudflare Radar Internet Quality page</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#connection-speed-quality-data-is-important"><span class="toc-text">Connection speed &amp; quality data is important</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#our-approach-to-data-analysis"><span class="toc-text">Our approach to data analysis</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#navigating-the-internet-quality-page"><span class="toc-text">Navigating the Internet Quality page</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#global"><span class="toc-text">Global</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#IQI"><span class="toc-text">Country-levelWithin the country-level page (using Canada as an example in the figures below), the country’s IQI metrics over the selected time frame are displayed. These time series graphs show the median bandwidth, latency, and DNS response time within a shaded band bounded at the 25th and 75th percentile and represent the average expected user experience across the country, as discussed in the Our approach to data analysis section above.Below that is the Connection Quality section, which provides a summary view of the country’s measured upload and download speeds, as well as latency and jitter, over the previous 90 days. The colored wedges in the Performance Summary graph are intended to illustrate aggregate connection quality at a glance, with an “ideal” connection having larger upload and download wedges and smaller latency and jitter wedges. Hovering over the wedges displays the metric’s value, which is also shown in the table to the right of the graph.Below that, the Bandwidth and Latency&#x2F;Jitter histograms illustrate the bucketed distribution of upload and download speeds, and latency and jitter measurements. In some cases, the speed histograms may show a noticeable bar at 1 Gbps, or 1000 ms (1 second) on the latency&#x2F;jitter histograms. The presence of such a bar indicates that there is a set of measurements with values greater than the 1 Gbps&#x2F;1000 ms maximum histogram values.Autonomous system levelWithin the upper-right section of the country-level page, a list of the top five autonomous systems within the country is shown. Clicking on an ASN takes you to the Performance page for that autonomous system. For others not displayed in the top five list, you can use the search bar at the top of the page to search by autonomous system name or number. The graphs shown within the AS level view are identical to those shown at a country level, but obviously at a different level of aggregation. You can find the ASN that you are connected to from the My Connection page on Cloudflare Radar.Exploring connection performance &amp; quality dataDigging into the IQI and Connection Quality visualizations can surface some interesting observations, including characterizing Internet connections, and the impact of Internet disruptions, including shutdowns and network issues. We explore some examples below.Characterizing Internet connectionsVerizon FiOS is a residential fiber-based Internet service available to customers in the United States. Fiber-based Internet services (as opposed to cable-based, DSL, dial-up, or satellite) will generally offer symmetric upload and download speeds, and the FiOS plans page shows this to be the case, offering 300 Mbps (upload &amp; download), 500 Mbps (upload &amp; download), and “1 Gig” (Verizon claims average wired speeds between 750-940 Mbps download &#x2F; 750-880 Mbps upload) plans. Verizon carries FiOS traffic on AS701 (labeled UUNET due to a historical acquisition), and in looking at the bandwidth histogram for AS701, several things stand out. The first is a rough symmetry in upload and download speeds. (A cable-based Internet service provider, in contrast, would generally show a wide spread of download speeds, but have upload speeds clustered at the lower end of the range.) Another is the peaks around 300 Mbps and 750 Mbps, suggesting that the 300 Mbps and “1 Gig” plans may be more popular than the 500 Mbps plan. It is also clear that there are a significant number of test results with speeds below 300 Mbps. This is due to several factors: one is that Verizon also carries lower speed non-FiOS traffic on AS701, while another is that erratic nature of in-home WiFi often means that the speeds achieved on a test will be lower than the purchased service level.Traffic shifts drive latency shiftsOn May 9, 2023, the government of Pakistan ordered the shutdown of mobile network services in the wake of protests following the arrest of former Prime Minister Imran Khan. Our blog post covering this shutdown looked at the impact from a traffic perspective. Within the post, we noted that autonomous systems associated with fixed broadband networks saw significant increases in traffic when the mobile networks were shut down – that is, some users shifted to using fixed networks (home broadband) when mobile networks were unavailable.Examining IQI data after the blog post was published, we found that the impact of this traffic shift was also visible in our latency data. As can be seen in the shaded area of the graph below, the shutdown of the mobile networks resulted in the median latency dropping about 25% as usage shifted from higher latency mobile networks to lower latency fixed broadband networks. An increase in latency is visible in the graph when mobile connectivity was restored on May 12.Bandwidth shifts as a potential early warning signOn April 4, UK mobile operator Virgin Media suffered several brief outages. In examining the IQI bandwidth graph for AS5089, the ASN used by Virgin Media (formerly branded as NTL), indications of a potential problem are visible several days before the outages occurred, as median bandwidth dropped by about a third, from around 35 Mbps to around 23 Mbps. The outages are visible in the circled area in the graph below. Published reports indicate that the problems lasted into April 5, in line with the lower median bandwidth measured through mid-day.Submarine cable issues cause slower browsingOn June 5, Philippine Internet provider PLDT Tweeted an advisory that noted “One of our submarine cable partners confirms a loss in some of its internet bandwidth capacity, and thus causing slower Internet browsing.” IQI latency and bandwidth graphs for AS9299, a primary ASN used by PLDT, shows clear shifts starting around 06:45 UTC (14:45 local time). Median bandwidth dropped by half, from 17 Mbps to 8 Mbps, while median latency increased by 75% from 37 ms to around 65 ms. 75th percentile latency also saw a significant increase, nearly tripling from 63 ms to 180 ms coincident with the reported submarine cable issue.ConclusionMaking network performance and quality insights available on Cloudflare Radar supports Cloudflare’s mission to help build a better Internet. However, we’re not done yet – we have more enhancements planned. These include making data available at a more granular geographical level (such as state and possibly city), incorporating AIM scores to help assess Internet quality for specific types of use cases, and embedding the Cloudflare speed test directly on Radar using the open source JavaScript module.In the meantime, we invite you to use speed.cloudflare.com to test the performance and quality of your Internet connection, share any country or AS-level insights you discover on social media (tag @CloudflareRadar on Twitter or @radar@cloudflare.social on Mastodon), and explore the underlying data through the M-Lab repository or the Radar API.Watch on Cloudflare TV</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#autonomous-system-level"><span class="toc-text">Autonomous system level</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#exploring-connection-performance-quality-data"><span class="toc-text">Exploring connection performance &amp; quality data</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#characterizing-internet-connections"><span class="toc-text">Characterizing Internet connections</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#traffic-shifts-drive-latency-shifts"><span class="toc-text">Traffic shifts drive latency shifts</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#bandwidth-shifts-as-a-potential-early-warning-sign"><span class="toc-text">Bandwidth shifts as a potential early warning sign</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#submarine-cable-issues-cause-slower-browsing"><span class="toc-text">Submarine cable issues cause slower browsing</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#conclusion"><span class="toc-text">Conclusion</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#watch-on-cloudflare-tv"><span class="toc-text">Watch on Cloudflare TV</span></a></li></ol></li></ol></div></div></widget>
+
+
+
+<widget class="widget-wrapper search"><div class="widget-body"><div class="search-wrapper" id="search"><form class="search-form"><input type="text" class="search-input" id="search-input" data-filter="/rss/" placeholder="文章搜索"><svg t="1670596976048" class="icon search-icon" viewbox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2676" width="200" height="200"><path d="M938.2 832.6L723.8 618.1c-2.5-2.5-5.3-4.4-7.9-6.4 36.2-55.6 57.3-121.8 57.3-193.1C773.3 222.8 614.6 64 418.7 64S64 222.8 64 418.6c0 195.9 158.8 354.6 354.6 354.6 71.3 0 137.5-21.2 193.2-57.4 2 2.7 3.9 5.4 6.3 7.8L832.5 938c14.6 14.6 33.7 21.9 52.8 21.9 19.1 0 38.2-7.3 52.8-21.8 29.2-29.1 29.2-76.4 0.1-105.5M418.7 661.3C284.9 661.3 176 552.4 176 418.6 176 284.9 284.9 176 418.7 176c133.8 0 242.6 108.9 242.6 242.7 0 133.7-108.9 242.6-242.6 242.6" p-id="2677"/></svg></form><div id="search-result"></div><div class="search-no-result">没有找到内容！</div></div></div></widget>
+
+
+
+<widget class="widget-wrapper recent"><div class="widget-header cap theme dis-select"><span class="name">最近更新</span><a class="cap-action" id="rss" title="Subscribe" href="/atom.xml"><svg class="icon" viewbox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="8938"><path d="M800.966 947.251c0-404.522-320.872-732.448-716.69-732.448V62.785c477.972 0 865.44 395.987 865.44 884.466h-148.75z m-162.273 0h-148.74c0-228.98-181.628-414.598-405.678-414.598v-152.01c306.205 0 554.418 253.68 554.418 566.608z m-446.24-221.12c59.748 0 108.189 49.503 108.189 110.557 0 61.063-48.44 110.563-108.188 110.563-59.747 0-108.18-49.5-108.18-110.563 0-61.054 48.433-110.556 108.18-110.556z" p-id="8939"/></svg></a></div><div class="widget-body related-posts fs14"><a class="item title" href="/RSSBOX/rss/2c2fbeb.html"><span class="title">七つの魔剣が支配する｜七魔剑支配天下</span></a><a class="item title" href="/RSSBOX/rss/3e937bc5.html"><span class="title">百姓貴族｜百姓贵族</span></a><a class="item title" href="/RSSBOX/rss/6b839856.html"><span class="title">シュガーアップル・フェアリーテイル(第2クール)｜银砂糖师与黑妖精 第2部分</span></a><a class="item title" href="/RSSBOX/rss/57dfaaf5.html"><span class="title">Girlhood</span></a><a class="item title" href="/RSSBOX/rss/d28c33bf.html"><span class="title">Headhunter's Eyes</span></a></div></widget>
+</div>
+<footer class="footer dis-select"><div class="social-wrap"><a class="social" href="https://github.com/SMGoro" target="_blank" rel="external nofollow noopener noreferrer"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cdn.jsdelivr.net/gh/SMGCDN/photos/icon/iconfont/social-github.svg"></a><a class="social" href="https://space.bilibili.com/359079394" target="_blank" rel="external nofollow noopener noreferrer"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cdn.jsdelivr.net/gh/SMGCDN/photos/icon/iconfont/bilibili.svg"></a><a class="social" href="https://l.imc.re/zhihu" target="_blank" rel="external nofollow noopener noreferrer"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cdn.jsdelivr.net/gh/SMGCDN/photos/icon/iconfont/zhihu.svg"></a><a class="social" href="https://l.imc.re/discord" target="_blank" rel="external nofollow noopener noreferrer"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cdn.jsdelivr.net/gh/SMGCDN/photos/icon/iconfont/discord.svg"></a><a class="social" href="https://blog.imc.re/contact" target="_blank" rel="external nofollow noopener noreferrer"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cdn.jsdelivr.net/gh/SMGCDN/photos/icon/iconfont/comments.svg"></a></div></footer>
+
+    </aside>
+    <div class="l_main">
+      
+
+      
+
+
+
+<div class="bread-nav fs12"><div id="breadcrumb"><a class="cap breadcrumb" href="/RSSBOX/">主页</a><span class="sep"></span><a class="cap breadcrumb" href="/RSSBOX/">文章</a><span class="sep"></span><a class="cap breadcrumb-link" href="/RSSBOX/categories/blogs/">Blogs</a> <span class="sep"></span> <a class="cap breadcrumb-link" href="/RSSBOX/categories/blogs/cloudflare/">Cloudflare</a></div><div id="post-meta">发布于&nbsp;<time datetime="2023-06-23T13:00:09.000Z">2023-06-23</time></div></div>
+
+<article class="md-text content post">
+<h1 class="article-title"><span>Introducing the Cloudflare Radar Internet Quality Page</span></h1>
+<div>
+<!--kg-card-begin: markdown--><img class="lazy" alt="Introducing the Cloudflare Radar Internet Quality Page" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="http://blog.cloudflare.com/content/images/2023/06/image6-6.png"><p><small>This post is also available in <a target="_blank" rel="external nofollow noopener noreferrer" href="http://blog.cloudflare.com/ja-jp/introducing-radar-internet-quality-page-ja-jp/">日本語</a> and <a target="_blank" rel="external nofollow noopener noreferrer" href="http://blog.cloudflare.com/es-es/introducing-radar-internet-quality-page-es-es/">Español</a>.</small></p>
+<!--kg-card-end: markdown--><figure class="kg-card kg-image-card"><img alt="Introducing the Cloudflare Radar Internet Quality Page" class="kg-image lazy" height="679" loading="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="http://blog.cloudflare.com/content/images/2023/06/image6-8.png" width="1200"></figure><p>Internet connections are most often marketed and sold on the basis of "speed", with providers touting the number of megabits or gigabits per second that their various service tiers are supposed to provide. This marketing has largely been successful, as most subscribers believe that "more is better”. Furthermore, many national broadband plans in countries around the world include specific target connection speeds. However, even with a high speed connection, gamers may encounter sluggish performance, while video conference participants may experience frozen video or audio dropouts. Speeds alone don't tell the whole story when it comes to Internet connection quality.</p><p>Additional factors like latency, jitter, and packet loss can significantly impact end user experience, potentially leading to situations where higher speed connections actually deliver a worse user experience than lower speed connections. Connection performance and quality can also vary based on usage – measured average speed will differ from peak available capacity, and latency varies under loaded and idle conditions.</p><h2 id="the-new-cloudflare-radar-internet-quality-page">The new Cloudflare Radar Internet Quality page</h2><p>A little more than three years ago, as residential Internet connections were strained because of the shift towards working and learning from home due to the COVID-19 pandemic, <a target="_blank" rel="external nofollow noopener noreferrer" href="http://blog.cloudflare.com/test-your-home-network-performance/">Cloudflare announced the speed.cloudflare.com speed test tool</a>, which enabled users to test the performance and quality of their Internet connection. Within the tool, users can download the results of their individual test as a CSV, or share the results on social media. However, there was no aggregated insight into Cloudflare speed test results at a network or country level to provide a perspective on connectivity characteristics across a larger population.</p><p>Today, we are launching these long-missing aggregated connection performance and quality insights on Cloudflare Radar. The new <a target="_blank" rel="external nofollow noopener noreferrer" href="https://radar.cloudflare.com/quality">Internet Quality page</a> provides both country and network (<a target="_blank" rel="external nofollow noopener noreferrer" href="https://www.cloudflare.com/learning/network-layer/what-is-an-autonomous-system/">autonomous system</a>) level insight into Internet connection performance (<a target="_blank" rel="external nofollow noopener noreferrer" href="http://blog.cloudflare.com/aim-database-for-internet-quality/">bandwidth</a>) and quality (<a target="_blank" rel="external nofollow noopener noreferrer" href="https://www.cloudflare.com/learning/performance/glossary/what-is-latency/">latency</a>, <a target="_blank" rel="external nofollow noopener noreferrer" href="http://blog.cloudflare.com/aim-database-for-internet-quality/">jitter</a>) over time. (Your Internet service provider is likely an autonomous system with its own autonomous system number (ASN), and many large companies, online platforms, and educational institutions also have their own autonomous systems and associated ASNs.) The insights we are providing are presented across two sections: the Internet Quality Index (IQI), which estimates average Internet quality based on aggregated <a target="_blank" rel="external nofollow noopener noreferrer" href="http://blog.cloudflare.com/benchmarking-edge-network-performance/">measurements against a set of Cloudflare &amp; third-party targets</a>, and Connection Quality, which presents peak/best case connection characteristics based on <a target="_blank" rel="external nofollow noopener noreferrer" href="https://speed.cloudflare.com/">speed.cloudflare.com</a> test results aggregated over the previous 90 days. (Details on our approach to the analysis of this data are presented below.)</p><p>Users may note that individual speed test results, as well as the aggregate speed test results presented on the Internet Quality page will likely differ from those presented by other speed test tools. <a target="_blank" rel="external nofollow noopener noreferrer" href="https://cacm.acm.org/magazines/2020/12/248801-measuring-internet-speed/fulltext">This can be due to a number of factors</a> including differences in test endpoint locations (considering both geographic and network distance), test content selection, the impact of “rate boosting” by some ISPs, and testing over a single connection vs. multiple parallel connections. Infrequent testing (on any speed test tool) by users seeking to confirm perceived poor performance or validate purchased speeds will also contribute to the differences seen in the results published by the various speed test platforms.</p><p>And as we announced in April, <a target="_blank" rel="external nofollow noopener noreferrer" href="http://blog.cloudflare.com/aim-database-for-internet-quality/">Cloudflare has partnered with Measurement Lab (M-Lab)</a> to create a <a target="_blank" rel="external nofollow noopener noreferrer" href="https://colab.research.google.com/drive/1xgc-7L1Okr04MSjsYJfiFeUN0Gu05bpQ?usp=sharing">publicly-available, queryable repository</a> for speed test results. M-Lab is a non-profit third-party organization dedicated to providing a representative picture of Internet quality around the world. M-Lab produces and hosts the <a target="_blank" rel="external nofollow noopener noreferrer" href="https://www.measurementlab.net/tests/ndt/">Network Diagnostic Tool</a>, which is a very popular network quality test that records millions of samples a day. Given their mission to provide a publicly viewable, representative picture of Internet quality, we chose to partner with them to provide an accurate view of your Internet experience and the experience of others around the world using openly available data.</p><h2 id="connection-speed-quality-data-is-important">Connection speed &amp; quality data is important</h2><p>While most advertisements for fixed broadband and mobile connectivity tend to focus on download speeds (and peak speeds at that), there’s more to an Internet connection, and the user’s experience with that Internet connection, than that single metric. In addition to download speeds, users should also understand the upload speeds that their connection is capable of, as well as the quality of the connection, as expressed through metrics known as latency and jitter. Getting insight into all of these metrics provides a more well-rounded view of a given Internet connection, or in aggregate, the state of Internet connectivity across a geography or network.</p><p>The concept of download speeds are fairly well understood as a measure of performance. However, it is important to note that the average download speeds experienced by a user during common Web browsing activities, which often involves the parallel retrieval of multiple smaller files from multiple hosts, can differ significantly from peak download speeds, where the user is downloading a single large file (such as a video or software update), which allows the connection to reach maximum performance. The bandwidth (speed) available for upload is sometimes mentioned in ISP advertisements, but doesn’t receive much attention. (And depending on the type of Internet connection, there’s often a significant difference between the available upload and download speeds.) However, the importance of upload came to the forefront in 2020 as video conferencing tools saw a surge in usage as both work meetings and school classes shifted to the Internet during the COVID-19 pandemic. To share your audio and video with other participants, you need sufficient upload bandwidth, and this issue was often compounded by multiple people sharing a single residential Internet connection.</p><p><a target="_blank" rel="external nofollow noopener noreferrer" href="https://www.cloudflare.com/learning/performance/glossary/what-is-latency/">Latency</a> is the time it takes data to move through the Internet, and is measured in the number of milliseconds that it takes a packet of data to go from a client (such as your computer or mobile device) to a server, and then back to the client. In contrast to speed metrics, lower latency is preferable. This is especially true for use cases like online gaming where latency can make a difference between a character’s life and death in the game, as well as video conferencing, where higher latency can cause choppy audio and video experiences, but it also <a target="_blank" rel="external nofollow noopener noreferrer" href="http://blog.cloudflare.com/making-home-internet-faster/">impacts web page performance</a>. The latency metric can be further broken down into loaded and idle latency. The former measures latency on a loaded connection, where bandwidth is actively being consumed, while the latter measures latency on an “idle” connection, when there is no other network traffic present. (These specific loaded and idle definitions are from the device’s perspective, and more specifically, from the speed test application’s perspective. Unless the speed test is being performed directly from a router, the device/application doesn't have insight into traffic on the rest of the network.) <a target="_blank" rel="external nofollow noopener noreferrer" href="http://blog.cloudflare.com/test-your-home-network-performance/">Jitter</a> is the average variation found in consecutive latency measurements, and can be measured on both idle and loaded connections. A lower number means that the latency measurements are more consistent. As with latency, Internet connections should have minimal jitter, which helps provide more consistent performance.</p><h2 id="our-approach-to-data-analysis">Our approach to data analysis</h2><p>The Internet Quality Index (IQI) and Connection Quality sections get their data from two different sources, providing two different (albeit related) perspectives. Under the hood they share some common principles, though.</p><p>IQI builds upon the <a target="_blank" rel="external nofollow noopener noreferrer" href="http://blog.cloudflare.com/benchmarking-edge-network-performance/">mechanism</a> we already use to regularly benchmark ourselves against other industry players. It is based on end user measurements against a set of Cloudflare and third-party targets, meant to represent a pattern that has become very common in the modern Internet, where most content is served from distribution networks with points of presence spread throughout the world. For this reason, and by design, IQI will show worse results for regions and Internet providers that rely on international (rather than peering) links for most content.</p><p>IQI is also designed to reflect the traffic load most commonly associated with web browsing, rather than more intensive use. This, and the chosen set of measurement targets, effectively biases the numbers towards what end users experience in practice (where latency plays an <a target="_blank" rel="external nofollow noopener noreferrer" href="http://blog.cloudflare.com/making-home-internet-faster/">important role</a> in how fast things can go).</p><p>For each metric covered by IQI, and for each ASN, we calculate the 25th percentile, median, and 75th percentile at 15 minute intervals. At the country level and above, the three calculated numbers for each ASN visible from that region are independently aggregated. This aggregation takes the <a target="_blank" rel="external nofollow noopener noreferrer" href="https://stats.labs.apnic.net/aspop">estimated user population of each ASN</a> into account, biasing the numbers away from networks that source a lot of automated traffic but have few end users.</p><p>The Connection Quality section gets its data from the <a target="_blank" rel="external nofollow noopener noreferrer" href="https://speed.cloudflare.com">Cloudflare Speed Test</a> tool, which exercises a user's connection in order to see how well it is able to perform. It measures against the closest Cloudflare location, providing a good balance of realistic results and network proximity to the end user. We have a presence in <a target="_blank" rel="external nofollow noopener noreferrer" href="https://www.cloudflare.com/network/">285 cities around the world</a>, allowing us to be pretty close to most users.</p><p>Similar to the IQI, we calculate the 25th percentile, median, and 75th percentile for each ASN. But here these three numbers are immediately combined using an operation called the <a target="_blank" rel="external nofollow noopener noreferrer" href="https://en.wikipedia.org/wiki/Trimean">trimean</a> — a single number meant to balance the best connection quality that most users have, with the best quality available from that ASN (users may not subscribe to the best available plan for a number of reasons).</p><p>Because users may choose to run a speed test for different motives at different times, and also because we take privacy very seriously and don’t record any personally identifiable information along with test results, we aggregate at 90-day intervals to capture as much variability as we can.</p><p>At the country level and above, the calculated trimean for each ASN in that region is aggregated. This, again, takes the estimated user population of each ASN into account, biasing the numbers away from networks that have few end users but which may still have technicians using the Cloudflare Speed Test to assess the performance of their network.</p><h2 id="navigating-the-internet-quality-page">Navigating the Internet Quality page</h2><p>The new <a target="_blank" rel="external nofollow noopener noreferrer" href="https://radar.cloudflare.com/quality">Internet Quality page</a> includes three views: Global, country-level, and autonomous system (AS). In line with the other pages on Cloudflare Radar, the country-level and AS pages show the same data sets, differing only in their level of aggregation. Below, we highlight the various components of the Internet Quality page.</p><h3 id="global">Global</h3><figure class="kg-card kg-image-card"><img alt="Introducing the Cloudflare Radar Internet Quality Page" class="kg-image lazy" height="1081" loading="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="http://blog.cloudflare.com/content/images/2023/06/image10.png" width="1056"></figure><p>The top section of the <a target="_blank" rel="external nofollow noopener noreferrer" href="https://radar.cloudflare.com/quality">global (worldwide) view</a> includes time series graphs of the Internet Quality Index metrics aggregated at a continent level. The time frame shown in the graphs is governed by the selection made in the time frame drop down at the upper right of the page, and at launch, data for only the last three months is available. For users interested in examining a specific continent, clicking on the other continent names in the legend removes them from the graph. Although continent-level aggregation is still rather coarse, it still provides some insight into regional Internet quality around the world.</p><figure class="kg-card kg-image-card"><img alt="Introducing the Cloudflare Radar Internet Quality Page" class="kg-image lazy" height="1094" loading="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="http://blog.cloudflare.com/content/images/2023/06/image2-32.png" width="1660"></figure><p>Further down the page, the Connection Quality section presents a <a target="_blank" rel="external nofollow noopener noreferrer" href="https://en.wikipedia.org/wiki/Choropleth_map">choropleth map</a>, with countries shaded according to the values of the speed, latency, or jitter metric selected from the drop-down menu. Hovering over a country displays a label with the country’s name and metric value, and clicking on the country takes you to the country’s Internet Quality page. Note that in contrast to the IQI section, the Connection Quality section always displays data aggregated over the previous 90 days.</p><!--kg-card-begin: html--><h3 id="IQI">Country-level<!--kg-card-end: html--><p>Within the country-level page (using <a target="_blank" rel="external nofollow noopener noreferrer" href="https://radar.cloudflare.com/quality/ca">Canada</a> as an example in the figures below), the country’s IQI metrics over the selected time frame are displayed. These time series graphs show the median bandwidth, latency, and DNS response time within a shaded band bounded at the 25th and 75th percentile and represent the average expected user experience across the country, as discussed in the <em>Our approach to data analysis</em> section above.</p><figure class="kg-card kg-image-card"><img alt="Introducing the Cloudflare Radar Internet Quality Page" class="kg-image lazy" height="382" loading="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="http://blog.cloudflare.com/content/images/2023/06/image3-25.png" width="772"></figure><figure class="kg-card kg-image-card"><img alt="Introducing the Cloudflare Radar Internet Quality Page" class="kg-image lazy" height="310" loading="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="http://blog.cloudflare.com/content/images/2023/06/image7-7.png" width="772"></figure><figure class="kg-card kg-image-card"><img alt="Introducing the Cloudflare Radar Internet Quality Page" class="kg-image lazy" height="310" loading="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="http://blog.cloudflare.com/content/images/2023/06/image12-1.png" width="772"></figure><!--kg-card-begin: html--><p id="connectionquality">Below that is the Connection Quality section, which provides a summary view of the country’s measured upload and download speeds, as well as latency and jitter, over the previous 90 days. The colored wedges in the Performance Summary graph are intended to illustrate aggregate connection quality at a glance, with an “ideal” connection having larger upload and download wedges and smaller latency and jitter wedges. Hovering over the wedges displays the metric’s value, which is also shown in the table to the right of the graph.</p><!--kg-card-end: html--><figure class="kg-card kg-image-card"><img alt="Introducing the Cloudflare Radar Internet Quality Page" class="kg-image lazy" height="458" loading="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="http://blog.cloudflare.com/content/images/2023/06/image4-21.png" width="830"></figure><p>Below that, the Bandwidth and Latency/Jitter histograms illustrate the bucketed distribution of upload and download speeds, and latency and jitter measurements. In some cases, the speed histograms may show a noticeable bar at 1 Gbps, or 1000 ms (1 second) on the latency/jitter histograms. The presence of such a bar indicates that there is a set of measurements with values greater than the 1 Gbps/1000 ms maximum histogram values.</p><figure class="kg-card kg-image-card"><img alt="Introducing the Cloudflare Radar Internet Quality Page" class="kg-image lazy" height="663" loading="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="http://blog.cloudflare.com/content/images/2023/06/image11-3.png" width="830"></figure><h3 id="autonomous-system-level">Autonomous system level</h3><p>Within the upper-right section of the country-level page, a list of the <a target="_blank" rel="external nofollow noopener noreferrer" href="http://blog.cloudflare.com/asn-on-radar/">top five autonomous systems</a> within the country is shown. Clicking on an ASN takes you to the Performance page for that autonomous system. For others not displayed in the top five list, you can use the search bar at the top of the page to search by autonomous system name or number. The graphs shown within the AS level view are identical to those shown at a country level, but obviously at a different level of aggregation. You can find the ASN that you are connected to from the <a target="_blank" rel="external nofollow noopener noreferrer" href="https://radar.cloudflare.com/ip">My Connection page</a> on Cloudflare Radar.</p><h2 id="exploring-connection-performance-quality-data">Exploring connection performance &amp; quality data</h2><p>Digging into the IQI and Connection Quality visualizations can surface some interesting observations, including characterizing Internet connections, and the impact of Internet disruptions, including shutdowns and network issues. We explore some examples below.</p><h3 id="characterizing-internet-connections">Characterizing Internet connections</h3><p><a target="_blank" rel="external nofollow noopener noreferrer" href="https://www.verizon.com/home/fios/">Verizon FiOS</a> is a residential fiber-based Internet service available to customers in the United States. Fiber-based Internet services (as opposed to cable-based, DSL, dial-up, or satellite) will generally offer symmetric upload and download speeds, and the FiOS <a target="_blank" rel="external nofollow noopener noreferrer" href="https://www.verizon.com/home/fios-fastest-internet/">plans page</a> shows this to be the case, offering 300 Mbps (upload &amp; download), 500 Mbps (upload &amp; download), and “1 Gig” (Verizon claims average wired speeds between 750-940 Mbps download / 750-880 Mbps upload) plans. Verizon carries FiOS traffic on <a target="_blank" rel="external nofollow noopener noreferrer" href="https://radar.cloudflare.com/quality/as701">AS701</a> (labeled <a target="_blank" rel="external nofollow noopener noreferrer" href="https://en.wikipedia.org/wiki/UUNET">UUNET</a> due to a historical acquisition), and in looking at the bandwidth histogram for AS701, several things stand out. The first is a rough symmetry in upload and download speeds. (A cable-based Internet service provider, in contrast, would generally show a wide spread of download speeds, but have upload speeds clustered at the lower end of the range.) Another is the peaks around 300 Mbps and 750 Mbps, suggesting that the 300 Mbps and “1 Gig” plans may be more popular than the 500 Mbps plan. It is also clear that there are a significant number of test results with speeds below 300 Mbps. This is due to several factors: one is that Verizon also carries lower speed non-FiOS traffic on AS701, while another is that erratic nature of in-home WiFi often means that the speeds achieved on a test will be lower than the purchased service level.</p><figure class="kg-card kg-image-card"><img alt="Introducing the Cloudflare Radar Internet Quality Page" class="kg-image lazy" height="1125" loading="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="http://blog.cloudflare.com/content/images/2023/06/image13.png" width="1999"></figure><h3 id="traffic-shifts-drive-latency-shifts">Traffic shifts drive latency shifts</h3><p>On May 9, 2023, the government of <a target="_blank" rel="external nofollow noopener noreferrer" href="https://radar.cloudflare.com/pk">Pakistan</a> ordered the shutdown of mobile network services in the wake of protests following the arrest of former Prime Minister Imran Khan. Our <a target="_blank" rel="external nofollow noopener noreferrer" href="http://blog.cloudflare.com/cloudflares-view-of-internet-disruptions-in-pakistan/">blog post</a> covering this shutdown looked at the impact from a traffic perspective. Within the post, we noted that autonomous systems associated with fixed broadband networks saw significant increases in traffic when the mobile networks were shut down – that is, some users shifted to using fixed networks (home broadband) when mobile networks were unavailable.</p><p>Examining IQI data after the blog post was published, we found that the impact of this traffic shift was also visible in our latency data. As can be seen in the shaded area of the graph below, the shutdown of the mobile networks resulted in the median latency dropping about 25% as usage shifted from higher latency mobile networks to lower latency fixed broadband networks. An increase in latency is visible in the graph when mobile connectivity was restored on May 12.</p><figure class="kg-card kg-image-card"><img alt="Introducing the Cloudflare Radar Internet Quality Page" class="kg-image lazy" height="1125" loading="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="http://blog.cloudflare.com/content/images/2023/06/image8-3.png" width="1999"></figure><h3 id="bandwidth-shifts-as-a-potential-early-warning-sign">Bandwidth shifts as a potential early warning sign</h3><p>On April 4, UK mobile operator <a target="_blank" rel="external nofollow noopener noreferrer" href="https://twitter.com/CloudflareRadar/status/1643070260130504704">Virgin Media suffered several brief outages</a>. In examining the IQI bandwidth graph for <a target="_blank" rel="external nofollow noopener noreferrer" href="https://radar.cloudflare.com/quality/as5089">AS5089</a>, the ASN used by Virgin Media (formerly branded as <a target="_blank" rel="external nofollow noopener noreferrer" href="https://en.wikipedia.org/wiki/NTL_Incorporated">NTL</a>), indications of a potential problem are visible several days before the outages occurred, as median bandwidth dropped by about a third, from around 35 Mbps to around 23 Mbps. The outages are visible in the circled area in the graph below. <a target="_blank" rel="external nofollow noopener noreferrer" href="https://www.ispreview.co.uk/index.php/2023/04/major-network-outage-strikes-broadband-isp-virgin-media-uk.html">Published reports</a> indicate that the problems lasted into April 5, in line with the lower median bandwidth measured through mid-day.</p><figure class="kg-card kg-image-card"><img alt="Introducing the Cloudflare Radar Internet Quality Page" class="kg-image lazy" height="1125" loading="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="http://blog.cloudflare.com/content/images/2023/06/image1-34.png" width="1999"></figure><h3 id="submarine-cable-issues-cause-slower-browsing">Submarine cable issues cause slower browsing</h3><p>On June 5, Philippine Internet provider <a target="_blank" rel="external nofollow noopener noreferrer" href="https://pldt.com/">PLDT</a> <a target="_blank" rel="external nofollow noopener noreferrer" href="https://twitter.com/pldt/status/1665670783388254208">Tweeted</a> an advisory that noted “One of our submarine cable partners confirms a loss in some of its internet bandwidth capacity, and thus causing slower Internet browsing.” IQI latency and bandwidth graphs for <a target="_blank" rel="external nofollow noopener noreferrer" href="https://radar.cloudflare.com/quality/as9299">AS9299</a>, a primary ASN used by PLDT, shows clear shifts starting around 06:45 UTC (14:45 local time). Median bandwidth dropped by half, from 17 Mbps to 8 Mbps, while median latency increased by 75% from 37 ms to around 65 ms. 75th percentile latency also saw a significant increase, nearly tripling from 63 ms to 180 ms coincident with the reported submarine cable issue.</p><figure class="kg-card kg-image-card"><img alt="Introducing the Cloudflare Radar Internet Quality Page" class="kg-image lazy" height="900" loading="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="http://blog.cloudflare.com/content/images/2023/06/June-5---Philippines---PLDT---bandwidth---shaded.png" width="1600"></figure><figure class="kg-card kg-image-card"><img alt="Introducing the Cloudflare Radar Internet Quality Page" class="kg-image lazy" height="1125" loading="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="http://blog.cloudflare.com/content/images/2023/06/image9.png" width="1999"></figure><h2 id="conclusion">Conclusion</h2><p>Making network performance and quality insights available on Cloudflare Radar supports Cloudflare’s mission to help build a better Internet. However, we’re not done yet – we have more enhancements planned. These include making data available at a more granular geographical level (such as state and possibly city), incorporating <a target="_blank" rel="external nofollow noopener noreferrer" href="http://blog.cloudflare.com/aim-database-for-internet-quality/">AIM scores</a> to help assess Internet quality for specific types of use cases, and embedding the Cloudflare speed test directly on Radar using the <a target="_blank" rel="external nofollow noopener noreferrer" href="https://github.com/cloudflare/speedtest?ref=blog.cloudflare.com">open source JavaScript module</a>.</p><p>In the meantime, we invite you to use <a target="_blank" rel="external nofollow noopener noreferrer" href="https://speed.cloudflare.com/">speed.cloudflare.com</a> to test the performance and quality of your Internet connection, share any country or AS-level insights you discover on social media (tag <a target="_blank" rel="external nofollow noopener noreferrer" href="https://twitter.com/cloudflareradar">@CloudflareRadar</a> on Twitter or <a target="_blank" rel="external nofollow noopener noreferrer" href="https://cloudflare.social/@radar">@radar@cloudflare.social</a> on Mastodon), and explore the underlying data through the <a target="_blank" rel="external nofollow noopener noreferrer" href="https://colab.research.google.com/drive/1xgc-7L1Okr04MSjsYJfiFeUN0Gu05bpQ?usp=sharing">M-Lab repository</a> or the <a target="_blank" rel="external nofollow noopener noreferrer" href="https://developers.cloudflare.com/api/">Radar API</a>.</p><h3 id="watch-on-cloudflare-tv">Watch on Cloudflare TV</h3><!--kg-card-begin: html--><div style="position: relative; padding-top: 56.25%;"><iframe allow="accelerometer; gyroscope; autoplay; encrypted-media; picture-in-picture;" allowfullscreen="true" src="https://customer-rhnwzxvb3mg4wz3v.cloudflarestream.com/debcbed2114d086c870059ac604eca49/iframe?preload=true&amp;poster=https%3A%2F%2Fcustomer-rhnwzxvb3mg4wz3v.cloudflarestream.com%2Fdebcbed2114d086c870059ac604eca49%2Fthumbnails%2Fthumbnail.jpg%3Ftime%3D1s%26height%3D600" style="border: none; position: absolute; top: 0; left: 0; height: 100%; width: 100%;"></iframe></div><!--kg-card-end: html--></h3>
+</div>
+
+<div>
+<div class="tag-plugin link dis-select"><a class="link-card plain" title="Introducing the Cloudflare Radar Internet Quality Page" href="http://blog.cloudflare.com/introducing-radar-internet-quality-page/" target="_blank" rel="external nofollow noopener noreferrer" cardlink autofill="icon"><div class="left"><span class="title">Introducing the Cloudflare Radar Internet Quality Page</span><span class="cap link fs12">http://blog.cloudflare.com/introducing-radar-internet-quality-page/</span></div><div class="right"><div class="lazy img" data-bg="https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.4/link/8f277b4ee0ecd.svg"></div></div></a></div>
+</div>
+
+
+
+
+<div class="article-footer reveal fs14"><section id="license"><div class="header"><span>许可协议</span></div><div class="body"><p>本文采用 <a target="_blank" rel="external nofollow noopener noreferrer" href="https://github.com/me-shaon/GLWTPL/blob/master/translations/LICENSE_zh-CN">GLWT（Good Luck With That，祝你好运）公共许可证</a> 许可协议，转载请注明出处。</p>
+</div></section><section id="share"><div class="header"><span>分享文章</span></div><div class="body"><div class="link"><input class="copy-area" readonly="true" id="copy-link" value="https://blog.imc.re/RSSBOX/rss/320a9c63.html"></div><div class="social-wrap dis-select"><a class="social share-item wechat" onclick="util.toggle(&quot;qrcode-wechat&quot)"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.4/social/b32ef3da1162a.svg"></a><a class="social share-item weibo" target="_blank" rel="external nofollow noopener noreferrer" href="https://service.weibo.com/share/share.php?url=https://blog.imc.re/RSSBOX/rss/320a9c63.html&title=Introducing the Cloudflare Radar Internet Quality Page - RSSBOX&pics=http://blog.cloudflare.com/content/images/2023/06/image6-6.png&summary=
+This post is also available in 日本語 and Español.
+Internet connections are most often marketed and sold on the basis o..."><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.4/social/80c07e4dbb303.svg"></a><a class="social share-item email" href="mailto:?subject=Introducing the Cloudflare Radar Internet Quality Page - RSSBOX&amp;body=https://blog.imc.re/RSSBOX/rss/320a9c63.html"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.4/social/a1b00e20f425d.svg"></a><a class="social share-item link" onclick="util.copy(&quot;copy-link&quot;, &quot;复制成功&quot;)"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.4/social/8411ed322ced6.svg"></a></div><div class="qrcode" id="qrcode-wechat" style="visibility:hidden;height:0"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://api.qrserver.com/v1/create-qr-code/?size=256x256&data=https://blog.imc.re/RSSBOX/rss/320a9c63.html"></div></div></section></div>
+
+</article>
+
+<div class="related-wrap reveal" id="read-next"><section class="body"><div class="item" id="prev"><div class="note">较新文章</div><a href="/RSSBOX/rss/2ac64df7.html">Speeding Up APIs With Ricochet for API Gateway</a></div><div class="item" id="next"><div class="note">较早文章</div><a href="/RSSBOX/rss/74584793.html">A Step-by-Step Guide to Transferring Domains to Cloudflare</a></div></section></div>
+
+
+<div class="related-wrap reveal" id="related-posts">
+    <section class="header">
+      <div class="title cap theme">您可能感兴趣的文章</div>
+    </section>
+    <section class="body">
+    <div class="related-posts"><a class="item" href="/RSSBOX/rss/74584793.html" title="A Step-by-Step Guide to Transferring Domains to Cloudflare"><span class="title">A Step-by-Step Guide to Transferring Domains to Cloudflare</span></a><a class="item" href="/RSSBOX/rss/caa91ad8.html" title="All the Way Up to 11: Serve Brotli From Origin and Introducing Compression Rules"><span class="title">All the Way Up to 11: Serve Brotli From Origin and Introducing Compression Rules</span></a><a class="item" href="/RSSBOX/rss/7bd87fb2.html" title="Bring Your Own CA for Client Certificate Validation With API Shield"><span class="title">Bring Your Own CA for Client Certificate Validation With API Shield</span></a><a class="item" href="/RSSBOX/rss/77acea1e.html" title="Cloudflare Zaraz Supports JSONata"><span class="title">Cloudflare Zaraz Supports JSONata</span></a><a class="item" href="/RSSBOX/rss/e43023fe.html" title="Connection Errors in Asia Pacific Region on July 9, 2023"><span class="title">Connection Errors in Asia Pacific Region on July 9, 2023</span></a></div></section></div>
+
+
+
+
+
+      
+<footer class="page-footer reveal fs12"><hr><div class="sitemap"><div class="sitemap-group"><span class="fs14">文章</span><a href="/RSSBOX/categories">分类</a><a href="/RSSBOX/tags">标签</a><a href="/RSSBOX/archives">归档</a></div><div class="sitemap-group"><span class="fs14">更多</span><a href="https://blog.imc.re/">博客</a><a target="_blank" rel="noopener" href="https://imc.re/">IMC.RE</a></div></div><div class="text"><p><a href="/">@RSSBOX</a> 2023 author by <a target="_blank" rel="external nofollow noopener noreferrer" href="https://github.com/MHG-LAB/RSSBOX">MHuiG</a> powered by SummerGoro。<br><br>本博客所有文章除特别声明外，均采用 <a target="_blank" rel="external nofollow noopener noreferrer" href="https://github.com/me-shaon/GLWTPL/blob/master/translations/LICENSE_zh-CN">GLWT（Good Luck With That，祝你好运）公共许可证</a> 许可协议，转载请注明出处。</p>
+</div></footer>
+
+      <div class="float-panel mobile-only blur" style="display:none">
+  <button type="button" class="sidebar-toggle mobile" onclick="sidebar.toggle()">
+    <svg class="icon" style="width: 1em; height: 1em;vertical-align: middle;fill: currentColor;overflow: hidden;" viewbox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="15301"><path d="M566.407 808.3c26.9-0.1 49.3-20.8 51.6-47.6-1.9-27.7-23.9-49.7-51.6-51.6h-412.6c-28.2-1.4-52.6 19.5-55.5 47.6 2.3 26.8 24.6 47.5 51.6 47.6h416.5v4z m309.3-249.9c26.9-0.1 49.3-20.8 51.6-47.6-2.2-26.8-24.6-47.5-51.6-47.6h-721.9c-27.7-2.8-52.5 17.4-55.3 45.1-0.1 0.8-0.1 1.7-0.2 2.5 0.9 27.2 23.6 48.5 50.7 47.6H875.707z m-103.1-245.9c26.9-0.1 49.3-20.8 51.6-47.6-0.4-28.3-23.2-51.1-51.5-51.6h-618.9c-29.5-1.1-54.3 21.9-55.5 51.4v0.2c1.4 27.8 25.2 49.2 53 47.8 0.8 0 1.7-0.1 2.5-0.2h618.8z" p-id="15302"/><path d="M566.407 808.3c26.9-0.1 49.3-20.8 51.6-47.6-1.9-27.7-23.9-49.7-51.6-51.6h-412.6c-28.2-1.4-52.6 19.5-55.5 47.6 1.9 27.7 23.9 49.7 51.6 51.6h416.5z m309.3-249.9c26.9-0.1 49.3-20.8 51.6-47.6-2.2-26.8-24.6-47.5-51.6-47.6h-721.9c-27.7-2.8-52.5 17.4-55.3 45.1-0.1 0.8-0.1 1.7-0.2 2.5 0.9 27.2 23.6 48.5 50.7 47.6H875.707z m-103.1-245.9c26.9-0.1 49.3-20.8 51.6-47.6-0.4-28.3-23.2-51.1-51.5-51.6h-618.9c-29.5-1.1-54.3 21.9-55.5 51.4v0.2c1.4 27.8 25.2 49.2 53 47.8 0.8 0 1.7-0.1 2.5-0.2h618.8z" p-id="15303"/></svg>
+  </button>
+</div>
+
+    </div>
+  </div>
+  <div class="scripts">
+    <script type="text/javascript">
+  const stellar = {
+    // 懒加载 css https://github.com/filamentgroup/loadCSS
+    loadCSS: (href, before, media, attributes) => {
+      var doc = window.document;
+      var ss = doc.createElement("link");
+      var ref;
+      if (before) {
+        ref = before;
+      } else {
+        var refs = (doc.body || doc.getElementsByTagName("head")[0]).childNodes;
+        ref = refs[refs.length - 1];
+      }
+      var sheets = doc.styleSheets;
+      if (attributes) {
+        for (var attributeName in attributes) {
+          if (attributes.hasOwnProperty(attributeName)) {
+            ss.setAttribute(attributeName, attributes[attributeName]);
+          }
+        }
+      }
+      ss.rel = "stylesheet";
+      ss.href = href;
+      ss.media = "only x";
+      function ready(cb) {
+        if (doc.body) {
+          return cb();
+        }
+        setTimeout(function () {
+          ready(cb);
+        });
+      }
+      ready(function () {
+        ref.parentNode.insertBefore(ss, before ? ref : ref.nextSibling);
+      });
+      var onloadcssdefined = function (cb) {
+        var resolvedHref = ss.href;
+        var i = sheets.length;
+        while (i--) {
+          if (sheets[i].href === resolvedHref) {
+            return cb();
+          }
+        }
+        setTimeout(function () {
+          onloadcssdefined(cb);
+        });
+      };
+      function loadCB() {
+        if (ss.addEventListener) {
+          ss.removeEventListener("load", loadCB);
+        }
+        ss.media = media || "all";
+      }
+      if (ss.addEventListener) {
+        ss.addEventListener("load", loadCB);
+      }
+      ss.onloadcssdefined = onloadcssdefined;
+      onloadcssdefined(loadCB);
+      return ss;
+    },
+
+    // 从 butterfly 和 volantis 获得灵感
+    loadScript: (src, opt) => new Promise((resolve, reject) => {
+      var script = document.createElement('script');
+      if (src.startsWith('/')){
+        src = stellar.config.root + src.substring(1);
+      }
+      script.src = src;
+      if (opt) {
+        for (let key of Object.keys(opt)) {
+          script[key] = opt[key]
+        }
+      } else {
+        // 默认异步，如果需要同步，第二个参数传入 {} 即可
+        script.async = true
+      }
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    }),
+
+    // https://github.com/jerryc127/hexo-theme-butterfly
+    jQuery: (fn) => {
+      if (typeof jQuery === 'undefined') {
+        stellar.loadScript(stellar.plugins.jQuery).then(fn)
+      } else {
+        fn()
+      }
+    }
+  };
+  stellar.version = '1.19.0';
+  stellar.github = 'https://github.com/xaoxuu/hexo-theme-stellar/tree/1.19.0';
+  stellar.config = {
+    date_suffix: {
+      just: '刚刚',
+      min: '分钟前',
+      hour: '小时前',
+      day: '天前',
+      month: '个月前',
+    },
+    root : '/RSSBOX/',
+  };
+
+  // required plugins (only load if needs)
+  stellar.plugins = {
+    jQuery: 'https://gcore.jsdelivr.net/npm/jquery@3.6.2/dist/jquery.min.js'
+  };
+
+  if ('local_search') {
+    stellar.search = {};
+    stellar.search.service = 'local_search';
+    if (stellar.search.service == 'local_search') {
+      let service_obj = Object.assign({}, {"field":"all","path":"/search.json","content":true,"codeblock":true,"sort":"-date"});
+      stellar.search[stellar.search.service] = service_obj;
+    }
+  }
+
+  // stellar js
+  stellar.plugins.stellar = Object.assign({"sites":"/js/plugins/sites.js","friends":"/js/plugins/friends.js","ghinfo":"/js/plugins/ghinfo.js","timeline":"/js/plugins/timeline.js","linkcard":"/js/plugins/linkcard.js","fcircle":"/js/plugins/fcircle.js","weibo":"/js/plugins/weibo.js"});
+
+  stellar.plugins.marked = Object.assign("https://cdn.bootcdn.net/ajax/libs/marked/4.0.18/marked.min.js");
+  // optional plugins
+  if ('true' == 'true') {
+    stellar.plugins.lazyload = Object.assign({"enable":true,"js":"https://gcore.jsdelivr.net/npm/vanilla-lazyload@17.8.3/dist/lazyload.min.js","transition":"blur"});
+  }
+  if ('true' == 'true') {
+    stellar.plugins.swiper = Object.assign({"enable":true,"css":"https://unpkg.com/swiper@8.4.5/swiper-bundle.min.css","js":"https://unpkg.com/swiper@8.4.5/swiper-bundle.min.js"});
+  }
+  if ('' == 'true') {
+    stellar.plugins.scrollreveal = Object.assign({"enable":null,"js":"https://gcore.jsdelivr.net/npm/scrollreveal@4.0.9/dist/scrollreveal.min.js","distance":"8px","duration":500,"interval":100,"scale":1});
+  }
+  if ('true' == 'true') {
+    stellar.plugins.preload = Object.assign({"enable":true,"service":"flying_pages","instant_page":"https://gcore.jsdelivr.net/gh/volantis-x/cdn-volantis@4.1.2/js/instant_page.js","flying_pages":"https://gcore.jsdelivr.net/gh/gijo-varghese/flying-pages@2.1.2/flying-pages.min.js"});
+  }
+  if ('true' == 'true') {
+    stellar.plugins.fancybox = Object.assign({"enable":true,"js":"https://gcore.jsdelivr.net/npm/@fancyapps/ui@4.0/dist/fancybox.umd.js","css":"https://gcore.jsdelivr.net/npm/@fancyapps/ui@4.0/dist/fancybox.css","selector":".swiper-slide img"});
+  }
+  if ('false' == 'true') {
+    stellar.plugins.heti = Object.assign({"enable":false,"css":"https://unpkg.com/heti@0.9.2/umd/heti.min.css","js":"https://unpkg.com/heti@0.9.2/umd/heti-addon.min.js"});
+  }
+  if ('true' == 'true') {
+    stellar.plugins.copycode = Object.assign({"enable":true,"js":"/js/plugins/copycode.js","default_text":"Copy","success_text":"Copied"});
+  }
+</script>
+
+<!-- required -->
+
+  
+<script src="/RSSBOX/js/main.js" async></script>
+
+
+
+<!-- optional -->
+
+  <script>
+  function loadJS() {
+    const els = document.querySelectorAll("#comments #giscus");
+    if (els.length === 0) return;
+    els.forEach((el, i) => {
+      try {
+        el.innerHTML = '';
+      } catch (error) {
+        console.log(error);
+      }
+      var script = document.createElement('script');
+      script.src = 'https://giscus.app/client.js';
+      script.async = true;
+      for (let key of Object.keys(el.attributes)) {
+        let attr = el.attributes[key];
+        if (['class', 'id'].includes(attr.name) === false) {
+          script.setAttribute(attr.name, attr.value);
+        }
+      }
+      el.appendChild(script);
+    });
+  }
+  window.addEventListener('DOMContentLoaded', (event) => {
+    loadJS();
+  });
+</script>
+
+
+
+
+<!-- inject -->
+
+
+  </div>
+</body>
+</html>

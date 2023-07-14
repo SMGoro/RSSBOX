@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+  <meta name="generator" content="Hexo 6.3.0">
+  <meta name="hexo-theme" content="https://github.com/xaoxuu/hexo-theme-stellar/tree/1.19.0">
+  <meta charset="utf-8">
+  
+
+  <meta http-equiv="x-dns-prefetch-control" content="on">
+  <link rel="dns-prefetch" href="https://gcore.jsdelivr.net">
+  <link rel="preconnect" href="https://gcore.jsdelivr.net" crossorigin>
+  <link rel="dns-prefetch" href="//unpkg.com">
+
+  <meta name="renderer" content="webkit">
+  <meta name="force-rendering" content="webkit">
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+  <meta name="HandheldFriendly" content="True">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="theme-color" content="#f8f8f8">
+  
+  <title>Speeding Up APIs With Ricochet for API Gateway - RSSBOX</title>
+
+  
+    <meta name="description" content="APIs form the backbone of communication between apps and services on the Internet. They are a quick way for an application to ask for data or ask that a task be performed by a service. For example, a">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Speeding Up APIs With Ricochet for API Gateway">
+<meta property="og:url" content="https://blog.imc.re/RSSBOX/rss/2ac64df7.html">
+<meta property="og:site_name" content="RSSBOX">
+<meta property="og:description" content="APIs form the backbone of communication between apps and services on the Internet. They are a quick way for an application to ask for data or ask that a task be performed by a service. For example, a">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://blog.cloudflare.com/content/images/2023/06/image1-38.png">
+<meta property="og:image" content="http://blog.cloudflare.com/content/images/2023/06/image1-37.png">
+<meta property="og:image" content="http://blog.cloudflare.com/content/images/2023/06/pasted-image-0-4.png">
+<meta property="og:image" content="http://blog.cloudflare.com/content/images/2023/06/How-is-Speed-boost-different---Anonymous--1-.png">
+<meta property="og:image" content="http://blog.cloudflare.com/content/images/2023/06/How-is-Speed-boost-different---Authenticated-1.png">
+<meta property="og:image" content="http://blog.cloudflare.com/content/images/2023/06/image2-33.png">
+<meta property="article:published_time" content="2023-06-23T13:00:17.000Z">
+<meta property="article:modified_time" content="2023-06-23T13:00:17.000Z">
+<meta property="article:author" content="SMGoro">
+<meta property="article:tag" content="Blogs">
+<meta property="article:tag" content="Cloudflare">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="http://blog.cloudflare.com/content/images/2023/06/image1-38.png">
+  
+  
+  
+  <meta name="keywords" content="Blogs,Cloudflare">
+
+  <!-- feed -->
+  
+    <link rel="alternate" href="/RSSBOX/atom.xml" title="RSSBOX" type="application/atom+xml">
+  
+
+  
+    
+<link rel="stylesheet" href="/RSSBOX/css/main.css">
+
+  
+
+  
+
+  
+
+  
+    <link rel="stylesheet" href="https://gcore.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.css" integrity="sha384-vKruj+a13U8yHIkAyGgK1J3ArTLzrFGBbBc0tDp4ad/EyewESeXE/Iv67Aj8gKZ0" crossorigin="anonymous">
+    <script defer src="https://gcore.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.js" integrity="sha384-PwRUT/YqbnEjkZO0zZxNqcxACrXe+j766U2amXcgMg5457rve2Y7I6ZJSm2A0mS4" crossorigin="anonymous"></script>
+    <script defer src="https://gcore.jsdelivr.net/npm/katex@0.16.4/dist/contrib/auto-render.min.js" integrity="sha384-+VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4+/RRE05" crossorigin="anonymous" onload="renderMathInElement(document.body);"></script>
+  
+
+
+  
+
+<!--百度统计-->
+<script>
+  var _hmt = _hmt || [];
+  (function() {
+    var hm = document.createElement("script");
+    hm.src = "https://hm.baidu.com/hm.js?f42afe3e5b76d22c8b1a8060171c7184";
+    var s = document.getElementsByTagName("script")[0]; 
+    s.parentNode.insertBefore(hm, s);
+  })();
+</script>  
+  <!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-V2NSKYGXNG"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-V2NSKYGXNG');
+</script>
+<!--Google Adsense-->
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4773172018528901" crossorigin="anonymous"></script>
+</head>
+
+<body>
+  
+
+
+
+
+  <div class="l_body" id="start">
+    <aside class="l_left" layout="post">
+    
+
+  
+
+<header class="header"><div class="logo-wrap"><a class="avatar" href="/RSSBOX/archives"><div class="bg" style="opacity:0;background-image:url(https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.4/avatar/round/rainbow64@3x.webp);"></div><img no-lazy class="avatar" src="https://cdn.jsdelivr.net/gh/SMGCDN/photos/icon/rsshub.png" onerror="javascript:this.classList.add('error');this.src='https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.4/image/2659360.svg';"></a><a class="title" href="/RSSBOX/"><div class="main" ff="title">RSSBOX</div><div class="sub normal cap">SMGoroのRSS订阅</div><div class="sub hover cap" style="opacity:0"> 一些好康的东西</div></a></div>
+
+<nav class="menu dis-select"><a class="nav-item active" href="/RSSBOX/">订阅</a><a class="nav-item" href="https://blog.imc.re/">博客</a><a class="nav-item" href="https://blog.imc.re/contact">联系</a><a class="nav-item" href="https://blog.imc.re/more">更多</a></nav>
+</header>
+
+
+<div class="widgets">
+
+<widget class="widget-wrapper toc single" id="data-toc"><div class="widget-header cap dis-select"><span class="name">Speeding Up APIs With Ricochet for API Gateway</span></div><div class="widget-body fs14"><div class="doc-tree active"><ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#why-you-should-cache-api-responses"><span class="toc-text">Why you should cache API responses</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#cloudflare%E2%80%99s-unique-approach"><span class="toc-text">Cloudflare’s unique approach</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#apis-can-be-ripe-for-caching"><span class="toc-text">APIs can be ripe for caching</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#potential-impact-of-caching-apis"><span class="toc-text">Potential impact of caching APIs</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#conclusion"><span class="toc-text">Conclusion</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#watch-on-cloudflare-tv"><span class="toc-text">Watch on Cloudflare TV</span></a></li></ol></div></div></widget>
+
+
+
+<widget class="widget-wrapper search"><div class="widget-body"><div class="search-wrapper" id="search"><form class="search-form"><input type="text" class="search-input" id="search-input" data-filter="/rss/" placeholder="文章搜索"><svg t="1670596976048" class="icon search-icon" viewbox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2676" width="200" height="200"><path d="M938.2 832.6L723.8 618.1c-2.5-2.5-5.3-4.4-7.9-6.4 36.2-55.6 57.3-121.8 57.3-193.1C773.3 222.8 614.6 64 418.7 64S64 222.8 64 418.6c0 195.9 158.8 354.6 354.6 354.6 71.3 0 137.5-21.2 193.2-57.4 2 2.7 3.9 5.4 6.3 7.8L832.5 938c14.6 14.6 33.7 21.9 52.8 21.9 19.1 0 38.2-7.3 52.8-21.8 29.2-29.1 29.2-76.4 0.1-105.5M418.7 661.3C284.9 661.3 176 552.4 176 418.6 176 284.9 284.9 176 418.7 176c133.8 0 242.6 108.9 242.6 242.7 0 133.7-108.9 242.6-242.6 242.6" p-id="2677"/></svg></form><div id="search-result"></div><div class="search-no-result">没有找到内容！</div></div></div></widget>
+
+
+
+<widget class="widget-wrapper recent"><div class="widget-header cap theme dis-select"><span class="name">最近更新</span><a class="cap-action" id="rss" title="Subscribe" href="/atom.xml"><svg class="icon" viewbox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="8938"><path d="M800.966 947.251c0-404.522-320.872-732.448-716.69-732.448V62.785c477.972 0 865.44 395.987 865.44 884.466h-148.75z m-162.273 0h-148.74c0-228.98-181.628-414.598-405.678-414.598v-152.01c306.205 0 554.418 253.68 554.418 566.608z m-446.24-221.12c59.748 0 108.189 49.503 108.189 110.557 0 61.063-48.44 110.563-108.188 110.563-59.747 0-108.18-49.5-108.18-110.563 0-61.054 48.433-110.556 108.18-110.556z" p-id="8939"/></svg></a></div><div class="widget-body related-posts fs14"><a class="item title" href="/RSSBOX/rss/2c2fbeb.html"><span class="title">七つの魔剣が支配する｜七魔剑支配天下</span></a><a class="item title" href="/RSSBOX/rss/3e937bc5.html"><span class="title">百姓貴族｜百姓贵族</span></a><a class="item title" href="/RSSBOX/rss/6b839856.html"><span class="title">シュガーアップル・フェアリーテイル(第2クール)｜银砂糖师与黑妖精 第2部分</span></a><a class="item title" href="/RSSBOX/rss/57dfaaf5.html"><span class="title">Girlhood</span></a><a class="item title" href="/RSSBOX/rss/d28c33bf.html"><span class="title">Headhunter's Eyes</span></a></div></widget>
+</div>
+<footer class="footer dis-select"><div class="social-wrap"><a class="social" href="https://github.com/SMGoro" target="_blank" rel="external nofollow noopener noreferrer"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cdn.jsdelivr.net/gh/SMGCDN/photos/icon/iconfont/social-github.svg"></a><a class="social" href="https://space.bilibili.com/359079394" target="_blank" rel="external nofollow noopener noreferrer"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cdn.jsdelivr.net/gh/SMGCDN/photos/icon/iconfont/bilibili.svg"></a><a class="social" href="https://l.imc.re/zhihu" target="_blank" rel="external nofollow noopener noreferrer"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cdn.jsdelivr.net/gh/SMGCDN/photos/icon/iconfont/zhihu.svg"></a><a class="social" href="https://l.imc.re/discord" target="_blank" rel="external nofollow noopener noreferrer"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cdn.jsdelivr.net/gh/SMGCDN/photos/icon/iconfont/discord.svg"></a><a class="social" href="https://blog.imc.re/contact" target="_blank" rel="external nofollow noopener noreferrer"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cdn.jsdelivr.net/gh/SMGCDN/photos/icon/iconfont/comments.svg"></a></div></footer>
+
+    </aside>
+    <div class="l_main">
+      
+
+      
+
+
+
+<div class="bread-nav fs12"><div id="breadcrumb"><a class="cap breadcrumb" href="/RSSBOX/">主页</a><span class="sep"></span><a class="cap breadcrumb" href="/RSSBOX/">文章</a><span class="sep"></span><a class="cap breadcrumb-link" href="/RSSBOX/categories/blogs/">Blogs</a> <span class="sep"></span> <a class="cap breadcrumb-link" href="/RSSBOX/categories/blogs/cloudflare/">Cloudflare</a></div><div id="post-meta">发布于&nbsp;<time datetime="2023-06-23T13:00:17.000Z">2023-06-23</time></div></div>
+
+<article class="md-text content post">
+<h1 class="article-title"><span>Speeding Up APIs With Ricochet for API Gateway</span></h1>
+<div>
+<figure class="kg-card kg-image-card"><img alt="Speeding up APIs with Ricochet for API Gateway" class="kg-image lazy" height="1013" loading="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="http://blog.cloudflare.com/content/images/2023/06/image1-38.png" width="1801"></figure><img class="lazy" alt="Speeding up APIs with Ricochet for API Gateway" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="http://blog.cloudflare.com/content/images/2023/06/image1-37.png"><p>APIs form the backbone of communication between apps and services on the Internet. They are a quick way for an application to ask for data or ask that a task be performed by a service. For example, anyone can write a weather app without being a meteorologist: simply ask a <a target="_blank" rel="external nofollow noopener noreferrer" href="https://developer.accuweather.com/">weather API</a> for the forecast and display it in your app.</p><p>Speed is inherent to the API use case. Rather than transferring bulky files like images and HTML, APIs only share the essential data needed to render a webpage or an app. However, despite their efficiency, Internet latency can still impede API data transfers. If the server processing a user’s API request is located far from that user, the network round trip time can degrade that user’s experience.</p><p>Cloudflare's global network is specifically designed to optimize and accelerate internet traffic, including APIs. Our users enjoy features like <a target="_blank" rel="external nofollow noopener noreferrer" href="https://www.cloudflare.com/dns/">11ms DNS responses</a>, <a target="_blank" rel="external nofollow noopener noreferrer" href="https://www.cloudflare.com/load-balancing/">load balancing</a>, and <a target="_blank" rel="external nofollow noopener noreferrer" href="https://www.cloudflare.com/products/argo-smart-routing/">Argo Smart Routing</a>, which significantly improve API traffic speed. For web content, Cloudflare customers have always been able to <a target="_blank" rel="external nofollow noopener noreferrer" href="https://www.cloudflare.com/cdn/">cache their web traffic</a>, serving requests from the closest data center and thereby reducing network round trip time and server processing time to a bare minimum. Now, we are leveraging these benefits to enhance API traffic in exciting new ways.</p><p>Today we’re announcing Ricochet for API Gateway, the easiest way for Cloudflare customers to achieve faster API responses. Customers using Cloudflare’s API Gateway will be able to enable Ricochet for their API endpoints and automatically reduce average latency through intelligent caching of API requests that would otherwise go to origin. Ricochet will even work for things you previously thought un-cacheable, like GraphQL POST requests. Best of all, there are no changes to make at your origin. Just configure API Gateway with your API session identifiers and leave the rest to us.</p><p>Enabling Ricochet for your APIs will cause Cloudflare to cache many of the basic, repetitive API calls from your applications and deliver them to users faster than ever. At first, your product metrics might even look broken with lower latency and fewer requests at origin. But these metrics will be a new sign of success, reflecting your app’s new speedy user experience.</p><h3 id="why-you-should-cache-api-responses">Why you should cache API responses</h3><p>It isn’t news that page load times directly correlate to dollar spend of site visitors. Organizations have spent the last decade obsessing over static content optimization to deliver websites quicker every year. Faster apps result in higher business metrics for most web sites. For example, <a target="_blank" rel="external nofollow noopener noreferrer" href="https://www.cloudflare.com/case-studies/ted-baker/">faster sites receive more sales orders</a> and have <a target="_blank" rel="external nofollow noopener noreferrer" href="https://www.cloudflare.com/case-studies/shopyy/">higher customer loyalty</a>. Faster sites are also <a target="_blank" rel="external nofollow noopener noreferrer" href="https://www.cloudflare.com/case-studies/jcb/">critical for engagement</a> during marketing campaigns. Caching API requests will make your sites and apps faster by lowering the amount of time required to populate your app with data for your users.</p><p>The tools for caching APIs have always been available. But why isn’t it more common? We hypothesize a few reasons. It could be that API developers assume that APIs are too dynamic to cache, and that it only helps after lots of analysis of the application’s performance. It could also be that the security concerns around caching APIs are non-trivial. If both of those are true, you can imagine how caching APIs would only be successful with a large cross-organizational approach and lots of effort.</p><p>Let’s say your organization decided to try API caching anyway. We know there are a few problems if you want to cache APIs: First, traditional caching methods aren’t necessarily ready out of the box for caching APIs; cache invalidation needs to happen quickly and automatically. Second, special standalone cache tooling exists, but it doesn’t help you if it’s placed next to the origin and your users are globally distributed. Lastly, it’s hard to get security right when caching user data. It’s strictly forbidden to serve one user’s data to another on accident. Cloudflare has superpowers in these areas: knowledge of origin response time and existing cache-hit ratios, customer-configured API session IDs to establish secure user association with API requests, and the scale of our global network. We’re bringing together API Management with our robust caching infrastructure to safely and automatically cache API requests.</p><h3 id="cloudflare%E2%80%99s-unique-approach">Cloudflare’s unique approach</h3><p>The HTTP methods POST, PUT, and DELETE aren't generally cacheable. These methods are meant to change information at the origin on a one-time basis, and are therefore “non-safe”. If you responded to a non-safe request from cache, the data on the API server would not be updated. Compare this with “safe” HTTP methods: GET, OPTIONS, and HEAD. Caching requests with safe methods is straightforward as data at the origin does not change per-request.</p><p>But what do we know about RESTful APIs that can make caching easier? The endpoints usually stay the same when operating on objects, but the methods change. We will enable caching for safe methods and then automatically invalidate the cache when we see a non-safe method request for a RESTful endpoint managed by API Gateway. It’s also possible you have updates on one endpoint that change another endpoint’s data. In that event, we urge you to consider whether API Gateway’s short default TTL timers fit your use case by allowing a small delay between updating data at the origin and serving that update from cache. Check out the below diagram for an example of how automatic cache invalidation would work for shared paths with different methods:<br></p><figure class="kg-card kg-image-card"><img alt="Speeding up APIs with Ricochet for API Gateway" class="kg-image lazy" height="986" loading="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="http://blog.cloudflare.com/content/images/2023/06/pasted-image-0-4.png" width="1600"></figure><p>Even for safe requests, caching API data is risky when it comes to security. Done incorrectly, you could accidentally serve sensitive user data to the wrong person. That’s why Ricochet’s cache key includes the user’s API session identifier. This extra information in the cache key ensures that only an authorized user is able to receive their own cached data. For APIs without authentication, we hash the request parameters themselves and include that hash in the cache key, to ensure the correct data is returned for endpoints with static paths but variable inputs. Here’s an example for authenticated APIs:</p><figure class="kg-card kg-image-card"><img alt="Speeding up APIs with Ricochet for API Gateway" class="kg-image lazy" height="1200" loading="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="http://blog.cloudflare.com/content/images/2023/06/How-is-Speed-boost-different---Anonymous--1-.png" width="1496"></figure><p>And here’s an example for anonymous APIs, where we use a hash of the request body to preserve privacy and still enable unique, useful cache keys:</p><figure class="kg-card kg-image-card"><img alt="Speeding up APIs with Ricochet for API Gateway" class="kg-image lazy" height="1200" loading="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="http://blog.cloudflare.com/content/images/2023/06/How-is-Speed-boost-different---Authenticated-1.png" width="1496"></figure><h3 id="apis-can-be-ripe-for-caching">APIs can be ripe for caching</h3><p>There are many API caching use cases out there, and we decided to start with two where our customers have asked us for help so far: mixed-authentication APIs where returning the correct data is critical, and APIs that have single endpoints that can return varied query results (think RESTful endpoints with variable inputs and GraphQL POST requests). These use cases include things like weather forecasts and current conditions, airline flight tracking and flight status, live sports scores, and collaborative tools with many users.</p><p>Even short cache control timers can be beneficial to reduce load at the origin and speed up responses. Consider an example of a popular public endpoint receiving 1,000 requests/second, or 60,000 requests/min at origin. Let’s assume the data at the origin changes unpredictably but not due to unique user interaction. For this use case, reporting stale data for a few seconds or even a minute could be acceptable, and most users wouldn’t know or mind the difference. You could set your cache control to a very low 1 second and serve 999 requests/second from cache. That would reduce the origin requests to only 60 requests/minute!</p><p>This is a simple example, and we urge you to think about your API and the potential performance improvements caching could bring.</p><h3 id="potential-impact-of-caching-apis">Potential impact of caching APIs</h3><p>We profiled five top global airline website APIs for flight status checks and compared their retrieval time against the airline logo’s retrieval time. Here are the results:</p><figure class="kg-card kg-image-card"><img alt="Speeding up APIs with Ricochet for API Gateway" class="kg-image lazy" height="1038" loading="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="http://blog.cloudflare.com/content/images/2023/06/image2-33.png" width="1684"></figure><p>All five airlines saw on average a ~7x slow down for data that could easily be cached!</p><p>Successful caching will also lower load on your API origin. The hidden benefit with lower load at origin means faster responses from the requests that <em>miss</em> the cache and <em>do</em> end up hitting origin. So it’s two-for-the-price-of-one and latency decreases all-around. We aren’t going to reinvent your API overnight, but we are going to make a difference in your application’s response times by making it easy to add caching to your APIs.</p><h3 id="conclusion">Conclusion</h3><p>We're launching Ricochet in 2024. It’s going to make a measurable difference speeding up your APIs, and the best part is that as an API Gateway customer it will be easy to get started without requiring tons of your team’s time. <a target="_blank" rel="external nofollow noopener noreferrer" href="https://www.cloudflare.com/lp/cloudflare-ricochet/">Let us know</a> if you’d like to be on our waitlist for this feature. Our goal is to increase the amount of API caching on the Internet so that we can all benefit from faster response times and snappier apps.</p><h3 id="watch-on-cloudflare-tv">Watch on Cloudflare TV</h3><!--kg-card-begin: html--><div style="position: relative; padding-top: 56.25%;"><iframe allow="accelerometer; gyroscope; autoplay; encrypted-media; picture-in-picture;" allowfullscreen="true" src="https://customer-rhnwzxvb3mg4wz3v.cloudflarestream.com/f1c71fdb05263b5ec3077e6e7acdb7e2/iframe?preload=true&amp;poster=https%3A%2F%2Fcustomer-rhnwzxvb3mg4wz3v.cloudflarestream.com%2Ff1c71fdb05263b5ec3077e6e7acdb7e2%2Fthumbnails%2Fthumbnail.jpg%3Ftime%3D1s%26height%3D600" style="border: none; position: absolute; top: 0; left: 0; height: 100%; width: 100%;"></iframe></div><!--kg-card-end: html-->
+</div>
+
+<div>
+<div class="tag-plugin link dis-select"><a class="link-card plain" title="Speeding up APIs with Ricochet for API Gateway" href="http://blog.cloudflare.com/speeding-up-apis-ricochet-for-api-gateway/" target="_blank" rel="external nofollow noopener noreferrer" cardlink autofill="icon"><div class="left"><span class="title">Speeding up APIs with Ricochet for API Gateway</span><span class="cap link fs12">http://blog.cloudflare.com/speeding-up-apis-ricochet-for-api-gateway/</span></div><div class="right"><div class="lazy img" data-bg="https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.4/link/8f277b4ee0ecd.svg"></div></div></a></div>
+</div>
+
+
+
+
+<div class="article-footer reveal fs14"><section id="license"><div class="header"><span>许可协议</span></div><div class="body"><p>本文采用 <a target="_blank" rel="external nofollow noopener noreferrer" href="https://github.com/me-shaon/GLWTPL/blob/master/translations/LICENSE_zh-CN">GLWT（Good Luck With That，祝你好运）公共许可证</a> 许可协议，转载请注明出处。</p>
+</div></section><section id="share"><div class="header"><span>分享文章</span></div><div class="body"><div class="link"><input class="copy-area" readonly="true" id="copy-link" value="https://blog.imc.re/RSSBOX/rss/2ac64df7.html"></div><div class="social-wrap dis-select"><a class="social share-item wechat" onclick="util.toggle(&quot;qrcode-wechat&quot)"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.4/social/b32ef3da1162a.svg"></a><a class="social share-item weibo" target="_blank" rel="external nofollow noopener noreferrer" href="https://service.weibo.com/share/share.php?url=https://blog.imc.re/RSSBOX/rss/2ac64df7.html&title=Speeding Up APIs With Ricochet for API Gateway - RSSBOX&pics=http://blog.cloudflare.com/content/images/2023/06/image1-38.png&summary=
+APIs form the backbone of communication between apps and services on the Internet. They are a quick way for an appli..."><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.4/social/80c07e4dbb303.svg"></a><a class="social share-item email" href="mailto:?subject=Speeding Up APIs With Ricochet for API Gateway - RSSBOX&amp;body=https://blog.imc.re/RSSBOX/rss/2ac64df7.html"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.4/social/a1b00e20f425d.svg"></a><a class="social share-item link" onclick="util.copy(&quot;copy-link&quot;, &quot;复制成功&quot;)"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.4/social/8411ed322ced6.svg"></a></div><div class="qrcode" id="qrcode-wechat" style="visibility:hidden;height:0"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://api.qrserver.com/v1/create-qr-code/?size=256x256&data=https://blog.imc.re/RSSBOX/rss/2ac64df7.html"></div></div></section></div>
+
+</article>
+
+<div class="related-wrap reveal" id="read-next"><section class="body"><div class="item" id="prev"><div class="note">较新文章</div><a href="/RSSBOX/rss/7e82c798.html">Making Cloudflare Pages the Fastest Way to Serve Your Sites</a></div><div class="item" id="next"><div class="note">较早文章</div><a href="/RSSBOX/rss/320a9c63.html">Introducing the Cloudflare Radar Internet Quality Page</a></div></section></div>
+
+
+<div class="related-wrap reveal" id="related-posts">
+    <section class="header">
+      <div class="title cap theme">您可能感兴趣的文章</div>
+    </section>
+    <section class="body">
+    <div class="related-posts"><a class="item" href="/RSSBOX/rss/74584793.html" title="A Step-by-Step Guide to Transferring Domains to Cloudflare"><span class="title">A Step-by-Step Guide to Transferring Domains to Cloudflare</span></a><a class="item" href="/RSSBOX/rss/caa91ad8.html" title="All the Way Up to 11: Serve Brotli From Origin and Introducing Compression Rules"><span class="title">All the Way Up to 11: Serve Brotli From Origin and Introducing Compression Rules</span></a><a class="item" href="/RSSBOX/rss/7bd87fb2.html" title="Bring Your Own CA for Client Certificate Validation With API Shield"><span class="title">Bring Your Own CA for Client Certificate Validation With API Shield</span></a><a class="item" href="/RSSBOX/rss/77acea1e.html" title="Cloudflare Zaraz Supports JSONata"><span class="title">Cloudflare Zaraz Supports JSONata</span></a><a class="item" href="/RSSBOX/rss/e43023fe.html" title="Connection Errors in Asia Pacific Region on July 9, 2023"><span class="title">Connection Errors in Asia Pacific Region on July 9, 2023</span></a></div></section></div>
+
+
+
+
+
+      
+<footer class="page-footer reveal fs12"><hr><div class="sitemap"><div class="sitemap-group"><span class="fs14">文章</span><a href="/RSSBOX/categories">分类</a><a href="/RSSBOX/tags">标签</a><a href="/RSSBOX/archives">归档</a></div><div class="sitemap-group"><span class="fs14">更多</span><a href="https://blog.imc.re/">博客</a><a target="_blank" rel="noopener" href="https://imc.re/">IMC.RE</a></div></div><div class="text"><p><a href="/">@RSSBOX</a> 2023 author by <a target="_blank" rel="external nofollow noopener noreferrer" href="https://github.com/MHG-LAB/RSSBOX">MHuiG</a> powered by SummerGoro。<br><br>本博客所有文章除特别声明外，均采用 <a target="_blank" rel="external nofollow noopener noreferrer" href="https://github.com/me-shaon/GLWTPL/blob/master/translations/LICENSE_zh-CN">GLWT（Good Luck With That，祝你好运）公共许可证</a> 许可协议，转载请注明出处。</p>
+</div></footer>
+
+      <div class="float-panel mobile-only blur" style="display:none">
+  <button type="button" class="sidebar-toggle mobile" onclick="sidebar.toggle()">
+    <svg class="icon" style="width: 1em; height: 1em;vertical-align: middle;fill: currentColor;overflow: hidden;" viewbox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="15301"><path d="M566.407 808.3c26.9-0.1 49.3-20.8 51.6-47.6-1.9-27.7-23.9-49.7-51.6-51.6h-412.6c-28.2-1.4-52.6 19.5-55.5 47.6 2.3 26.8 24.6 47.5 51.6 47.6h416.5v4z m309.3-249.9c26.9-0.1 49.3-20.8 51.6-47.6-2.2-26.8-24.6-47.5-51.6-47.6h-721.9c-27.7-2.8-52.5 17.4-55.3 45.1-0.1 0.8-0.1 1.7-0.2 2.5 0.9 27.2 23.6 48.5 50.7 47.6H875.707z m-103.1-245.9c26.9-0.1 49.3-20.8 51.6-47.6-0.4-28.3-23.2-51.1-51.5-51.6h-618.9c-29.5-1.1-54.3 21.9-55.5 51.4v0.2c1.4 27.8 25.2 49.2 53 47.8 0.8 0 1.7-0.1 2.5-0.2h618.8z" p-id="15302"/><path d="M566.407 808.3c26.9-0.1 49.3-20.8 51.6-47.6-1.9-27.7-23.9-49.7-51.6-51.6h-412.6c-28.2-1.4-52.6 19.5-55.5 47.6 1.9 27.7 23.9 49.7 51.6 51.6h416.5z m309.3-249.9c26.9-0.1 49.3-20.8 51.6-47.6-2.2-26.8-24.6-47.5-51.6-47.6h-721.9c-27.7-2.8-52.5 17.4-55.3 45.1-0.1 0.8-0.1 1.7-0.2 2.5 0.9 27.2 23.6 48.5 50.7 47.6H875.707z m-103.1-245.9c26.9-0.1 49.3-20.8 51.6-47.6-0.4-28.3-23.2-51.1-51.5-51.6h-618.9c-29.5-1.1-54.3 21.9-55.5 51.4v0.2c1.4 27.8 25.2 49.2 53 47.8 0.8 0 1.7-0.1 2.5-0.2h618.8z" p-id="15303"/></svg>
+  </button>
+</div>
+
+    </div>
+  </div>
+  <div class="scripts">
+    <script type="text/javascript">
+  const stellar = {
+    // 懒加载 css https://github.com/filamentgroup/loadCSS
+    loadCSS: (href, before, media, attributes) => {
+      var doc = window.document;
+      var ss = doc.createElement("link");
+      var ref;
+      if (before) {
+        ref = before;
+      } else {
+        var refs = (doc.body || doc.getElementsByTagName("head")[0]).childNodes;
+        ref = refs[refs.length - 1];
+      }
+      var sheets = doc.styleSheets;
+      if (attributes) {
+        for (var attributeName in attributes) {
+          if (attributes.hasOwnProperty(attributeName)) {
+            ss.setAttribute(attributeName, attributes[attributeName]);
+          }
+        }
+      }
+      ss.rel = "stylesheet";
+      ss.href = href;
+      ss.media = "only x";
+      function ready(cb) {
+        if (doc.body) {
+          return cb();
+        }
+        setTimeout(function () {
+          ready(cb);
+        });
+      }
+      ready(function () {
+        ref.parentNode.insertBefore(ss, before ? ref : ref.nextSibling);
+      });
+      var onloadcssdefined = function (cb) {
+        var resolvedHref = ss.href;
+        var i = sheets.length;
+        while (i--) {
+          if (sheets[i].href === resolvedHref) {
+            return cb();
+          }
+        }
+        setTimeout(function () {
+          onloadcssdefined(cb);
+        });
+      };
+      function loadCB() {
+        if (ss.addEventListener) {
+          ss.removeEventListener("load", loadCB);
+        }
+        ss.media = media || "all";
+      }
+      if (ss.addEventListener) {
+        ss.addEventListener("load", loadCB);
+      }
+      ss.onloadcssdefined = onloadcssdefined;
+      onloadcssdefined(loadCB);
+      return ss;
+    },
+
+    // 从 butterfly 和 volantis 获得灵感
+    loadScript: (src, opt) => new Promise((resolve, reject) => {
+      var script = document.createElement('script');
+      if (src.startsWith('/')){
+        src = stellar.config.root + src.substring(1);
+      }
+      script.src = src;
+      if (opt) {
+        for (let key of Object.keys(opt)) {
+          script[key] = opt[key]
+        }
+      } else {
+        // 默认异步，如果需要同步，第二个参数传入 {} 即可
+        script.async = true
+      }
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    }),
+
+    // https://github.com/jerryc127/hexo-theme-butterfly
+    jQuery: (fn) => {
+      if (typeof jQuery === 'undefined') {
+        stellar.loadScript(stellar.plugins.jQuery).then(fn)
+      } else {
+        fn()
+      }
+    }
+  };
+  stellar.version = '1.19.0';
+  stellar.github = 'https://github.com/xaoxuu/hexo-theme-stellar/tree/1.19.0';
+  stellar.config = {
+    date_suffix: {
+      just: '刚刚',
+      min: '分钟前',
+      hour: '小时前',
+      day: '天前',
+      month: '个月前',
+    },
+    root : '/RSSBOX/',
+  };
+
+  // required plugins (only load if needs)
+  stellar.plugins = {
+    jQuery: 'https://gcore.jsdelivr.net/npm/jquery@3.6.2/dist/jquery.min.js'
+  };
+
+  if ('local_search') {
+    stellar.search = {};
+    stellar.search.service = 'local_search';
+    if (stellar.search.service == 'local_search') {
+      let service_obj = Object.assign({}, {"field":"all","path":"/search.json","content":true,"codeblock":true,"sort":"-date"});
+      stellar.search[stellar.search.service] = service_obj;
+    }
+  }
+
+  // stellar js
+  stellar.plugins.stellar = Object.assign({"sites":"/js/plugins/sites.js","friends":"/js/plugins/friends.js","ghinfo":"/js/plugins/ghinfo.js","timeline":"/js/plugins/timeline.js","linkcard":"/js/plugins/linkcard.js","fcircle":"/js/plugins/fcircle.js","weibo":"/js/plugins/weibo.js"});
+
+  stellar.plugins.marked = Object.assign("https://cdn.bootcdn.net/ajax/libs/marked/4.0.18/marked.min.js");
+  // optional plugins
+  if ('true' == 'true') {
+    stellar.plugins.lazyload = Object.assign({"enable":true,"js":"https://gcore.jsdelivr.net/npm/vanilla-lazyload@17.8.3/dist/lazyload.min.js","transition":"blur"});
+  }
+  if ('true' == 'true') {
+    stellar.plugins.swiper = Object.assign({"enable":true,"css":"https://unpkg.com/swiper@8.4.5/swiper-bundle.min.css","js":"https://unpkg.com/swiper@8.4.5/swiper-bundle.min.js"});
+  }
+  if ('' == 'true') {
+    stellar.plugins.scrollreveal = Object.assign({"enable":null,"js":"https://gcore.jsdelivr.net/npm/scrollreveal@4.0.9/dist/scrollreveal.min.js","distance":"8px","duration":500,"interval":100,"scale":1});
+  }
+  if ('true' == 'true') {
+    stellar.plugins.preload = Object.assign({"enable":true,"service":"flying_pages","instant_page":"https://gcore.jsdelivr.net/gh/volantis-x/cdn-volantis@4.1.2/js/instant_page.js","flying_pages":"https://gcore.jsdelivr.net/gh/gijo-varghese/flying-pages@2.1.2/flying-pages.min.js"});
+  }
+  if ('true' == 'true') {
+    stellar.plugins.fancybox = Object.assign({"enable":true,"js":"https://gcore.jsdelivr.net/npm/@fancyapps/ui@4.0/dist/fancybox.umd.js","css":"https://gcore.jsdelivr.net/npm/@fancyapps/ui@4.0/dist/fancybox.css","selector":".swiper-slide img"});
+  }
+  if ('false' == 'true') {
+    stellar.plugins.heti = Object.assign({"enable":false,"css":"https://unpkg.com/heti@0.9.2/umd/heti.min.css","js":"https://unpkg.com/heti@0.9.2/umd/heti-addon.min.js"});
+  }
+  if ('true' == 'true') {
+    stellar.plugins.copycode = Object.assign({"enable":true,"js":"/js/plugins/copycode.js","default_text":"Copy","success_text":"Copied"});
+  }
+</script>
+
+<!-- required -->
+
+  
+<script src="/RSSBOX/js/main.js" async></script>
+
+
+
+<!-- optional -->
+
+  <script>
+  function loadJS() {
+    const els = document.querySelectorAll("#comments #giscus");
+    if (els.length === 0) return;
+    els.forEach((el, i) => {
+      try {
+        el.innerHTML = '';
+      } catch (error) {
+        console.log(error);
+      }
+      var script = document.createElement('script');
+      script.src = 'https://giscus.app/client.js';
+      script.async = true;
+      for (let key of Object.keys(el.attributes)) {
+        let attr = el.attributes[key];
+        if (['class', 'id'].includes(attr.name) === false) {
+          script.setAttribute(attr.name, attr.value);
+        }
+      }
+      el.appendChild(script);
+    });
+  }
+  window.addEventListener('DOMContentLoaded', (event) => {
+    loadJS();
+  });
+</script>
+
+
+
+
+<!-- inject -->
+
+
+  </div>
+</body>
+</html>

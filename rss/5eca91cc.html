@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+  <meta name="generator" content="Hexo 6.3.0">
+  <meta name="hexo-theme" content="https://github.com/xaoxuu/hexo-theme-stellar/tree/1.19.0">
+  <meta charset="utf-8">
+  
+
+  <meta http-equiv="x-dns-prefetch-control" content="on">
+  <link rel="dns-prefetch" href="https://gcore.jsdelivr.net">
+  <link rel="preconnect" href="https://gcore.jsdelivr.net" crossorigin>
+  <link rel="dns-prefetch" href="//unpkg.com">
+
+  <meta name="renderer" content="webkit">
+  <meta name="force-rendering" content="webkit">
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+  <meta name="HandheldFriendly" content="True">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="theme-color" content="#f8f8f8">
+  
+  <title>Accessibility Considerations Behind Code Search and Code View - RSSBOX</title>
+
+  
+    <meta name="description" content="GitHub prides itself on being the home for all developers, including developers with disabilities. Accessibility is a core priority for all new projects at GitHub, so it was top of mind when we start">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Accessibility Considerations Behind Code Search and Code View">
+<meta property="og:url" content="https://blog.imc.re/RSSBOX/rss/5eca91cc.html">
+<meta property="og:site_name" content="RSSBOX">
+<meta property="og:description" content="GitHub prides itself on being the home for all developers, including developers with disabilities. Accessibility is a core priority for all new projects at GitHub, so it was top of mind when we start">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://github.blog/wp-content/uploads/2023/07/accessibility-1.png?w=1024&amp;resize=1024%2C642">
+<meta property="og:image" content="https://github.blog/wp-content/uploads/2023/07/accessibility-2.png?w=1024&amp;resize=1024%2C728">
+<meta property="article:published_time" content="2023-07-05T09:30:16.000Z">
+<meta property="article:modified_time" content="2023-07-05T09:30:16.000Z">
+<meta property="article:author" content="SMGoro">
+<meta property="article:tag" content="Blogs">
+<meta property="article:tag" content="Github">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://github.blog/wp-content/uploads/2023/07/accessibility-1.png?w=1024&amp;resize=1024%2C642">
+  
+  
+  
+  <meta name="keywords" content="Blogs,Github">
+
+  <!-- feed -->
+  
+    <link rel="alternate" href="/RSSBOX/atom.xml" title="RSSBOX" type="application/atom+xml">
+  
+
+  
+    
+<link rel="stylesheet" href="/RSSBOX/css/main.css">
+
+  
+
+  
+
+  
+
+  
+    <link rel="stylesheet" href="https://gcore.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.css" integrity="sha384-vKruj+a13U8yHIkAyGgK1J3ArTLzrFGBbBc0tDp4ad/EyewESeXE/Iv67Aj8gKZ0" crossorigin="anonymous">
+    <script defer src="https://gcore.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.js" integrity="sha384-PwRUT/YqbnEjkZO0zZxNqcxACrXe+j766U2amXcgMg5457rve2Y7I6ZJSm2A0mS4" crossorigin="anonymous"></script>
+    <script defer src="https://gcore.jsdelivr.net/npm/katex@0.16.4/dist/contrib/auto-render.min.js" integrity="sha384-+VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4+/RRE05" crossorigin="anonymous" onload="renderMathInElement(document.body);"></script>
+  
+
+
+  
+
+<!--百度统计-->
+<script>
+  var _hmt = _hmt || [];
+  (function() {
+    var hm = document.createElement("script");
+    hm.src = "https://hm.baidu.com/hm.js?f42afe3e5b76d22c8b1a8060171c7184";
+    var s = document.getElementsByTagName("script")[0]; 
+    s.parentNode.insertBefore(hm, s);
+  })();
+</script>  
+  <!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-V2NSKYGXNG"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-V2NSKYGXNG');
+</script>
+<!--Google Adsense-->
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4773172018528901" crossorigin="anonymous"></script>
+</head>
+
+<body>
+  
+
+
+
+
+  <div class="l_body" id="start">
+    <aside class="l_left" layout="post">
+    
+
+  
+
+<header class="header"><div class="logo-wrap"><a class="avatar" href="/RSSBOX/archives"><div class="bg" style="opacity:0;background-image:url(https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.4/avatar/round/rainbow64@3x.webp);"></div><img no-lazy class="avatar" src="https://cdn.jsdelivr.net/gh/SMGCDN/photos/icon/rsshub.png" onerror="javascript:this.classList.add('error');this.src='https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.4/image/2659360.svg';"></a><a class="title" href="/RSSBOX/"><div class="main" ff="title">RSSBOX</div><div class="sub normal cap">SMGoroのRSS订阅</div><div class="sub hover cap" style="opacity:0"> 一些好康的东西</div></a></div>
+
+<nav class="menu dis-select"><a class="nav-item active" href="/RSSBOX/">订阅</a><a class="nav-item" href="https://blog.imc.re/">博客</a><a class="nav-item" href="https://blog.imc.re/contact">联系</a><a class="nav-item" href="https://blog.imc.re/more">更多</a></nav>
+</header>
+
+
+<div class="widgets">
+
+<widget class="widget-wrapper toc single" id="data-toc"><div class="widget-header cap dis-select"><span class="name">Accessibility Considerations Behind Code Search and Code View</span></div><div class="widget-body fs14"><div class="doc-tree active"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#process"><span class="toc-text">Process</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#implementation-details"><span class="toc-text">Implementation details</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#code-search"><span class="toc-text">Code search</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#changing-sort-changing-focus"><span class="toc-text">Changing sort—changing focus?</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#announcing-search-results"><span class="toc-text">Announcing search results</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#tree-navigation"><span class="toc-text">Tree navigation</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#reading-and-navigating-code-by-keyboard"><span class="toc-text">Reading and navigating code by keyboard</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#always-iterating"><span class="toc-text">Always iterating</span></a></li></ol></div></div></widget>
+
+
+
+<widget class="widget-wrapper search"><div class="widget-body"><div class="search-wrapper" id="search"><form class="search-form"><input type="text" class="search-input" id="search-input" data-filter="/rss/" placeholder="文章搜索"><svg t="1670596976048" class="icon search-icon" viewbox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2676" width="200" height="200"><path d="M938.2 832.6L723.8 618.1c-2.5-2.5-5.3-4.4-7.9-6.4 36.2-55.6 57.3-121.8 57.3-193.1C773.3 222.8 614.6 64 418.7 64S64 222.8 64 418.6c0 195.9 158.8 354.6 354.6 354.6 71.3 0 137.5-21.2 193.2-57.4 2 2.7 3.9 5.4 6.3 7.8L832.5 938c14.6 14.6 33.7 21.9 52.8 21.9 19.1 0 38.2-7.3 52.8-21.8 29.2-29.1 29.2-76.4 0.1-105.5M418.7 661.3C284.9 661.3 176 552.4 176 418.6 176 284.9 284.9 176 418.7 176c133.8 0 242.6 108.9 242.6 242.7 0 133.7-108.9 242.6-242.6 242.6" p-id="2677"/></svg></form><div id="search-result"></div><div class="search-no-result">没有找到内容！</div></div></div></widget>
+
+
+
+<widget class="widget-wrapper recent"><div class="widget-header cap theme dis-select"><span class="name">最近更新</span><a class="cap-action" id="rss" title="Subscribe" href="/atom.xml"><svg class="icon" viewbox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="8938"><path d="M800.966 947.251c0-404.522-320.872-732.448-716.69-732.448V62.785c477.972 0 865.44 395.987 865.44 884.466h-148.75z m-162.273 0h-148.74c0-228.98-181.628-414.598-405.678-414.598v-152.01c306.205 0 554.418 253.68 554.418 566.608z m-446.24-221.12c59.748 0 108.189 49.503 108.189 110.557 0 61.063-48.44 110.563-108.188 110.563-59.747 0-108.18-49.5-108.18-110.563 0-61.054 48.433-110.556 108.18-110.556z" p-id="8939"/></svg></a></div><div class="widget-body related-posts fs14"><a class="item title" href="/RSSBOX/rss/2c2fbeb.html"><span class="title">七つの魔剣が支配する｜七魔剑支配天下</span></a><a class="item title" href="/RSSBOX/rss/3e937bc5.html"><span class="title">百姓貴族｜百姓贵族</span></a><a class="item title" href="/RSSBOX/rss/6b839856.html"><span class="title">シュガーアップル・フェアリーテイル(第2クール)｜银砂糖师与黑妖精 第2部分</span></a><a class="item title" href="/RSSBOX/rss/57dfaaf5.html"><span class="title">Girlhood</span></a><a class="item title" href="/RSSBOX/rss/d28c33bf.html"><span class="title">Headhunter's Eyes</span></a></div></widget>
+</div>
+<footer class="footer dis-select"><div class="social-wrap"><a class="social" href="https://github.com/SMGoro" target="_blank" rel="external nofollow noopener noreferrer"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cdn.jsdelivr.net/gh/SMGCDN/photos/icon/iconfont/social-github.svg"></a><a class="social" href="https://space.bilibili.com/359079394" target="_blank" rel="external nofollow noopener noreferrer"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cdn.jsdelivr.net/gh/SMGCDN/photos/icon/iconfont/bilibili.svg"></a><a class="social" href="https://l.imc.re/zhihu" target="_blank" rel="external nofollow noopener noreferrer"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cdn.jsdelivr.net/gh/SMGCDN/photos/icon/iconfont/zhihu.svg"></a><a class="social" href="https://l.imc.re/discord" target="_blank" rel="external nofollow noopener noreferrer"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cdn.jsdelivr.net/gh/SMGCDN/photos/icon/iconfont/discord.svg"></a><a class="social" href="https://blog.imc.re/contact" target="_blank" rel="external nofollow noopener noreferrer"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cdn.jsdelivr.net/gh/SMGCDN/photos/icon/iconfont/comments.svg"></a></div></footer>
+
+    </aside>
+    <div class="l_main">
+      
+
+      
+
+
+
+<div class="bread-nav fs12"><div id="breadcrumb"><a class="cap breadcrumb" href="/RSSBOX/">主页</a><span class="sep"></span><a class="cap breadcrumb" href="/RSSBOX/">文章</a><span class="sep"></span><a class="cap breadcrumb-link" href="/RSSBOX/categories/blogs/">Blogs</a> <span class="sep"></span> <a class="cap breadcrumb-link" href="/RSSBOX/categories/blogs/github/">Github</a></div><div id="post-meta">发布于&nbsp;<time datetime="2023-07-05T09:30:16.000Z">2023-07-05</time></div></div>
+
+<article class="md-text content post">
+<h1 class="article-title"><span>Accessibility Considerations Behind Code Search and Code View</span></h1>
+<div>
+<p>GitHub prides itself on being the home for all developers, including developers with disabilities. Accessibility is a core priority for all new projects at GitHub, so it was top of mind when we started our project to rework code search and the code view at GitHub. With the old code view, some developers preferred to look at raw code rather than code view due to accessibility barriers, and that’s what we set out to fix. This blog post will shed light on our <strong>process</strong> and <strong>three major tasks</strong> that required thoughtful design and implementation—<strong>code search and query builder</strong>, <strong>the file tree</strong>, <strong>and navigating code by keyboard</strong>.</p>
+<h2 id="process">Process<a aria-label="Process" class="heading-link pl-2 text-italic text-bold" href="#process"></a></h2>
+<p>We worked with a team of experts at GitHub dedicated to accessibility, since while we are confident in our development skills, accessibility has many nuances and requires a large depth of knowledge to get right. This team helped us immensely in three main ways:</p>
+<ol>
+<li><strong>External auditing</strong><br>
+In this project, we performed accessibility auditing on all of our features. This meant that another team of auditors reviewed our webpage with all the changes implemented to find accessibility errors. They used tools including screen readers, color contrast tools, and more, to identify areas that users with disabilities may find hard to use. Once those issues were identified, the accessibility team would take a look at those issues and suggest a proper solution to the problem. Then, it was up to us to implement the solution and collaborate with the team where we needed additional assistance.</li>
+<li><strong>Design reviews</strong><br>
+The user interface for code search and code view were both entirely redesigned to support our new goals—to allow users to search, navigate, and understand code in a way they weren’t able to before. As a part of the design process, a team of accessibility designers reviewed the Figma mockups to determine proper HTML markup and tab order. Then, they included detailed explanations of what interactions should look like in order to meet our accessibility goals.</li>
+<li><strong>Office hours</strong><br>
+The accessibility team at GitHub hosts weekly meetings where engineers can sign up and discuss how to solve problems with their features with the team and a consultant. The consultant is incredibly helpful and knowledgeable about how to properly address issues because he has lived experience with screen readers and accessibility.During these meetings, we were able to discuss complicated issues, such as the following: proper filtering for code search, making an accessible file tree, and navigating code on a keyboard, along with other issues like tab order, and focus management across the whole feature.</li>
+</ol>
+<h2 id="implementation-details">Implementation details<a aria-label="Implementation details" class="heading-link pl-2 text-italic text-bold" href="#implementation-details"></a></h2>
+<h3 id="code-search">Code search<a aria-label="Code search" class="heading-link pl-2 text-italic text-bold" href="#code-search"></a></h3>
+<p>This has been written about frequently on our blog—from one post on <a target="_blank" rel="external nofollow noopener noreferrer" href="https://github.blog/2022-12-13-creating-an-accessible-search-experience-with-the-querybuilder-component/">the details of QueryBuilder, our implementation of an accessible finder component</a> to <a target="_blank" rel="external nofollow noopener noreferrer" href="https://github.blog/2023-05-11-navigation-and-search-improvements-for-accessibility/">details about what navigating code search accessibly looks like</a>. Those two posts are great reads and I strongly recommend checking them out, but they’re not the only thing that we’ve worked on. Thanks to @<a target="_blank" rel="external nofollow noopener noreferrer" href="https://github.com/lindseywild">lindseywild</a>, @<a target="_blank" rel="external nofollow noopener noreferrer" href="https://github.com/smockle">smockle</a>, @<a target="_blank" rel="external nofollow noopener noreferrer" href="https://github.com/kendallgassner">kendallgassner</a>, @<a target="_blank" rel="external nofollow noopener noreferrer" href="https://github.com/owenniblock">owenniblock</a>, and @<a target="_blank" rel="external nofollow noopener noreferrer" href="https://github.com/khiga8">khiga8</a> for their guidance and help resolving issues with code search. This is still a work in progress, especially in areas like the filtering behavior on the search pages.</p>
+<p>Two areas that also required careful consideration were managing focus after changing the sort order of search results and how to announce the result of the search for screen reader users.</p>
+<h4 id="changing-sort-changing-focus">Changing sort—changing focus?<a aria-label="Changing sort—changing focus?" class="heading-link pl-2 text-italic text-bold" href="#changing-sort-changing-focus"></a></h4>
+<p>When we first implemented this sort dropdown for non-code search types, if you navigated to it with your keyboard and then selected a different sort option, the whole page would reload and your focus moved back to the header. Our preferred, accessible behavior is that, when a dropdown menu is closed, focus returns to the button that opened the menu. However, our problem was that the “Sort” dropdown didn’t merely perform client-side operations like most dropdowns where you select an option. In this case, once a user selects an option, we do a full page navigation to perform the new search with the sort order added. This meant that the focus was being placed back on the header by default after the page navigation, instead of returning to the sort dropdown. For sighted mouse users, this is a nonissue; for sighted keyboard users, it is unexpected and annoying; for blind users, this is confusing and makes the product hard to use. To fix this, we had to make sure we returned focus to the dropdown after reloading the page.</p>
+<p><img><img alt="Screenshot of search results. I have searched “react” and the “Repositories” filter by item is selected. There are 2.2M results, found in 1 second. The "Sort By" dropdown is open with “Best match” selected. The other options are “Most stars”, “Fewest stars”, “Most forks”, “Fewest forks”, “Recently updated”, and “Least recently updated”." class="aligncenter size-large wp-image-72901 width-fit" data-recalc-dims="1" data-src="data:image/gif;base64,R0lGODlhAQABAIAAAP///////yH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" decoding="async" height="642" loading="lazy" sizes="(max-width: 1000px) 100vw, 1000px" src="https://github.blog/wp-content/uploads/2023/07/accessibility-1.png?w=1024&amp;resize=1024%2C642" width="1024"></p>
+<h4 id="announcing-search-results">Announcing search results<a aria-label="Announcing search results" class="heading-link pl-2 text-italic text-bold" href="#announcing-search-results"></a></h4>
+<p>When a sighted user types in the search bar and presses ‘Enter’ they quickly receive feedback that the search has completed and whether or not they found any results by looking at the page. For screen reader users, though, how to give the feedback that there were results, how many, or if there was an error requires more thought. One solution could be to place focus on the first result. That has a number of problems though.</p>
+<ol>
+<li>The user will not receive feedback about the number of search results and may think there’s only one.</li>
+<li>The user may miss important context like the Single sign on banner.</li>
+<li>The user will have to tab through more elements if they want to get back.</li>
+</ol>
+<p>Another solution could be to use aria-live announcements to read out the number of results and success. This has its own problems.</p>
+<ol>
+<li>We already have an announcement on page navigation to read out the new title and these two announcements would compete or cause a race condition.</li>
+<li>There isn’t a way to programmatically force announcements to be read in order on page load.</li>
+<li>Some screen reader users have aria-live announcements turned off since they can be annoying.</li>
+</ol>
+<p>After some discussion, we decided to focus and read out the header with the number of search results after a search and allow users to explore for errors, banners, or results on their own once they know how many results they received.</p>
+<p><img><img alt="A screenshot of search results showing 0 results and an error message saying, “Invalid repository name.” I have searched “repo:asdfghijkl." The “Code” filter item is selected. There is also some help text on the page that says “Your search did not match any code. However, we found 544k packages that matched your search query. Alternatively, try one of the tips below." class="aligncenter size-large wp-image-72902 width-fit" data-recalc-dims="1" data-src="data:image/gif;base64,R0lGODlhAQABAIAAAP///////yH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" decoding="async" height="728" loading="lazy" sizes="(max-width: 1000px) 100vw, 1000px" src="https://github.blog/wp-content/uploads/2023/07/accessibility-2.png?w=1024&amp;resize=1024%2C728" width="1024"></p>
+<h3 id="tree-navigation">Tree navigation<a aria-label="Tree navigation" class="heading-link pl-2 text-italic text-bold" href="#tree-navigation"></a></h3>
+<p>We knew when redesigning the code viewing experience that we wanted to include the tree panel to allow users to quickly switch between folders or files, because understanding code often requires looking in multiple places. We started the project by making our own tree to the aria spec, but it was too verbose. To fix this, our accessibility and design teams created the <a target="_blank" rel="external nofollow noopener noreferrer" href="https://primer.style/react/TreeView">TreeView</a>, which is open source. This was implemented to support various generic list elements and use proper HTML structure to make navigating through the tree a breeze, including typeahead (the ability to type a bit and have focus move to the first matching element), proper announcements for asynchronous loading of deeply nested items, and proper IDs for all elements that are guaranteed to be unique (that is, not constructed from their contents which may be the same). The valid markup for a tree view is very specific and developing it requires careful reviews for common issues, like invalid child item types under a <code>role="group"</code> element or using nested list elements without considering screen reader support, which is unlike most TreeView implementations on the internet. For more information about the design details for the tree view, check out the <a target="_blank" rel="external nofollow noopener noreferrer" href="https://github.com/primer/design/blob/main/content/components/tree-view.mdx">markdown documentation</a>. Thanks to @<a target="_blank" rel="external nofollow noopener noreferrer" href="https://github.com/colebemis">colebemis</a>, @<a target="_blank" rel="external nofollow noopener noreferrer" href="https://github.com/mperrotti">mperrotti</a>, and @<a target="_blank" rel="external nofollow noopener noreferrer" href="https://github.com/ericwbailey">ericwbailey</a> for the work on this.</p>
+<h3 id="reading-and-navigating-code-by-keyboard">Reading and navigating code by keyboard<a aria-label="Reading and navigating code by keyboard" class="heading-link pl-2 text-italic text-bold" href="#reading-and-navigating-code-by-keyboard"></a></h3>
+<p>Before the new code view, reading code on GitHub wasn’t a great experience for screen reader users. The old experience presented code as a table—a hidden detail for sighted users but a major hurdle for screen readers, since code isn’t a table, and the semantics didn’t make sense in that context. For example, in code, whitespace has meaning. Whether stylistic or functional, that whitespace gets lost for screen reader users when the code is presented as a table. In addition, table semantics force users into line-by-line navigation, instead of character-by-character or word-by-word navigation. For many users, these hurdles meant that they mostly used GitHub just enough to be able to access the raw code or use a code editor for reading code. Since we want to support all our users, we knew we needed to totally rethink the way we structured code in the DOM.</p>
+<p>This problem became even more complicated when we introduced symbols and the symbols panel. Mouse users are able to click on a “symbol” in the code—a special code element, like a function name—to see extra details about it, including references and definitions, in the symbol panel. They can then explore the code more deeply, navigating between lines of code where that symbol is found to investigate and understand the code better. This ability to dive deep has been game changing for many developers. However, for keyboard users, it doesn’t work. At best, a keyboard user can use the “Open symbols panel” button in the code header and then filter all symbol definitions for one they are interested in, but this doesn’t allow users to access symbol references when no definitions are found in a file. In addition, this flow really isn’t the same—if we want to support all developers, then we need to offer keyboard users a way to navigate through the code and select symbols they are interested in.</p>
+<p>In addition, for many performance reasons mentioned in the post “<a target="_blank" rel="external nofollow noopener noreferrer" href="https://github.blog/2023-06-21-crafting-a-better-faster-code-view/">Crafting a better, faster code view</a>,” we introduced virtualization to the code viewer which created its own accessibility problems—not having all elements in the DOM can interfere with screen readers and overriding the <code>cmd / ctrl + f</code> shortcut is generally bad practice for screen readers as well. In addition, virtualization posed a problem for selecting text outside of the virtualization window.</p>
+<p>This is when we came up with the solution of using a cursor from a <code>&lt;textarea&gt;</code> or a <code>&lt;div&gt;</code> that has the property <code>contentEditable</code>. This solution is modeled after <a target="_blank" rel="external nofollow noopener noreferrer" href="https://microsoft.github.io/monaco-editor/">Monaco</a>, the text editor that powers VS Code. <code>&lt;textarea&gt;</code> elements, when not marked as <code>readOnly</code>, and contentEditiable<code>&lt;div&gt;</code> elements have a built in cursor that allows screen reader users to navigate code in their preferred manner using their built in screen reader settings. While a <code>contentEditiable &lt;div&gt;</code> would support syntax highlighting and the deep interactions we needed, screen readers don’t support them well<sup id="fnref-72897-1"><a class="jetpack-footnote" href="#fn-72897-1" title="Read footnote.">1</a></sup> which defeats the purpose of the cursor. As a result, we decided to go with the <code>&lt;textarea&gt;</code> However, <code>&lt;textarea&gt;</code> elements do not support syntax highlighting or deeper interactions like selecting symbols, which meant we needed to use both the <code>&lt;textarea&gt;</code> as a hidden element and syntax highlighted elements aligned perfectly above. Since we hide the text element, we need to add a visual “fake” cursor to show and keep it in sync with the “real” <code>&lt;textarea&gt;</code> cursor.</p>
+<p>While the <code>&lt;textarea&gt;</code> and cursor help with our goals of allowing screen reader users and keyboard users to navigate code and symbols easily, they also ended up helping us with some of the problems we had run into with virtualization. One example of this was the <code>cmd + f</code> problem that we talk about more in depth in the blog post here. Another problem this solved was the drag and select behavior (or select all) for long files. Since the <code>&lt;textarea&gt;</code> is just one DOM node, we are able to load the whole file contents and select the contents directly from the <code>&lt;textarea&gt;</code> instead of the virtualized syntax highlighted version.</p>
+<p>Unfortunately, while the <code>&lt;textarea&gt;</code> solved many problems we had, it also introduced a few other tricky ones. Since we have two layers of text, one hidden unless selected and one visual, we need to make sure that the scroll states are aligned. To do this, we have written observers to watch when one scrolls and mimic the scroll on the other. In addition, we often need to override the default <code>&lt;textarea&gt;</code> behaviors for some events—such as the middle click on mouse which was taking users all the way to the bottom of the code. Along with that issue, different browsers handle <code>&lt;textarea&gt;</code>s differently and making sure our solution behaves properly on all browsers has proven to be time intensive to say the least. In addition, we found that some browsers, like Firefox, allow users to customize their font size using Text zoom, which would apply to the formatted text but not the <code>&lt;textarea&gt;</code>. This led to “ghost text” issues with selection. We were able to resolve that by measuring the height of the text that is rendered and passing that to the <code>&lt;textarea&gt;</code>, though there are still some issues with certain plugins that modify text. We are still working to resolve these specific issues as well. In addition, the <code>&lt;textarea&gt;</code> currently does not work with our <code>Wrap lines</code> view option, which we are working to fix. Thanks especially to @<a target="_blank" rel="external nofollow noopener noreferrer" href="https://github.com/JoyceZhu">joycezhu</a>, @<a target="_blank" rel="external nofollow noopener noreferrer" href="https://github.com/andrialexandrou">andrialexandrou</a>, @<a target="_blank" rel="external nofollow noopener noreferrer" href="https://github.com/AdamShwert">adamshwert</a>, and @<a target="_blank" rel="external nofollow noopener noreferrer" href="https://github.com/jbrown1618">jbrown1618</a> who put in a ton of work here.</p>
+<h2 id="always-iterating">Always iterating<a aria-label="Always iterating" class="heading-link pl-2 text-italic text-bold" href="#always-iterating"></a></h2>
+<p>We have taken huge strides to improve accessibility for all developers, but we recognize that we aren’t all the way there. It can be challenging to accommodate all developers, but we are committed to improving and iterating on what we have until we get it right. We want our tools to support everyone to access and explore code. We still have work—a lot of work—to do across GitHub, but we are excited for this journey.</p>
+<p>To learn more about accessibility at GitHub, go to <a target="_blank" rel="external nofollow noopener noreferrer" href="https://accessibility.github.com/">accessibility.github.com</a>.</p>
+<div class="footnotes">
+<hr>
+<ol>
+<li id="fn-72897-1">
+For more information about <code>contentEditable</code> and screen readers, see <a target="_blank" rel="external nofollow noopener noreferrer" href="https://quip.com/blog/quip-editor-a11y">this article</a> written by @joycezhu from our Accessibility Engineering team. <a href="#fnref-72897-1" title="Return to main content.">↩</a>
+</li>
+</ol>
+</div>
+
+</div>
+
+<div>
+<div class="tag-plugin link dis-select"><a class="link-card plain" title="Accessibility considerations behind code search and code view" href="https://github.blog/2023-07-06-accessibility-considerations-behind-code-search-and-code-view/" target="_blank" rel="external nofollow noopener noreferrer" cardlink autofill="icon"><div class="left"><span class="title">Accessibility considerations behind code search and code view</span><span class="cap link fs12">https://github.blog/2023-07-06-accessibility-considerations-behind-code-search-and-code-view/</span></div><div class="right"><div class="lazy img" data-bg="https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.4/link/8f277b4ee0ecd.svg"></div></div></a></div>
+</div>
+
+
+
+
+<div class="article-footer reveal fs14"><section id="license"><div class="header"><span>许可协议</span></div><div class="body"><p>本文采用 <a target="_blank" rel="external nofollow noopener noreferrer" href="https://github.com/me-shaon/GLWTPL/blob/master/translations/LICENSE_zh-CN">GLWT（Good Luck With That，祝你好运）公共许可证</a> 许可协议，转载请注明出处。</p>
+</div></section><section id="share"><div class="header"><span>分享文章</span></div><div class="body"><div class="link"><input class="copy-area" readonly="true" id="copy-link" value="https://blog.imc.re/RSSBOX/rss/5eca91cc.html"></div><div class="social-wrap dis-select"><a class="social share-item wechat" onclick="util.toggle(&quot;qrcode-wechat&quot)"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.4/social/b32ef3da1162a.svg"></a><a class="social share-item weibo" target="_blank" rel="external nofollow noopener noreferrer" href="https://service.weibo.com/share/share.php?url=https://blog.imc.re/RSSBOX/rss/5eca91cc.html&title=Accessibility Considerations Behind Code Search and Code View - RSSBOX&pics=https://github.blog/wp-content/uploads/2023/07/accessibility-1.png?w=1024&resize=1024%2C642&summary=
+GitHub prides itself on being the home for all developers, including developers with disabilities. Accessibility is ..."><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.4/social/80c07e4dbb303.svg"></a><a class="social share-item email" href="mailto:?subject=Accessibility Considerations Behind Code Search and Code View - RSSBOX&amp;body=https://blog.imc.re/RSSBOX/rss/5eca91cc.html"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.4/social/a1b00e20f425d.svg"></a><a class="social share-item link" onclick="util.copy(&quot;copy-link&quot;, &quot;复制成功&quot;)"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.4/social/8411ed322ced6.svg"></a></div><div class="qrcode" id="qrcode-wechat" style="visibility:hidden;height:0"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://api.qrserver.com/v1/create-qr-code/?size=256x256&data=https://blog.imc.re/RSSBOX/rss/5eca91cc.html"></div></div></section></div>
+
+</article>
+
+<div class="related-wrap reveal" id="read-next"><section class="body"><div class="item" id="prev"><div class="note">较新文章</div><a href="/RSSBOX/rss/be651828.html">直到光將我們分開</a></div><div class="item" id="next"><div class="note">较早文章</div><a href="/RSSBOX/rss/389686b6.html">A Map of the Observable Universe</a></div></section></div>
+
+
+<div class="related-wrap reveal" id="related-posts">
+    <section class="header">
+      <div class="title cap theme">您可能感兴趣的文章</div>
+    </section>
+    <section class="body">
+    <div class="related-posts"><a class="item" href="/RSSBOX/rss/8f6843fe.html" title="(De)coding Conventions"><span class="title">(De)coding Conventions</span></a><a class="item" href="/RSSBOX/rss/257d1cd2.html" title="Demonstrating End-to-End Traceability With Pull Requests"><span class="title">Demonstrating End-to-End Traceability With Pull Requests</span></a><a class="item" href="/RSSBOX/rss/64ca8782.html" title="GitHub Availability Report: June 2023"><span class="title">GitHub Availability Report: June 2023</span></a><a class="item" href="/RSSBOX/rss/d1163c4.html" title="GitHub CLI Project Command Is Now Generally Available!"><span class="title">GitHub CLI Project Command Is Now Generally Available!</span></a><a class="item" href="/RSSBOX/rss/76949f5f.html" title="GitHub Merge Queue Is Generally Available"><span class="title">GitHub Merge Queue Is Generally Available</span></a></div></section></div>
+
+
+
+
+
+      
+<footer class="page-footer reveal fs12"><hr><div class="sitemap"><div class="sitemap-group"><span class="fs14">文章</span><a href="/RSSBOX/categories">分类</a><a href="/RSSBOX/tags">标签</a><a href="/RSSBOX/archives">归档</a></div><div class="sitemap-group"><span class="fs14">更多</span><a href="https://blog.imc.re/">博客</a><a target="_blank" rel="noopener" href="https://imc.re/">IMC.RE</a></div></div><div class="text"><p><a href="/">@RSSBOX</a> 2023 author by <a target="_blank" rel="external nofollow noopener noreferrer" href="https://github.com/MHG-LAB/RSSBOX">MHuiG</a> powered by SummerGoro。<br><br>本博客所有文章除特别声明外，均采用 <a target="_blank" rel="external nofollow noopener noreferrer" href="https://github.com/me-shaon/GLWTPL/blob/master/translations/LICENSE_zh-CN">GLWT（Good Luck With That，祝你好运）公共许可证</a> 许可协议，转载请注明出处。</p>
+</div></footer>
+
+      <div class="float-panel mobile-only blur" style="display:none">
+  <button type="button" class="sidebar-toggle mobile" onclick="sidebar.toggle()">
+    <svg class="icon" style="width: 1em; height: 1em;vertical-align: middle;fill: currentColor;overflow: hidden;" viewbox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="15301"><path d="M566.407 808.3c26.9-0.1 49.3-20.8 51.6-47.6-1.9-27.7-23.9-49.7-51.6-51.6h-412.6c-28.2-1.4-52.6 19.5-55.5 47.6 2.3 26.8 24.6 47.5 51.6 47.6h416.5v4z m309.3-249.9c26.9-0.1 49.3-20.8 51.6-47.6-2.2-26.8-24.6-47.5-51.6-47.6h-721.9c-27.7-2.8-52.5 17.4-55.3 45.1-0.1 0.8-0.1 1.7-0.2 2.5 0.9 27.2 23.6 48.5 50.7 47.6H875.707z m-103.1-245.9c26.9-0.1 49.3-20.8 51.6-47.6-0.4-28.3-23.2-51.1-51.5-51.6h-618.9c-29.5-1.1-54.3 21.9-55.5 51.4v0.2c1.4 27.8 25.2 49.2 53 47.8 0.8 0 1.7-0.1 2.5-0.2h618.8z" p-id="15302"/><path d="M566.407 808.3c26.9-0.1 49.3-20.8 51.6-47.6-1.9-27.7-23.9-49.7-51.6-51.6h-412.6c-28.2-1.4-52.6 19.5-55.5 47.6 1.9 27.7 23.9 49.7 51.6 51.6h416.5z m309.3-249.9c26.9-0.1 49.3-20.8 51.6-47.6-2.2-26.8-24.6-47.5-51.6-47.6h-721.9c-27.7-2.8-52.5 17.4-55.3 45.1-0.1 0.8-0.1 1.7-0.2 2.5 0.9 27.2 23.6 48.5 50.7 47.6H875.707z m-103.1-245.9c26.9-0.1 49.3-20.8 51.6-47.6-0.4-28.3-23.2-51.1-51.5-51.6h-618.9c-29.5-1.1-54.3 21.9-55.5 51.4v0.2c1.4 27.8 25.2 49.2 53 47.8 0.8 0 1.7-0.1 2.5-0.2h618.8z" p-id="15303"/></svg>
+  </button>
+</div>
+
+    </div>
+  </div>
+  <div class="scripts">
+    <script type="text/javascript">
+  const stellar = {
+    // 懒加载 css https://github.com/filamentgroup/loadCSS
+    loadCSS: (href, before, media, attributes) => {
+      var doc = window.document;
+      var ss = doc.createElement("link");
+      var ref;
+      if (before) {
+        ref = before;
+      } else {
+        var refs = (doc.body || doc.getElementsByTagName("head")[0]).childNodes;
+        ref = refs[refs.length - 1];
+      }
+      var sheets = doc.styleSheets;
+      if (attributes) {
+        for (var attributeName in attributes) {
+          if (attributes.hasOwnProperty(attributeName)) {
+            ss.setAttribute(attributeName, attributes[attributeName]);
+          }
+        }
+      }
+      ss.rel = "stylesheet";
+      ss.href = href;
+      ss.media = "only x";
+      function ready(cb) {
+        if (doc.body) {
+          return cb();
+        }
+        setTimeout(function () {
+          ready(cb);
+        });
+      }
+      ready(function () {
+        ref.parentNode.insertBefore(ss, before ? ref : ref.nextSibling);
+      });
+      var onloadcssdefined = function (cb) {
+        var resolvedHref = ss.href;
+        var i = sheets.length;
+        while (i--) {
+          if (sheets[i].href === resolvedHref) {
+            return cb();
+          }
+        }
+        setTimeout(function () {
+          onloadcssdefined(cb);
+        });
+      };
+      function loadCB() {
+        if (ss.addEventListener) {
+          ss.removeEventListener("load", loadCB);
+        }
+        ss.media = media || "all";
+      }
+      if (ss.addEventListener) {
+        ss.addEventListener("load", loadCB);
+      }
+      ss.onloadcssdefined = onloadcssdefined;
+      onloadcssdefined(loadCB);
+      return ss;
+    },
+
+    // 从 butterfly 和 volantis 获得灵感
+    loadScript: (src, opt) => new Promise((resolve, reject) => {
+      var script = document.createElement('script');
+      if (src.startsWith('/')){
+        src = stellar.config.root + src.substring(1);
+      }
+      script.src = src;
+      if (opt) {
+        for (let key of Object.keys(opt)) {
+          script[key] = opt[key]
+        }
+      } else {
+        // 默认异步，如果需要同步，第二个参数传入 {} 即可
+        script.async = true
+      }
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    }),
+
+    // https://github.com/jerryc127/hexo-theme-butterfly
+    jQuery: (fn) => {
+      if (typeof jQuery === 'undefined') {
+        stellar.loadScript(stellar.plugins.jQuery).then(fn)
+      } else {
+        fn()
+      }
+    }
+  };
+  stellar.version = '1.19.0';
+  stellar.github = 'https://github.com/xaoxuu/hexo-theme-stellar/tree/1.19.0';
+  stellar.config = {
+    date_suffix: {
+      just: '刚刚',
+      min: '分钟前',
+      hour: '小时前',
+      day: '天前',
+      month: '个月前',
+    },
+    root : '/RSSBOX/',
+  };
+
+  // required plugins (only load if needs)
+  stellar.plugins = {
+    jQuery: 'https://gcore.jsdelivr.net/npm/jquery@3.6.2/dist/jquery.min.js'
+  };
+
+  if ('local_search') {
+    stellar.search = {};
+    stellar.search.service = 'local_search';
+    if (stellar.search.service == 'local_search') {
+      let service_obj = Object.assign({}, {"field":"all","path":"/search.json","content":true,"codeblock":true,"sort":"-date"});
+      stellar.search[stellar.search.service] = service_obj;
+    }
+  }
+
+  // stellar js
+  stellar.plugins.stellar = Object.assign({"sites":"/js/plugins/sites.js","friends":"/js/plugins/friends.js","ghinfo":"/js/plugins/ghinfo.js","timeline":"/js/plugins/timeline.js","linkcard":"/js/plugins/linkcard.js","fcircle":"/js/plugins/fcircle.js","weibo":"/js/plugins/weibo.js"});
+
+  stellar.plugins.marked = Object.assign("https://cdn.bootcdn.net/ajax/libs/marked/4.0.18/marked.min.js");
+  // optional plugins
+  if ('true' == 'true') {
+    stellar.plugins.lazyload = Object.assign({"enable":true,"js":"https://gcore.jsdelivr.net/npm/vanilla-lazyload@17.8.3/dist/lazyload.min.js","transition":"blur"});
+  }
+  if ('true' == 'true') {
+    stellar.plugins.swiper = Object.assign({"enable":true,"css":"https://unpkg.com/swiper@8.4.5/swiper-bundle.min.css","js":"https://unpkg.com/swiper@8.4.5/swiper-bundle.min.js"});
+  }
+  if ('' == 'true') {
+    stellar.plugins.scrollreveal = Object.assign({"enable":null,"js":"https://gcore.jsdelivr.net/npm/scrollreveal@4.0.9/dist/scrollreveal.min.js","distance":"8px","duration":500,"interval":100,"scale":1});
+  }
+  if ('true' == 'true') {
+    stellar.plugins.preload = Object.assign({"enable":true,"service":"flying_pages","instant_page":"https://gcore.jsdelivr.net/gh/volantis-x/cdn-volantis@4.1.2/js/instant_page.js","flying_pages":"https://gcore.jsdelivr.net/gh/gijo-varghese/flying-pages@2.1.2/flying-pages.min.js"});
+  }
+  if ('true' == 'true') {
+    stellar.plugins.fancybox = Object.assign({"enable":true,"js":"https://gcore.jsdelivr.net/npm/@fancyapps/ui@4.0/dist/fancybox.umd.js","css":"https://gcore.jsdelivr.net/npm/@fancyapps/ui@4.0/dist/fancybox.css","selector":".swiper-slide img"});
+  }
+  if ('false' == 'true') {
+    stellar.plugins.heti = Object.assign({"enable":false,"css":"https://unpkg.com/heti@0.9.2/umd/heti.min.css","js":"https://unpkg.com/heti@0.9.2/umd/heti-addon.min.js"});
+  }
+  if ('true' == 'true') {
+    stellar.plugins.copycode = Object.assign({"enable":true,"js":"/js/plugins/copycode.js","default_text":"Copy","success_text":"Copied"});
+  }
+</script>
+
+<!-- required -->
+
+  
+<script src="/RSSBOX/js/main.js" async></script>
+
+
+
+<!-- optional -->
+
+  <script>
+  function loadJS() {
+    const els = document.querySelectorAll("#comments #giscus");
+    if (els.length === 0) return;
+    els.forEach((el, i) => {
+      try {
+        el.innerHTML = '';
+      } catch (error) {
+        console.log(error);
+      }
+      var script = document.createElement('script');
+      script.src = 'https://giscus.app/client.js';
+      script.async = true;
+      for (let key of Object.keys(el.attributes)) {
+        let attr = el.attributes[key];
+        if (['class', 'id'].includes(attr.name) === false) {
+          script.setAttribute(attr.name, attr.value);
+        }
+      }
+      el.appendChild(script);
+    });
+  }
+  window.addEventListener('DOMContentLoaded', (event) => {
+    loadJS();
+  });
+</script>
+
+
+
+
+<!-- inject -->
+
+
+  </div>
+</body>
+</html>

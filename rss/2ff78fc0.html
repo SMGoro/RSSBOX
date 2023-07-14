@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+  <meta name="generator" content="Hexo 6.3.0">
+  <meta name="hexo-theme" content="https://github.com/xaoxuu/hexo-theme-stellar/tree/1.19.0">
+  <meta charset="utf-8">
+  
+
+  <meta http-equiv="x-dns-prefetch-control" content="on">
+  <link rel="dns-prefetch" href="https://gcore.jsdelivr.net">
+  <link rel="preconnect" href="https://gcore.jsdelivr.net" crossorigin>
+  <link rel="dns-prefetch" href="//unpkg.com">
+
+  <meta name="renderer" content="webkit">
+  <meta name="force-rendering" content="webkit">
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+  <meta name="HandheldFriendly" content="True">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="theme-color" content="#f8f8f8">
+  
+  <title>关于瓦片式地图的随机迷宫生成机制探索 - RSSBOX</title>
+
+  
+    <meta name="description" content="前言：上周末和同组的朋友们一起参加了CiGA Game Jam 2023的活动，以TOUCH为主题制作了一款类似《魔塔》的冒险小游戏，除了一套简单的元素交互系统之外，游戏里的一大重点是自动化的随机地图生成算法，它保证了每一局游戏的地图都是独特的。本文就是来探讨这个比赛项目中的随机地图生成算法机制的。正文 地图是游戏中非常重要的一个组成部分，它有许多不同的类型和设计方法，地图设计的好坏往往直接影">
+<meta property="og:type" content="article">
+<meta property="og:title" content="关于瓦片式地图的随机迷宫生成机制探索">
+<meta property="og:url" content="https://blog.imc.re/RSSBOX/rss/2ff78fc0.html">
+<meta property="og:site_name" content="RSSBOX">
+<meta property="og:description" content="前言：上周末和同组的朋友们一起参加了CiGA Game Jam 2023的活动，以TOUCH为主题制作了一款类似《魔塔》的冒险小游戏，除了一套简单的元素交互系统之外，游戏里的一大重点是自动化的随机地图生成算法，它保证了每一局游戏的地图都是独特的。本文就是来探讨这个比赛项目中的随机地图生成算法机制的。正文 地图是游戏中非常重要的一个组成部分，它有许多不同的类型和设计方法，地图设计的好坏往往直接影">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://image.gcores.com/fcc2114d96517c843a2f634ea2a7db0d-1080-506.png?x-oss-process=image/resize,limit_1,m_fill,w_626,h_292/quality,q_90">
+<meta property="article:published_time" content="2023-07-13T14:15:17.000Z">
+<meta property="article:modified_time" content="2023-07-13T14:15:17.000Z">
+<meta property="article:author" content="SMGoro">
+<meta property="article:tag" content="ACG">
+<meta property="article:tag" content="Gcores">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://image.gcores.com/fcc2114d96517c843a2f634ea2a7db0d-1080-506.png?x-oss-process=image/resize,limit_1,m_fill,w_626,h_292/quality,q_90">
+  
+  
+  
+  <meta name="keywords" content="ACG,Gcores">
+
+  <!-- feed -->
+  
+    <link rel="alternate" href="/RSSBOX/atom.xml" title="RSSBOX" type="application/atom+xml">
+  
+
+  
+    
+<link rel="stylesheet" href="/RSSBOX/css/main.css">
+
+  
+
+  
+
+  
+
+  
+    <link rel="stylesheet" href="https://gcore.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.css" integrity="sha384-vKruj+a13U8yHIkAyGgK1J3ArTLzrFGBbBc0tDp4ad/EyewESeXE/Iv67Aj8gKZ0" crossorigin="anonymous">
+    <script defer src="https://gcore.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.js" integrity="sha384-PwRUT/YqbnEjkZO0zZxNqcxACrXe+j766U2amXcgMg5457rve2Y7I6ZJSm2A0mS4" crossorigin="anonymous"></script>
+    <script defer src="https://gcore.jsdelivr.net/npm/katex@0.16.4/dist/contrib/auto-render.min.js" integrity="sha384-+VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4+/RRE05" crossorigin="anonymous" onload="renderMathInElement(document.body);"></script>
+  
+
+
+  
+
+<!--百度统计-->
+<script>
+  var _hmt = _hmt || [];
+  (function() {
+    var hm = document.createElement("script");
+    hm.src = "https://hm.baidu.com/hm.js?f42afe3e5b76d22c8b1a8060171c7184";
+    var s = document.getElementsByTagName("script")[0]; 
+    s.parentNode.insertBefore(hm, s);
+  })();
+</script>  
+  <!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-V2NSKYGXNG"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-V2NSKYGXNG');
+</script>
+<!--Google Adsense-->
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4773172018528901" crossorigin="anonymous"></script>
+</head>
+
+<body>
+  
+
+
+
+
+  <div class="l_body" id="start">
+    <aside class="l_left" layout="post">
+    
+
+  
+
+<header class="header"><div class="logo-wrap"><a class="avatar" href="/RSSBOX/archives"><div class="bg" style="opacity:0;background-image:url(https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.4/avatar/round/rainbow64@3x.webp);"></div><img no-lazy class="avatar" src="https://cdn.jsdelivr.net/gh/SMGCDN/photos/icon/rsshub.png" onerror="javascript:this.classList.add('error');this.src='https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.4/image/2659360.svg';"></a><a class="title" href="/RSSBOX/"><div class="main" ff="title">RSSBOX</div><div class="sub normal cap">SMGoroのRSS订阅</div><div class="sub hover cap" style="opacity:0"> 一些好康的东西</div></a></div>
+
+<nav class="menu dis-select"><a class="nav-item active" href="/RSSBOX/">订阅</a><a class="nav-item" href="https://blog.imc.re/">博客</a><a class="nav-item" href="https://blog.imc.re/contact">联系</a><a class="nav-item" href="https://blog.imc.re/more">更多</a></nav>
+</header>
+
+
+<div class="widgets">
+
+<widget class="widget-wrapper toc single" id="data-toc"><div class="widget-header cap dis-select"><span class="name">关于瓦片式地图的随机迷宫生成机制探索</span></div><div class="widget-body fs14"><div class="doc-tree active"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-text">正文 </span></a></li></ol></div></div></widget>
+
+
+
+<widget class="widget-wrapper search"><div class="widget-body"><div class="search-wrapper" id="search"><form class="search-form"><input type="text" class="search-input" id="search-input" data-filter="/rss/" placeholder="文章搜索"><svg t="1670596976048" class="icon search-icon" viewbox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2676" width="200" height="200"><path d="M938.2 832.6L723.8 618.1c-2.5-2.5-5.3-4.4-7.9-6.4 36.2-55.6 57.3-121.8 57.3-193.1C773.3 222.8 614.6 64 418.7 64S64 222.8 64 418.6c0 195.9 158.8 354.6 354.6 354.6 71.3 0 137.5-21.2 193.2-57.4 2 2.7 3.9 5.4 6.3 7.8L832.5 938c14.6 14.6 33.7 21.9 52.8 21.9 19.1 0 38.2-7.3 52.8-21.8 29.2-29.1 29.2-76.4 0.1-105.5M418.7 661.3C284.9 661.3 176 552.4 176 418.6 176 284.9 284.9 176 418.7 176c133.8 0 242.6 108.9 242.6 242.7 0 133.7-108.9 242.6-242.6 242.6" p-id="2677"/></svg></form><div id="search-result"></div><div class="search-no-result">没有找到内容！</div></div></div></widget>
+
+
+
+<widget class="widget-wrapper recent"><div class="widget-header cap theme dis-select"><span class="name">最近更新</span><a class="cap-action" id="rss" title="Subscribe" href="/atom.xml"><svg class="icon" viewbox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="8938"><path d="M800.966 947.251c0-404.522-320.872-732.448-716.69-732.448V62.785c477.972 0 865.44 395.987 865.44 884.466h-148.75z m-162.273 0h-148.74c0-228.98-181.628-414.598-405.678-414.598v-152.01c306.205 0 554.418 253.68 554.418 566.608z m-446.24-221.12c59.748 0 108.189 49.503 108.189 110.557 0 61.063-48.44 110.563-108.188 110.563-59.747 0-108.18-49.5-108.18-110.563 0-61.054 48.433-110.556 108.18-110.556z" p-id="8939"/></svg></a></div><div class="widget-body related-posts fs14"><a class="item title" href="/RSSBOX/rss/2c2fbeb.html"><span class="title">七つの魔剣が支配する｜七魔剑支配天下</span></a><a class="item title" href="/RSSBOX/rss/3e937bc5.html"><span class="title">百姓貴族｜百姓贵族</span></a><a class="item title" href="/RSSBOX/rss/6b839856.html"><span class="title">シュガーアップル・フェアリーテイル(第2クール)｜银砂糖师与黑妖精 第2部分</span></a><a class="item title" href="/RSSBOX/rss/57dfaaf5.html"><span class="title">Girlhood</span></a><a class="item title" href="/RSSBOX/rss/d28c33bf.html"><span class="title">Headhunter's Eyes</span></a></div></widget>
+</div>
+<footer class="footer dis-select"><div class="social-wrap"><a class="social" href="https://github.com/SMGoro" target="_blank" rel="external nofollow noopener noreferrer"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cdn.jsdelivr.net/gh/SMGCDN/photos/icon/iconfont/social-github.svg"></a><a class="social" href="https://space.bilibili.com/359079394" target="_blank" rel="external nofollow noopener noreferrer"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cdn.jsdelivr.net/gh/SMGCDN/photos/icon/iconfont/bilibili.svg"></a><a class="social" href="https://l.imc.re/zhihu" target="_blank" rel="external nofollow noopener noreferrer"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cdn.jsdelivr.net/gh/SMGCDN/photos/icon/iconfont/zhihu.svg"></a><a class="social" href="https://l.imc.re/discord" target="_blank" rel="external nofollow noopener noreferrer"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cdn.jsdelivr.net/gh/SMGCDN/photos/icon/iconfont/discord.svg"></a><a class="social" href="https://blog.imc.re/contact" target="_blank" rel="external nofollow noopener noreferrer"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cdn.jsdelivr.net/gh/SMGCDN/photos/icon/iconfont/comments.svg"></a></div></footer>
+
+    </aside>
+    <div class="l_main">
+      
+
+      
+
+
+
+<div class="bread-nav fs12"><div id="breadcrumb"><a class="cap breadcrumb" href="/RSSBOX/">主页</a><span class="sep"></span><a class="cap breadcrumb" href="/RSSBOX/">文章</a><span class="sep"></span><a class="cap breadcrumb-link" href="/RSSBOX/categories/acg/">ACG</a> <span class="sep"></span> <a class="cap breadcrumb-link" href="/RSSBOX/categories/acg/gcores/">Gcores</a></div><div id="post-meta">发布于&nbsp;<time datetime="2023-07-13T14:15:17.000Z">2023-07-13</time></div></div>
+
+<article class="md-text content post">
+<h1 class="article-title"><span>关于瓦片式地图的随机迷宫生成机制探索</span></h1>
+<div>
+
+<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://image.gcores.com/fcc2114d96517c843a2f634ea2a7db0d-1080-506.png?x-oss-process=image/resize,limit_1,m_fill,w_626,h_292/quality,q_90"></p><p>前言：上周末和同组的朋友们一起参加了CiGA Game Jam 2023的活动，以TOUCH为主题制作了一款类似《魔塔》的冒险小游戏，除了一套简单的元素交互系统之外，游戏里的一大重点是自动化的随机地图生成算法，它保证了每一局游戏的地图都是独特的。</p><p>本文就是来探讨这个比赛项目中的随机地图生成算法机制的。</p><h1>正文 </h1><p>地图是游戏中非常重要的一个组成部分，它有许多不同的类型和设计方法，地图设计的好坏往往直接影响着玩家的游戏体验。</p><p>而无论是哪种地图设计方法，其本质都离不开数学概念中的“图”，即一类用于表示多个节点间连接关系的数据结构描述，以及由此派生出的许多算法。</p><p>即便是现在的各种3A大作，第一人称射击，动作角色扮演，开放世界等等类型的游戏，它们的地图设计从抽象层面上来说，依然是最简单的图结构，无非就是图中的节点包含的内容更丰富，连接更复杂多变罢了。</p><p>撇开这些高端的地图不谈，仅就传统的2D游戏而言，它们的地图机制和设计方案相对来说是比较有限的，可以是预先画好的一整张大地图，也可以是大小地图结合，通过类似“进入地图点”的方式衔接。</p><p>而当地图的构成方式被限定在“瓦片式地图”这个狭窄的范围内之后，地图的设计方法也变得相对确定起来。</p><p>第一类别自然是最常见的一种，即手工设计地图，通过编辑器转化为数据保存下来，并在游戏中读取展示。</p><p>这种做法好处很多，地图设计感强，可玩性和地图机制的平衡性可以设计的很好，也基本不会出现地图BUG。</p><p>但缺点也很明显，投入工时多，内容固定，反复游玩时无法提供新鲜感。</p><p>与之相对的就是第二类别，算法自动生成地图，这种做法的好处和缺点与第一类正好相反，它的设计感不好做，可玩性和机制平衡性也难以设计，地图BUG可能出现。</p><p>好处则是实时生成，随机性强，新鲜感消退较慢。</p><p>由此可以看出，算法生成地图这种方案更适合一部分开放世界或者RogueLike游戏。</p><p>基于瓦片式地图的生成算法有好几种，比如洞穴生成算法，迷宫生成算法和房间地图生成算法等，而接下来要介绍和讨论的是一种结合了迷宫生成和房间铺设两种机制的算法，用它能够生成一些同时具备多个房间和迷宫走廊的地图结构，很适用于RogueLike游戏。</p><p>该算法来自于文章<a target="_blank" rel="external nofollow noopener noreferrer" href="http://journal.stuffwithstuff.com/2014/12/21/rooms-and-mazes/">《Rooms and Mazes: A Procedural Dungeon Generator》</a></p><p>它的基本思路就是按如下步骤生成迷宫地图：</p><ol><p></p>
+<li>选取房间</li>
+<li>在房间外生成迷宫</li>
+<li>用门连接所有迷宫走廊和房间</li>
+<li>去除所有死胡同，留下单一的通路</li>
+</ol><p>对于第一步的“选取房间”，原作者采用了一个非常简单粗暴的方式，即随机选择房间的大小和位置若干次，如果随机出来的房间和其它已经选择好的房间没有重叠则将其选择出来，否则抛弃掉再来一次。</p><p>运行了一定次数的循环后便可以得到随机房间的分布。</p><p>这当然是一种略显低效的做法，而且结果并不稳定，想要对其进行优化改造的话，可以参考另一篇文章<a target="_blank" rel="external nofollow noopener noreferrer" href="https://www.gamedeveloper.com/programming/procedural-dungeon-generation-algorithm">《Procedural Dungeon Generation Algorithm》</a></p><p>这篇文章里提到了一种有些“特别”的房间生成算法，不同于常见的圆内随机取点加验证的方法，这种特别的生成方法借助了游戏引擎的物理系统的一些特性，它的操作方法大概描述如下：</p><ol>
+<li>通过圆内取点的方式随机生成一些房间，并且暂时不考虑它们相互重叠的问题。</li>
+<li>给每个房间加上刚体和碰撞器</li>
+<li>运行物理系统，此时这些房间会因为相互排斥而分离开来</li>
+<li>在没有房间继续受到排斥后记录所有房间的当前位置即可</li>
+</ol><p>不得不说这一方案非常巧妙，但同时它的可实施性也确实不太高，尤其是在多线程快速生成地图的时候。</p><p>一个替代方案自然是手动模拟这个物理运算过程，比如采用AABB包围框算法不停遍历所有被选出来的房间并改变其坐标位置，直至所有房间都不再重叠为止。</p><p>至于在实际使用中如何选择，那就得看具体需求了。</p><p>有了生成好的房间，下一步就是在房间之外生成迷宫，由于这里并非是要生成真正意义上的迷宫，而是需要生成一些“通道走廊”来填充房间之外的区域，因此并没有采用一些经典的迷宫生成算法，而是采取了暴力开路的方式。</p><p>即遍历整个地图“内部”（也就是留出最外圈作为外墙）的每一个地块，如果发现它既不属于某个房间，也没有被打开，则从它开始选取任意方向“开路前进”，直至遇到房间墙壁或者地图外圈才转弯。</p><p>为了增加生成算法的多样性，在这个过程中加入一个随机“拐弯”的概率，即使没有遇到房间墙壁或者外圈，也会有一定概率发生拐弯。</p><p>到这里为止，地图里已经有了房间和房间外的“迷宫”，但这些区域都没有被连接到一起，因此下一步便是寻找可以用于连接的地块，将它们修改为“门”即可。</p><p>这一步算法的核心要点在于“分区”的概念，即将不同的房间以及“迷宫走廊”都标识成不同的“区域”，然后在区域的邻接点上选择可以作为“门”的地块。</p><p>分区过程类似泛洪，即从一个点出发进行遍历，给房间内的空地块和迷宫走廊都打上“标签”，计算结束后会得到一张“分区地图”，之后只要从这个分区地图上找到可用的邻接点作为门即可。</p><p>到这里其实地图的生成就可以说是结束了，有了分布在各处的多个房间，有了连接房间的走廊，最后的消除死胡同其实是个可选项，主要看游戏本身是否需要保留这些“错误道路”。</p><p>甚至还可以继续添加一些细节，比如将某些特定位置的走廊扩展成小房间，用来放置一些过渡性的摆设或者机制等。</p><p>总之，这一套地图生成机制适合于同时对房间和迷宫元素都有需求的情况，而且还能对它进行灵活的定制化改造，在制作RogueLike游戏时是值得考虑的一种地图生成方案。</p>
+
+</div>
+
+<div>
+<div class="tag-plugin link dis-select"><a class="link-card plain" title="关于瓦片式地图的随机迷宫生成机制探索" href="https://www.gcores.com/articles/168310" target="_blank" rel="external nofollow noopener noreferrer" cardlink autofill="icon"><div class="left"><span class="title">关于瓦片式地图的随机迷宫生成机制探索</span><span class="cap link fs12">https://www.gcores.com/articles/168310</span></div><div class="right"><div class="lazy img" data-bg="https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.4/link/8f277b4ee0ecd.svg"></div></div></a></div>
+</div>
+
+
+
+
+<div class="article-footer reveal fs14"><section id="license"><div class="header"><span>许可协议</span></div><div class="body"><p>本文采用 <a target="_blank" rel="external nofollow noopener noreferrer" href="https://github.com/me-shaon/GLWTPL/blob/master/translations/LICENSE_zh-CN">GLWT（Good Luck With That，祝你好运）公共许可证</a> 许可协议，转载请注明出处。</p>
+</div></section><section id="share"><div class="header"><span>分享文章</span></div><div class="body"><div class="link"><input class="copy-area" readonly="true" id="copy-link" value="https://blog.imc.re/RSSBOX/rss/2ff78fc0.html"></div><div class="social-wrap dis-select"><a class="social share-item wechat" onclick="util.toggle(&quot;qrcode-wechat&quot)"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.4/social/b32ef3da1162a.svg"></a><a class="social share-item weibo" target="_blank" rel="external nofollow noopener noreferrer" href="https://service.weibo.com/share/share.php?url=https://blog.imc.re/RSSBOX/rss/2ff78fc0.html&title=关于瓦片式地图的随机迷宫生成机制探索 - RSSBOX&pics=https://image.gcores.com/fcc2114d96517c843a2f634ea2a7db0d-1080-506.png?x-oss-process=image/resize,limit_1,m_fill,w_626,h_292/quality,q_90&summary=
+
+前言：上周末和同组的朋友们一起参加了CiGA Game Jam 2023的活动，以TOUCH为主题制作了一款类似《魔塔》的冒险小游戏，除了一套简单的元素交互系统之外，游戏里的一大重点是自动化的随机地图生成算法，它保证了每一局游戏的..."><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.4/social/80c07e4dbb303.svg"></a><a class="social share-item email" href="mailto:?subject=关于瓦片式地图的随机迷宫生成机制探索 - RSSBOX&amp;body=https://blog.imc.re/RSSBOX/rss/2ff78fc0.html"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.4/social/a1b00e20f425d.svg"></a><a class="social share-item link" onclick="util.copy(&quot;copy-link&quot;, &quot;复制成功&quot;)"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.4/social/8411ed322ced6.svg"></a></div><div class="qrcode" id="qrcode-wechat" style="visibility:hidden;height:0"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://api.qrserver.com/v1/create-qr-code/?size=256x256&data=https://blog.imc.re/RSSBOX/rss/2ff78fc0.html"></div></div></section></div>
+
+</article>
+
+<div class="related-wrap reveal" id="read-next"><section class="body"><div class="item" id="prev"><div class="note">较新文章</div><a href="/RSSBOX/rss/d1065ee7.html">异形与枪炮，策略与绝望｜游戏剪影04</a></div><div class="item" id="next"><div class="note">较早文章</div><a href="/RSSBOX/rss/e520a442.html">Figma Dev Mode 初试</a></div></section></div>
+
+
+<div class="related-wrap reveal" id="related-posts">
+    <section class="header">
+      <div class="title cap theme">您可能感兴趣的文章</div>
+    </section>
+    <section class="body">
+    <div class="related-posts"><a class="item" href="/RSSBOX/rss/1a0da694.html" title="2001年经典游戏重制：《要塞：终极版》正式公开，将于11月8日发售"><span class="title">2001年经典游戏重制：《要塞：终极版》正式公开，将于11月8日发售</span></a><a class="item" href="/RSSBOX/rss/f8c989b4.html" title="Analog Visuals_耶稣之手"><span class="title">Analog Visuals_耶稣之手</span></a><a class="item" href="/RSSBOX/rss/e6ace8.html" title="《EA SPORTS FC 24》定于9月29日发售，终极版可抢先7天游玩"><span class="title">《EA SPORTS FC 24》定于9月29日发售，终极版可抢先7天游玩</span></a><a class="item" href="/RSSBOX/rss/bb1c2cfb.html" title="《塞尔达》茶话会丨我们在《王国之泪》里得到了什么体验"><span class="title">《塞尔达》茶话会丨我们在《王国之泪》里得到了什么体验</span></a><a class="item" href="/RSSBOX/rss/410dbd8e.html" title="《心灵杀手2》公布最新实机演示，“心灵之地”玩法详情公开"><span class="title">《心灵杀手2》公布最新实机演示，“心灵之地”玩法详情公开</span></a></div></section></div>
+
+
+
+
+
+      
+<footer class="page-footer reveal fs12"><hr><div class="sitemap"><div class="sitemap-group"><span class="fs14">文章</span><a href="/RSSBOX/categories">分类</a><a href="/RSSBOX/tags">标签</a><a href="/RSSBOX/archives">归档</a></div><div class="sitemap-group"><span class="fs14">更多</span><a href="https://blog.imc.re/">博客</a><a target="_blank" rel="noopener" href="https://imc.re/">IMC.RE</a></div></div><div class="text"><p><a href="/">@RSSBOX</a> 2023 author by <a target="_blank" rel="external nofollow noopener noreferrer" href="https://github.com/MHG-LAB/RSSBOX">MHuiG</a> powered by SummerGoro。<br><br>本博客所有文章除特别声明外，均采用 <a target="_blank" rel="external nofollow noopener noreferrer" href="https://github.com/me-shaon/GLWTPL/blob/master/translations/LICENSE_zh-CN">GLWT（Good Luck With That，祝你好运）公共许可证</a> 许可协议，转载请注明出处。</p>
+</div></footer>
+
+      <div class="float-panel mobile-only blur" style="display:none">
+  <button type="button" class="sidebar-toggle mobile" onclick="sidebar.toggle()">
+    <svg class="icon" style="width: 1em; height: 1em;vertical-align: middle;fill: currentColor;overflow: hidden;" viewbox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="15301"><path d="M566.407 808.3c26.9-0.1 49.3-20.8 51.6-47.6-1.9-27.7-23.9-49.7-51.6-51.6h-412.6c-28.2-1.4-52.6 19.5-55.5 47.6 2.3 26.8 24.6 47.5 51.6 47.6h416.5v4z m309.3-249.9c26.9-0.1 49.3-20.8 51.6-47.6-2.2-26.8-24.6-47.5-51.6-47.6h-721.9c-27.7-2.8-52.5 17.4-55.3 45.1-0.1 0.8-0.1 1.7-0.2 2.5 0.9 27.2 23.6 48.5 50.7 47.6H875.707z m-103.1-245.9c26.9-0.1 49.3-20.8 51.6-47.6-0.4-28.3-23.2-51.1-51.5-51.6h-618.9c-29.5-1.1-54.3 21.9-55.5 51.4v0.2c1.4 27.8 25.2 49.2 53 47.8 0.8 0 1.7-0.1 2.5-0.2h618.8z" p-id="15302"/><path d="M566.407 808.3c26.9-0.1 49.3-20.8 51.6-47.6-1.9-27.7-23.9-49.7-51.6-51.6h-412.6c-28.2-1.4-52.6 19.5-55.5 47.6 1.9 27.7 23.9 49.7 51.6 51.6h416.5z m309.3-249.9c26.9-0.1 49.3-20.8 51.6-47.6-2.2-26.8-24.6-47.5-51.6-47.6h-721.9c-27.7-2.8-52.5 17.4-55.3 45.1-0.1 0.8-0.1 1.7-0.2 2.5 0.9 27.2 23.6 48.5 50.7 47.6H875.707z m-103.1-245.9c26.9-0.1 49.3-20.8 51.6-47.6-0.4-28.3-23.2-51.1-51.5-51.6h-618.9c-29.5-1.1-54.3 21.9-55.5 51.4v0.2c1.4 27.8 25.2 49.2 53 47.8 0.8 0 1.7-0.1 2.5-0.2h618.8z" p-id="15303"/></svg>
+  </button>
+</div>
+
+    </div>
+  </div>
+  <div class="scripts">
+    <script type="text/javascript">
+  const stellar = {
+    // 懒加载 css https://github.com/filamentgroup/loadCSS
+    loadCSS: (href, before, media, attributes) => {
+      var doc = window.document;
+      var ss = doc.createElement("link");
+      var ref;
+      if (before) {
+        ref = before;
+      } else {
+        var refs = (doc.body || doc.getElementsByTagName("head")[0]).childNodes;
+        ref = refs[refs.length - 1];
+      }
+      var sheets = doc.styleSheets;
+      if (attributes) {
+        for (var attributeName in attributes) {
+          if (attributes.hasOwnProperty(attributeName)) {
+            ss.setAttribute(attributeName, attributes[attributeName]);
+          }
+        }
+      }
+      ss.rel = "stylesheet";
+      ss.href = href;
+      ss.media = "only x";
+      function ready(cb) {
+        if (doc.body) {
+          return cb();
+        }
+        setTimeout(function () {
+          ready(cb);
+        });
+      }
+      ready(function () {
+        ref.parentNode.insertBefore(ss, before ? ref : ref.nextSibling);
+      });
+      var onloadcssdefined = function (cb) {
+        var resolvedHref = ss.href;
+        var i = sheets.length;
+        while (i--) {
+          if (sheets[i].href === resolvedHref) {
+            return cb();
+          }
+        }
+        setTimeout(function () {
+          onloadcssdefined(cb);
+        });
+      };
+      function loadCB() {
+        if (ss.addEventListener) {
+          ss.removeEventListener("load", loadCB);
+        }
+        ss.media = media || "all";
+      }
+      if (ss.addEventListener) {
+        ss.addEventListener("load", loadCB);
+      }
+      ss.onloadcssdefined = onloadcssdefined;
+      onloadcssdefined(loadCB);
+      return ss;
+    },
+
+    // 从 butterfly 和 volantis 获得灵感
+    loadScript: (src, opt) => new Promise((resolve, reject) => {
+      var script = document.createElement('script');
+      if (src.startsWith('/')){
+        src = stellar.config.root + src.substring(1);
+      }
+      script.src = src;
+      if (opt) {
+        for (let key of Object.keys(opt)) {
+          script[key] = opt[key]
+        }
+      } else {
+        // 默认异步，如果需要同步，第二个参数传入 {} 即可
+        script.async = true
+      }
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    }),
+
+    // https://github.com/jerryc127/hexo-theme-butterfly
+    jQuery: (fn) => {
+      if (typeof jQuery === 'undefined') {
+        stellar.loadScript(stellar.plugins.jQuery).then(fn)
+      } else {
+        fn()
+      }
+    }
+  };
+  stellar.version = '1.19.0';
+  stellar.github = 'https://github.com/xaoxuu/hexo-theme-stellar/tree/1.19.0';
+  stellar.config = {
+    date_suffix: {
+      just: '刚刚',
+      min: '分钟前',
+      hour: '小时前',
+      day: '天前',
+      month: '个月前',
+    },
+    root : '/RSSBOX/',
+  };
+
+  // required plugins (only load if needs)
+  stellar.plugins = {
+    jQuery: 'https://gcore.jsdelivr.net/npm/jquery@3.6.2/dist/jquery.min.js'
+  };
+
+  if ('local_search') {
+    stellar.search = {};
+    stellar.search.service = 'local_search';
+    if (stellar.search.service == 'local_search') {
+      let service_obj = Object.assign({}, {"field":"all","path":"/search.json","content":true,"codeblock":true,"sort":"-date"});
+      stellar.search[stellar.search.service] = service_obj;
+    }
+  }
+
+  // stellar js
+  stellar.plugins.stellar = Object.assign({"sites":"/js/plugins/sites.js","friends":"/js/plugins/friends.js","ghinfo":"/js/plugins/ghinfo.js","timeline":"/js/plugins/timeline.js","linkcard":"/js/plugins/linkcard.js","fcircle":"/js/plugins/fcircle.js","weibo":"/js/plugins/weibo.js"});
+
+  stellar.plugins.marked = Object.assign("https://cdn.bootcdn.net/ajax/libs/marked/4.0.18/marked.min.js");
+  // optional plugins
+  if ('true' == 'true') {
+    stellar.plugins.lazyload = Object.assign({"enable":true,"js":"https://gcore.jsdelivr.net/npm/vanilla-lazyload@17.8.3/dist/lazyload.min.js","transition":"blur"});
+  }
+  if ('true' == 'true') {
+    stellar.plugins.swiper = Object.assign({"enable":true,"css":"https://unpkg.com/swiper@8.4.5/swiper-bundle.min.css","js":"https://unpkg.com/swiper@8.4.5/swiper-bundle.min.js"});
+  }
+  if ('' == 'true') {
+    stellar.plugins.scrollreveal = Object.assign({"enable":null,"js":"https://gcore.jsdelivr.net/npm/scrollreveal@4.0.9/dist/scrollreveal.min.js","distance":"8px","duration":500,"interval":100,"scale":1});
+  }
+  if ('true' == 'true') {
+    stellar.plugins.preload = Object.assign({"enable":true,"service":"flying_pages","instant_page":"https://gcore.jsdelivr.net/gh/volantis-x/cdn-volantis@4.1.2/js/instant_page.js","flying_pages":"https://gcore.jsdelivr.net/gh/gijo-varghese/flying-pages@2.1.2/flying-pages.min.js"});
+  }
+  if ('true' == 'true') {
+    stellar.plugins.fancybox = Object.assign({"enable":true,"js":"https://gcore.jsdelivr.net/npm/@fancyapps/ui@4.0/dist/fancybox.umd.js","css":"https://gcore.jsdelivr.net/npm/@fancyapps/ui@4.0/dist/fancybox.css","selector":".swiper-slide img"});
+  }
+  if ('false' == 'true') {
+    stellar.plugins.heti = Object.assign({"enable":false,"css":"https://unpkg.com/heti@0.9.2/umd/heti.min.css","js":"https://unpkg.com/heti@0.9.2/umd/heti-addon.min.js"});
+  }
+  if ('true' == 'true') {
+    stellar.plugins.copycode = Object.assign({"enable":true,"js":"/js/plugins/copycode.js","default_text":"Copy","success_text":"Copied"});
+  }
+</script>
+
+<!-- required -->
+
+  
+<script src="/RSSBOX/js/main.js" async></script>
+
+
+
+<!-- optional -->
+
+  <script>
+  function loadJS() {
+    const els = document.querySelectorAll("#comments #giscus");
+    if (els.length === 0) return;
+    els.forEach((el, i) => {
+      try {
+        el.innerHTML = '';
+      } catch (error) {
+        console.log(error);
+      }
+      var script = document.createElement('script');
+      script.src = 'https://giscus.app/client.js';
+      script.async = true;
+      for (let key of Object.keys(el.attributes)) {
+        let attr = el.attributes[key];
+        if (['class', 'id'].includes(attr.name) === false) {
+          script.setAttribute(attr.name, attr.value);
+        }
+      }
+      el.appendChild(script);
+    });
+  }
+  window.addEventListener('DOMContentLoaded', (event) => {
+    loadJS();
+  });
+</script>
+
+
+
+
+<!-- inject -->
+
+
+  </div>
+</body>
+</html>

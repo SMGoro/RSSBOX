@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+  <meta name="generator" content="Hexo 6.3.0">
+  <meta name="hexo-theme" content="https://github.com/xaoxuu/hexo-theme-stellar/tree/1.19.0">
+  <meta charset="utf-8">
+  
+
+  <meta http-equiv="x-dns-prefetch-control" content="on">
+  <link rel="dns-prefetch" href="https://gcore.jsdelivr.net">
+  <link rel="preconnect" href="https://gcore.jsdelivr.net" crossorigin>
+  <link rel="dns-prefetch" href="//unpkg.com">
+
+  <meta name="renderer" content="webkit">
+  <meta name="force-rendering" content="webkit">
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+  <meta name="HandheldFriendly" content="True">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="theme-color" content="#f8f8f8">
+  
+  <title>How the Cloudflare Global Network Optimizes for System Reboots During Low-Traffic Periods - RSSBOX</title>
+
+  
+    <meta name="description" content="To facilitate the huge scale of Cloudflare’s customer base, we maintain data centers which span more than 300 cities in over 100 countries, including approximately 30 locations in Mainland China.The">
+<meta property="og:type" content="article">
+<meta property="og:title" content="How the Cloudflare Global Network Optimizes for System Reboots During Low-Traffic Periods">
+<meta property="og:url" content="https://blog.imc.re/RSSBOX/rss/a4fcb55.html">
+<meta property="og:site_name" content="RSSBOX">
+<meta property="og:description" content="To facilitate the huge scale of Cloudflare’s customer base, we maintain data centers which span more than 300 cities in over 100 countries, including approximately 30 locations in Mainland China.The">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://blog.cloudflare.com/content/images/2023/07/image6-2.png">
+<meta property="og:image" content="http://blog.cloudflare.com/content/images/2023/07/image6-3.png">
+<meta property="og:image" content="http://blog.cloudflare.com/content/images/2023/07/bkk05.png">
+<meta property="og:image" content="http://blog.cloudflare.com/content/images/2023/07/sine.drawio--4-.png">
+<meta property="og:image" content="http://blog.cloudflare.com/content/images/2023/07/Frame-5269.png">
+<meta property="og:image" content="http://blog.cloudflare.com/content/images/2023/07/Untitled.png">
+<meta property="og:image" content="http://blog.cloudflare.com/content/images/2023/07/bgw05.png">
+<meta property="og:image" content="http://blog.cloudflare.com/content/images/2023/07/alg01.png">
+<meta property="og:image" content="http://blog.cloudflare.com/content/images/2023/07/blr02.png">
+<meta property="article:published_time" content="2023-07-12T13:00:20.000Z">
+<meta property="article:modified_time" content="2023-07-12T13:00:20.000Z">
+<meta property="article:author" content="SMGoro">
+<meta property="article:tag" content="Blogs">
+<meta property="article:tag" content="Cloudflare">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="http://blog.cloudflare.com/content/images/2023/07/image6-2.png">
+  
+  
+  
+  <meta name="keywords" content="Blogs,Cloudflare">
+
+  <!-- feed -->
+  
+    <link rel="alternate" href="/RSSBOX/atom.xml" title="RSSBOX" type="application/atom+xml">
+  
+
+  
+    
+<link rel="stylesheet" href="/RSSBOX/css/main.css">
+
+  
+
+  
+
+  
+
+  
+    <link rel="stylesheet" href="https://gcore.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.css" integrity="sha384-vKruj+a13U8yHIkAyGgK1J3ArTLzrFGBbBc0tDp4ad/EyewESeXE/Iv67Aj8gKZ0" crossorigin="anonymous">
+    <script defer src="https://gcore.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.js" integrity="sha384-PwRUT/YqbnEjkZO0zZxNqcxACrXe+j766U2amXcgMg5457rve2Y7I6ZJSm2A0mS4" crossorigin="anonymous"></script>
+    <script defer src="https://gcore.jsdelivr.net/npm/katex@0.16.4/dist/contrib/auto-render.min.js" integrity="sha384-+VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4+/RRE05" crossorigin="anonymous" onload="renderMathInElement(document.body);"></script>
+  
+
+
+  
+
+<!--百度统计-->
+<script>
+  var _hmt = _hmt || [];
+  (function() {
+    var hm = document.createElement("script");
+    hm.src = "https://hm.baidu.com/hm.js?f42afe3e5b76d22c8b1a8060171c7184";
+    var s = document.getElementsByTagName("script")[0]; 
+    s.parentNode.insertBefore(hm, s);
+  })();
+</script>  
+  <!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-V2NSKYGXNG"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-V2NSKYGXNG');
+</script>
+<!--Google Adsense-->
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4773172018528901" crossorigin="anonymous"></script>
+</head>
+
+<body>
+  
+
+
+
+
+  <div class="l_body" id="start">
+    <aside class="l_left" layout="post">
+    
+
+  
+
+<header class="header"><div class="logo-wrap"><a class="avatar" href="/RSSBOX/archives"><div class="bg" style="opacity:0;background-image:url(https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.4/avatar/round/rainbow64@3x.webp);"></div><img no-lazy class="avatar" src="https://cdn.jsdelivr.net/gh/SMGCDN/photos/icon/rsshub.png" onerror="javascript:this.classList.add('error');this.src='https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.4/image/2659360.svg';"></a><a class="title" href="/RSSBOX/"><div class="main" ff="title">RSSBOX</div><div class="sub normal cap">SMGoroのRSS订阅</div><div class="sub hover cap" style="opacity:0"> 一些好康的东西</div></a></div>
+
+<nav class="menu dis-select"><a class="nav-item active" href="/RSSBOX/">订阅</a><a class="nav-item" href="https://blog.imc.re/">博客</a><a class="nav-item" href="https://blog.imc.re/contact">联系</a><a class="nav-item" href="https://blog.imc.re/more">更多</a></nav>
+</header>
+
+
+<div class="widgets">
+
+<widget class="widget-wrapper toc single" id="data-toc"><div class="widget-header cap dis-select"><span class="name">How the Cloudflare Global Network Optimizes for System Reboots During Low-Traffic Periods</span></div><div class="widget-body fs14"><div class="doc-tree active"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#when-is-the-best-time-to-reboot"><span class="toc-text">When is the best time to reboot?</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#time-to-be-more-efficient"><span class="toc-text">Time to be more efficient</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#sinusoidal-wave-theorythe-secret-sauce"><span class="toc-text">Sinusoidal wave theory - the secret sauce</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#applying-the-theory"><span class="toc-text">Applying the theory</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#how-accurate-is-this-fit"><span class="toc-text">How accurate is this fit?</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#bad-fit"><span class="toc-text">Bad Fit</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#skewed-fit"><span class="toc-text">Skewed Fit</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#great-fit"><span class="toc-text">Great Fit</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#what%E2%80%99s-next"><span class="toc-text">What’s next?</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#i-want-to-do-this-type-of-work"><span class="toc-text">I want to do this type of work</span></a></li></ol></div></div></widget>
+
+
+
+<widget class="widget-wrapper search"><div class="widget-body"><div class="search-wrapper" id="search"><form class="search-form"><input type="text" class="search-input" id="search-input" data-filter="/rss/" placeholder="文章搜索"><svg t="1670596976048" class="icon search-icon" viewbox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2676" width="200" height="200"><path d="M938.2 832.6L723.8 618.1c-2.5-2.5-5.3-4.4-7.9-6.4 36.2-55.6 57.3-121.8 57.3-193.1C773.3 222.8 614.6 64 418.7 64S64 222.8 64 418.6c0 195.9 158.8 354.6 354.6 354.6 71.3 0 137.5-21.2 193.2-57.4 2 2.7 3.9 5.4 6.3 7.8L832.5 938c14.6 14.6 33.7 21.9 52.8 21.9 19.1 0 38.2-7.3 52.8-21.8 29.2-29.1 29.2-76.4 0.1-105.5M418.7 661.3C284.9 661.3 176 552.4 176 418.6 176 284.9 284.9 176 418.7 176c133.8 0 242.6 108.9 242.6 242.7 0 133.7-108.9 242.6-242.6 242.6" p-id="2677"/></svg></form><div id="search-result"></div><div class="search-no-result">没有找到内容！</div></div></div></widget>
+
+
+
+<widget class="widget-wrapper recent"><div class="widget-header cap theme dis-select"><span class="name">最近更新</span><a class="cap-action" id="rss" title="Subscribe" href="/atom.xml"><svg class="icon" viewbox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="8938"><path d="M800.966 947.251c0-404.522-320.872-732.448-716.69-732.448V62.785c477.972 0 865.44 395.987 865.44 884.466h-148.75z m-162.273 0h-148.74c0-228.98-181.628-414.598-405.678-414.598v-152.01c306.205 0 554.418 253.68 554.418 566.608z m-446.24-221.12c59.748 0 108.189 49.503 108.189 110.557 0 61.063-48.44 110.563-108.188 110.563-59.747 0-108.18-49.5-108.18-110.563 0-61.054 48.433-110.556 108.18-110.556z" p-id="8939"/></svg></a></div><div class="widget-body related-posts fs14"><a class="item title" href="/RSSBOX/rss/2c2fbeb.html"><span class="title">七つの魔剣が支配する｜七魔剑支配天下</span></a><a class="item title" href="/RSSBOX/rss/3e937bc5.html"><span class="title">百姓貴族｜百姓贵族</span></a><a class="item title" href="/RSSBOX/rss/6b839856.html"><span class="title">シュガーアップル・フェアリーテイル(第2クール)｜银砂糖师与黑妖精 第2部分</span></a><a class="item title" href="/RSSBOX/rss/57dfaaf5.html"><span class="title">Girlhood</span></a><a class="item title" href="/RSSBOX/rss/d28c33bf.html"><span class="title">Headhunter's Eyes</span></a></div></widget>
+</div>
+<footer class="footer dis-select"><div class="social-wrap"><a class="social" href="https://github.com/SMGoro" target="_blank" rel="external nofollow noopener noreferrer"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cdn.jsdelivr.net/gh/SMGCDN/photos/icon/iconfont/social-github.svg"></a><a class="social" href="https://space.bilibili.com/359079394" target="_blank" rel="external nofollow noopener noreferrer"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cdn.jsdelivr.net/gh/SMGCDN/photos/icon/iconfont/bilibili.svg"></a><a class="social" href="https://l.imc.re/zhihu" target="_blank" rel="external nofollow noopener noreferrer"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cdn.jsdelivr.net/gh/SMGCDN/photos/icon/iconfont/zhihu.svg"></a><a class="social" href="https://l.imc.re/discord" target="_blank" rel="external nofollow noopener noreferrer"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cdn.jsdelivr.net/gh/SMGCDN/photos/icon/iconfont/discord.svg"></a><a class="social" href="https://blog.imc.re/contact" target="_blank" rel="external nofollow noopener noreferrer"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cdn.jsdelivr.net/gh/SMGCDN/photos/icon/iconfont/comments.svg"></a></div></footer>
+
+    </aside>
+    <div class="l_main">
+      
+
+      
+
+
+
+<div class="bread-nav fs12"><div id="breadcrumb"><a class="cap breadcrumb" href="/RSSBOX/">主页</a><span class="sep"></span><a class="cap breadcrumb" href="/RSSBOX/">文章</a><span class="sep"></span><a class="cap breadcrumb-link" href="/RSSBOX/categories/blogs/">Blogs</a> <span class="sep"></span> <a class="cap breadcrumb-link" href="/RSSBOX/categories/blogs/cloudflare/">Cloudflare</a></div><div id="post-meta">发布于&nbsp;<time datetime="2023-07-12T13:00:20.000Z">2023-07-12</time></div></div>
+
+<article class="md-text content post">
+<h1 class="article-title"><span>How the Cloudflare Global Network Optimizes for System Reboots During Low-Traffic Periods</span></h1>
+<div>
+<figure class="kg-card kg-image-card"><img alt="How the Cloudflare global network optimizes for system reboots during low-traffic periods" class="kg-image lazy" height="698" loading="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="http://blog.cloudflare.com/content/images/2023/07/image6-2.png" width="1255"></figure><img class="lazy" alt="How the Cloudflare global network optimizes for system reboots during low-traffic periods" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="http://blog.cloudflare.com/content/images/2023/07/image6-3.png"><p>To facilitate the huge scale of Cloudflare’s customer base, we maintain data centers which span more than 300 cities in over 100 countries, including approximately 30 locations in Mainland China.</p><p>The Cloudflare global network is built to be continuously updated in a zero downtime manner, but some changes may need a server reboot to safely take effect. To enable this, we have mechanisms for the whole fleet to automatically reboot with changes gated on a unique identifier for the reboot cycle. Each data center has a <strong>maintenance window</strong>, which is a time period - usually a couple of hours - during which reboots are permitted.</p><p>We take our customer experience very seriously, and hence we have several mechanisms to ensure that disruption to customer traffic does not occur. One example is <a target="_blank" rel="external nofollow noopener noreferrer" href="http://blog.cloudflare.com/unimog-cloudflares-edge-load-balancer/">Unimog</a>, our in-house load balancer that spreads load across the servers in a data center, ensuring that there is no disruption when a server is taken out for routine maintenance.</p><p>The SRE team decided to further reduce risk by only allowing reboots in a data center when the customer traffic is at the lowest. We also needed to automate the existing manual process for determining the window - eliminating toil.</p><p>In this post, we’ll discuss how the team improved this manual process and automated the determination of these windows using a trigonometric function - sinusoidal wave fitting.</p><h2 id="when-is-the-best-time-to-reboot">When is the best time to reboot?</h2><p>Thanks to <a target="_blank" rel="external nofollow noopener noreferrer" href="http://blog.cloudflare.com/unimog-cloudflares-edge-load-balancer/">how efficient our load-balancing framework is</a> within a data center, technically we could proceed to schedule reboots throughout the day with zero impact to traffic flowing through the data center. However, operationally the management is simplified by requiring reboots take place between certain times for each data center. It both acts as a rate-limiter to avoid rebooting all servers in our larger data centers in a single day, and makes remediating any unforeseen issues that arise during the reboots more straightforward, as issues can be caught within the first batch of reboots.</p><p>One of the first steps is to determine the time window during which we are going to allow these reboots to take place; choosing the relative low-traffic period for a data center makes the most sense for obvious reasons. In the past, these low-traffic windows were found manually by humans reviewing historical traffic trends present in our metrics; it was SRE who were responsible for creating and maintaining the definition of these windows, which became particularly toilsome:</p><ol><li>Traffic trends are always changing, requiring increasingly frequent reviews of maintenance hours.</li><li>We move quickly at Cloudflare, there is always a data center in a state of provisioning, making it difficult to keep maintenance windows up-to-date.</li><li>The system was inflexible, and provided no dynamic decision-making.</li><li>This responsibility became SRE toil as it was repetitive, process-based work that could and should be automated.</li></ol><h2 id="time-to-be-more-efficient">Time to be more efficient</h2><p>We quickly realized that we needed to make this process more efficient using automation. An ideal solution would be one that was accurate, easy to maintain, re-usable, and could be consumed by other teams.</p><p>A theoretical solution to this was <strong>sine-fitting</strong> on the CPU pattern of the data center over a configurable period. e.g. two weeks. This method is a way to transform the pattern into a theoretical sinusoidal wave as shown in the image below.</p><figure class="kg-card kg-image-card"><img alt="How the Cloudflare global network optimizes for system reboots during low-traffic periods" class="kg-image lazy" height="1050" loading="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="http://blog.cloudflare.com/content/images/2023/07/bkk05.png" title="Sine fitting on a data center CPU" width="1402"></figure><p>With a sine wave, the most common troughs can be determined. The periods where these troughs occur are then used as options for the maintenance window.</p><h2 id="sinusoidal-wave-theorythe-secret-sauce">Sinusoidal wave theory - the secret sauce</h2><p>We think math is fun and were excited to see how this held up in practice. To implement the logic and tests, we needed to understand the theory. This section details the important bits for anyone that is interested in implementing this for their maintenance cycles as well.</p><p>The image below shows a theoretical representation of a sine wave. It is represented by the mathematical function y(t) = Asin(2πft + φ) where A = Amplitude, f = Frequency, t = Time and φ = Phase.</p><figure class="kg-card kg-image-card"><img alt="How the Cloudflare global network optimizes for system reboots during low-traffic periods" class="kg-image lazy" height="286" loading="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="http://blog.cloudflare.com/content/images/2023/07/sine.drawio--4-.png" title="Theoretical representation of a sine wave" width="534"></figure><p>In practice, various programming language packages exist to fit an arbitrary dataset on a curve. For example, Python has the <a target="_blank" rel="external nofollow noopener noreferrer" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.optimize.curve_fit.html">scipy curve_fit function</a>.</p><p>We used Python and to make the result more accurate, it is recommended to include arbitrary values as initial guesses. These are described below;</p><p><strong>Amplitude</strong>: This is the distance from the peak/valley to the time axis, and is approximated as the standard deviation multiplied by √2. The standard deviation represents the variability in the data points, and for a sine wave that varies between -1 and +1, the standard deviation is approximately 0.707 (or 1/√2). Therefore, by multiplying the standard deviation of the data by √2, we can represent an approximation of the amplitude.</p><p><strong>Frequency</strong>: This is the number of cycles (time periods) in one second. We are concerned with the daily CPU pattern, meaning that the guess should be one full wave every 24 hours (i.e. 1/86400).</p><p><strong>Phase</strong>: This is the position of the wave at T=0. No guess is needed for this.</p><p><strong>Offset</strong>: To fit the sine wave on the CPU values, we need to shift upwards by the offset. This offset is the mean of the CPU values.</p><p>Here’s a basic example of how it can be implemented in Python:</p><!--kg-card-begin: markdown--><pre><code class="language-python">timestamps = numpy.array(timestamps)
+cpu = numpy.array(cpu)
+guess_freq = 1 / 86400  # 24h periodicity
+guess_amp = numpy.std(cpu) * 2.0**0.5
+guess_offset = numpy.mean(cpu)
+guess = numpy.array([guess_amp, 2.0 * numpy.pi * guess_freq, 0.0, guess_offset])
+ 
+<p>def sinfunc(timestamps, amplitude, frequency, phase, offset):<br>    return amplitude * numpy.sin(frequency * timestamps + phase) + offset</p>
+<p>amplitude, frequency, phase, offset, _ &#x3D; scipy.optimize.curve_fit(<br>    sinfunc, timestamps, cpu, p0&#x3D;guess, maxfev&#x3D;2000<br>)<br></p></code></pre><p></p>
+<!--kg-card-end: markdown--><h2 id="applying-the-theory">Applying the theory</h2><p>With the theory understood, we implemented this logic in our reboot system. To determine the window, the reboot system queries <a target="_blank" rel="external nofollow noopener noreferrer" href="http://blog.cloudflare.com/tag/prometheus/">Prometheus</a> for the data center CPU over a configurable period and attempts to fit a curve on the resultant pattern.</p><p>If there’s an accurate enough fit, the window is cached in Consul along with other metadata. Otherwise, fallback logic is implemented. For various reasons, some data centers might not have enough data for a fit at that moment. For example, a data center which was only recently provisioned and hasn’t served enough traffic yet.</p><figure class="kg-card kg-image-card kg-width-wide"><img alt="How the Cloudflare global network optimizes for system reboots during low-traffic periods" class="kg-image lazy" height="445" loading="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="http://blog.cloudflare.com/content/images/2023/07/Frame-5269.png" width="1600"></figure><p>When a server requests to reboot, the system checks if the current time is within the maintenance window first, before running other pre-flight checks. In most cases the window already exists because of the prefetch mechanism implemented, but when it doesn’t due to Consul session expiry or some other reason, it is computed using the CPU data in Prometheus.</p><p>The considerations in this phase were:</p><p><strong>Caching</strong>: Calculation of the window should only be done over a pre-decided validity period. To achieve this we store the information in a Consul KV, along with a session lock that expires after the validity period. We <a target="_blank" rel="external nofollow noopener noreferrer" href="http://blog.cloudflare.com/how-we-use-hashicorp-nomad/">have mentioned in the past</a> that we use Consul as a service-discovery and key-value storage mechanism. This is an example of the latter.</p><p><strong>Pre-fetch</strong>: In practice, it makes sense to control when this computation happens. There are several options but the most efficient was to implement a pre-fetch of this window on startup of the reboot system.</p><p><strong>Observability</strong>: We exported a couple of metrics to Prometheus, which help us understand the decisions being made and any errors we need to address. We also export the maintenance window itself for consumption by other automated systems and teams.</p><h2 id="how-accurate-is-this-fit">How accurate is this fit?</h2><p>Most load patterns fit into the sine wave, but there are some edge cases occasionally. e.g. a smaller data center that has a constant CPU. In those cases we have fallback mechanisms, but it also got us thinking about how to determine the accuracy of each fit.</p><p>With accuracy data we can make smarter decisions about accepting the automatic window, track regressions and unearth data centers with unexpected patterns. The theoretical solution here is referred to as the <strong>goodness of fit</strong>.</p><p><a target="_blank" rel="external nofollow noopener noreferrer" href="https://youtu.be/Jl-Ye38qkRc">Curve fitting in Python with curve_fit</a> describes curve fitting and calculating the chi-squared value. The formula for a goodness of fit chi-squared test in the image below:</p><figure class="kg-card kg-image-card"><img alt="How the Cloudflare global network optimizes for system reboots during low-traffic periods" class="kg-image lazy" height="808" loading="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="http://blog.cloudflare.com/content/images/2023/07/Untitled.png" title="Goodness of fit test representation" width="1600"></figure><p>The different values are the observed (Yi), expected (f(Xi)) and uncertainty. In this theory, the closer the chi-square value to the length of the sample, the better the fit is. Chi-squared values that are a lot smaller than the length represent an overestimated uncertainty and much larger represent a bad fit. </p><p>This is implemented with a simple formula:</p><!--kg-card-begin: markdown--><pre><code class="language-python">def goodness_of_fit(observed, expected):
+<pre><code>chisq = numpy.sum(((observed - expected)/ numpy.std(observed)) ** 2)
+
+# Present the chisq value percentage relative to the sample length
+n = len(observed)
+return ((n - chisq) / n) * 100
+</code></pre>
+<p></p></code></pre><p></p>
+<!--kg-card-end: markdown--><p>The observed result of this is that the smaller the chi-squared, the more accurate the fit and vice versa. Hence we can provide a fit percentage of the difference between the length and the chi-squared.</p><p>There are three main types of fit, as shown in the images below.</p><h3 id="bad-fit">Bad Fit</h3><p>These data centers do not exhibit a sinusoidal pattern and the maintenance window can only be determined arbitrarily. This is common in test data centers which do not handle customer traffic. In these cases, it makes sense to turn off load-based reboots and use an arbitrary window. In these cases, it is common to require faster reboots on a different schedule to catch any potential issues early.</p><figure class="kg-card kg-image-card"><img alt="How the Cloudflare global network optimizes for system reboots during low-traffic periods" class="kg-image lazy" height="1201" loading="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="http://blog.cloudflare.com/content/images/2023/07/bgw05.png" title="Data center with Bad sine fit" width="1600"></figure><h3 id="skewed-fit">Skewed Fit</h3><p>These data centers exhibit sinusoidal traffic patterns but are a bit skewed, with some smaller troughs within the wave cycle. The troughs (and hence the windows) are still correct, but the accuracy of fit is reduced.</p><figure class="kg-card kg-image-card"><img alt="How the Cloudflare global network optimizes for system reboots during low-traffic periods" class="kg-image lazy" height="1048" loading="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="http://blog.cloudflare.com/content/images/2023/07/alg01.png" title="Datacenter with skewed fit" width="1402"></figure><h3 id="great-fit">Great Fit</h3><p>These are data centers with very clear patterns and great fits. This is the ideal scenario and most fall into this category.</p><figure class="kg-card kg-image-card"><img alt="How the Cloudflare global network optimizes for system reboots during low-traffic periods" class="kg-image lazy" height="1052" loading="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="http://blog.cloudflare.com/content/images/2023/07/blr02.png" title="Data center with good fit" width="1400"></figure><h2 id="what%E2%80%99s-next">What’s next?</h2><p>We will continue to iterate on this to make it more accurate, and provide more ways to consume the information. We have a variety of maintenance use-cases that cut across multiple organizations, and it’s exciting to see the information used more widely besides reboots. For example, teams can use maintenance windows to make automated decisions in downstream services such as running compute-intensive background tasks only in those periods.</p><h2 id="i-want-to-do-this-type-of-work">I want to do this type of work</h2><p>If you found this post very interesting and want to contribute, take a look at our <a target="_blank" rel="external nofollow noopener noreferrer" href="https://www.cloudflare.com/en-gb/careers/">careers page</a> for open positions! We’d love to have a conversation with you.</p>
+</div>
+
+<div>
+<div class="tag-plugin link dis-select"><a class="link-card plain" title="How the Cloudflare global network optimizes for system reboots during low-traffic periods" href="http://blog.cloudflare.com/how-the-cloudflare-global-network-optimizes-for-system-reboots-during-low-traffic-periods/" target="_blank" rel="external nofollow noopener noreferrer" cardlink autofill="icon"><div class="left"><span class="title">How the Cloudflare global network optimizes for system reboots during low-traffic periods</span><span class="cap link fs12">http://blog.cloudflare.com/how-the-cloudflare-global-network-optimizes-for-system-reboots-during-low-traffic-periods/</span></div><div class="right"><div class="lazy img" data-bg="https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.4/link/8f277b4ee0ecd.svg"></div></div></a></div>
+</div>
+
+
+
+
+<div class="article-footer reveal fs14"><section id="license"><div class="header"><span>许可协议</span></div><div class="body"><p>本文采用 <a target="_blank" rel="external nofollow noopener noreferrer" href="https://github.com/me-shaon/GLWTPL/blob/master/translations/LICENSE_zh-CN">GLWT（Good Luck With That，祝你好运）公共许可证</a> 许可协议，转载请注明出处。</p>
+</div></section><section id="share"><div class="header"><span>分享文章</span></div><div class="body"><div class="link"><input class="copy-area" readonly="true" id="copy-link" value="https://blog.imc.re/RSSBOX/rss/a4fcb55.html"></div><div class="social-wrap dis-select"><a class="social share-item wechat" onclick="util.toggle(&quot;qrcode-wechat&quot)"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.4/social/b32ef3da1162a.svg"></a><a class="social share-item weibo" target="_blank" rel="external nofollow noopener noreferrer" href="https://service.weibo.com/share/share.php?url=https://blog.imc.re/RSSBOX/rss/a4fcb55.html&title=How the Cloudflare Global Network Optimizes for System Reboots During Low-Traffic Periods - RSSBOX&pics=http://blog.cloudflare.com/content/images/2023/07/image6-2.png&summary=
+To facilitate the huge scale of Cloudflare’s customer base, we maintain data centers which span more than 300 cities..."><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.4/social/80c07e4dbb303.svg"></a><a class="social share-item email" href="mailto:?subject=How the Cloudflare Global Network Optimizes for System Reboots During Low-Traffic Periods - RSSBOX&amp;body=https://blog.imc.re/RSSBOX/rss/a4fcb55.html"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.4/social/a1b00e20f425d.svg"></a><a class="social share-item link" onclick="util.copy(&quot;copy-link&quot;, &quot;复制成功&quot;)"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.4/social/8411ed322ced6.svg"></a></div><div class="qrcode" id="qrcode-wechat" style="visibility:hidden;height:0"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://api.qrserver.com/v1/create-qr-code/?size=256x256&data=https://blog.imc.re/RSSBOX/rss/a4fcb55.html"></div></div></section></div>
+
+</article>
+
+<div class="related-wrap reveal" id="read-next"><section class="body"><div class="item" id="prev"><div class="note">较新文章</div><a href="/RSSBOX/rss/e0170546.html">MinecraftERROR'ｓ 第二巻表紙</a></div><div class="item" id="next"><div class="note">较早文章</div><a href="/RSSBOX/rss/b1381550.html">第7章 裏切りのヘンダー</a></div></section></div>
+
+
+<div class="related-wrap reveal" id="related-posts">
+    <section class="header">
+      <div class="title cap theme">您可能感兴趣的文章</div>
+    </section>
+    <section class="body">
+    <div class="related-posts"><a class="item" href="/RSSBOX/rss/74584793.html" title="A Step-by-Step Guide to Transferring Domains to Cloudflare"><span class="title">A Step-by-Step Guide to Transferring Domains to Cloudflare</span></a><a class="item" href="/RSSBOX/rss/caa91ad8.html" title="All the Way Up to 11: Serve Brotli From Origin and Introducing Compression Rules"><span class="title">All the Way Up to 11: Serve Brotli From Origin and Introducing Compression Rules</span></a><a class="item" href="/RSSBOX/rss/7bd87fb2.html" title="Bring Your Own CA for Client Certificate Validation With API Shield"><span class="title">Bring Your Own CA for Client Certificate Validation With API Shield</span></a><a class="item" href="/RSSBOX/rss/77acea1e.html" title="Cloudflare Zaraz Supports JSONata"><span class="title">Cloudflare Zaraz Supports JSONata</span></a><a class="item" href="/RSSBOX/rss/e43023fe.html" title="Connection Errors in Asia Pacific Region on July 9, 2023"><span class="title">Connection Errors in Asia Pacific Region on July 9, 2023</span></a></div></section></div>
+
+
+
+
+
+      
+<footer class="page-footer reveal fs12"><hr><div class="sitemap"><div class="sitemap-group"><span class="fs14">文章</span><a href="/RSSBOX/categories">分类</a><a href="/RSSBOX/tags">标签</a><a href="/RSSBOX/archives">归档</a></div><div class="sitemap-group"><span class="fs14">更多</span><a href="https://blog.imc.re/">博客</a><a target="_blank" rel="noopener" href="https://imc.re/">IMC.RE</a></div></div><div class="text"><p><a href="/">@RSSBOX</a> 2023 author by <a target="_blank" rel="external nofollow noopener noreferrer" href="https://github.com/MHG-LAB/RSSBOX">MHuiG</a> powered by SummerGoro。<br><br>本博客所有文章除特别声明外，均采用 <a target="_blank" rel="external nofollow noopener noreferrer" href="https://github.com/me-shaon/GLWTPL/blob/master/translations/LICENSE_zh-CN">GLWT（Good Luck With That，祝你好运）公共许可证</a> 许可协议，转载请注明出处。</p>
+</div></footer>
+
+      <div class="float-panel mobile-only blur" style="display:none">
+  <button type="button" class="sidebar-toggle mobile" onclick="sidebar.toggle()">
+    <svg class="icon" style="width: 1em; height: 1em;vertical-align: middle;fill: currentColor;overflow: hidden;" viewbox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="15301"><path d="M566.407 808.3c26.9-0.1 49.3-20.8 51.6-47.6-1.9-27.7-23.9-49.7-51.6-51.6h-412.6c-28.2-1.4-52.6 19.5-55.5 47.6 2.3 26.8 24.6 47.5 51.6 47.6h416.5v4z m309.3-249.9c26.9-0.1 49.3-20.8 51.6-47.6-2.2-26.8-24.6-47.5-51.6-47.6h-721.9c-27.7-2.8-52.5 17.4-55.3 45.1-0.1 0.8-0.1 1.7-0.2 2.5 0.9 27.2 23.6 48.5 50.7 47.6H875.707z m-103.1-245.9c26.9-0.1 49.3-20.8 51.6-47.6-0.4-28.3-23.2-51.1-51.5-51.6h-618.9c-29.5-1.1-54.3 21.9-55.5 51.4v0.2c1.4 27.8 25.2 49.2 53 47.8 0.8 0 1.7-0.1 2.5-0.2h618.8z" p-id="15302"/><path d="M566.407 808.3c26.9-0.1 49.3-20.8 51.6-47.6-1.9-27.7-23.9-49.7-51.6-51.6h-412.6c-28.2-1.4-52.6 19.5-55.5 47.6 1.9 27.7 23.9 49.7 51.6 51.6h416.5z m309.3-249.9c26.9-0.1 49.3-20.8 51.6-47.6-2.2-26.8-24.6-47.5-51.6-47.6h-721.9c-27.7-2.8-52.5 17.4-55.3 45.1-0.1 0.8-0.1 1.7-0.2 2.5 0.9 27.2 23.6 48.5 50.7 47.6H875.707z m-103.1-245.9c26.9-0.1 49.3-20.8 51.6-47.6-0.4-28.3-23.2-51.1-51.5-51.6h-618.9c-29.5-1.1-54.3 21.9-55.5 51.4v0.2c1.4 27.8 25.2 49.2 53 47.8 0.8 0 1.7-0.1 2.5-0.2h618.8z" p-id="15303"/></svg>
+  </button>
+</div>
+
+    </div>
+  </div>
+  <div class="scripts">
+    <script type="text/javascript">
+  const stellar = {
+    // 懒加载 css https://github.com/filamentgroup/loadCSS
+    loadCSS: (href, before, media, attributes) => {
+      var doc = window.document;
+      var ss = doc.createElement("link");
+      var ref;
+      if (before) {
+        ref = before;
+      } else {
+        var refs = (doc.body || doc.getElementsByTagName("head")[0]).childNodes;
+        ref = refs[refs.length - 1];
+      }
+      var sheets = doc.styleSheets;
+      if (attributes) {
+        for (var attributeName in attributes) {
+          if (attributes.hasOwnProperty(attributeName)) {
+            ss.setAttribute(attributeName, attributes[attributeName]);
+          }
+        }
+      }
+      ss.rel = "stylesheet";
+      ss.href = href;
+      ss.media = "only x";
+      function ready(cb) {
+        if (doc.body) {
+          return cb();
+        }
+        setTimeout(function () {
+          ready(cb);
+        });
+      }
+      ready(function () {
+        ref.parentNode.insertBefore(ss, before ? ref : ref.nextSibling);
+      });
+      var onloadcssdefined = function (cb) {
+        var resolvedHref = ss.href;
+        var i = sheets.length;
+        while (i--) {
+          if (sheets[i].href === resolvedHref) {
+            return cb();
+          }
+        }
+        setTimeout(function () {
+          onloadcssdefined(cb);
+        });
+      };
+      function loadCB() {
+        if (ss.addEventListener) {
+          ss.removeEventListener("load", loadCB);
+        }
+        ss.media = media || "all";
+      }
+      if (ss.addEventListener) {
+        ss.addEventListener("load", loadCB);
+      }
+      ss.onloadcssdefined = onloadcssdefined;
+      onloadcssdefined(loadCB);
+      return ss;
+    },
+
+    // 从 butterfly 和 volantis 获得灵感
+    loadScript: (src, opt) => new Promise((resolve, reject) => {
+      var script = document.createElement('script');
+      if (src.startsWith('/')){
+        src = stellar.config.root + src.substring(1);
+      }
+      script.src = src;
+      if (opt) {
+        for (let key of Object.keys(opt)) {
+          script[key] = opt[key]
+        }
+      } else {
+        // 默认异步，如果需要同步，第二个参数传入 {} 即可
+        script.async = true
+      }
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    }),
+
+    // https://github.com/jerryc127/hexo-theme-butterfly
+    jQuery: (fn) => {
+      if (typeof jQuery === 'undefined') {
+        stellar.loadScript(stellar.plugins.jQuery).then(fn)
+      } else {
+        fn()
+      }
+    }
+  };
+  stellar.version = '1.19.0';
+  stellar.github = 'https://github.com/xaoxuu/hexo-theme-stellar/tree/1.19.0';
+  stellar.config = {
+    date_suffix: {
+      just: '刚刚',
+      min: '分钟前',
+      hour: '小时前',
+      day: '天前',
+      month: '个月前',
+    },
+    root : '/RSSBOX/',
+  };
+
+  // required plugins (only load if needs)
+  stellar.plugins = {
+    jQuery: 'https://gcore.jsdelivr.net/npm/jquery@3.6.2/dist/jquery.min.js'
+  };
+
+  if ('local_search') {
+    stellar.search = {};
+    stellar.search.service = 'local_search';
+    if (stellar.search.service == 'local_search') {
+      let service_obj = Object.assign({}, {"field":"all","path":"/search.json","content":true,"codeblock":true,"sort":"-date"});
+      stellar.search[stellar.search.service] = service_obj;
+    }
+  }
+
+  // stellar js
+  stellar.plugins.stellar = Object.assign({"sites":"/js/plugins/sites.js","friends":"/js/plugins/friends.js","ghinfo":"/js/plugins/ghinfo.js","timeline":"/js/plugins/timeline.js","linkcard":"/js/plugins/linkcard.js","fcircle":"/js/plugins/fcircle.js","weibo":"/js/plugins/weibo.js"});
+
+  stellar.plugins.marked = Object.assign("https://cdn.bootcdn.net/ajax/libs/marked/4.0.18/marked.min.js");
+  // optional plugins
+  if ('true' == 'true') {
+    stellar.plugins.lazyload = Object.assign({"enable":true,"js":"https://gcore.jsdelivr.net/npm/vanilla-lazyload@17.8.3/dist/lazyload.min.js","transition":"blur"});
+  }
+  if ('true' == 'true') {
+    stellar.plugins.swiper = Object.assign({"enable":true,"css":"https://unpkg.com/swiper@8.4.5/swiper-bundle.min.css","js":"https://unpkg.com/swiper@8.4.5/swiper-bundle.min.js"});
+  }
+  if ('' == 'true') {
+    stellar.plugins.scrollreveal = Object.assign({"enable":null,"js":"https://gcore.jsdelivr.net/npm/scrollreveal@4.0.9/dist/scrollreveal.min.js","distance":"8px","duration":500,"interval":100,"scale":1});
+  }
+  if ('true' == 'true') {
+    stellar.plugins.preload = Object.assign({"enable":true,"service":"flying_pages","instant_page":"https://gcore.jsdelivr.net/gh/volantis-x/cdn-volantis@4.1.2/js/instant_page.js","flying_pages":"https://gcore.jsdelivr.net/gh/gijo-varghese/flying-pages@2.1.2/flying-pages.min.js"});
+  }
+  if ('true' == 'true') {
+    stellar.plugins.fancybox = Object.assign({"enable":true,"js":"https://gcore.jsdelivr.net/npm/@fancyapps/ui@4.0/dist/fancybox.umd.js","css":"https://gcore.jsdelivr.net/npm/@fancyapps/ui@4.0/dist/fancybox.css","selector":".swiper-slide img"});
+  }
+  if ('false' == 'true') {
+    stellar.plugins.heti = Object.assign({"enable":false,"css":"https://unpkg.com/heti@0.9.2/umd/heti.min.css","js":"https://unpkg.com/heti@0.9.2/umd/heti-addon.min.js"});
+  }
+  if ('true' == 'true') {
+    stellar.plugins.copycode = Object.assign({"enable":true,"js":"/js/plugins/copycode.js","default_text":"Copy","success_text":"Copied"});
+  }
+</script>
+
+<!-- required -->
+
+  
+<script src="/RSSBOX/js/main.js" async></script>
+
+
+
+<!-- optional -->
+
+  <script>
+  function loadJS() {
+    const els = document.querySelectorAll("#comments #giscus");
+    if (els.length === 0) return;
+    els.forEach((el, i) => {
+      try {
+        el.innerHTML = '';
+      } catch (error) {
+        console.log(error);
+      }
+      var script = document.createElement('script');
+      script.src = 'https://giscus.app/client.js';
+      script.async = true;
+      for (let key of Object.keys(el.attributes)) {
+        let attr = el.attributes[key];
+        if (['class', 'id'].includes(attr.name) === false) {
+          script.setAttribute(attr.name, attr.value);
+        }
+      }
+      el.appendChild(script);
+    });
+  }
+  window.addEventListener('DOMContentLoaded', (event) => {
+    loadJS();
+  });
+</script>
+
+
+
+
+<!-- inject -->
+
+
+  </div>
+</body>
+</html>

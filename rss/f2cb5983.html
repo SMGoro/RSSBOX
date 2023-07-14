@@ -1,0 +1,783 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+  <meta name="generator" content="Hexo 6.3.0">
+  <meta name="hexo-theme" content="https://github.com/xaoxuu/hexo-theme-stellar/tree/1.19.0">
+  <meta charset="utf-8">
+  
+
+  <meta http-equiv="x-dns-prefetch-control" content="on">
+  <link rel="dns-prefetch" href="https://gcore.jsdelivr.net">
+  <link rel="preconnect" href="https://gcore.jsdelivr.net" crossorigin>
+  <link rel="dns-prefetch" href="//unpkg.com">
+
+  <meta name="renderer" content="webkit">
+  <meta name="force-rendering" content="webkit">
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+  <meta name="HandheldFriendly" content="True">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="theme-color" content="#f8f8f8">
+  
+  <title>主流开源分析引擎梳理，看看你最中意谁？| StoneDB数据库观察 - RSSBOX</title>
+
+  
+    <meta name="description" content="编者荐语： 本文来自石原子合伙人祁国辉老师，主要对主流的开源分析引擎进行详尽的分析，干货满满，欢迎大家阅读学习。  最近一段时间，我重新梳理了一下目前市面上主流的数据分析引擎， 发现真是琳琅满目， 令人眼花缭乱。静下心来花了两周时间横向看了一下， 学习过程中， 记了一些笔记， 希望能够帮到大家。 作者 | 祁国辉 责编 | 韩   楠 封面&amp;编辑 | 宇亭 总体来讲，分析下来， 基本脉络">
+<meta property="og:type" content="article">
+<meta property="og:title" content="主流开源分析引擎梳理，看看你最中意谁？| StoneDB数据库观察">
+<meta property="og:url" content="https://blog.imc.re/RSSBOX/rss/f2cb5983.html">
+<meta property="og:site_name" content="RSSBOX">
+<meta property="og:description" content="编者荐语： 本文来自石原子合伙人祁国辉老师，主要对主流的开源分析引擎进行详尽的分析，干货满满，欢迎大家阅读学习。  最近一段时间，我重新梳理了一下目前市面上主流的数据分析引擎， 发现真是琳琅满目， 令人眼花缭乱。静下心来花了两周时间横向看了一下， 学习过程中， 记了一些笔记， 希望能够帮到大家。 作者 | 祁国辉 责编 | 韩   楠 封面&amp;编辑 | 宇亭 总体来讲，分析下来， 基本脉络">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://p9-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/f7c245281b9548cda365e88ce1437858~tplv-k3u1fbpfcp-watermark.image?">
+<meta property="og:image" content="https://p1-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/6aea41619b8a4f85913ce22b928f85d1~tplv-k3u1fbpfcp-watermark.image?">
+<meta property="og:image" content="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/36f64d2e6be9470da666bcb1cc36f6b1~tplv-k3u1fbpfcp-watermark.image?">
+<meta property="og:image" content="https://p9-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/c42d91047c864774bf1a548879c43d05~tplv-k3u1fbpfcp-watermark.image?">
+<meta property="og:image" content="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/76b87aa072cc4f65b1bfd828b66cd083~tplv-k3u1fbpfcp-watermark.image?">
+<meta property="og:image" content="https://p1-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/78fb3152b4824a6d8d12a8e18d17208b~tplv-k3u1fbpfcp-watermark.image?">
+<meta property="og:image" content="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/7e5ccbf182ec4e56829dfd72e18abd33~tplv-k3u1fbpfcp-watermark.image?">
+<meta property="og:image" content="https://p9-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/3dc6f630d9a940d7b3f3d31f2660c78a~tplv-k3u1fbpfcp-watermark.image?">
+<meta property="og:image" content="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/637e5c955d544f1d8fe1254b309041d2~tplv-k3u1fbpfcp-watermark.image?">
+<meta property="og:image" content="https://p9-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/8b3a2f7be48546a58c54c20e06c6420f~tplv-k3u1fbpfcp-watermark.image?">
+<meta property="og:image" content="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/cfac82326ec9417d829cb42f09cbdad5~tplv-k3u1fbpfcp-watermark.image?">
+<meta property="og:image" content="https://p9-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/348282ba10f849c89890c152ec7087f9~tplv-k3u1fbpfcp-watermark.image?">
+<meta property="og:image" content="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/95853c763e184e7295819bba82801b7b~tplv-k3u1fbpfcp-watermark.image?">
+<meta property="og:image" content="https://p9-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/6f96557a898f4e41afa1336c0d2e269a~tplv-k3u1fbpfcp-watermark.image?">
+<meta property="og:image" content="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/711e5a034f214fe2b989c820c029a005~tplv-k3u1fbpfcp-watermark.image?">
+<meta property="og:image" content="https://p9-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/6df912f7e71f4a2a928475f8ba1f1dc5~tplv-k3u1fbpfcp-watermark.image?">
+<meta property="og:image" content="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/fefdfdd22ecf440fa57fc547f3093ae0~tplv-k3u1fbpfcp-zoom-1.image">
+<meta property="og:image" content="https://p6-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/d40d8031f45f4917ad53c0ad24391caf~tplv-k3u1fbpfcp-watermark.image?">
+<meta property="og:image" content="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/e17b9c61d2694f76ba97d49e6f52baa6~tplv-k3u1fbpfcp-watermark.image?">
+<meta property="og:image" content="https://p6-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/38dbdcbc6b1346e2a3556c3a12804284~tplv-k3u1fbpfcp-watermark.image?">
+<meta property="article:published_time" content="2023-07-11T09:47:17.000Z">
+<meta property="article:modified_time" content="2023-07-11T09:47:17.000Z">
+<meta property="article:author" content="SMGoro">
+<meta property="article:tag" content="媒体">
+<meta property="article:tag" content="掘金">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://p9-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/f7c245281b9548cda365e88ce1437858~tplv-k3u1fbpfcp-watermark.image?">
+  
+  
+  
+  <meta name="keywords" content="媒体,掘金">
+
+  <!-- feed -->
+  
+    <link rel="alternate" href="/RSSBOX/atom.xml" title="RSSBOX" type="application/atom+xml">
+  
+
+  
+    
+<link rel="stylesheet" href="/RSSBOX/css/main.css">
+
+  
+
+  
+
+  
+
+  
+    <link rel="stylesheet" href="https://gcore.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.css" integrity="sha384-vKruj+a13U8yHIkAyGgK1J3ArTLzrFGBbBc0tDp4ad/EyewESeXE/Iv67Aj8gKZ0" crossorigin="anonymous">
+    <script defer src="https://gcore.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.js" integrity="sha384-PwRUT/YqbnEjkZO0zZxNqcxACrXe+j766U2amXcgMg5457rve2Y7I6ZJSm2A0mS4" crossorigin="anonymous"></script>
+    <script defer src="https://gcore.jsdelivr.net/npm/katex@0.16.4/dist/contrib/auto-render.min.js" integrity="sha384-+VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4+/RRE05" crossorigin="anonymous" onload="renderMathInElement(document.body);"></script>
+  
+
+
+  
+
+<!--百度统计-->
+<script>
+  var _hmt = _hmt || [];
+  (function() {
+    var hm = document.createElement("script");
+    hm.src = "https://hm.baidu.com/hm.js?f42afe3e5b76d22c8b1a8060171c7184";
+    var s = document.getElementsByTagName("script")[0]; 
+    s.parentNode.insertBefore(hm, s);
+  })();
+</script>  
+  <!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-V2NSKYGXNG"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-V2NSKYGXNG');
+</script>
+<!--Google Adsense-->
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4773172018528901" crossorigin="anonymous"></script>
+</head>
+
+<body>
+  
+
+
+
+
+  <div class="l_body" id="start">
+    <aside class="l_left" layout="post">
+    
+
+  
+
+<header class="header"><div class="logo-wrap"><a class="avatar" href="/RSSBOX/archives"><div class="bg" style="opacity:0;background-image:url(https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.4/avatar/round/rainbow64@3x.webp);"></div><img no-lazy class="avatar" src="https://cdn.jsdelivr.net/gh/SMGCDN/photos/icon/rsshub.png" onerror="javascript:this.classList.add('error');this.src='https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.4/image/2659360.svg';"></a><a class="title" href="/RSSBOX/"><div class="main" ff="title">RSSBOX</div><div class="sub normal cap">SMGoroのRSS订阅</div><div class="sub hover cap" style="opacity:0"> 一些好康的东西</div></a></div>
+
+<nav class="menu dis-select"><a class="nav-item active" href="/RSSBOX/">订阅</a><a class="nav-item" href="https://blog.imc.re/">博客</a><a class="nav-item" href="https://blog.imc.re/contact">联系</a><a class="nav-item" href="https://blog.imc.re/more">更多</a></nav>
+</header>
+
+
+<div class="widgets">
+
+<widget class="widget-wrapper toc single" id="data-toc"><div class="widget-header cap dis-select"><span class="name">主流开源分析引擎梳理，看看你最中意谁？| StoneDB数据库观察</span></div><div class="widget-body fs14"><div class="doc-tree active"></div></div></widget>
+
+
+
+<widget class="widget-wrapper search"><div class="widget-body"><div class="search-wrapper" id="search"><form class="search-form"><input type="text" class="search-input" id="search-input" data-filter="/rss/" placeholder="文章搜索"><svg t="1670596976048" class="icon search-icon" viewbox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2676" width="200" height="200"><path d="M938.2 832.6L723.8 618.1c-2.5-2.5-5.3-4.4-7.9-6.4 36.2-55.6 57.3-121.8 57.3-193.1C773.3 222.8 614.6 64 418.7 64S64 222.8 64 418.6c0 195.9 158.8 354.6 354.6 354.6 71.3 0 137.5-21.2 193.2-57.4 2 2.7 3.9 5.4 6.3 7.8L832.5 938c14.6 14.6 33.7 21.9 52.8 21.9 19.1 0 38.2-7.3 52.8-21.8 29.2-29.1 29.2-76.4 0.1-105.5M418.7 661.3C284.9 661.3 176 552.4 176 418.6 176 284.9 284.9 176 418.7 176c133.8 0 242.6 108.9 242.6 242.7 0 133.7-108.9 242.6-242.6 242.6" p-id="2677"/></svg></form><div id="search-result"></div><div class="search-no-result">没有找到内容！</div></div></div></widget>
+
+
+
+<widget class="widget-wrapper recent"><div class="widget-header cap theme dis-select"><span class="name">最近更新</span><a class="cap-action" id="rss" title="Subscribe" href="/atom.xml"><svg class="icon" viewbox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="8938"><path d="M800.966 947.251c0-404.522-320.872-732.448-716.69-732.448V62.785c477.972 0 865.44 395.987 865.44 884.466h-148.75z m-162.273 0h-148.74c0-228.98-181.628-414.598-405.678-414.598v-152.01c306.205 0 554.418 253.68 554.418 566.608z m-446.24-221.12c59.748 0 108.189 49.503 108.189 110.557 0 61.063-48.44 110.563-108.188 110.563-59.747 0-108.18-49.5-108.18-110.563 0-61.054 48.433-110.556 108.18-110.556z" p-id="8939"/></svg></a></div><div class="widget-body related-posts fs14"><a class="item title" href="/RSSBOX/rss/2c2fbeb.html"><span class="title">七つの魔剣が支配する｜七魔剑支配天下</span></a><a class="item title" href="/RSSBOX/rss/3e937bc5.html"><span class="title">百姓貴族｜百姓贵族</span></a><a class="item title" href="/RSSBOX/rss/6b839856.html"><span class="title">シュガーアップル・フェアリーテイル(第2クール)｜银砂糖师与黑妖精 第2部分</span></a><a class="item title" href="/RSSBOX/rss/57dfaaf5.html"><span class="title">Girlhood</span></a><a class="item title" href="/RSSBOX/rss/d28c33bf.html"><span class="title">Headhunter's Eyes</span></a></div></widget>
+</div>
+<footer class="footer dis-select"><div class="social-wrap"><a class="social" href="https://github.com/SMGoro" target="_blank" rel="external nofollow noopener noreferrer"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cdn.jsdelivr.net/gh/SMGCDN/photos/icon/iconfont/social-github.svg"></a><a class="social" href="https://space.bilibili.com/359079394" target="_blank" rel="external nofollow noopener noreferrer"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cdn.jsdelivr.net/gh/SMGCDN/photos/icon/iconfont/bilibili.svg"></a><a class="social" href="https://l.imc.re/zhihu" target="_blank" rel="external nofollow noopener noreferrer"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cdn.jsdelivr.net/gh/SMGCDN/photos/icon/iconfont/zhihu.svg"></a><a class="social" href="https://l.imc.re/discord" target="_blank" rel="external nofollow noopener noreferrer"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cdn.jsdelivr.net/gh/SMGCDN/photos/icon/iconfont/discord.svg"></a><a class="social" href="https://blog.imc.re/contact" target="_blank" rel="external nofollow noopener noreferrer"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cdn.jsdelivr.net/gh/SMGCDN/photos/icon/iconfont/comments.svg"></a></div></footer>
+
+    </aside>
+    <div class="l_main">
+      
+
+      
+
+
+
+<div class="bread-nav fs12"><div id="breadcrumb"><a class="cap breadcrumb" href="/RSSBOX/">主页</a><span class="sep"></span><a class="cap breadcrumb" href="/RSSBOX/">文章</a><span class="sep"></span><a class="cap breadcrumb-link" href="/RSSBOX/categories/%E5%AA%92%E4%BD%93/">媒体</a> <span class="sep"></span> <a class="cap breadcrumb-link" href="/RSSBOX/categories/%E5%AA%92%E4%BD%93/%E6%8E%98%E9%87%91/">掘金</a></div><div id="post-meta">发布于&nbsp;<time datetime="2023-07-11T09:47:17.000Z">2023-07-11</time></div></div>
+
+<article class="md-text content post">
+<h1 class="article-title"><span>主流开源分析引擎梳理，看看你最中意谁？| StoneDB数据库观察</span></h1>
+<div>
+<p>编者荐语：</p>
+<p>本文来自石原子合伙人祁国辉老师，主要对主流的开源分析引擎进行详尽的分析，干货满满，欢迎大家阅读学习。</p>
+<p><img class="lazy" alt="image.png" referrerpolicy="no-referrer" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://p9-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/f7c245281b9548cda365e88ce1437858~tplv-k3u1fbpfcp-watermark.image?"></p>
+<p>最近一段时间，我重新梳理了一下目前市面上主流的数据分析引擎， 发现真是琳琅满目， 令人眼花缭乱。静下心来花了两周时间横向看了一下， 学习过程中， 记了一些笔记， 希望能够帮到大家。</p>
+<p align="right">作者 | 祁国辉</p>
+<p align="right">责编 | 韩   楠</p>
+<p align="right">封面&amp;编辑 | 宇亭</p>
+<p>总体来讲，分析下来， 基本脉络来自两个方向：一个是MPP数据库的大规模并行；另外一个方向来自于SQL on Hadoop。</p>
+<p><img class="lazy" alt="image.png" referrerpolicy="no-referrer" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://p1-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/6aea41619b8a4f85913ce22b928f85d1~tplv-k3u1fbpfcp-watermark.image?"></p>
+<p>结合这两条主线， 各个产品在不同地方做了一些优化和取舍， 比如Kylin和Mesa的预计算， 比如大家ClickHouse的大宽表。</p>
+<p>当然各家也都有一些共性，可谓是八仙过海， 各显神通。比如大家都开始尽量向标准SQL靠拢， 以屏蔽底层的技术复杂性。另外基于表组的ORC或者parquet的列式数据存储，提高OLAP查询时的IO效率，基于松耦合集群的架构，来支持海量数据下的横向扩展能力。说明在OLAP分析中的关键技术也基本上开始趋同。</p>
+<p>而下一代的技术比如向量化执行， AI4DB、serverless、内存池化等基于最新技术的云化数仓， 也将成为下一阶段大家发力的方向。</p>
+<p><strong>01 Greenplum</strong></p>
+<p>业界最著名的开源MPP数据库，基于PostgreSQL，其架构核心是采用无共享的MPP架构，主要用于数据分析OLAP。2010年被EMC收购，于2015年开源，拥有完整的生态。</p>
+<p align="center"><img class="lazy" alt="image.png" referrerpolicy="no-referrer" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/36f64d2e6be9470da666bcb1cc36f6b1~tplv-k3u1fbpfcp-watermark.image?">图源：Docs.greenplum.org</p>
+<p>Greenplum主要由Master节点、Segment节点、interconnect三大部分组成。</p>
+<ul>
+<li>Greenplum master是Greenplum数据库系统的入口，接受客户端连接及提交的SQL语句，将工作负载分发给其他数据库实例（segment实例），由它们存储和处理数据。</li>
+<li>Greenplum interconnect负责不同PostgreSQL实例之间的通信。</li>
+<li>Greenplum segment是独立的PostgreSQL数据库，每个segment存储一部分数据。大部分查询处理都由segment完成。每个Segment存放一部分用户数据，但是用户不能直接访问Segment，所有对Segment的访问都必须经过Master。</li>
+</ul>
+<p>Master节点不存放任何用户数据，只是对客户端进行访问控制以及存储表分布逻辑的元数据，Segment节点负责数据的存储，可以对分布键进行优化以充分利用Segment节点的IO性能来扩展整集群的IO性能，Segment节点越多，数据就会打得越散，处理速度就越快。</p>
+<p>存储方式可以根据数据热度 或者访问模式的不同而使用不同的存储方式。一张表的不同数据可以使用不同的物理存储方式：行存储、列存储、外部表。</p>
+<p>GreenPlum 属于比较早期开源的数据仓库产品， 使用的用户很多， 优缺点简要分析如下：</p>
+<p><strong>优点：</strong></p>
+<ol>
+<li>支持标准SQL 语法，使用简单，与上下游工具无缝集成，利用PG生态， 易于运维管理；</li>
+<li>支持行列混存， 支持数据压缩；</li>
+<li>性能优异，利用MPP架构， 充分发挥并行能力。</li>
+</ol>
+<p><strong>缺点：</strong></p>
+<ol>
+<li>多个PG数据库的组合， 部署在开放平台上，稳定性不足；</li>
+<li>查询没有利用到分片键， 可能导致大量数据跨节点传输， 性能会有所下降；</li>
+<li>因为任何一个任务都会在每个节点并行执行， 整个系统并发能力受单节点处理能力影响。</li>
+</ol>
+<p><strong>02 HAWQ</strong></p>
+<p>谈到GreeenPlum ，就不得不提一下HAWQ， 因为HAWQ是和GreenPlum同源的， 都是由Pivotal公司研发的， 为什么叫HAWQ， 是因为它的名字叫Hadoop with Query。它是用Hadoop替换了GreenPlum中的MPP和sharenothing的数据存储。</p>
+<p>HAWQ是一个Hadoop原生大规模并行SQL分析引擎，目前大家使用的是Apache开源的最新的2.0 Alpha版本，数据直接存储在HDFS上，并且SQL查询优化器中已经为基于HDFS的文件系统性能特征进行过细致的优化。</p>
+<p>SQL on Hadoop的主要设计目标是：在Hadoop上执行SQL连接时，最大程度地降低数据传输的开销。HAWQ 采用Dynamic pipelining来解决这一关键要求，使基于HDFS的数据适用于交互式查询。HAWQ要比现有Hadoop查询引擎快一或两个数量级。这些性能改进主要归功于Dynamic pipelining和HAWQ内基于成本的查询优化器的强大功能。</p>
+<p align="center"><img class="lazy" alt="image.png" referrerpolicy="no-referrer" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://p9-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/c42d91047c864774bf1a548879c43d05~tplv-k3u1fbpfcp-watermark.image?">图源：https://hawq.apache.org/docs/</p>
+<p>Apache HAWQ 采用主从（Master-Segment）的改进MPP架构。一个典型的Apache HAWQ集群是分布式部署在多个服务器节点上，如多个物理机或多个虚拟机。在HAWQ Master端，Apache HAWQ提供集中的元数据管理并接受所有客户端连接的请求，当一个客户端的数据计算请求以SQL形式发送到Master后，被优化的分布式执行计划被生成并派发到多个Segment服务器运行，计算由多个执行器进程（QE）实现并行计算。</p>
+<p>存储由Hadoop HDFS提供服务，绝大多数情况下Segment服务器将使用本地HDFS DataNode服务实现数据存取。集群的计算资源由Master端的资源管理器统一调度，并以资源容器的形式在Segment端体现。</p>
+<p>HAWQ的主要优缺点总结如下：</p>
+<p><strong>优点：</strong></p>
+<ol>
+<li>完善的Sql支持；</li>
+<li>原生Hadoop支持，利用YARN，能和各类Hadoop生态组件进行整合，支持各类常见的文件格式；</li>
+<li>优异的OLAP查询性能， 利用 Pivotal Orca优化器， 性能上表现不错；</li>
+<li>先进的架构， 对比传统MPP， 天生存算分离。</li>
+</ol>
+<p><strong>缺点：</strong></p>
+<ol>
+<li>安装配置复杂；</li>
+<li>内部技术实现复杂， 要达到最佳性能， 还是需要内部表。</li>
+</ol>
+<p><strong>03 Hive</strong></p>
+<p>Hive是基于Hadoop构建的一套数据仓库分析系统，它提供了丰富的SQL查询方式来分析存储在Hadoop分布式文件系统中的数据。由Facebook研发。</p>
+<p>Hive 的计算基于 Hadoop 实现的一个特别的计算模型 MapReduce，它可以将计算任务分割成多个处理单元，然后分散到一批家用或服务器级别的硬件机器上，降低成本并提高水平扩展性。</p>
+<p>Hive 的数据存储在 Hadoop 一个分布式文件系统上，即 HDFS。用户输入SQL后，Hive会将其翻译成MapReduce或者Spark任务，提交到Yarn上面执行，执行成功将返回结果。</p>
+<p align="center"><img class="lazy" alt="image.png" referrerpolicy="no-referrer" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/76b87aa072cc4f65b1bfd828b66cd083~tplv-k3u1fbpfcp-watermark.image?">图源：https://cwiki.apache.org/confluence/display/Hive/Design</p>
+<p>Hive比较适合离线处理，因为它把SQL转MapReduce执行响应速度较慢，Hive 发展很快，例如查询优化方面采用了 CBO，在执行引擎方面用 Tez 来替换 MapReduce，通过 LLAP 来 cache 查询结果做优化，利用DAG减少落盘次数来提速，以及 ORC 存储不断演进。</p>
+<p>不过相比较而言，这些新技术从市场应用来说还不算成熟稳定，Hive 仍然被大量用户定义为可靠的 ETL 工具而非即时查询产品。</p>
+<p>Hive在0.14以后的版本支持事务，前提是文件格式为 orc 格式，同时必须分桶，还必须显式声明 transactional=true。</p>
+<p>优缺点分析：</p>
+<p><strong>优点：</strong></p>
+<ol>
+<li>最基础的一款Hadoop数据仓库产品，更够部署在所有Hadoop发行版本之上；</li>
+<li>目前大多数其他技术都搭建在Hive之上，基于MR之上， 封装了SQL支持；</li>
+<li>系统稳定， HQL使用者众多。</li>
+</ol>
+<p><strong>缺点：</strong></p>
+<ol>
+<li>Hive不支持事务，一般用于读多写少的情况，不建议改动数据，因为数据存储在HDFS中，而HDFS的文件不支持修改；</li>
+<li>Hive延迟比较大，因其底层是MapReduce，执行效率较慢。但当数据规模较大的情况下，Hive的并行计算优势就体现出来了；</li>
+<li>Hive不支持索引，查询的时候是全表扫描，这也是其延迟大的原因之一。</li>
+</ol>
+<p>Hive 虽然存在性能上的问题，直接使用不多，但是现在基本上作为SQL on Hadoop的基础组件， 在大数据家族中使用非常广泛。</p>
+<p><strong>04 Impala</strong></p>
+<p>Impala由Cloudera公司开发，提供SQL语义，可查询存储在Hadoop和HBase上的PB级海量数据。</p>
+<p>Impala作为新一代开源大数据分析引擎，最初参照Dremel（由Google开发的交互式数据分析系统），支持实时计算，提供与Hive类似的功能，在性能上高出Hive3~30倍。Impala可能会超过Hive的使用率能成为Hadoop上最流行的实时计算平台。</p>
+<p>Impala采用与商用并行关系数据库类似的分布式查询引擎，可直接从HDFS、HBase中用SQL语句查询数据，不需把SQL语句转换成MR任务，降低延迟，可很好地满足实时查询需求。</p>
+<p>Impala不能替换Hive，可提供一个统一的平台用于实时查询。Impala的运行依赖于Hive的元数据（Metastore）。Impala和Hive采用相同的SQL语法、ODBC驱动程序和用户接口，可统一部署Hive和Impala等分析工具，同时支持批处理和实时查询。</p>
+<p>Impala经常搭配存储引擎Kudu一起提供服务，这么做最大的优势是查询比较快，并且支持数据的Update和Delete。</p>
+<p>Impala是采用MPP架构的查询引擎，本身不存储任何数据，直接使用内存进行计算，兼顾数据仓库，具有实时、批处理、多并发等优点。</p>
+<p align="center"><img class="lazy" alt="image.png" referrerpolicy="no-referrer" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://p1-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/78fb3152b4824a6d8d12a8e18d17208b~tplv-k3u1fbpfcp-watermark.image?">图源 https://www.w3cschool.cn/impala/impala_architecture.html</p>
+<p>上图是Impala系统结构图，Impala和Hive、HDFS、HBase统一部署在Hadoop平台上。Impala由Impalad、State Store和Interfaces几个部分组成。</p>
+<ul>
+<li>Implalad：是Impala的一个进程，负责协调客户端提供的查询执行，给其他Impalad分配任务，以及收集其他Impalad的执行结果进行汇总。Impalad也会执行其他Impalad给其分配的任务，主要是对本地HDFS和HBase里的部分数据进行操作。Impalad进程主要含Query Planner、Query Coordinator和Query Exec Engine三个模块，与HDFS的数据节点（HDFS DataNode）运行在同一节点上，且完全分布运行在MPP（大规模并行处理系统）架构上。</li>
+<li>State Store：收集分布在集群上各个Impalad进程的资源信息，用于查询的调度，它会创建一个statestored进程，来跟踪集群中的Impalad的健康状态及位置信息。State stored进程通过创建多个线程来处理Impalad的注册订阅以及与多个Impalad保持心跳连接，此外，各Impalad都会缓存一份State Store中的信息。当State Store离线后，Impalad一旦发现State Store处于离线状态时，就会进入恢复模式，并进行返回注册。当State Store重新加入集群后，自动恢复正常，更新缓存数据。</li>
+<li>Interfaces：Interfaces给用户提供了执行查询的命令行工具。Impala还提供了Hue、shell、JDBC及ODBC使用接口。</li>
+</ul>
+<p>Impala的查询过程也是典型的MPP架构，当用户提交查询前，Impala先创建一个Impalad进程来负责协调客户端提交的查询，该进程会向State Store提交注册订阅信息，State Store会创建一个statestored进程，statestored进程通过创建多个线程来处理Impalad的注册订阅信息。通过CLI提交一个查询到Impalad进程，Impalad的Query Planner对SQL语句解析，生成解析树；Planner将解析树变成若干PlanFragment，发送到Query Coordinator。</p>
+<p align="center"><img class="lazy" alt="image.png" referrerpolicy="no-referrer" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/7e5ccbf182ec4e56829dfd72e18abd33~tplv-k3u1fbpfcp-watermark.image?">图源 https://www.cnblogs.com/mephisto/p/6921663.html</p>
+<p>其中PlanFragment由PlanNode组成，能被分发到单独的节点上执行，每个PlanNode表示一个关系操作和对其执行优化需要的信息。Query Coordinator从MySQL元数据库中获取元数据（即查询需要用到哪些数据），从HDFS的名称节点中获取数据地址（即数据被保存到哪个数据节点上），从而得到存储这个查询相关数据的所有数据节点。</p>
+<p>Query Coordinator初始化相应的Impalad上的任务，即把查询任务分配给所有存储这个查询相关数据的数据节点。Query Executor通过流式交换中间输出，并由Query Coordinator汇聚来自各个Impalad的结果。</p>
+<p>最后Query Coordinator把汇总后的结果返回给CLI客户端。</p>
+<p>优缺点分析：</p>
+<p><strong>优点：</strong></p>
+<ol>
+<li>基于内存运算，不需要把中间结果写入磁盘，省掉了大量的I/O开销；</li>
+<li>无需转换为Mapreduce，直接访问存储在HDFS，HBase中的数据进行作业调度；</li>
+<li>速度快。使用了支持Data locality的I/O调度机制，尽可能地将数据和计算分配在同一台机器上进行，减少了网络开销；</li>
+<li>支持各种文件格式，如TEXTFILE 、SEQUENCEFILE 、RCFile、Parquet。可以访问Hive的metastore，对hive数据直接做数据分析。</li>
+</ol>
+<p><strong>缺点：</strong></p>
+<ol>
+<li>对内存的依赖大，且完全依赖于Hive；</li>
+<li>实践中，分区过大会造成性能严重下降；</li>
+<li>只能读取文本文件，不能直接读取自定义二进制文件。</li>
+</ol>
+<p><strong>05 Spark</strong>
+2009年，加州大学伯克利分校的AMP实验室，诞生了一个叫做Spark的项目。该项目在2013年成为了Apache的孵化项目，并以极快的速度成为了一个备受欢迎和关注的顶级项目。</p>
+<p>Spark项目的初衷是为了代替MapReduce，提供一种既可以极大批量地处理分布式的数据，又有足够的容错能力，且上手容易，速度快，可以让人实现实时交互分析的解决方案。既支持作业任务处理，又支持流处理（SparkStreaming）和SQL（SparkSQL），以及机器学习和图处理，社区生态活跃。</p>
+<p>Hive是提供了一个SQL on hadoop的机制， 使得基于Hadoop的查询变得容易很多， 但是因为Hive底层仍然是使用Map/Reduce的方法， 所以在过程中需要把大量的中间结果保存在磁盘中，因而整体的性能偏慢。</p>
+<p>而 Spark 没有像 Hive 一样使用磁盘读写，而转用性能高得多的内存存储输入数据、处理中间结果，以及存储最终结果。在大数据的场景中，很多计算都有循环往复的特点，像 Spark 这样允许在内存中缓存输入输出，上一个 job 的结果马上可以被下一个使用，性能自然要比 Hive 好得多。</p>
+<p>Spark的技术核心点在于 弹性分布式数据集(RDD，Resilient Distributed Datasets)。RDD是一种分布式的内存抽象，允许在大型集群上执行基于内存的计算(In-Memory Computing)，Spark RDD能够将数据cache到内存中，省去了从磁盘加载的过程，同时Spark shuffle过程中的数据也是直接放在内存中的。</p>
+<p>RDD是一个分区的只读记录的集合，用户可以控制RDD的其他两个方面：持久化和分区。</p>
+<p>一方面用户可以选择重用哪个RDD，并为其制定存储策略(比如，内存存储)， Spark提供了三种对持久化RDD的存储策略：未序列化Java对象存于内存中、序列化后的数据存于内存、序列化后的数据存于磁盘存储。</p>
+<p>另一方面可以让RDD中的数据 根据记录的key 分布到集群的多个机器上， 实现分布式内存计算。</p>
+<p>后来Spark 继续扩展，数据存储模式也有了不同的选择， 数据可以存储成为parquet， 也可存储在数据库， 当然也可以存储在Hive表上。</p>
+<p>通常认为，与MR相比spark通过内存计算来显著提速。Spark社区非常成熟，后面提到的很多平台或大数据组件，都与Spark实现无缝集成。</p>
+<p>优缺点分析：</p>
+<p><strong>优点：</strong></p>
+<ol>
+<li>速度更快：因为使用内存引擎， 数据不落地，Spark性能表现非常优异；</li>
+<li>易用性：提供丰富的API，支持JAVA、Scala、Python和R四种语言；</li>
+<li>通用性：Spark提供了大量的库，包括SQL、DataFrames、MLlib、GraphX和Spark Streaming。开发人员可以在同一个应用程序中无缝地组合这些库。</li>
+</ol>
+<p><strong>缺点：</strong></p>
+<ol>
+<li>稳定性， 因为大量数据在内存中计算， 完全依赖java的内存回收机制， 长时间运行容易出现故障；</li>
+<li>无法支持海量数据， 因为要在内存中生成RDD， 所以数据量受内存限制；</li>
+<li>不能像SQL一样， 支持复杂统计分析。</li>
+</ol>
+<p><strong>06 Kylin</strong>
+Kylin是一个开源的分布式分析引擎，提供Hadoop/Spark之上的SQL查询接口及多维分析（OLAP）能力以支持超大规模数据，最初由eBay Inc. 开发并贡献至开源社区。它能在亚秒内查询巨大的Hive表。核心是预加载和构建cube，cube指定度量维度，Kylin的核心思想是预计算，利用空间换时间来加速查询模式固定的OLAP查询。</p>
+<p>Kylin 的理论基础是 Cube 理论，每一种维度组合称之为 Cuboid，所有 Cuboid 的集合是 Cube。其中由所有维度组成的 Cuboid 称为 Base Cuboid，图中（time，item，location，supplier）即为 Base Cuboid，所有的 Cuboid 都可以基于 Base Cuboid 计算出来。Cuboid 我们可以理解为就是一张预计算过后的大宽表，在查询时，Kylin 会自动选择满足条件的最合适的 Cuboid来进行加速。</p>
+<p align="center"><img class="lazy" alt="image.png" referrerpolicy="no-referrer" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://p9-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/3dc6f630d9a940d7b3f3d31f2660c78a~tplv-k3u1fbpfcp-watermark.image?">图源：Apache Kylin | Apache kylin4 新架构分享</p>
+<p>下图所示内容则描述了Kylin和周边生态产品共存的关系， 以及Kylin内部数据获取， 构建Cube， 用户查询交互和SQL 解析优化的全流程。</p>
+<p align="center"><img class="lazy" alt="image.png" referrerpolicy="no-referrer" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/637e5c955d544f1d8fe1254b309041d2~tplv-k3u1fbpfcp-watermark.image?">图源：Apache Kylin | 大数据分析型数据仓库</p>
+<p>在目前开源版本的实现中，构建完的数据是存储在 HBase 中的，而Hbase的缺点造成很多的局限：</p>
+<p>- 运维困难，一旦 HBase 性能不好，那么Kylin的性能也会受到影响。</p>
+<ul>
+<li>
+<p>HBase 的资源隔离能力也比较弱，Kylin 的性能会受到Hbase上其他大负载的影响。</p>
+</li>
+<li>
+<p>HBase 里存储的都是经过编码后的 Byte Array 类型，性能优化比较困难。</p>
+</li>
+</ul>
+<p>Kylin 4.0中引入了新的架构， 支持Spark+ parquet， 通过Spark的并行能力提升性能，不过只在商业版本中使用， 此处就不再赘述了。</p>
+<p>优缺点分析：</p>
+<p><strong>优点：</strong></p>
+<ol>
+<li>支持标准SQL接口；</li>
+<li>支持超大数据集；</li>
+<li>超高性能，通过预计算达到亚秒级响应。</li>
+</ol>
+<p><strong>缺点：</strong></p>
+<ol>
+<li>集群依赖较多，如HBase和Hive等，属于重量级方案，因此运维成本也较高；</li>
+<li>维度变化需要重新刷新数据，不适合即席查询分析；</li>
+<li>维度多容易出现数据爆炸。</li>
+</ol>
+<p><strong>07 Apache Kudu</strong>
+Kudu是Cloudera开源的运行在hadoop平台上的列式存储系统（fast analytics on fast data），核心C++编写。</p>
+<p>它比HDFS和Hbase的优势在于以下亮点：</p>
+<p>一是kudu的表结构与关系型数据库类似，使用简单；</p>
+<p>二是提供高效插入/更新机制，大量随机读性能要显著超过Hbase。</p>
+<p>因此可以适用于近实时的分析，快速分析那些快速变化的数据。</p>
+<p align="center"><img class="lazy" alt="image.png" referrerpolicy="no-referrer" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://p9-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/8b3a2f7be48546a58c54c20e06c6420f~tplv-k3u1fbpfcp-watermark.image?">图源：Apache Kudu - Introducing Apache Kudu</p>
+<p>kudu由master server与tablet server两部分组成：</p>
+<ul>
+<li>master server负责集群管理、元数据管理等管理工作；</li>
+<li>tablet server提供数据存储、数据读写功能。</li>
+</ul>
+<p>上图显示了一个具有三个 master 和多个tablet server的Kudu集群，每个服务器都支持多个tablet。它说明了如何使用 Raft 共识来允许master和tablet server的leader和follow。</p>
+<p>此外，tablet server 可以成为某些 tablet 的 leader，也可以是其他 tablet follower。leader以金色显示，而 follower 则显示为蓝色。</p>
+<p>和HBase采用的LSM方案不同的是，Kudu对同一行的数据更新记录的合并工作是在更新的时候进行，在Kudu中一行数据只会存在于一个DiskRowSet中，避免读操作时的比较合并工作。在Kudu中，对于Flush到磁盘上的DiskRowSet（DRS）数据，实际上是分两种形式存在的：</p>
+<ul>
+<li>一种是Base的数据，按列式存储格式存在，一旦生成，就不再修改；</li>
+<li>另一种是Delta文件，存储Base数据中有变更的数据，一个Base文件可以对应多个Delta文件，更新、删除操作需要记录到特殊的数据结构里，保存在内存中的DeltaMemStore或磁盘上的DeltaFIle里面。DeltaMemStore是B-Tree实现的，因此速度快，而且可修改。磁盘上的DeltaFIle是二进制的列式的块，当数据频繁删改的时候，磁盘上会有大量的DeltaFiles文件，Kudu会定期对这些文件进行合并。</li>
+</ul>
+<p>优缺点分析：</p>
+<p><strong>优点：</strong></p>
+<ol>
+<li>使用简单，kudu的表结构与关系型数据库类似；</li>
+<li>支持高效插入/更新机制，大量随机读性能要显著超过Hbase。</li>
+</ol>
+<p><strong>缺点：</strong></p>
+<ol>
+<li>并发支持能力不足；</li>
+<li>一般和Impala结合使用，架构复杂；</li>
+<li>国内用户不多。</li>
+</ol>
+<p><strong>08 ClickHouse</strong>
+ClickHouse 是由俄罗斯的第一大搜索引擎 Yandex 公司开源的列存数据库。</p>
+<p>ClickHouse 作为开源 OLAP 引擎，因其出色的性能表现在大数据生态中得到了广泛的应用。它使用本地盘来自己管理数据，官方推荐使用 SSD 作为存储介质来提升性能。</p>
+<p>相比传统的大数据解决方案，ClickHouse 有以下的优点：</p>
+<ul>
+<li>配置丰富，只依赖于 Zookeeper线性可扩展性；</li>
+<li>可以通过添加服务器扩展集群容错性高；</li>
+<li>不同分片间采用异步多主复制单表性能极佳；</li>
+<li>采用向量计算；</li>
+<li>支持采样和近似计算等优化手段功能强大；</li>
+<li>支持多种表引擎。</li>
+</ul>
+<p align="center"><img class="lazy" alt="image.png" referrerpolicy="no-referrer" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/cfac82326ec9417d829cb42f09cbdad5~tplv-k3u1fbpfcp-watermark.image?">图源：https://help.aliyun.com/document_detail/167448.html?spm=a2c4g.11174283.6.542.2acb49afFy52rZ</p>
+<p>优缺点分析：</p>
+<p><strong>优点：</strong></p>
+<ol>
+<li>速度快。ClickHouse性能超过了市面上大部分的列式存储数据库，相比传统的数据ClickHouse要快100~1000倍，ClickHouse还是有非常大的优势。</li>
+<li>功能多。ClickHouse支持数据统计分析各种场景，支持类SQL查询，支持多库函数（例如 IP转化，URL分析等，预估计算/HyperLoglog等）支持数组(Array)和嵌套数据结构(Nested Data Structure)，支持数据库异地复制部署。</li>
+<li>独立技术架构，部署简单，可以在目前任何具有x86_64，AArch64或PowerPC64LE CPU架构的Linux，FreeBSD或Mac OS X上运行。</li>
+</ol>
+<p><strong>缺点：</strong></p>
+<ol>
+<li>模型简单， 因为Clickhouse 对join支持不好，所以一般都是把数据拼成一个大宽表来执行， 那么一旦需求变换， 或者数据分析维度变化， 表中的数据必须重新刷新， 带来巨大的工作量， 同时这种大宽表带来巨大的数据膨胀。</li>
+<li>并发支持不足， Clickhouse 并发支持能力弱， 在OLAP场景中，一旦出现多个用户并发查询， 查询性能会受到巨大影响。甚至导致无法返回结果。</li>
+<li>ClickHouse 不支持事务性的 DDL 与 DML 操作，而且多副本模式的元数据管理强依赖于 ZooKeeper，表结构变更时常常出现不同副本之间元数据不一致的问题。</li>
+<li>多种表引擎带来选择困难症， Clickhouse 提供28种表引擎， 不同表引擎适合不同场景， 不利于新手上手学习。</li>
+</ol>
+<p><strong>09 Druid</strong>
+Apache Druid，由美国MetaMarkets公司开发，后来Apache 基金会孵化而出。它具有如下特性：</p>
+<ul>
+<li>实时可见：消息摄入后分钟级查询可见；</li>
+<li>交互查询：查询延时在秒级，核心思想为内存计算和并行计算；</li>
+<li>维度灵活：支持几十个维度任意组合，仅在索引时指定的维度查询可见；</li>
+<li>易于变更：需求变更后调整索引配置立马生效；</li>
+<li>流批一体：新版本 KIS 模式可实现 Exactly Once 语义。</li>
+</ul>
+<p align="center"><img class="lazy" alt="image.png" referrerpolicy="no-referrer" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://p9-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/348282ba10f849c89890c152ec7087f9~tplv-k3u1fbpfcp-watermark.image?">图源：Design · Apache Druid</p>
+<p>Druid有几种不同的Services：</p>
+<ul>
+<li>Coordinator 负责在集群环境中的数据可用性；</li>
+<li>Overlord 控制数据装载workload的分派；</li>
+<li>Broker 负责承接用户请求；</li>
+<li>Router 可选，负责请求的路由， 把响应请求分别路由到Broker, Coordinators, 和Overlords；</li>
+<li>Historical 负责存储查询数据；</li>
+<li>MiddleManager 负责数据装载。</li>
+</ul>
+<p>Druid 服务可以按照用户需求随意部署，但是为了便于部署， 一般建议按照上图来部署， 分成几种服务器类型: Master, Query, Data。</p>
+<ul>
+<li>Master：运行 Coordinator 和 Overlord 服务, 负责数据的持久化保存和数据的装载的分派；</li>
+<li>Query：运行 Broker 和可选的路由服务, 负责处理来自客户端的查询；</li>
+<li>Data：运行Historical 和 MiddleManager 服务，执行数据装载任务和存储所有数据。</li>
+</ul>
+<p>Druid还包含3个外部依赖：</p>
+<ul>
+<li>Metadata：存储Druid中的各种metadata（里面的数据都是Druid自身创建和插入的），包含3张表：”druid_config”（通常是空的）, “druid_rules”（coordinator nodes使用的一些规则信息，比如哪个segment从哪个node去load）和“druid_segments”（存储每个segment的metadata信息）。</li>
+<li>Deep storage：存储segments，Druid目前已经支持本地磁盘，NFS挂载磁盘，HDFS，S3等。Deep Storage的数据有2个来源，一个是Batch，另一个是real-time nodes。</li>
+<li>ZooKeeper：被Druid用于管理当前cluster的状态，比如记录哪些segments从Real-time nodes移到了Historical nodes。</li>
+</ul>
+<p>优缺点分析：</p>
+<p><strong>优点</strong>：</p>
+<ol>
+<li>高性能，低延迟。Druid 能够对历史和实时数据提供亚秒级别的查询，Druid 支持低延时的数据摄取，灵活的数据探索分析，高性能的数据聚合。</li>
+<li>简便的水平扩展。适用于数据量大，可扩展能力要求高的分析型查询系统。</li>
+<li>支持实时数据摄入。其机制将热点和实时数据存储在实时节点（Realtime Node）内存中，将历史数据存储在历史节点（history node）的硬盘中，实时+伪实时的结构，保证查询基本都在毫秒级。</li>
+</ol>
+<p><strong>缺点：</strong></p>
+<ol>
+<li>配置和查询都比较复杂和繁琐，维度变更复杂。</li>
+<li>不支持SQL或类SQL接口。对SQL支持的不够完善， 不支持Join。</li>
+<li>支持时序实时摄入， 对update支持不足。</li>
+</ol>
+<p><strong>10 Presto（Trino）</strong></p>
+<p>Presto是由FaceBook开源的一个基于内存的MPP计算引擎，主要用以解决 Facebook 海量 Hadoop 数据仓库的低延迟交互分析问题。</p>
+<p>Facebook版本的Presto更多的是以解决企业内部需求功能为主，也叫Presto DB，后来，Presto其中的几个人出来创建了更通用的Presto分支，取名Presto SQL，这个开源版本也是更为被大家通用的版本。再后来，为了更好地与Facebook的Presto DB进行区分，Presto SQL改名为Trino。</p>
+<p>Presto 适用于交互式分析查询，可支持众多的数据源，包括 HDFS、RDBMS、KAFKA 等，而且提供了非常友好的接口开发数据源连接器。数据规模可以支持GB到PB级，主要应用于处理秒级查询的场景。</p>
+<p align="center"><img class="lazy" alt="image.png" referrerpolicy="no-referrer" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/95853c763e184e7295819bba82801b7b~tplv-k3u1fbpfcp-watermark.image?">图源：Presto_SQL_on_Everything.pdf (trino.io)</p>
+<p>组件工作模式：</p>
+<ul>
+<li>Coordinator ：是一个中心的查询角色，它主要的一个作用是接受查询请求，将他们转换成各种各样的任务，将任务拆解后分发到多个worker去执行各种任务的节点 ：</li>
+</ul>
+<ol>
+<li>解析SQL语句；</li>
+<li>生成执行计划 ；</li>
+<li>分发执⾏任务给Worker节点执行。</li>
+</ol>
+<ul>
+<li>Worker ：是一个真正的计算的节点，执行任务的节点，它接收到task后，就会到对应的数据源里面，去把数据提取出来；</li>
+<li>Connector：负责实际执⾏查询任务， 通过不同的connector去适配不同的数据源；</li>
+<li>Discover Services：是将coordinator和woker结合到一起的服务，上图中的Metadata和 Data Location：</li>
+</ul>
+<ol>
+<li>Worker节点启动后向Discovery Server服务注册；</li>
+<li>Coordinator从Discovery Server获得Worker节点。</li>
+</ol>
+<p>Presto是通过connector plugin获取数据和元信息的，它不是一个数据存储引擎，不需要有数据，presto为其他数据存储系统提供了SQL能⼒，客户端协议是HTTP+JSON。</p>
+<p>优缺点分析：</p>
+<p><strong>优点：</strong></p>
+<ol>
+<li>Presto/Trino支持内存并行处理、跨集群节点管线执行、多线程执行模型、高效的扁平内存数据结构(最小化Java的垃圾回收)、Java字节码生成。超过了Impala和Spark SQL。</li>
+<li>支持多源联邦查询，我们的数据会储存在各种各样的数据库中，以前都需要经过ETL抽取到数据仓库中，现在用Presto/Trino在一条SQL中就能直接查询多个不同数据源实现联邦查询，而且SQL语法兼容大部分HiveQL。</li>
+<li>支持湖仓一体，减少数据仓库复杂度：可以去除数仓的ODS、DWD层，甚至可以不用DWM层，用Presto/Trino连接各种数据源，直接清洗出DWS大宽表层。而且维度表也可以使用Presto/Trino直接从源数据库读取，并使用Presto/Trino向ADS数据应用层提供服务。</li>
+</ol>
+<p><strong>缺点：</strong></p>
+<ol>
+<li>join查询时，都要使用临时表。此时就会产生大量的临时数据，所以速度会变慢。</li>
+<li>不适合计算太大的数据量。</li>
+<li>不关心中间查询容错，如果某个节点失败，整个查询也将失败。</li>
+</ol>
+<p><strong>11 Google Mesa</strong>
+Mesa是一个分布式、多副本的、高可用的数据处理、存储和查询系统，针对结构化数据。一般数据从上游服务产生（比如一个批次的spark streaming作业产生），在内部做数据的聚合和存储。支持近实时更新（与Cube方案比），数据分维度列和指标列，指标列指定聚合函数。</p>
+<p>Mesa能满足复杂和具有挑战性的用户与系统需求，包括近实时数据提取和查询，同时在海量数据和查询量中保持高可用性、可靠性、容错率和扩展性。Mesa每秒能处理数百万行更新，每天进行数十亿查询抓取数万亿行数据。Mesa能进行跨数据中心复制，即使在整个数据中心故障时，也能以低延迟返回一致和可重复的查询结果。</p>
+<p>它的特色类似MOLAP， 对各种关键维度（Key）进行预先聚合， 用户查询直接访问聚合后的数据， 对于数据的持续更新，会在后台以Micro-batch的方式进行更新， 所有的更新会保存在Delta中， 后台会根据一定条件对预聚合的数据核Delta 进行compaction。主要用于Google AD部门。</p>
+<p>优缺点分析：</p>
+<p><strong>优点：</strong></p>
+<ol>
+<li>近实时的更新吞吐量。支持持续的更新，每秒支持数百万行的更新。</li>
+<li>同时支持低时延查询性能和批量大量查询。99%的查询在几百毫秒之内返回。</li>
+<li>跨数据中心备份。</li>
+</ol>
+<p><strong>缺点：</strong></p>
+<ol>
+<li>仅在Google内部使用， 专为Google 广告业务服务。</li>
+<li>市面上相关材料不多， 用户也不多。</li>
+</ol>
+<p>Google Mesa的数据模型，后来也被百度的广告部门所采用， 也就产生了下面要提到的这一产品，Apache Doris。</p>
+<p><strong>12 Apache Doris</strong>
+前身是百度2017年开源系统PALO，后贡献给Apache更名为Doris。Doris 是一个 MPP 的 OLAP 系统，主要整合了 Google Mesa(数据模型)，Apache Impala(MPP Query Engine)和 Apache ORCFile (存储格式，编码和压缩) 的技术。高度兼容Mysql协议。</p>
+<p>元数据管理对impala的p2p模式做了更新，Doris 采用 Paxos 协议以及 Memory + Checkpoint + Journal 的机制来确保元数据的高性能及高可靠。</p>
+<p>2020 年 2 月，百度 Doris 团队的开发人员离职创业，基于 Apache Doris 之前的版本做了自己的商业化产品 DorisDB ，后改名为StarRocks。后来StarRocks 也开源了， 所以在此认为这两个产品同源。</p>
+<p align="center"><img class="lazy" alt="image.png" referrerpolicy="no-referrer" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://p9-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/6f96557a898f4e41afa1336c0d2e269a~tplv-k3u1fbpfcp-watermark.image?">图源：Introduction to Apache Doris - Apache Doris</p>
+<p>部署架构：分为 FE（前端）和 BE（后端）两个组件。</p>
+<p align="center"><img class="lazy" alt="image.png" referrerpolicy="no-referrer" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/711e5a034f214fe2b989c820c029a005~tplv-k3u1fbpfcp-watermark.image?">图源：Introduction to Apache Doris - Apache Doris</p>
+<ul>
+<li>
+<p>FE 负责接受用户请求、优化、调度查询，由 Java 编写；对于所有的元数据， 保存在内置的BerkeleyDB， 并且通过多副本实现高可用。</p>
+</li>
+<li>
+<p>BE 负责存储数据、执行 MPP 计划中的各个片段，类似于 Worker 的角色，由 C++ 编写。</p>
+</li>
+</ul>
+<p>优缺点分析：</p>
+<p><strong>优点：</strong></p>
+<ol>
+<li>良好的架构设计，支持高并发低延时的查询服务，支持高吞吐量的交互式分析。多FE均可对外提供服务，并发增加时，线性扩充FE和BE即可支持高并发的查询请求。</li>
+<li>性能优异：高效的列式存储引擎，同时 提供丰富的索引结构来加速数据读取与过滤，利用分区分桶裁剪功能支持在线服务业务的超高并发，单节点最高可支持上千 QPS。更进一步，结合向量化执行引擎来提升效率，同时利用物化视图技术实现预聚合加速，同时进行基于规划和基于代价的查询优化。</li>
+<li>支持批量数据load和流式数据load，支持数据更新。支持Update/Delete语法，unique/aggregate数据模型，支持动态更新数据，实时更新聚合指标。</li>
+<li>提供了高可用，容错处理，高扩展的企业级特性。FE Leader错误异常，FE Follower秒级切换为新Leader继续对外提供服务。支持数据多副本存储，集群具备自愈功能，自身的分布式管理框架可以自动管理数据副本的分布、修复和均衡，副本损坏时系统可以自动感知并进行修复。</li>
+<li>支持聚合表和物化视图。多种数据模型，支持aggregate, replace等多种数据模型，支持创建rollup表，支持创建物化视图。rollup表和物化视图支持动态更新，无需用户手动处理。</li>
+<li>MySQL协议兼容，支持直接使用MySQL客户端连接，非常易用的数据应用对接。</li>
+</ol>
+<p><strong>缺点：</strong></p>
+<ol>
+<li>目前Doris 比较抢眼， 尤其是推出全向量化支持之后，但是本身成熟度还有待考验。</li>
+<li>目前国内有多个基于Doris的产品， 各自独立演进，可能会对后期有影响。</li>
+</ol>
+<p><strong>13 总结</strong>
+开源分析引擎发展十多年来， 不断有新的思想加入， 也不断有新的技术和产品被世人所接受，每个产品之所以能够得到大家的认可， 必然具有其独到的一些特点。当然，开源产品的共同特色就是优点和缺点都非常明显；在学习开源引擎的过程中， 建议大家多去做一些横向对比，通过对比，就可以理解每个产品的优势和短板， 进一步对产品原理有更深入的体会。</p>
+<p>下面通过一个简单的表格来示例：</p>
+<p><img class="lazy" alt="image.png" referrerpolicy="no-referrer" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://p9-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/6df912f7e71f4a2a928475f8ba1f1dc5~tplv-k3u1fbpfcp-watermark.image?"></p>
+<p>补充一点：部分资料和架构图均来自网上， 如有侵权，将做删除处理。</p>
+<p>参考资料：</p>
+<p>[1]https://docs.vmware.com/en/VMware-Tanzu-Greenplum/6/greenplum-database/GUID-admin_guide-intro-arch_overview.html</p>
+<p>[2]https://hawq.apache.org/docs/userguide/2.3.0.0-incubating/overview/HAWQArchitecture.html</p>
+<p>[3]https://cwiki.apache.org/confluence/display/Hive/Design</p>
+<p>[4]https://www.w3cschool.cn/impala/impala_architecture.html</p>
+<p>[5]Apache Kylin | 大数据分析型数据仓库</p>
+<p>[6]Apache Kylin | Apache kylin4 新架构分享</p>
+<p>[7]Apache Kudu - Introducing Apache Kudu</p>
+<p>[8]https://help.aliyun.com/document_detail/167448.html?spm=a2c4g.11174283.6.542.2acb49afFy52rZ</p>
+<p>[9]Design · Apache Druid</p>
+<p>[10]Presto_SQL_on_Everything.pdf (trino.io)</p>
+<p>[11]Introduction to Apache Doris - Apache Doris</p>
+<p align="center">▼</p>
+<p align="center">作者介绍</p>
+<p align="center"><img class="lazy" alt="图片" referrerpolicy="no-referrer" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/fefdfdd22ecf440fa57fc547f3093ae0~tplv-k3u1fbpfcp-zoom-1.image" width="30%" 微信图片_20220907160407.jpg""></p>
+<p align="center">祁国辉</p>
+<p align="center">前 Oracle 云平台事业部电信行业技术总监 现任杭州石原子科技有限公司合伙人</p>
+<p>【作者介绍】网名"atiger"，前 Oracle 云平台事业部电信行业技术总监。拥有超过25年数据库和数据仓库HK经验。曾创办著名数据仓库网站：www.dwway.com (数据仓库之路）。</p>
+<p>如果您对我们的源码感兴趣，欢迎到我们的 GitHub 代码仓库阅读查看，觉得不错记得点个 Star 哦~</p>
+<p>StoneDB 代码仓库：<em>https://github.com/stoneatom/stonedb</em></p>
+<p>StoneDB 社区官网：<em>https://stonedb.io/</em></p>
+<p><img class="lazy" alt="image.png" referrerpolicy="no-referrer" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://p6-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/d40d8031f45f4917ad53c0ad24391caf~tplv-k3u1fbpfcp-watermark.image?"></p>
+<p><img class="lazy" alt="image.png" referrerpolicy="no-referrer" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/e17b9c61d2694f76ba97d49e6f52baa6~tplv-k3u1fbpfcp-watermark.image?"></p>
+<p align="center"><img class="lazy" alt="image.png" referrerpolicy="no-referrer" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://p6-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/38dbdcbc6b1346e2a3556c3a12804284~tplv-k3u1fbpfcp-watermark.image?">StoneDB-5.7-V1.0.2正式发布，新增RPM包，两分钟极速安装MySQL分析加速器~</p>
+<h6><a target="_blank" rel="external nofollow noopener noreferrer" href="http://mp.weixin.qq.com/s?__biz=MzkwMTM2MjM0Mg==&amp;mid=2247485847&amp;idx=1&amp;sn=80f6dc4d344ddef63a7590138ce54d99&amp;chksm=c0b4ae5ef7c3274811dc803acbe6efbf6d3b0dc788c3d703ff91c53ea7ad35a59e89f7b6c5c8&amp;scene=21#wechat_redirect">StoneDB 源码解读系列｜Tianmu 引擎工具类模块源码详解（一）</a></h6>
+<h6><a target="_blank" rel="external nofollow noopener noreferrer" href="http://mp.weixin.qq.com/s?__biz=MzkwMTM2MjM0Mg==&amp;mid=2247485764&amp;idx=1&amp;sn=b0ff0916da8f09ce4649284c46363f35&amp;chksm=c0b4ae8df7c3279b9f2a4169b63ddc05f6ab3f0156fe8db3c2d4c8d7ea913555b6f3b949f91a&amp;scene=21#wechat_redirect">带你来吃瓜！Andy Pavlo教授带您一文回顾数据库的2022年</a><a target="_blank" rel="external nofollow noopener noreferrer" href="http://mp.weixin.qq.com/s?__biz=MzkwMTM2MjM0Mg==&amp;mid=2247485737&amp;idx=1&amp;sn=f0654328b17dc2ba9902750d79f33430&amp;chksm=c0b4aee0f7c327f6c954fa636c95220dc523e4c1be4a3cf617650ed366ad34a69a6b3d92bfce&amp;scene=21#wechat_redirect">稳扎稳打，坚定前行 | 一文带你回顾 StoneDB 的 2022 年</a></h6>
+<h6><a target="_blank" rel="external nofollow noopener noreferrer" href="http://mp.weixin.qq.com/s?__biz=MzkwMTM2MjM0Mg==&amp;mid=2247485679&amp;idx=1&amp;sn=f07c07e72925da5118a2a5505dc4b4de&amp;chksm=c0b4af26f7c32630f4ae1250a6f351299aebdceab77c0e756fe6c673b2e7613c72bb3b1a4bb9&amp;scene=21#wechat_redirect">哪篇论文宣布了 HTAP 数据库的诞生？| StoneDB学术分享会#5</a></h6>
+<h6><a target="_blank" rel="external nofollow noopener noreferrer" href="http://mp.weixin.qq.com/s?__biz=MzkwMTM2MjM0Mg==&amp;mid=2247485613&amp;idx=1&amp;sn=7dc534456c82402b28ab66ccdfe2d87d&amp;chksm=c0b4af64f7c32672d444a0f86bae3129d210b21eaadf43af525e30a7a9f3c77b127f3f61b05a&amp;scene=21#wechat_redirect">列存引擎 Tianmu 如何实现 Delete？| StoneDB 研发分享 #3</a></h6>
+<h6><a target="_blank" rel="external nofollow noopener noreferrer" href="http://mp.weixin.qq.com/s?__biz=MzkwMTM2MjM0Mg==&amp;mid=2247485555&amp;idx=1&amp;sn=a6244ac137f22b494a22cf922ea6e1ff&amp;chksm=c0b4afbaf7c326acbe7cc47f681d5ebbbe734f303444b15a94e2fa938c4d4d4fe60f8793cd56&amp;scene=21#wechat_redirect">StoneDB 首席架构师李浩：如何选择一款 HTAP 产品？</a></h6>
+<h6><a target="_blank" rel="external nofollow noopener noreferrer" href="http://mp.weixin.qq.com/s?__biz=MzkwMTM2MjM0Mg==&amp;mid=2247485533&amp;idx=1&amp;sn=232835f268be950697118f7dd57fd99e&amp;chksm=c0b4af94f7c32682ea5f7f2064e2a493cb14c164e8f8bcd4583a302e50487f46c861b3254c1c&amp;scene=21#wechat_redirect">子查询优化之 Semi-join 优化 | StoneDB 研发分享 #2</a></h6>
+
+</div>
+
+<div>
+<div class="tag-plugin link dis-select"><a class="link-card plain" title="主流开源分析引擎梳理，看看你最中意谁？| StoneDB数据库观察" href="https://juejin.cn/post/7254422695475560508" target="_blank" rel="external nofollow noopener noreferrer" cardlink autofill="icon"><div class="left"><span class="title">主流开源分析引擎梳理，看看你最中意谁？| StoneDB数据库观察</span><span class="cap link fs12">https://juejin.cn/post/7254422695475560508</span></div><div class="right"><div class="lazy img" data-bg="https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.4/link/8f277b4ee0ecd.svg"></div></div></a></div>
+</div>
+
+
+
+
+<div class="article-footer reveal fs14"><section id="license"><div class="header"><span>许可协议</span></div><div class="body"><p>本文采用 <a target="_blank" rel="external nofollow noopener noreferrer" href="https://github.com/me-shaon/GLWTPL/blob/master/translations/LICENSE_zh-CN">GLWT（Good Luck With That，祝你好运）公共许可证</a> 许可协议，转载请注明出处。</p>
+</div></section><section id="share"><div class="header"><span>分享文章</span></div><div class="body"><div class="link"><input class="copy-area" readonly="true" id="copy-link" value="https://blog.imc.re/RSSBOX/rss/f2cb5983.html"></div><div class="social-wrap dis-select"><a class="social share-item wechat" onclick="util.toggle(&quot;qrcode-wechat&quot)"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.4/social/b32ef3da1162a.svg"></a><a class="social share-item weibo" target="_blank" rel="external nofollow noopener noreferrer" href="https://service.weibo.com/share/share.php?url=https://blog.imc.re/RSSBOX/rss/f2cb5983.html&title=主流开源分析引擎梳理，看看你最中意谁？| StoneDB数据库观察 - RSSBOX&pics=https://p9-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/f7c245281b9548cda365e88ce1437858~tplv-k3u1fbpfcp-watermark.image?&summary=
+编者荐语：
+本文来自石原子合伙人祁国辉老师，主要对主流的开源分析引擎进行详尽的分析，干货满满，欢迎大家阅读学习。
+
+最近一段时间，我重新梳理了一下目前市面上主流的数据分析引擎， 发现真是琳琅满目， 令人眼花缭乱。静下心来花了两周时间..."><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.4/social/80c07e4dbb303.svg"></a><a class="social share-item email" href="mailto:?subject=主流开源分析引擎梳理，看看你最中意谁？| StoneDB数据库观察 - RSSBOX&amp;body=https://blog.imc.re/RSSBOX/rss/f2cb5983.html"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.4/social/a1b00e20f425d.svg"></a><a class="social share-item link" onclick="util.copy(&quot;copy-link&quot;, &quot;复制成功&quot;)"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.4/social/8411ed322ced6.svg"></a></div><div class="qrcode" id="qrcode-wechat" style="visibility:hidden;height:0"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://api.qrserver.com/v1/create-qr-code/?size=256x256&data=https://blog.imc.re/RSSBOX/rss/f2cb5983.html"></div></div></section></div>
+
+</article>
+
+<div class="related-wrap reveal" id="read-next"><section class="body"><div class="item" id="prev"><div class="note">较新文章</div><a href="/RSSBOX/rss/8ad4fc1c.html">新闻联播 2023/07/11</a></div><div class="item" id="next"><div class="note">较早文章</div><a href="/RSSBOX/rss/e43023fe.html">Connection Errors in Asia Pacific Region on July 9, 2023</a></div></section></div>
+
+
+<div class="related-wrap reveal" id="related-posts">
+    <section class="header">
+      <div class="title cap theme">您可能感兴趣的文章</div>
+    </section>
+    <section class="body">
+    <div class="related-posts"><a class="item" href="/RSSBOX/rss/53c83605.html" title="2023年10款超好用的Mac软件推荐（一）"><span class="title">2023年10款超好用的Mac软件推荐（一）</span></a><a class="item" href="/RSSBOX/rss/e520a442.html" title="Figma Dev Mode 初试"><span class="title">Figma Dev Mode 初试</span></a><a class="item" href="/RSSBOX/rss/77487785.html" title="Linux 和 Dockerfile 中配置环境变量的方式"><span class="title">Linux 和 Dockerfile 中配置环境变量的方式</span></a><a class="item" href="/RSSBOX/rss/9f3a1fb8.html" title="三层交换机的配置"><span class="title">三层交换机的配置</span></a><a class="item" href="/RSSBOX/rss/a792c46c.html" title="什么是 API 安全？学习如何防止攻击和保护数据"><span class="title">什么是 API 安全？学习如何防止攻击和保护数据</span></a></div></section></div>
+
+
+
+
+
+      
+<footer class="page-footer reveal fs12"><hr><div class="sitemap"><div class="sitemap-group"><span class="fs14">文章</span><a href="/RSSBOX/categories">分类</a><a href="/RSSBOX/tags">标签</a><a href="/RSSBOX/archives">归档</a></div><div class="sitemap-group"><span class="fs14">更多</span><a href="https://blog.imc.re/">博客</a><a target="_blank" rel="noopener" href="https://imc.re/">IMC.RE</a></div></div><div class="text"><p><a href="/">@RSSBOX</a> 2023 author by <a target="_blank" rel="external nofollow noopener noreferrer" href="https://github.com/MHG-LAB/RSSBOX">MHuiG</a> powered by SummerGoro。<br><br>本博客所有文章除特别声明外，均采用 <a target="_blank" rel="external nofollow noopener noreferrer" href="https://github.com/me-shaon/GLWTPL/blob/master/translations/LICENSE_zh-CN">GLWT（Good Luck With That，祝你好运）公共许可证</a> 许可协议，转载请注明出处。</p>
+</div></footer>
+
+      <div class="float-panel mobile-only blur" style="display:none">
+  <button type="button" class="sidebar-toggle mobile" onclick="sidebar.toggle()">
+    <svg class="icon" style="width: 1em; height: 1em;vertical-align: middle;fill: currentColor;overflow: hidden;" viewbox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="15301"><path d="M566.407 808.3c26.9-0.1 49.3-20.8 51.6-47.6-1.9-27.7-23.9-49.7-51.6-51.6h-412.6c-28.2-1.4-52.6 19.5-55.5 47.6 2.3 26.8 24.6 47.5 51.6 47.6h416.5v4z m309.3-249.9c26.9-0.1 49.3-20.8 51.6-47.6-2.2-26.8-24.6-47.5-51.6-47.6h-721.9c-27.7-2.8-52.5 17.4-55.3 45.1-0.1 0.8-0.1 1.7-0.2 2.5 0.9 27.2 23.6 48.5 50.7 47.6H875.707z m-103.1-245.9c26.9-0.1 49.3-20.8 51.6-47.6-0.4-28.3-23.2-51.1-51.5-51.6h-618.9c-29.5-1.1-54.3 21.9-55.5 51.4v0.2c1.4 27.8 25.2 49.2 53 47.8 0.8 0 1.7-0.1 2.5-0.2h618.8z" p-id="15302"/><path d="M566.407 808.3c26.9-0.1 49.3-20.8 51.6-47.6-1.9-27.7-23.9-49.7-51.6-51.6h-412.6c-28.2-1.4-52.6 19.5-55.5 47.6 1.9 27.7 23.9 49.7 51.6 51.6h416.5z m309.3-249.9c26.9-0.1 49.3-20.8 51.6-47.6-2.2-26.8-24.6-47.5-51.6-47.6h-721.9c-27.7-2.8-52.5 17.4-55.3 45.1-0.1 0.8-0.1 1.7-0.2 2.5 0.9 27.2 23.6 48.5 50.7 47.6H875.707z m-103.1-245.9c26.9-0.1 49.3-20.8 51.6-47.6-0.4-28.3-23.2-51.1-51.5-51.6h-618.9c-29.5-1.1-54.3 21.9-55.5 51.4v0.2c1.4 27.8 25.2 49.2 53 47.8 0.8 0 1.7-0.1 2.5-0.2h618.8z" p-id="15303"/></svg>
+  </button>
+</div>
+
+    </div>
+  </div>
+  <div class="scripts">
+    <script type="text/javascript">
+  const stellar = {
+    // 懒加载 css https://github.com/filamentgroup/loadCSS
+    loadCSS: (href, before, media, attributes) => {
+      var doc = window.document;
+      var ss = doc.createElement("link");
+      var ref;
+      if (before) {
+        ref = before;
+      } else {
+        var refs = (doc.body || doc.getElementsByTagName("head")[0]).childNodes;
+        ref = refs[refs.length - 1];
+      }
+      var sheets = doc.styleSheets;
+      if (attributes) {
+        for (var attributeName in attributes) {
+          if (attributes.hasOwnProperty(attributeName)) {
+            ss.setAttribute(attributeName, attributes[attributeName]);
+          }
+        }
+      }
+      ss.rel = "stylesheet";
+      ss.href = href;
+      ss.media = "only x";
+      function ready(cb) {
+        if (doc.body) {
+          return cb();
+        }
+        setTimeout(function () {
+          ready(cb);
+        });
+      }
+      ready(function () {
+        ref.parentNode.insertBefore(ss, before ? ref : ref.nextSibling);
+      });
+      var onloadcssdefined = function (cb) {
+        var resolvedHref = ss.href;
+        var i = sheets.length;
+        while (i--) {
+          if (sheets[i].href === resolvedHref) {
+            return cb();
+          }
+        }
+        setTimeout(function () {
+          onloadcssdefined(cb);
+        });
+      };
+      function loadCB() {
+        if (ss.addEventListener) {
+          ss.removeEventListener("load", loadCB);
+        }
+        ss.media = media || "all";
+      }
+      if (ss.addEventListener) {
+        ss.addEventListener("load", loadCB);
+      }
+      ss.onloadcssdefined = onloadcssdefined;
+      onloadcssdefined(loadCB);
+      return ss;
+    },
+
+    // 从 butterfly 和 volantis 获得灵感
+    loadScript: (src, opt) => new Promise((resolve, reject) => {
+      var script = document.createElement('script');
+      if (src.startsWith('/')){
+        src = stellar.config.root + src.substring(1);
+      }
+      script.src = src;
+      if (opt) {
+        for (let key of Object.keys(opt)) {
+          script[key] = opt[key]
+        }
+      } else {
+        // 默认异步，如果需要同步，第二个参数传入 {} 即可
+        script.async = true
+      }
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    }),
+
+    // https://github.com/jerryc127/hexo-theme-butterfly
+    jQuery: (fn) => {
+      if (typeof jQuery === 'undefined') {
+        stellar.loadScript(stellar.plugins.jQuery).then(fn)
+      } else {
+        fn()
+      }
+    }
+  };
+  stellar.version = '1.19.0';
+  stellar.github = 'https://github.com/xaoxuu/hexo-theme-stellar/tree/1.19.0';
+  stellar.config = {
+    date_suffix: {
+      just: '刚刚',
+      min: '分钟前',
+      hour: '小时前',
+      day: '天前',
+      month: '个月前',
+    },
+    root : '/RSSBOX/',
+  };
+
+  // required plugins (only load if needs)
+  stellar.plugins = {
+    jQuery: 'https://gcore.jsdelivr.net/npm/jquery@3.6.2/dist/jquery.min.js'
+  };
+
+  if ('local_search') {
+    stellar.search = {};
+    stellar.search.service = 'local_search';
+    if (stellar.search.service == 'local_search') {
+      let service_obj = Object.assign({}, {"field":"all","path":"/search.json","content":true,"codeblock":true,"sort":"-date"});
+      stellar.search[stellar.search.service] = service_obj;
+    }
+  }
+
+  // stellar js
+  stellar.plugins.stellar = Object.assign({"sites":"/js/plugins/sites.js","friends":"/js/plugins/friends.js","ghinfo":"/js/plugins/ghinfo.js","timeline":"/js/plugins/timeline.js","linkcard":"/js/plugins/linkcard.js","fcircle":"/js/plugins/fcircle.js","weibo":"/js/plugins/weibo.js"});
+
+  stellar.plugins.marked = Object.assign("https://cdn.bootcdn.net/ajax/libs/marked/4.0.18/marked.min.js");
+  // optional plugins
+  if ('true' == 'true') {
+    stellar.plugins.lazyload = Object.assign({"enable":true,"js":"https://gcore.jsdelivr.net/npm/vanilla-lazyload@17.8.3/dist/lazyload.min.js","transition":"blur"});
+  }
+  if ('true' == 'true') {
+    stellar.plugins.swiper = Object.assign({"enable":true,"css":"https://unpkg.com/swiper@8.4.5/swiper-bundle.min.css","js":"https://unpkg.com/swiper@8.4.5/swiper-bundle.min.js"});
+  }
+  if ('' == 'true') {
+    stellar.plugins.scrollreveal = Object.assign({"enable":null,"js":"https://gcore.jsdelivr.net/npm/scrollreveal@4.0.9/dist/scrollreveal.min.js","distance":"8px","duration":500,"interval":100,"scale":1});
+  }
+  if ('true' == 'true') {
+    stellar.plugins.preload = Object.assign({"enable":true,"service":"flying_pages","instant_page":"https://gcore.jsdelivr.net/gh/volantis-x/cdn-volantis@4.1.2/js/instant_page.js","flying_pages":"https://gcore.jsdelivr.net/gh/gijo-varghese/flying-pages@2.1.2/flying-pages.min.js"});
+  }
+  if ('true' == 'true') {
+    stellar.plugins.fancybox = Object.assign({"enable":true,"js":"https://gcore.jsdelivr.net/npm/@fancyapps/ui@4.0/dist/fancybox.umd.js","css":"https://gcore.jsdelivr.net/npm/@fancyapps/ui@4.0/dist/fancybox.css","selector":".swiper-slide img"});
+  }
+  if ('false' == 'true') {
+    stellar.plugins.heti = Object.assign({"enable":false,"css":"https://unpkg.com/heti@0.9.2/umd/heti.min.css","js":"https://unpkg.com/heti@0.9.2/umd/heti-addon.min.js"});
+  }
+  if ('true' == 'true') {
+    stellar.plugins.copycode = Object.assign({"enable":true,"js":"/js/plugins/copycode.js","default_text":"Copy","success_text":"Copied"});
+  }
+</script>
+
+<!-- required -->
+
+  
+<script src="/RSSBOX/js/main.js" async></script>
+
+
+
+<!-- optional -->
+
+  <script>
+  function loadJS() {
+    const els = document.querySelectorAll("#comments #giscus");
+    if (els.length === 0) return;
+    els.forEach((el, i) => {
+      try {
+        el.innerHTML = '';
+      } catch (error) {
+        console.log(error);
+      }
+      var script = document.createElement('script');
+      script.src = 'https://giscus.app/client.js';
+      script.async = true;
+      for (let key of Object.keys(el.attributes)) {
+        let attr = el.attributes[key];
+        if (['class', 'id'].includes(attr.name) === false) {
+          script.setAttribute(attr.name, attr.value);
+        }
+      }
+      el.appendChild(script);
+    });
+  }
+  window.addEventListener('DOMContentLoaded', (event) => {
+    loadJS();
+  });
+</script>
+
+
+
+
+<!-- inject -->
+
+
+  </div>
+</body>
+</html>

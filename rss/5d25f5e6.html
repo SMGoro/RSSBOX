@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+  <meta name="generator" content="Hexo 6.3.0">
+  <meta name="hexo-theme" content="https://github.com/xaoxuu/hexo-theme-stellar/tree/1.19.0">
+  <meta charset="utf-8">
+  
+
+  <meta http-equiv="x-dns-prefetch-control" content="on">
+  <link rel="dns-prefetch" href="https://gcore.jsdelivr.net">
+  <link rel="preconnect" href="https://gcore.jsdelivr.net" crossorigin>
+  <link rel="dns-prefetch" href="//unpkg.com">
+
+  <meta name="renderer" content="webkit">
+  <meta name="force-rendering" content="webkit">
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+  <meta name="HandheldFriendly" content="True">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="theme-color" content="#f8f8f8">
+  
+  <title>How We Scaled and Protected Eurovision 2023 Voting With Pages and Turnstile - RSSBOX</title>
+
+  
+    <meta name="description" content="2023 was the first year that non-participating countries could vote for their favorites during the Eurovision Song Contest, adding millions of additional viewers and voters to an already impressive 1">
+<meta property="og:type" content="article">
+<meta property="og:title" content="How We Scaled and Protected Eurovision 2023 Voting With Pages and Turnstile">
+<meta property="og:url" content="https://blog.imc.re/RSSBOX/rss/5d25f5e6.html">
+<meta property="og:site_name" content="RSSBOX">
+<meta property="og:description" content="2023 was the first year that non-participating countries could vote for their favorites during the Eurovision Song Contest, adding millions of additional viewers and voters to an already impressive 1">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://blog.cloudflare.com/content/images/2023/06/image3-27.png">
+<meta property="og:image" content="http://blog.cloudflare.com/content/images/2023/06/image3-26.png">
+<meta property="og:image" content="http://blog.cloudflare.com/content/images/2023/06/image1-39.png">
+<meta property="og:image" content="http://blog.cloudflare.com/content/images/2023/06/Screenshot-2023-06-23-at-12.05.08.png">
+<meta property="og:image" content="http://blog.cloudflare.com/content/images/2023/06/image4-22.png">
+<meta property="og:image" content="http://blog.cloudflare.com/content/images/2023/06/image5-15.png">
+<meta property="article:published_time" content="2023-06-23T13:00:55.000Z">
+<meta property="article:modified_time" content="2023-06-23T13:00:55.000Z">
+<meta property="article:author" content="SMGoro">
+<meta property="article:tag" content="Blogs">
+<meta property="article:tag" content="Cloudflare">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="http://blog.cloudflare.com/content/images/2023/06/image3-27.png">
+  
+  
+  
+  <meta name="keywords" content="Blogs,Cloudflare">
+
+  <!-- feed -->
+  
+    <link rel="alternate" href="/RSSBOX/atom.xml" title="RSSBOX" type="application/atom+xml">
+  
+
+  
+    
+<link rel="stylesheet" href="/RSSBOX/css/main.css">
+
+  
+
+  
+
+  
+
+  
+    <link rel="stylesheet" href="https://gcore.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.css" integrity="sha384-vKruj+a13U8yHIkAyGgK1J3ArTLzrFGBbBc0tDp4ad/EyewESeXE/Iv67Aj8gKZ0" crossorigin="anonymous">
+    <script defer src="https://gcore.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.js" integrity="sha384-PwRUT/YqbnEjkZO0zZxNqcxACrXe+j766U2amXcgMg5457rve2Y7I6ZJSm2A0mS4" crossorigin="anonymous"></script>
+    <script defer src="https://gcore.jsdelivr.net/npm/katex@0.16.4/dist/contrib/auto-render.min.js" integrity="sha384-+VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4+/RRE05" crossorigin="anonymous" onload="renderMathInElement(document.body);"></script>
+  
+
+
+  
+
+<!--百度统计-->
+<script>
+  var _hmt = _hmt || [];
+  (function() {
+    var hm = document.createElement("script");
+    hm.src = "https://hm.baidu.com/hm.js?f42afe3e5b76d22c8b1a8060171c7184";
+    var s = document.getElementsByTagName("script")[0]; 
+    s.parentNode.insertBefore(hm, s);
+  })();
+</script>  
+  <!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-V2NSKYGXNG"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-V2NSKYGXNG');
+</script>
+<!--Google Adsense-->
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4773172018528901" crossorigin="anonymous"></script>
+</head>
+
+<body>
+  
+
+
+
+
+  <div class="l_body" id="start">
+    <aside class="l_left" layout="post">
+    
+
+  
+
+<header class="header"><div class="logo-wrap"><a class="avatar" href="/RSSBOX/archives"><div class="bg" style="opacity:0;background-image:url(https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.4/avatar/round/rainbow64@3x.webp);"></div><img no-lazy class="avatar" src="https://cdn.jsdelivr.net/gh/SMGCDN/photos/icon/rsshub.png" onerror="javascript:this.classList.add('error');this.src='https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.4/image/2659360.svg';"></a><a class="title" href="/RSSBOX/"><div class="main" ff="title">RSSBOX</div><div class="sub normal cap">SMGoroのRSS订阅</div><div class="sub hover cap" style="opacity:0"> 一些好康的东西</div></a></div>
+
+<nav class="menu dis-select"><a class="nav-item active" href="/RSSBOX/">订阅</a><a class="nav-item" href="https://blog.imc.re/">博客</a><a class="nav-item" href="https://blog.imc.re/contact">联系</a><a class="nav-item" href="https://blog.imc.re/more">更多</a></nav>
+</header>
+
+
+<div class="widgets">
+
+<widget class="widget-wrapper toc single" id="data-toc"><div class="widget-header cap dis-select"><span class="name">How We Scaled and Protected Eurovision 2023 Voting With Pages and Turnstile</span></div><div class="widget-body fs14"><div class="doc-tree active"><ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#the-unsung-heroes"><span class="toc-text">The unsung heroes</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#setting-the-stage"><span class="toc-text">Setting the stage</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#the-basedio-platform"><span class="toc-text">The based.io platform</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#cloudflare-pages-stealing-the-show"><span class="toc-text">Cloudflare Pages stealing the show!</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#get-in-touch-with-us"><span class="toc-text">Get in touch with us</span></a></li></ol></div></div></widget>
+
+
+
+<widget class="widget-wrapper search"><div class="widget-body"><div class="search-wrapper" id="search"><form class="search-form"><input type="text" class="search-input" id="search-input" data-filter="/rss/" placeholder="文章搜索"><svg t="1670596976048" class="icon search-icon" viewbox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2676" width="200" height="200"><path d="M938.2 832.6L723.8 618.1c-2.5-2.5-5.3-4.4-7.9-6.4 36.2-55.6 57.3-121.8 57.3-193.1C773.3 222.8 614.6 64 418.7 64S64 222.8 64 418.6c0 195.9 158.8 354.6 354.6 354.6 71.3 0 137.5-21.2 193.2-57.4 2 2.7 3.9 5.4 6.3 7.8L832.5 938c14.6 14.6 33.7 21.9 52.8 21.9 19.1 0 38.2-7.3 52.8-21.8 29.2-29.1 29.2-76.4 0.1-105.5M418.7 661.3C284.9 661.3 176 552.4 176 418.6 176 284.9 284.9 176 418.7 176c133.8 0 242.6 108.9 242.6 242.7 0 133.7-108.9 242.6-242.6 242.6" p-id="2677"/></svg></form><div id="search-result"></div><div class="search-no-result">没有找到内容！</div></div></div></widget>
+
+
+
+<widget class="widget-wrapper recent"><div class="widget-header cap theme dis-select"><span class="name">最近更新</span><a class="cap-action" id="rss" title="Subscribe" href="/atom.xml"><svg class="icon" viewbox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="8938"><path d="M800.966 947.251c0-404.522-320.872-732.448-716.69-732.448V62.785c477.972 0 865.44 395.987 865.44 884.466h-148.75z m-162.273 0h-148.74c0-228.98-181.628-414.598-405.678-414.598v-152.01c306.205 0 554.418 253.68 554.418 566.608z m-446.24-221.12c59.748 0 108.189 49.503 108.189 110.557 0 61.063-48.44 110.563-108.188 110.563-59.747 0-108.18-49.5-108.18-110.563 0-61.054 48.433-110.556 108.18-110.556z" p-id="8939"/></svg></a></div><div class="widget-body related-posts fs14"><a class="item title" href="/RSSBOX/rss/2c2fbeb.html"><span class="title">七つの魔剣が支配する｜七魔剑支配天下</span></a><a class="item title" href="/RSSBOX/rss/3e937bc5.html"><span class="title">百姓貴族｜百姓贵族</span></a><a class="item title" href="/RSSBOX/rss/6b839856.html"><span class="title">シュガーアップル・フェアリーテイル(第2クール)｜银砂糖师与黑妖精 第2部分</span></a><a class="item title" href="/RSSBOX/rss/57dfaaf5.html"><span class="title">Girlhood</span></a><a class="item title" href="/RSSBOX/rss/d28c33bf.html"><span class="title">Headhunter's Eyes</span></a></div></widget>
+</div>
+<footer class="footer dis-select"><div class="social-wrap"><a class="social" href="https://github.com/SMGoro" target="_blank" rel="external nofollow noopener noreferrer"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cdn.jsdelivr.net/gh/SMGCDN/photos/icon/iconfont/social-github.svg"></a><a class="social" href="https://space.bilibili.com/359079394" target="_blank" rel="external nofollow noopener noreferrer"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cdn.jsdelivr.net/gh/SMGCDN/photos/icon/iconfont/bilibili.svg"></a><a class="social" href="https://l.imc.re/zhihu" target="_blank" rel="external nofollow noopener noreferrer"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cdn.jsdelivr.net/gh/SMGCDN/photos/icon/iconfont/zhihu.svg"></a><a class="social" href="https://l.imc.re/discord" target="_blank" rel="external nofollow noopener noreferrer"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cdn.jsdelivr.net/gh/SMGCDN/photos/icon/iconfont/discord.svg"></a><a class="social" href="https://blog.imc.re/contact" target="_blank" rel="external nofollow noopener noreferrer"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cdn.jsdelivr.net/gh/SMGCDN/photos/icon/iconfont/comments.svg"></a></div></footer>
+
+    </aside>
+    <div class="l_main">
+      
+
+      
+
+
+
+<div class="bread-nav fs12"><div id="breadcrumb"><a class="cap breadcrumb" href="/RSSBOX/">主页</a><span class="sep"></span><a class="cap breadcrumb" href="/RSSBOX/">文章</a><span class="sep"></span><a class="cap breadcrumb-link" href="/RSSBOX/categories/blogs/">Blogs</a> <span class="sep"></span> <a class="cap breadcrumb-link" href="/RSSBOX/categories/blogs/cloudflare/">Cloudflare</a></div><div id="post-meta">发布于&nbsp;<time datetime="2023-06-23T13:00:55.000Z">2023-06-23</time></div></div>
+
+<article class="md-text content post">
+<h1 class="article-title"><span>How We Scaled and Protected Eurovision 2023 Voting With Pages and Turnstile</span></h1>
+<div>
+<figure class="kg-card kg-image-card"><img alt="How we scaled and protected Eurovision 2023 voting with Pages and Turnstile" class="kg-image lazy" height="676" loading="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="http://blog.cloudflare.com/content/images/2023/06/image3-27.png" width="1200"></figure><img class="lazy" alt="How we scaled and protected Eurovision 2023 voting with Pages and Turnstile" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="http://blog.cloudflare.com/content/images/2023/06/image3-26.png"><p>2023 was the first year that non-participating countries could vote for their favorites during the Eurovision Song Contest, adding millions of additional viewers and voters to an already impressive 162 million tuning in from the participating countries. It became a truly global event with a potential for disruption from multiple sources. To prepare for anything, Cloudflare helped scale and protect the voting application, used by millions of dedicated fans around the world to choose the winner.</p><p>In this blog we will cover how <a target="_blank" rel="external nofollow noopener noreferrer" href="https://once.net">once.net</a> built their platform <a target="_blank" rel="external nofollow noopener noreferrer" href="https://www.based.io/">based.io</a> to monitor, manage and scale the Eurovision voting application to handle all traffic using many Cloudflare services. The speed with which DNS changes made through the Cloudflare API propagate globally allowed them to scale their backend within seconds. At the same time, Cloudflare Pages was ready to serve any amount of traffic to the voting landing page so fans didn’t miss a beat. And to cap it off, by combining Cloudflare CDN, DDoS protection, WAF, and Turnstile, they made sure that attackers didn’t steal any of the limelight.</p><h3 id="the-unsung-heroes">The unsung heroes</h3><p>Based.io<strong> </strong>is a resilient live data platform built by the <a target="_blank" rel="external nofollow noopener noreferrer" href="https://once.net">once.net</a> team, with the capability to scale up to 400 million concurrent connected users. It’s built from the ground up for speed and performance, consisting of an observable real time graph database, <a target="_blank" rel="external nofollow noopener noreferrer" href="https://www.cloudflare.com/learning/network-layer/what-is-the-network-layer/">networking layer</a>, cloud functions, analytics and infrastructure orchestration. Since all system information, traffic analysis and disruptions are monitored in real time, it makes the platform instantly responsive to variable demand, which enables real time scaling of your infrastructure during spikes, outages and attacks.</p><p>Although the based.io platform on its own is currently in closed beta, it is already serving a few flagship customers in production assisted by the software and services of the once.net team. One such customer is Tally, a platform used by multiple broadcasters in Europe to add live interaction to traditional television. Over 100 live shows have been performed using the platform. Another is Airhub, a startup that handles and logs automatic drone flights. And of course the star of this blog post, the Eurovision Song Contest.</p><h3 id="setting-the-stage">Setting the stage</h3><p>The Eurovision Song Contest is one of the world’s most popular broadcasted contests, and this year it reached 162 million people across 38 broadcasting countries. In addition, on TikTok the three live shows were viewed 4.8 million times, while 7.6 million people watched the Grand Final live on YouTube. With such an audience, it is no surprise that Cloudflare sees the impact of it on the Internet. Last year, we wrote <a target="_blank" rel="external nofollow noopener noreferrer" href="http://blog.cloudflare.com/eurovision-2022-internet-trends/">a blog post</a> where we showed lower than average traffic during, and higher than average traffic after the grand final. This year, the traffic from participating countries showed an even more remarkable surge:</p><figure class="kg-card kg-image-card kg-card-hascaption"><img alt="How we scaled and protected Eurovision 2023 voting with Pages and Turnstile" class="kg-image lazy" height="694" loading="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="http://blog.cloudflare.com/content/images/2023/06/image1-39.png" width="1999"><figcaption>HTTP Requests per Second from Norway, with a similar pattern visible in countries such as the UK, Sweden and France. Internet traffic spiked at 21:20 UTC, when voting started.</figcaption></figure><p>Such large amounts of traffic are nothing new to the Eurovision Song Contest. Eurovision has relied on Cloudflare’s services for over a decade now and Cloudflare has helped to protect Eurovision.tv and improve its performance through noticeable faster load time to visitors from all corners of the world. Year after year, the team of Eurovision continued to use our services more, discovering additional features to improve performance and reliability further, with increasingly fine-grained control over their traffic flows. Eurovision.tv uses Page Rules to cache additional content on Cloudflare’s edge, speeding up delivery without sacrificing up-to-the-minute updates during the global event. Finally, to protect their backend and content management system, the team has placed their admin portals behind Cloudflare Zero Trust to delegate responsibilities down to individual levels.</p><p>Since then the contest itself has also evolved – sometimes by choice, sometimes by force. During the COVID-19 pandemic in-person cheering became impossible for many people due to a reduced live audience, resulting in the Eurovision Song Contest asking once.net to build a new iOS and Android application in which fans could cheer virtually. The feature was an instant hit, and it was clear that it would become part of this year’s contest as well.</p><figure class="kg-card kg-image-card kg-card-hascaption"><img alt="How we scaled and protected Eurovision 2023 voting with Pages and Turnstile" class="kg-image lazy" height="1350" loading="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="http://blog.cloudflare.com/content/images/2023/06/Screenshot-2023-06-23-at-12.05.08.png" width="2110"><figcaption>A screenshot of the official Eurovision Song Contest application showing the real-time number of connected fans (1) and allowing them to cheer (2) for their favorites.</figcaption></figure><p>In 2023, once.net was also asked to handle the paid voting from the regions where phone and SMS voting was not possible. It was the first time that Eurovision allowed voting online. The challenge that had to be overcome was the extreme peak demand on the platform when the show was live, and especially when the voting window started.</p><p>Complicating it further, was the fact that during last year’s show, there had been a large number of targeted and coordinated attacks.</p><p>To prepare for these spikes in demand and determined adversaries, once.net needed a platform that isn’t only resilient and highly scalable, but could also act as a mitigation layer in front of it. once.net selected Cloudflare for this functionality and integrated Cloudflare deeply with its real-time monitoring and management platform. To understand how and why, it’s essential to understand based.io underlying architecture.</p><h3 id="the-basedio-platform">The based.io platform</h3><p>Instead of relying on network or HTTP load balancers, based.io uses a client-side service discovery pattern, selecting the most suitable server to connect to and leveraging Cloudflare's fast cache propagation infrastructure to handle spikes in traffic (both malicious and benign).</p><p>First, each server continuously registers a unique access key that has an expiration of 15 seconds, which must be used when a client connects to the server. In addition, the backend servers register their health (such as active connections, CPU, memory usage, requests per second, etc.) to the service registry every 300 milliseconds. Clients then request the optimal server URL and associated access key from a central discovery registry and proceed to establish a long lived connection with that server. When a server gets overloaded it will disconnect a certain amount of clients and those clients will go through the discovery process again.</p><p>The central discovery registry would normally be a huge bottleneck and attack target. based.io resolves this by putting the registry behind Cloudflare's global network with a cache time of three seconds. Since the system relies on real-time stats to distribute load and uses short lived access keys, it is crucial that the cache updates fast and reliably. This is where Cloudflare’s infrastructure proved its worth, both due to the fast updating cache and reducing load with <a target="_blank" rel="external nofollow noopener noreferrer" href="http://blog.cloudflare.com/introducing-regional-tiered-cache/">Tiered Caching</a>.</p><p>Not using <a target="_blank" rel="external nofollow noopener noreferrer" href="https://www.cloudflare.com/learning/performance/what-is-load-balancing/">load balancers</a> means the based.io system allows clients to connect to the backend servers through Cloudflare, resulting in  better performance and a more resilient infrastructure by eliminating the load balancers as potential attack surface. It also results in a better distribution of connections, using the real-time information of server health, amount of active connections, active subscriptions.</p><p>Scaling up the platform happens automatically under load by deploying additional machines that can each handle 40,000 connected users. These are spun up in batches of a couple of hundred and as each machine spins up, it reaches out directly to the Cloudflare API to configure its own <a target="_blank" rel="external nofollow noopener noreferrer" href="https://www.cloudflare.com/learning/dns/dns-records/">DNS record</a> and proxy status. Thanks to <a target="_blank" rel="external nofollow noopener noreferrer" href="http://blog.cloudflare.com/dns-build-improvement/">Cloudflare’s high speed DNS system</a>, these changes are then propagated globally within seconds, resulting in a total machine turn-up time of around three seconds. This means faster discovery of new servers and faster dynamic rebalancing from the clients. And since the voting window of the Eurovision Song Contest is only 45 minutes, with the main peak within minutes after the window opens, every second counts!</p><figure class="kg-card kg-image-card kg-card-hascaption"><img alt="How we scaled and protected Eurovision 2023 voting with Pages and Turnstile" class="kg-image lazy" height="1046" loading="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="http://blog.cloudflare.com/content/images/2023/06/image4-22.png" width="1778"><figcaption>High level architecture of the based.io platform used for the 2023 Eurovision Song Contest<span class="-mobiledoc-kit__atom">‌ ‌</span></figcaption></figure><p>To vote, users of the mobile app and viewers globally were pointed to the voting landing page, <a target="_blank" rel="external nofollow noopener noreferrer" href="https://www.esc.vote">esc.vote</a>. Building a frontend web application able to handle this kind of an audience is a challenge in itself. Although hosting it yourself and putting a <a target="_blank" rel="external nofollow noopener noreferrer" href="https://www.cloudflare.com/learning/cdn/what-is-a-cdn/">CDN</a> in front seems straightforward, this still requires you to own, configure and manage your origin infrastructure. once.net decided to leverage Cloudflare’s infrastructure directly by hosting the voting landing page on Cloudflare Pages. Deploying was as quick as a commit to their Git repository, and they never had to worry about reachability or scaling of the webpage.</p><p>once.net also used <a target="_blank" rel="external nofollow noopener noreferrer" href="http://blog.cloudflare.com/turnstile-private-captcha-alternative/">Cloudflare Turnstile</a> to protect their payment <a target="_blank" rel="external nofollow noopener noreferrer" href="https://www.cloudflare.com/learning/security/api/what-is-api-endpoint/">API endpoints</a> that were used to validate online votes. They used the invisible Turnstile widget to make sure the request was not coming from emulated browsers (e.g. Selenium). And best of all, using the invisible Turnstile widget the user did not have to go through extra steps, which allowed for a better user experience and better conversion.</p><h3 id="cloudflare-pages-stealing-the-show">Cloudflare Pages stealing the show!</h3><p>After the two semi-finals went according to plan with approximately 200,000 concurrent users during each,May 13 brought the Grand Final. The once.net team made sure that there were enough machines ready to take the initial load, jumped on a call with Cloudflare to monitor and started looking at the number of concurrent users slowly increasing. During the event, there were a few attempts to <a target="_blank" rel="external nofollow noopener noreferrer" href="https://www.cloudflare.com/learning/ddos/what-is-a-ddos-attack/">DDoS</a> the site, which were automatically and instantaneously mitigated without any noticeable impact to any visitors.</p><p>The based.io discovery registry server also got some attention. Since the cache TTL was set quite low at five seconds, a high rate of distributed traffic to it could still result in a significant load. Luckily, on its own, the highly optimized based.io server can already handle around 300,000 requests per second. Still, it was great to see that during the event the cache hit ratio for normal traffic was 20%, and during one significant attack the <a target="_blank" rel="external nofollow noopener noreferrer" href="https://www.cloudflare.com/learning/cdn/what-is-a-cache-hit-ratio/">cache hit ratio</a> peaked towards 80%. This showed how easy it is to leverage a combination of Cloudflare CDN and DDoS protection to mitigate such attacks, while still being able to serve dynamic and real time content.</p><p>When the curtains finally closed, 1.3 million concurrent users connected to the based.io platform at peak. The based.io platform handled a total of 350 million events and served seven million unique users in three hours. The voting landing page hosted by Cloudflare Pages served 2.3 million requests per second at peak, and made sure that the voting payments were by real human fans using Turnstile. Although the Cloudflare platform didn’t blink for such a flood of traffic, it is no surprise that it shows up as a short crescendo in our traffic statistics:</p><figure class="kg-card kg-image-card"><img alt="How we scaled and protected Eurovision 2023 voting with Pages and Turnstile" class="kg-image lazy" height="238" loading="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="http://blog.cloudflare.com/content/images/2023/06/image5-15.png" width="591"></figure><h3 id="get-in-touch-with-us">Get in touch with us</h3><p>If you’re also working on or with an application that would benefit from Cloudflare’s speed and security, but don’t know where to start, reach <a target="_blank" rel="external nofollow noopener noreferrer" href="https://www.cloudflare.com/en-gb/plans/enterprise/contact/">out</a> and we’ll work together.</p>
+</div>
+
+<div>
+<div class="tag-plugin link dis-select"><a class="link-card plain" title="How we scaled and protected Eurovision 2023 voting with Pages and Turnstile" href="http://blog.cloudflare.com/how-cloudflare-scaled-and-protected-eurovision-2023-voting/" target="_blank" rel="external nofollow noopener noreferrer" cardlink autofill="icon"><div class="left"><span class="title">How we scaled and protected Eurovision 2023 voting with Pages and Turnstile</span><span class="cap link fs12">http://blog.cloudflare.com/how-cloudflare-scaled-and-protected-eurovision-2023-voting/</span></div><div class="right"><div class="lazy img" data-bg="https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.4/link/8f277b4ee0ecd.svg"></div></div></a></div>
+</div>
+
+
+
+
+<div class="article-footer reveal fs14"><section id="license"><div class="header"><span>许可协议</span></div><div class="body"><p>本文采用 <a target="_blank" rel="external nofollow noopener noreferrer" href="https://github.com/me-shaon/GLWTPL/blob/master/translations/LICENSE_zh-CN">GLWT（Good Luck With That，祝你好运）公共许可证</a> 许可协议，转载请注明出处。</p>
+</div></section><section id="share"><div class="header"><span>分享文章</span></div><div class="body"><div class="link"><input class="copy-area" readonly="true" id="copy-link" value="https://blog.imc.re/RSSBOX/rss/5d25f5e6.html"></div><div class="social-wrap dis-select"><a class="social share-item wechat" onclick="util.toggle(&quot;qrcode-wechat&quot)"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.4/social/b32ef3da1162a.svg"></a><a class="social share-item weibo" target="_blank" rel="external nofollow noopener noreferrer" href="https://service.weibo.com/share/share.php?url=https://blog.imc.re/RSSBOX/rss/5d25f5e6.html&title=How We Scaled and Protected Eurovision 2023 Voting With Pages and Turnstile - RSSBOX&pics=http://blog.cloudflare.com/content/images/2023/06/image3-27.png&summary=
+2023 was the first year that non-participating countries could vote for their favorites during the Eurovision Song C..."><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.4/social/80c07e4dbb303.svg"></a><a class="social share-item email" href="mailto:?subject=How We Scaled and Protected Eurovision 2023 Voting With Pages and Turnstile - RSSBOX&amp;body=https://blog.imc.re/RSSBOX/rss/5d25f5e6.html"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.4/social/a1b00e20f425d.svg"></a><a class="social share-item link" onclick="util.copy(&quot;copy-link&quot;, &quot;复制成功&quot;)"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.4/social/8411ed322ced6.svg"></a></div><div class="qrcode" id="qrcode-wechat" style="visibility:hidden;height:0"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://api.qrserver.com/v1/create-qr-code/?size=256x256&data=https://blog.imc.re/RSSBOX/rss/5d25f5e6.html"></div></div></section></div>
+
+</article>
+
+<div class="related-wrap reveal" id="read-next"><section class="body"><div class="item" id="prev"><div class="note">较新文章</div><a href="/RSSBOX/rss/caa91ad8.html">All the Way Up to 11: Serve Brotli From Origin and Introducing Compression Rules</a></div><div class="item" id="next"><div class="note">较早文章</div><a href="/RSSBOX/rss/7e82c798.html">Making Cloudflare Pages the Fastest Way to Serve Your Sites</a></div></section></div>
+
+
+<div class="related-wrap reveal" id="related-posts">
+    <section class="header">
+      <div class="title cap theme">您可能感兴趣的文章</div>
+    </section>
+    <section class="body">
+    <div class="related-posts"><a class="item" href="/RSSBOX/rss/74584793.html" title="A Step-by-Step Guide to Transferring Domains to Cloudflare"><span class="title">A Step-by-Step Guide to Transferring Domains to Cloudflare</span></a><a class="item" href="/RSSBOX/rss/caa91ad8.html" title="All the Way Up to 11: Serve Brotli From Origin and Introducing Compression Rules"><span class="title">All the Way Up to 11: Serve Brotli From Origin and Introducing Compression Rules</span></a><a class="item" href="/RSSBOX/rss/7bd87fb2.html" title="Bring Your Own CA for Client Certificate Validation With API Shield"><span class="title">Bring Your Own CA for Client Certificate Validation With API Shield</span></a><a class="item" href="/RSSBOX/rss/77acea1e.html" title="Cloudflare Zaraz Supports JSONata"><span class="title">Cloudflare Zaraz Supports JSONata</span></a><a class="item" href="/RSSBOX/rss/e43023fe.html" title="Connection Errors in Asia Pacific Region on July 9, 2023"><span class="title">Connection Errors in Asia Pacific Region on July 9, 2023</span></a></div></section></div>
+
+
+
+
+
+      
+<footer class="page-footer reveal fs12"><hr><div class="sitemap"><div class="sitemap-group"><span class="fs14">文章</span><a href="/RSSBOX/categories">分类</a><a href="/RSSBOX/tags">标签</a><a href="/RSSBOX/archives">归档</a></div><div class="sitemap-group"><span class="fs14">更多</span><a href="https://blog.imc.re/">博客</a><a target="_blank" rel="noopener" href="https://imc.re/">IMC.RE</a></div></div><div class="text"><p><a href="/">@RSSBOX</a> 2023 author by <a target="_blank" rel="external nofollow noopener noreferrer" href="https://github.com/MHG-LAB/RSSBOX">MHuiG</a> powered by SummerGoro。<br><br>本博客所有文章除特别声明外，均采用 <a target="_blank" rel="external nofollow noopener noreferrer" href="https://github.com/me-shaon/GLWTPL/blob/master/translations/LICENSE_zh-CN">GLWT（Good Luck With That，祝你好运）公共许可证</a> 许可协议，转载请注明出处。</p>
+</div></footer>
+
+      <div class="float-panel mobile-only blur" style="display:none">
+  <button type="button" class="sidebar-toggle mobile" onclick="sidebar.toggle()">
+    <svg class="icon" style="width: 1em; height: 1em;vertical-align: middle;fill: currentColor;overflow: hidden;" viewbox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="15301"><path d="M566.407 808.3c26.9-0.1 49.3-20.8 51.6-47.6-1.9-27.7-23.9-49.7-51.6-51.6h-412.6c-28.2-1.4-52.6 19.5-55.5 47.6 2.3 26.8 24.6 47.5 51.6 47.6h416.5v4z m309.3-249.9c26.9-0.1 49.3-20.8 51.6-47.6-2.2-26.8-24.6-47.5-51.6-47.6h-721.9c-27.7-2.8-52.5 17.4-55.3 45.1-0.1 0.8-0.1 1.7-0.2 2.5 0.9 27.2 23.6 48.5 50.7 47.6H875.707z m-103.1-245.9c26.9-0.1 49.3-20.8 51.6-47.6-0.4-28.3-23.2-51.1-51.5-51.6h-618.9c-29.5-1.1-54.3 21.9-55.5 51.4v0.2c1.4 27.8 25.2 49.2 53 47.8 0.8 0 1.7-0.1 2.5-0.2h618.8z" p-id="15302"/><path d="M566.407 808.3c26.9-0.1 49.3-20.8 51.6-47.6-1.9-27.7-23.9-49.7-51.6-51.6h-412.6c-28.2-1.4-52.6 19.5-55.5 47.6 1.9 27.7 23.9 49.7 51.6 51.6h416.5z m309.3-249.9c26.9-0.1 49.3-20.8 51.6-47.6-2.2-26.8-24.6-47.5-51.6-47.6h-721.9c-27.7-2.8-52.5 17.4-55.3 45.1-0.1 0.8-0.1 1.7-0.2 2.5 0.9 27.2 23.6 48.5 50.7 47.6H875.707z m-103.1-245.9c26.9-0.1 49.3-20.8 51.6-47.6-0.4-28.3-23.2-51.1-51.5-51.6h-618.9c-29.5-1.1-54.3 21.9-55.5 51.4v0.2c1.4 27.8 25.2 49.2 53 47.8 0.8 0 1.7-0.1 2.5-0.2h618.8z" p-id="15303"/></svg>
+  </button>
+</div>
+
+    </div>
+  </div>
+  <div class="scripts">
+    <script type="text/javascript">
+  const stellar = {
+    // 懒加载 css https://github.com/filamentgroup/loadCSS
+    loadCSS: (href, before, media, attributes) => {
+      var doc = window.document;
+      var ss = doc.createElement("link");
+      var ref;
+      if (before) {
+        ref = before;
+      } else {
+        var refs = (doc.body || doc.getElementsByTagName("head")[0]).childNodes;
+        ref = refs[refs.length - 1];
+      }
+      var sheets = doc.styleSheets;
+      if (attributes) {
+        for (var attributeName in attributes) {
+          if (attributes.hasOwnProperty(attributeName)) {
+            ss.setAttribute(attributeName, attributes[attributeName]);
+          }
+        }
+      }
+      ss.rel = "stylesheet";
+      ss.href = href;
+      ss.media = "only x";
+      function ready(cb) {
+        if (doc.body) {
+          return cb();
+        }
+        setTimeout(function () {
+          ready(cb);
+        });
+      }
+      ready(function () {
+        ref.parentNode.insertBefore(ss, before ? ref : ref.nextSibling);
+      });
+      var onloadcssdefined = function (cb) {
+        var resolvedHref = ss.href;
+        var i = sheets.length;
+        while (i--) {
+          if (sheets[i].href === resolvedHref) {
+            return cb();
+          }
+        }
+        setTimeout(function () {
+          onloadcssdefined(cb);
+        });
+      };
+      function loadCB() {
+        if (ss.addEventListener) {
+          ss.removeEventListener("load", loadCB);
+        }
+        ss.media = media || "all";
+      }
+      if (ss.addEventListener) {
+        ss.addEventListener("load", loadCB);
+      }
+      ss.onloadcssdefined = onloadcssdefined;
+      onloadcssdefined(loadCB);
+      return ss;
+    },
+
+    // 从 butterfly 和 volantis 获得灵感
+    loadScript: (src, opt) => new Promise((resolve, reject) => {
+      var script = document.createElement('script');
+      if (src.startsWith('/')){
+        src = stellar.config.root + src.substring(1);
+      }
+      script.src = src;
+      if (opt) {
+        for (let key of Object.keys(opt)) {
+          script[key] = opt[key]
+        }
+      } else {
+        // 默认异步，如果需要同步，第二个参数传入 {} 即可
+        script.async = true
+      }
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    }),
+
+    // https://github.com/jerryc127/hexo-theme-butterfly
+    jQuery: (fn) => {
+      if (typeof jQuery === 'undefined') {
+        stellar.loadScript(stellar.plugins.jQuery).then(fn)
+      } else {
+        fn()
+      }
+    }
+  };
+  stellar.version = '1.19.0';
+  stellar.github = 'https://github.com/xaoxuu/hexo-theme-stellar/tree/1.19.0';
+  stellar.config = {
+    date_suffix: {
+      just: '刚刚',
+      min: '分钟前',
+      hour: '小时前',
+      day: '天前',
+      month: '个月前',
+    },
+    root : '/RSSBOX/',
+  };
+
+  // required plugins (only load if needs)
+  stellar.plugins = {
+    jQuery: 'https://gcore.jsdelivr.net/npm/jquery@3.6.2/dist/jquery.min.js'
+  };
+
+  if ('local_search') {
+    stellar.search = {};
+    stellar.search.service = 'local_search';
+    if (stellar.search.service == 'local_search') {
+      let service_obj = Object.assign({}, {"field":"all","path":"/search.json","content":true,"codeblock":true,"sort":"-date"});
+      stellar.search[stellar.search.service] = service_obj;
+    }
+  }
+
+  // stellar js
+  stellar.plugins.stellar = Object.assign({"sites":"/js/plugins/sites.js","friends":"/js/plugins/friends.js","ghinfo":"/js/plugins/ghinfo.js","timeline":"/js/plugins/timeline.js","linkcard":"/js/plugins/linkcard.js","fcircle":"/js/plugins/fcircle.js","weibo":"/js/plugins/weibo.js"});
+
+  stellar.plugins.marked = Object.assign("https://cdn.bootcdn.net/ajax/libs/marked/4.0.18/marked.min.js");
+  // optional plugins
+  if ('true' == 'true') {
+    stellar.plugins.lazyload = Object.assign({"enable":true,"js":"https://gcore.jsdelivr.net/npm/vanilla-lazyload@17.8.3/dist/lazyload.min.js","transition":"blur"});
+  }
+  if ('true' == 'true') {
+    stellar.plugins.swiper = Object.assign({"enable":true,"css":"https://unpkg.com/swiper@8.4.5/swiper-bundle.min.css","js":"https://unpkg.com/swiper@8.4.5/swiper-bundle.min.js"});
+  }
+  if ('' == 'true') {
+    stellar.plugins.scrollreveal = Object.assign({"enable":null,"js":"https://gcore.jsdelivr.net/npm/scrollreveal@4.0.9/dist/scrollreveal.min.js","distance":"8px","duration":500,"interval":100,"scale":1});
+  }
+  if ('true' == 'true') {
+    stellar.plugins.preload = Object.assign({"enable":true,"service":"flying_pages","instant_page":"https://gcore.jsdelivr.net/gh/volantis-x/cdn-volantis@4.1.2/js/instant_page.js","flying_pages":"https://gcore.jsdelivr.net/gh/gijo-varghese/flying-pages@2.1.2/flying-pages.min.js"});
+  }
+  if ('true' == 'true') {
+    stellar.plugins.fancybox = Object.assign({"enable":true,"js":"https://gcore.jsdelivr.net/npm/@fancyapps/ui@4.0/dist/fancybox.umd.js","css":"https://gcore.jsdelivr.net/npm/@fancyapps/ui@4.0/dist/fancybox.css","selector":".swiper-slide img"});
+  }
+  if ('false' == 'true') {
+    stellar.plugins.heti = Object.assign({"enable":false,"css":"https://unpkg.com/heti@0.9.2/umd/heti.min.css","js":"https://unpkg.com/heti@0.9.2/umd/heti-addon.min.js"});
+  }
+  if ('true' == 'true') {
+    stellar.plugins.copycode = Object.assign({"enable":true,"js":"/js/plugins/copycode.js","default_text":"Copy","success_text":"Copied"});
+  }
+</script>
+
+<!-- required -->
+
+  
+<script src="/RSSBOX/js/main.js" async></script>
+
+
+
+<!-- optional -->
+
+  <script>
+  function loadJS() {
+    const els = document.querySelectorAll("#comments #giscus");
+    if (els.length === 0) return;
+    els.forEach((el, i) => {
+      try {
+        el.innerHTML = '';
+      } catch (error) {
+        console.log(error);
+      }
+      var script = document.createElement('script');
+      script.src = 'https://giscus.app/client.js';
+      script.async = true;
+      for (let key of Object.keys(el.attributes)) {
+        let attr = el.attributes[key];
+        if (['class', 'id'].includes(attr.name) === false) {
+          script.setAttribute(attr.name, attr.value);
+        }
+      }
+      el.appendChild(script);
+    });
+  }
+  window.addEventListener('DOMContentLoaded', (event) => {
+    loadJS();
+  });
+</script>
+
+
+
+
+<!-- inject -->
+
+
+  </div>
+</body>
+</html>

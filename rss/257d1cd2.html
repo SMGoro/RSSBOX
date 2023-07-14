@@ -1,0 +1,481 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+  <meta name="generator" content="Hexo 6.3.0">
+  <meta name="hexo-theme" content="https://github.com/xaoxuu/hexo-theme-stellar/tree/1.19.0">
+  <meta charset="utf-8">
+  
+
+  <meta http-equiv="x-dns-prefetch-control" content="on">
+  <link rel="dns-prefetch" href="https://gcore.jsdelivr.net">
+  <link rel="preconnect" href="https://gcore.jsdelivr.net" crossorigin>
+  <link rel="dns-prefetch" href="//unpkg.com">
+
+  <meta name="renderer" content="webkit">
+  <meta name="force-rendering" content="webkit">
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+  <meta name="HandheldFriendly" content="True">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="theme-color" content="#f8f8f8">
+  
+  <title>Demonstrating End-to-End Traceability With Pull Requests - RSSBOX</title>
+
+  
+    <meta name="description" content="Understanding what was changed and why is vital to understanding the state of any system. This is especially true for software teams in regulated industries, as they are required to demonstrate compl">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Demonstrating End-to-End Traceability With Pull Requests">
+<meta property="og:url" content="https://blog.imc.re/RSSBOX/rss/257d1cd2.html">
+<meta property="og:site_name" content="RSSBOX">
+<meta property="og:description" content="Understanding what was changed and why is vital to understanding the state of any system. This is especially true for software teams in regulated industries, as they are required to demonstrate compl">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://github.blog/wp-content/uploads/2023/06/image3.jpg?w=778&amp;resize=778%2C364">
+<meta property="og:image" content="https://github.blog/wp-content/uploads/2023/06/image1-4.png?w=1024&amp;resize=1024%2C497">
+<meta property="og:image" content="https://github.blog/wp-content/uploads/2023/06/image2-6.png?w=1024&amp;resize=1024%2C125">
+<meta property="og:image" content="https://github.blog/wp-content/uploads/2023/06/image4-3.png?w=1024&amp;resize=1024%2C742">
+<meta property="og:image" content="https://github.blog/wp-content/uploads/2023/06/image6-2.png?w=1024&amp;resize=1024%2C534">
+<meta property="og:image" content="https://github.blog/wp-content/uploads/2023/06/image5-2.png?w=1024&amp;resize=1024%2C599">
+<meta property="article:published_time" content="2023-07-12T07:24:06.000Z">
+<meta property="article:modified_time" content="2023-07-12T07:24:06.000Z">
+<meta property="article:author" content="SMGoro">
+<meta property="article:tag" content="Blogs">
+<meta property="article:tag" content="Github">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://github.blog/wp-content/uploads/2023/06/image3.jpg?w=778&amp;resize=778%2C364">
+  
+  
+  
+  <meta name="keywords" content="Blogs,Github">
+
+  <!-- feed -->
+  
+    <link rel="alternate" href="/RSSBOX/atom.xml" title="RSSBOX" type="application/atom+xml">
+  
+
+  
+    
+<link rel="stylesheet" href="/RSSBOX/css/main.css">
+
+  
+
+  
+
+  
+
+  
+    <link rel="stylesheet" href="https://gcore.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.css" integrity="sha384-vKruj+a13U8yHIkAyGgK1J3ArTLzrFGBbBc0tDp4ad/EyewESeXE/Iv67Aj8gKZ0" crossorigin="anonymous">
+    <script defer src="https://gcore.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.js" integrity="sha384-PwRUT/YqbnEjkZO0zZxNqcxACrXe+j766U2amXcgMg5457rve2Y7I6ZJSm2A0mS4" crossorigin="anonymous"></script>
+    <script defer src="https://gcore.jsdelivr.net/npm/katex@0.16.4/dist/contrib/auto-render.min.js" integrity="sha384-+VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4+/RRE05" crossorigin="anonymous" onload="renderMathInElement(document.body);"></script>
+  
+
+
+  
+
+<!--百度统计-->
+<script>
+  var _hmt = _hmt || [];
+  (function() {
+    var hm = document.createElement("script");
+    hm.src = "https://hm.baidu.com/hm.js?f42afe3e5b76d22c8b1a8060171c7184";
+    var s = document.getElementsByTagName("script")[0]; 
+    s.parentNode.insertBefore(hm, s);
+  })();
+</script>  
+  <!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-V2NSKYGXNG"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-V2NSKYGXNG');
+</script>
+<!--Google Adsense-->
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4773172018528901" crossorigin="anonymous"></script>
+</head>
+
+<body>
+  
+
+
+
+
+  <div class="l_body" id="start">
+    <aside class="l_left" layout="post">
+    
+
+  
+
+<header class="header"><div class="logo-wrap"><a class="avatar" href="/RSSBOX/archives"><div class="bg" style="opacity:0;background-image:url(https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.4/avatar/round/rainbow64@3x.webp);"></div><img no-lazy class="avatar" src="https://cdn.jsdelivr.net/gh/SMGCDN/photos/icon/rsshub.png" onerror="javascript:this.classList.add('error');this.src='https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.4/image/2659360.svg';"></a><a class="title" href="/RSSBOX/"><div class="main" ff="title">RSSBOX</div><div class="sub normal cap">SMGoroのRSS订阅</div><div class="sub hover cap" style="opacity:0"> 一些好康的东西</div></a></div>
+
+<nav class="menu dis-select"><a class="nav-item active" href="/RSSBOX/">订阅</a><a class="nav-item" href="https://blog.imc.re/">博客</a><a class="nav-item" href="https://blog.imc.re/contact">联系</a><a class="nav-item" href="https://blog.imc.re/more">更多</a></nav>
+</header>
+
+
+<div class="widgets">
+
+<widget class="widget-wrapper toc single" id="data-toc"><div class="widget-header cap dis-select"><span class="name">Demonstrating End-to-End Traceability With Pull Requests</span></div><div class="widget-body fs14"><div class="doc-tree active"><ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#a-note-on-compliance-standards"><span class="toc-text">A note on compliance standards</span></a></li></ol><li class="toc-item toc-level-2"><a class="toc-link" href="#looking-to-the-standards"><span class="toc-text">Looking to the standards</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#starting-from-the-pull-request"><span class="toc-text">Starting from the pull request</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#tracing-back-from-the-pull-request-to-planning"><span class="toc-text">Tracing back from the pull request to planning</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#tracing-within-the-pull-request-to-approvals"><span class="toc-text">Tracing within the pull request to approvals</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#human-review-and-approval"><span class="toc-text">Human review and approval</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#automated-review"><span class="toc-text">Automated review</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#tracing-forward-from-the-pull-request-to-deployments"><span class="toc-text">Tracing forward from the pull request to deployments</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#batched-deployments"><span class="toc-text">Batched deployments</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#data-retention"><span class="toc-text">Data retention</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#conclusion"><span class="toc-text">Conclusion</span></a></li></div></div></widget>
+
+
+
+<widget class="widget-wrapper search"><div class="widget-body"><div class="search-wrapper" id="search"><form class="search-form"><input type="text" class="search-input" id="search-input" data-filter="/rss/" placeholder="文章搜索"><svg t="1670596976048" class="icon search-icon" viewbox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2676" width="200" height="200"><path d="M938.2 832.6L723.8 618.1c-2.5-2.5-5.3-4.4-7.9-6.4 36.2-55.6 57.3-121.8 57.3-193.1C773.3 222.8 614.6 64 418.7 64S64 222.8 64 418.6c0 195.9 158.8 354.6 354.6 354.6 71.3 0 137.5-21.2 193.2-57.4 2 2.7 3.9 5.4 6.3 7.8L832.5 938c14.6 14.6 33.7 21.9 52.8 21.9 19.1 0 38.2-7.3 52.8-21.8 29.2-29.1 29.2-76.4 0.1-105.5M418.7 661.3C284.9 661.3 176 552.4 176 418.6 176 284.9 284.9 176 418.7 176c133.8 0 242.6 108.9 242.6 242.7 0 133.7-108.9 242.6-242.6 242.6" p-id="2677"/></svg></form><div id="search-result"></div><div class="search-no-result">没有找到内容！</div></div></div></widget>
+
+
+
+<widget class="widget-wrapper recent"><div class="widget-header cap theme dis-select"><span class="name">最近更新</span><a class="cap-action" id="rss" title="Subscribe" href="/atom.xml"><svg class="icon" viewbox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="8938"><path d="M800.966 947.251c0-404.522-320.872-732.448-716.69-732.448V62.785c477.972 0 865.44 395.987 865.44 884.466h-148.75z m-162.273 0h-148.74c0-228.98-181.628-414.598-405.678-414.598v-152.01c306.205 0 554.418 253.68 554.418 566.608z m-446.24-221.12c59.748 0 108.189 49.503 108.189 110.557 0 61.063-48.44 110.563-108.188 110.563-59.747 0-108.18-49.5-108.18-110.563 0-61.054 48.433-110.556 108.18-110.556z" p-id="8939"/></svg></a></div><div class="widget-body related-posts fs14"><a class="item title" href="/RSSBOX/rss/2c2fbeb.html"><span class="title">七つの魔剣が支配する｜七魔剑支配天下</span></a><a class="item title" href="/RSSBOX/rss/3e937bc5.html"><span class="title">百姓貴族｜百姓贵族</span></a><a class="item title" href="/RSSBOX/rss/6b839856.html"><span class="title">シュガーアップル・フェアリーテイル(第2クール)｜银砂糖师与黑妖精 第2部分</span></a><a class="item title" href="/RSSBOX/rss/57dfaaf5.html"><span class="title">Girlhood</span></a><a class="item title" href="/RSSBOX/rss/d28c33bf.html"><span class="title">Headhunter's Eyes</span></a></div></widget>
+</div>
+<footer class="footer dis-select"><div class="social-wrap"><a class="social" href="https://github.com/SMGoro" target="_blank" rel="external nofollow noopener noreferrer"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cdn.jsdelivr.net/gh/SMGCDN/photos/icon/iconfont/social-github.svg"></a><a class="social" href="https://space.bilibili.com/359079394" target="_blank" rel="external nofollow noopener noreferrer"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cdn.jsdelivr.net/gh/SMGCDN/photos/icon/iconfont/bilibili.svg"></a><a class="social" href="https://l.imc.re/zhihu" target="_blank" rel="external nofollow noopener noreferrer"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cdn.jsdelivr.net/gh/SMGCDN/photos/icon/iconfont/zhihu.svg"></a><a class="social" href="https://l.imc.re/discord" target="_blank" rel="external nofollow noopener noreferrer"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cdn.jsdelivr.net/gh/SMGCDN/photos/icon/iconfont/discord.svg"></a><a class="social" href="https://blog.imc.re/contact" target="_blank" rel="external nofollow noopener noreferrer"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cdn.jsdelivr.net/gh/SMGCDN/photos/icon/iconfont/comments.svg"></a></div></footer>
+
+    </aside>
+    <div class="l_main">
+      
+
+      
+
+
+
+<div class="bread-nav fs12"><div id="breadcrumb"><a class="cap breadcrumb" href="/RSSBOX/">主页</a><span class="sep"></span><a class="cap breadcrumb" href="/RSSBOX/">文章</a><span class="sep"></span><a class="cap breadcrumb-link" href="/RSSBOX/categories/blogs/">Blogs</a> <span class="sep"></span> <a class="cap breadcrumb-link" href="/RSSBOX/categories/blogs/github/">Github</a></div><div id="post-meta">发布于&nbsp;<time datetime="2023-07-12T07:24:06.000Z">2023-07-12</time></div></div>
+
+<article class="md-text content post">
+<h1 class="article-title"><span>Demonstrating End-to-End Traceability With Pull Requests</span></h1>
+<div>
+<p>Understanding what was changed and why is vital to understanding the state of any system. This is especially true for software teams in regulated industries, as they are required to demonstrate compliance with various standards and regulations to internal and external auditors. While each standard varies a bit depending on the issuer and/or industry, most share several common requirements, including a need to demonstrate end-to-end traceability of deployed changes as part of a standard change control process.</p>
+<p>In many companies, “compliance” and “traceability” can be synonymous with phrases like “high friction,” “onerous processes,” and “additional tooling.” GitHub provides companies with the necessary capabilities to design standards-compliant workflows and demonstrate their compliance to auditors while keeping the developer experience centered around something developers use every day—<a target="_blank" rel="external nofollow noopener noreferrer" href="https://docs.github.com/pull-requests/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/about-pull-requests">the pull request</a>.</p>
+<p>Even if your organization isn’t required to meet a particular compliance standard, following these practices can help to build confidence in your process and provide greater transparency into all deployed changes by:</p>
+<ul>
+<li><strong>Making it easier to troubleshoot production issues</strong>. The ability to explicitly understand what was changed, when it was deployed, and the reasons for the change help engineers and response teams efficiently triage issues, identify problems, and work toward resolution.</li>
+<li><strong>Tracking the business impact of changes</strong>. Mapping business requirements to production changes greatly improves the ability to analyze whether or not the change resulted in the desired impact.</li>
+<li><strong>Minimizing the effort and cost associated with internal investigation and audits</strong>. A <a target="_blank" rel="external nofollow noopener noreferrer" href="https://resources.github.com/forrester/">recent Forrester report</a> notes GitHub customers building compliance into their workflow saved significant time and expense preparing for audits. When workflows are automated, standardized, and easily traceable the time required to prepare and perform an audit or investigation goes down significantly.</li>
+<li><strong>Improving the developer experience</strong>. A single, agreed-upon source of truth for developer workflows helps keep business teams, ops, security, and development all on the same page and empowers them to have more effective, informed discussions.</li>
+</ul>
+<div class="content-table-wrap"><table style="border: 1px black">
+<tbody>
+<tr>
+<td><strong>Read more about how you can support developer-enabled compliance in your business.</strong>
+<ul>
+<li><a target="_blank" rel="external nofollow noopener noreferrer" href="https://github.blog/2023-01-26-setting-the-foundations-for-compliance/">Setting the foundations for compliance</a></li>
+<li><a target="_blank" rel="external nofollow noopener noreferrer" href="https://github.blog/2023-02-24-3-ways-to-meet-compliance-needs-without-slowing-down-agility/">Meeting compliance needs without slowing down agility</a></li>
+<li><a target="_blank" rel="external nofollow noopener noreferrer" href="https://github.blog/2023-04-13-ensuring-compliance-in-developer-workflows/">Ensuring compliance in developer workflows</a></li>
+<li><a target="_blank" rel="external nofollow noopener noreferrer" href="https://github.blog/2023-04-11-generative-ai-enabled-compliance-for-software-development/">Using generative AI to optimize compliance</a></li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table></div>
+<h4 id="a-note-on-compliance-standards">A note on compliance standards<a aria-label="A note on compliance standards" class="heading-link pl-2 text-italic text-bold" href="#a-note-on-compliance-standards"></a></h4>
+<p>When creating compliant workflows, it is important to remember compliance is assessed against your overall process and is not a simple pass-through from a vendor. Standards achieved by vendors are indicative of the vendor’s internal processes. Non-compliant workflows can be built with tools from a “compliant” vendor and compliant workflows can often be built from tools whose vendors may not meet the standard for their internal processes. It all depends on the context of the service provided.</p>
+<p>It’s equally important to consider the applicability of the standard. For instance, standards that apply to the storage and maintenance of protected data, such as Personally Identifiable Information (PII) and Personal Health Information (PHI), require certain guarantees of your deployment targets and data stores that don’t apply to systems managing source code and work tracking. Neither of these systems should ever contain such information.</p>
+<h2 id="looking-to-the-standards">Looking to the standards<a aria-label="Looking to the standards" class="heading-link pl-2 text-italic text-bold" href="#looking-to-the-standards"></a></h2>
+<p>When discussing software changes, standards often focus on the ability to link deployed changes to:</p>
+<ul>
+<li>An initial request (which may include detailed requirements)</li>
+<li>Authorship of the code</li>
+<li>Review and approval by the appropriate person(s)</li>
+<li>Test and build artifacts</li>
+</ul>
+<p>Let’s take a look at few examples:</p>
+<p>Requirement 6.5.1 of the <a target="_blank" rel="external nofollow noopener noreferrer" href="https://docs-prv.pcisecuritystandards.org/PCI%20DSS/Standard/PCI-DSS-v4_0.pdf">PCI/DSS standard</a> requires every change be made through an established procedure that includes:</p>
+<ul>
+<li>The reason for, and description of, the change</li>
+<li>Documentation of security impact of the change</li>
+<li>Documented approval by authorized parties</li>
+<li>Compliance with secure development processes</li>
+<li>Security testing</li>
+</ul>
+<p><a target="_blank" rel="external nofollow noopener noreferrer" href="https://www.iso.org/standard/27001">ISO 27001</a> A.12.1.2 calls for formal change management process that includes:</p>
+<ul>
+<li>The request for change</li>
+<li>An evaluation of the change</li>
+<li>Approval of the change</li>
+<li>Implementation of the change</li>
+</ul>
+<p>It is expanded upon in A.14.2 to further include:</p>
+<ul>
+<li>Formal change control procedures for all systems in the development lifecycle (A.14.2.2)</li>
+<li>Review and testing to ensure no adverse impact on security (A.14.2.3)</li>
+</ul>
+<p>The <a target="_blank" rel="external nofollow noopener noreferrer" href="https://www.isaca.org/resources/cobit">COBIT framework</a>, commonly used by companies to define and audit their internal processes, can be mapped to many common compliance standards. COBIT’s practice description for BAI06.01 specifically calls for organizations to:</p>
+<blockquote><p>“Evaluate all requests for change to determine the impact on business processes and I&amp;T services, and to assess whether change will adversely affect the operational environment and introduce unacceptable risk. Ensure that changes are logged, prioritized, categorized, assessed, authorized, planned and scheduled.”</p></blockquote>
+<h2 id="starting-from-the-pull-request">Starting from the pull request<a aria-label="Starting from the pull request" class="heading-link pl-2 text-italic text-bold" href="#starting-from-the-pull-request"></a></h2>
+<p>Each of the above common compliance standards and frameworks focus on ensuring proper controls exist for all deployed changes. GitHub has a construct specifically designed around evaluating “requests for change”—the pull request. Committed code is discussed, reviewed, tested, analyzed for security issues, approved, and deployed within the context of a pull request, making them the logical place to center your audit and traceability efforts.</p>
+<h3 id="tracing-back-from-the-pull-request-to-planning">Tracing back from the pull request to planning<a aria-label="Tracing back from the pull request to planning" class="heading-link pl-2 text-italic text-bold" href="#tracing-back-from-the-pull-request-to-planning"></a></h3>
+<p>GitHub Issues are where the pre-work of development happens. They capture feature requests, bugs, requirements, and discussions about possible implementation patterns. Pull requests can be <a target="_blank" rel="external nofollow noopener noreferrer" href="https://docs.github.com/issues/tracking-your-work-with-issues/linking-a-pull-request-to-an-issue">linked</a> to one or more GitHub Issues by referencing them in the description or in a commit message.</p>
+<p><img><img alt="Screenshot of a pull request called "update documentation" that notes "Successfully merging a pull request may close this issue."" class="size-large wp-image-72810 width-fit" data-recalc-dims="1" data-src="data:image/gif;base64,R0lGODlhAQABAIAAAP///////yH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" decoding="async" height="364" loading="lazy" sizes="(max-width: 778px) 100vw, 778px" src="https://github.blog/wp-content/uploads/2023/06/image3.jpg?w=778&amp;resize=778%2C364" width="778"></p>
+<p>Issues and pull requests are managed in GitHub Projects. Using GitHub Projects, teams can efficiently plan, prioritize, assign, schedule, and track their work. The flexible nature of projects enables teams to create multiple, tailored views into their activity.</p>
+<p><img><img alt="Screenshot of a GitHub Project board for the the repo "OctArcade Invaders." The open pull request "update documentation" is highlighted in the list of open items for Squad 2." class="aligncenter size-large wp-image-72811 width-fit" data-recalc-dims="1" data-src="data:image/gif;base64,R0lGODlhAQABAIAAAP///////yH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" decoding="async" height="497" loading="lazy" sizes="(max-width: 1000px) 100vw, 1000px" src="https://github.blog/wp-content/uploads/2023/06/image1-4.png?w=1024&amp;resize=1024%2C497" width="1024"></p>
+<p>Unplanned work happens. Typos, minor UI corrections, and small bug fixes may not have associated issues when they are addressed. Since pull requests can be tracked and planned in GitHub Projects and can include rich context, just like issues, you may find requiring every change to have an associated issue to be redundant. Looking back to the ISO 27001 A.12.1 requirement, a pull request includes:</p>
+<ul>
+<li>The request for change (after all, this is what a pull request is)</li>
+<li>Evaluation of the change (via human review and automated testing)</li>
+<li>Approval of the change (via human review of the change and/or deployment after required tests have passed)</li>
+<li>Implementation of the change (via a deployment)</li>
+</ul>
+<p>For those cases when you desire a required link back to at least one issue, you can use GitHub Actions to check for, and require, linked issues. The community-maintained <a target="_blank" rel="external nofollow noopener noreferrer" href="https://github.com/nearform-actions/github-action-check-linked-issues">nearform-actions/github-action-check-linked-issues</a> can check for issues linked via the pull request description.</p>
+<h3 id="tracing-within-the-pull-request-to-approvals">Tracing within the pull request to approvals<a aria-label="Tracing within the pull request to approvals" class="heading-link pl-2 text-italic text-bold" href="#tracing-within-the-pull-request-to-approvals"></a></h3>
+<p>Approvals from both human reviewers and automated systems are surfaced directly within the pull request, greatly aiding traceability.</p>
+<h4 id="human-review-and-approval">Human review and approval<a aria-label="Human review and approval" class="heading-link pl-2 text-italic text-bold" href="#human-review-and-approval"></a></h4>
+<p>GitHub provides repository owners with the ability to enforce <a target="_blank" rel="external nofollow noopener noreferrer" href="https://docs.github.com/pull-requests/collaborating-with-pull-requests/reviewing-changes-in-pull-requests/about-pull-request-reviews">code reviews</a> before a change can be merged, and use <a target="_blank" rel="external nofollow noopener noreferrer" href="https://docs.github.com/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/about-code-owners">CODEOWNERS</a> to explicitly state from which teams or individuals review is required based on the content modified. Reviews received, and whether or not the reviewer approved the change, are logged to the pull request. Repository owners can also specify that approving reviewers must not have contributed to the pull request, which can help satisfy separation of duties requirements between authors and reviewers.</p>
+<p><img><img alt="Screenshot of a message reporting that user RaydioFM has approved the changes in the related pull request." class="aligncenter size-large wp-image-72812 width-fit" data-recalc-dims="1" data-src="data:image/gif;base64,R0lGODlhAQABAIAAAP///////yH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" decoding="async" height="125" loading="lazy" sizes="(max-width: 1000px) 100vw, 1000px" src="https://github.blog/wp-content/uploads/2023/06/image2-6.png?w=1024&amp;resize=1024%2C125" width="1024"></p>
+<h3 id="automated-review">Automated review<a aria-label="Automated review" class="heading-link pl-2 text-italic text-bold" href="#automated-review"></a></h3>
+<p>Automated testing is crucial to ensuring proposed changes will not “adversely affect the operational environment and introduce unacceptable risk” (COBIT BAI06.01) and doesn’t “adversely impact system security.” (PCI DSS 4.0 – 6.5.1)</p>
+<p>With GitHub Actions users can run their automated test suites and require successful completion before a change can proceed toward production. The status of all automated workflow runs is reported directly in the pull request. This same approach can be applied to security testing through the use of GitHub code scanning. Repository owners can require that tests pass prior to pull requests being mergeable.</p>
+<p><img><img alt="Screenshot of the list of tests related to an open pull request indicating that all required statuses must pass before it can be merged." class="aligncenter size-large wp-image-72813 width-fit" data-recalc-dims="1" data-src="data:image/gif;base64,R0lGODlhAQABAIAAAP///////yH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" decoding="async" height="742" loading="lazy" sizes="(max-width: 1000px) 100vw, 1000px" src="https://github.blog/wp-content/uploads/2023/06/image4-3.png?w=1024&amp;resize=1024%2C742" width="1024"></p>
+<h3 id="tracing-forward-from-the-pull-request-to-deployments">Tracing forward from the pull request to deployments<a aria-label="Tracing forward from the pull request to deployments" class="heading-link pl-2 text-italic text-bold" href="#tracing-forward-from-the-pull-request-to-deployments"></a></h3>
+<p>Pull requests <a target="_blank" rel="external nofollow noopener noreferrer" href="https://docs.github.com/actions/deployment/about-deployments/deploying-with-github-actions">deployed</a> by GitHub Actions log all corresponding events directly to the pull request timeline.</p>
+<p><img><img alt="Screenshot of the pull request timeline showing that a branch has been successfully deployed." class="aligncenter size-large wp-image-72814 width-fit" data-recalc-dims="1" data-src="data:image/gif;base64,R0lGODlhAQABAIAAAP///////yH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" decoding="async" height="534" loading="lazy" sizes="(max-width: 1000px) 100vw, 1000px" src="https://github.blog/wp-content/uploads/2023/06/image6-2.png?w=1024&amp;resize=1024%2C534" width="1024"></p>
+<p>Deployments can <a target="_blank" rel="external nofollow noopener noreferrer" href="https://docs.github.com/enterprise-cloud@latest/actions/deployment/targeting-different-environments/using-environments-for-deployment">require review from specified individuals and/or teams</a> before code is deployed into an environment. This is also logged to the associated workflow run.</p>
+<p><img><img alt="Screenshot of a workflow run associated with a pull request, showing that it has been approved by user PHolleran." class="aligncenter size-large wp-image-72815 width-fit" data-recalc-dims="1" data-src="data:image/gif;base64,R0lGODlhAQABAIAAAP///////yH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" decoding="async" height="599" loading="lazy" sizes="(max-width: 1000px) 100vw, 1000px" src="https://github.blog/wp-content/uploads/2023/06/image5-2.png?w=1024&amp;resize=1024%2C599" width="1024"></p>
+<h4 id="batched-deployments">Batched deployments<a aria-label="Batched deployments" class="heading-link pl-2 text-italic text-bold" href="#batched-deployments"></a></h4>
+<p>When a single deployment must be linked to the many pull requests constituting the entire deployment, data retrieval can be a challenge. Getting the list of commits in the deployment and linking them to their associated pull requests is possible via the GitHub API, but takes some effort and needs to be scripted into your deployment process. Thankfully, there is an easier way: GitHub releases.</p>
+<p>GitHub <a target="_blank" rel="external nofollow noopener noreferrer" href="https://docs.github.com/repositories/releasing-projects-on-github/about-releases">releases</a> allow you to associate a tag in your git repository with a release of your software, store and/or link off to any assets, and provide detailed release notes. GitHub can even auto-generate your release notes, including:</p>
+<ul>
+<li>All merged pull requests that are part of the release</li>
+<li>All committers to the release</li>
+<li>A complete changelog</li>
+</ul>
+<p>A <a target="_blank" rel="external nofollow noopener noreferrer" href="https://docs.github.com/rest/releases">complete API</a> is available to integrate the creation of a GitHub release, complete with auto-generated release notes, into your deployment process.</p>
+<h2 id="data-retention">Data retention<a aria-label="Data retention" class="heading-link pl-2 text-italic text-bold" href="#data-retention"></a></h2>
+<p>One of the best things about focusing audit and traceability around the pull request is that <a target="_blank" rel="external nofollow noopener noreferrer" href="https://ben.balter.com/2015/11/12/why-urls/">everything has a URL</a>. An auditor, when granted access to the repository, can follow along in the pull request, viewing every step of the process and linking out to other assets and systems when necessary.</p>
+<p>GitHub retains your pull requests for as long as your repository is stored with us, including all timeline events. Checks data, including which checks passed and failed, are <a target="_blank" rel="external nofollow noopener noreferrer" href="https://github.blog/changelog/2022-01-14-updates-to-the-checks-data-retention-policy/">retained for 400 days</a>. Retention of logs generated by GitHub Actions workflows can be <a target="_blank" rel="external nofollow noopener noreferrer" href="https://docs.github.com/organizations/managing-organization-settings/configuring-the-retention-period-for-github-actions-artifacts-and-logs-in-your-organization">configured</a> for a period up to 400 days.</p>
+<p>If you need to retain data in a separate location, or for a longer period of time, much of it can be obtained directly from your <a target="_blank" rel="external nofollow noopener noreferrer" href="https://docs.github.com/enterprise-cloud@latest/organizations/keeping-your-organization-secure/managing-security-settings-for-your-organization/reviewing-the-audit-log-for-your-organization">audit log</a>, which can be <a target="_blank" rel="external nofollow noopener noreferrer" href="https://docs.github.com/enterprise-cloud@latest/admin/monitoring-activity-in-your-enterprise/reviewing-audit-logs-for-your-enterprise/streaming-the-audit-log-for-your-enterprise">streamed</a> to a location of your choice. Additional information, if desired, can be captured from GitHub using <a target="_blank" rel="external nofollow noopener noreferrer" href="https://docs.github.com/webhooks-and-events/webhooks/about-webhooks">webhooks</a> to notify your internal system of events and the GitHub <a target="_blank" rel="external nofollow noopener noreferrer" href="https://docs.github.com/rest">API</a> to retrieve detailed information.</p>
+<h2 id="conclusion">Conclusion<a aria-label="Conclusion" class="heading-link pl-2 text-italic text-bold" href="#conclusion"></a></h2>
+<p>GitHub makes it easy to demonstrate, and document, end-to-end traceability across your software projects. Building audit and traceability around pull requests keeps compliance work within existing developer workflows, reducing friction for both development teams and auditors.</p>
+
+</div>
+
+<div>
+<div class="tag-plugin link dis-select"><a class="link-card plain" title="Demonstrating end-to-end traceability with pull requests" href="https://github.blog/2023-07-11-demonstrating-end-to-end-traceability-with-pull-requests/" target="_blank" rel="external nofollow noopener noreferrer" cardlink autofill="icon"><div class="left"><span class="title">Demonstrating end-to-end traceability with pull requests</span><span class="cap link fs12">https://github.blog/2023-07-11-demonstrating-end-to-end-traceability-with-pull-requests/</span></div><div class="right"><div class="lazy img" data-bg="https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.4/link/8f277b4ee0ecd.svg"></div></div></a></div>
+</div>
+
+
+
+
+<div class="article-footer reveal fs14"><section id="license"><div class="header"><span>许可协议</span></div><div class="body"><p>本文采用 <a target="_blank" rel="external nofollow noopener noreferrer" href="https://github.com/me-shaon/GLWTPL/blob/master/translations/LICENSE_zh-CN">GLWT（Good Luck With That，祝你好运）公共许可证</a> 许可协议，转载请注明出处。</p>
+</div></section><section id="share"><div class="header"><span>分享文章</span></div><div class="body"><div class="link"><input class="copy-area" readonly="true" id="copy-link" value="https://blog.imc.re/RSSBOX/rss/257d1cd2.html"></div><div class="social-wrap dis-select"><a class="social share-item wechat" onclick="util.toggle(&quot;qrcode-wechat&quot)"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.4/social/b32ef3da1162a.svg"></a><a class="social share-item weibo" target="_blank" rel="external nofollow noopener noreferrer" href="https://service.weibo.com/share/share.php?url=https://blog.imc.re/RSSBOX/rss/257d1cd2.html&title=Demonstrating End-to-End Traceability With Pull Requests - RSSBOX&pics=https://github.blog/wp-content/uploads/2023/06/image3.jpg?w=778&resize=778%2C364&summary=
+Understanding what was changed and why is vital to understanding the state of any system. This is especially true fo..."><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.4/social/80c07e4dbb303.svg"></a><a class="social share-item email" href="mailto:?subject=Demonstrating End-to-End Traceability With Pull Requests - RSSBOX&amp;body=https://blog.imc.re/RSSBOX/rss/257d1cd2.html"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.4/social/a1b00e20f425d.svg"></a><a class="social share-item link" onclick="util.copy(&quot;copy-link&quot;, &quot;复制成功&quot;)"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.4/social/8411ed322ced6.svg"></a></div><div class="qrcode" id="qrcode-wechat" style="visibility:hidden;height:0"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://api.qrserver.com/v1/create-qr-code/?size=256x256&data=https://blog.imc.re/RSSBOX/rss/257d1cd2.html"></div></div></section></div>
+
+</article>
+
+<div class="related-wrap reveal" id="read-next"><section class="body"><div class="item" id="prev"><div class="note">较新文章</div><a href="/RSSBOX/rss/30948334.html">#17 【会社と私生活】ロリィタ男子とパンク男装女子が秘密の関係になる話</a></div><div class="item" id="next"><div class="note">较早文章</div><a href="/RSSBOX/rss/76949f5f.html">GitHub Merge Queue Is Generally Available</a></div></section></div>
+
+
+<div class="related-wrap reveal" id="related-posts">
+    <section class="header">
+      <div class="title cap theme">您可能感兴趣的文章</div>
+    </section>
+    <section class="body">
+    <div class="related-posts"><a class="item" href="/RSSBOX/rss/8f6843fe.html" title="(De)coding Conventions"><span class="title">(De)coding Conventions</span></a><a class="item" href="/RSSBOX/rss/5eca91cc.html" title="Accessibility Considerations Behind Code Search and Code View"><span class="title">Accessibility Considerations Behind Code Search and Code View</span></a><a class="item" href="/RSSBOX/rss/64ca8782.html" title="GitHub Availability Report: June 2023"><span class="title">GitHub Availability Report: June 2023</span></a><a class="item" href="/RSSBOX/rss/d1163c4.html" title="GitHub CLI Project Command Is Now Generally Available!"><span class="title">GitHub CLI Project Command Is Now Generally Available!</span></a><a class="item" href="/RSSBOX/rss/76949f5f.html" title="GitHub Merge Queue Is Generally Available"><span class="title">GitHub Merge Queue Is Generally Available</span></a></div></section></div>
+
+
+
+
+
+      
+<footer class="page-footer reveal fs12"><hr><div class="sitemap"><div class="sitemap-group"><span class="fs14">文章</span><a href="/RSSBOX/categories">分类</a><a href="/RSSBOX/tags">标签</a><a href="/RSSBOX/archives">归档</a></div><div class="sitemap-group"><span class="fs14">更多</span><a href="https://blog.imc.re/">博客</a><a target="_blank" rel="noopener" href="https://imc.re/">IMC.RE</a></div></div><div class="text"><p><a href="/">@RSSBOX</a> 2023 author by <a target="_blank" rel="external nofollow noopener noreferrer" href="https://github.com/MHG-LAB/RSSBOX">MHuiG</a> powered by SummerGoro。<br><br>本博客所有文章除特别声明外，均采用 <a target="_blank" rel="external nofollow noopener noreferrer" href="https://github.com/me-shaon/GLWTPL/blob/master/translations/LICENSE_zh-CN">GLWT（Good Luck With That，祝你好运）公共许可证</a> 许可协议，转载请注明出处。</p>
+</div></footer>
+
+      <div class="float-panel mobile-only blur" style="display:none">
+  <button type="button" class="sidebar-toggle mobile" onclick="sidebar.toggle()">
+    <svg class="icon" style="width: 1em; height: 1em;vertical-align: middle;fill: currentColor;overflow: hidden;" viewbox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="15301"><path d="M566.407 808.3c26.9-0.1 49.3-20.8 51.6-47.6-1.9-27.7-23.9-49.7-51.6-51.6h-412.6c-28.2-1.4-52.6 19.5-55.5 47.6 2.3 26.8 24.6 47.5 51.6 47.6h416.5v4z m309.3-249.9c26.9-0.1 49.3-20.8 51.6-47.6-2.2-26.8-24.6-47.5-51.6-47.6h-721.9c-27.7-2.8-52.5 17.4-55.3 45.1-0.1 0.8-0.1 1.7-0.2 2.5 0.9 27.2 23.6 48.5 50.7 47.6H875.707z m-103.1-245.9c26.9-0.1 49.3-20.8 51.6-47.6-0.4-28.3-23.2-51.1-51.5-51.6h-618.9c-29.5-1.1-54.3 21.9-55.5 51.4v0.2c1.4 27.8 25.2 49.2 53 47.8 0.8 0 1.7-0.1 2.5-0.2h618.8z" p-id="15302"/><path d="M566.407 808.3c26.9-0.1 49.3-20.8 51.6-47.6-1.9-27.7-23.9-49.7-51.6-51.6h-412.6c-28.2-1.4-52.6 19.5-55.5 47.6 1.9 27.7 23.9 49.7 51.6 51.6h416.5z m309.3-249.9c26.9-0.1 49.3-20.8 51.6-47.6-2.2-26.8-24.6-47.5-51.6-47.6h-721.9c-27.7-2.8-52.5 17.4-55.3 45.1-0.1 0.8-0.1 1.7-0.2 2.5 0.9 27.2 23.6 48.5 50.7 47.6H875.707z m-103.1-245.9c26.9-0.1 49.3-20.8 51.6-47.6-0.4-28.3-23.2-51.1-51.5-51.6h-618.9c-29.5-1.1-54.3 21.9-55.5 51.4v0.2c1.4 27.8 25.2 49.2 53 47.8 0.8 0 1.7-0.1 2.5-0.2h618.8z" p-id="15303"/></svg>
+  </button>
+</div>
+
+    </div>
+  </div>
+  <div class="scripts">
+    <script type="text/javascript">
+  const stellar = {
+    // 懒加载 css https://github.com/filamentgroup/loadCSS
+    loadCSS: (href, before, media, attributes) => {
+      var doc = window.document;
+      var ss = doc.createElement("link");
+      var ref;
+      if (before) {
+        ref = before;
+      } else {
+        var refs = (doc.body || doc.getElementsByTagName("head")[0]).childNodes;
+        ref = refs[refs.length - 1];
+      }
+      var sheets = doc.styleSheets;
+      if (attributes) {
+        for (var attributeName in attributes) {
+          if (attributes.hasOwnProperty(attributeName)) {
+            ss.setAttribute(attributeName, attributes[attributeName]);
+          }
+        }
+      }
+      ss.rel = "stylesheet";
+      ss.href = href;
+      ss.media = "only x";
+      function ready(cb) {
+        if (doc.body) {
+          return cb();
+        }
+        setTimeout(function () {
+          ready(cb);
+        });
+      }
+      ready(function () {
+        ref.parentNode.insertBefore(ss, before ? ref : ref.nextSibling);
+      });
+      var onloadcssdefined = function (cb) {
+        var resolvedHref = ss.href;
+        var i = sheets.length;
+        while (i--) {
+          if (sheets[i].href === resolvedHref) {
+            return cb();
+          }
+        }
+        setTimeout(function () {
+          onloadcssdefined(cb);
+        });
+      };
+      function loadCB() {
+        if (ss.addEventListener) {
+          ss.removeEventListener("load", loadCB);
+        }
+        ss.media = media || "all";
+      }
+      if (ss.addEventListener) {
+        ss.addEventListener("load", loadCB);
+      }
+      ss.onloadcssdefined = onloadcssdefined;
+      onloadcssdefined(loadCB);
+      return ss;
+    },
+
+    // 从 butterfly 和 volantis 获得灵感
+    loadScript: (src, opt) => new Promise((resolve, reject) => {
+      var script = document.createElement('script');
+      if (src.startsWith('/')){
+        src = stellar.config.root + src.substring(1);
+      }
+      script.src = src;
+      if (opt) {
+        for (let key of Object.keys(opt)) {
+          script[key] = opt[key]
+        }
+      } else {
+        // 默认异步，如果需要同步，第二个参数传入 {} 即可
+        script.async = true
+      }
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    }),
+
+    // https://github.com/jerryc127/hexo-theme-butterfly
+    jQuery: (fn) => {
+      if (typeof jQuery === 'undefined') {
+        stellar.loadScript(stellar.plugins.jQuery).then(fn)
+      } else {
+        fn()
+      }
+    }
+  };
+  stellar.version = '1.19.0';
+  stellar.github = 'https://github.com/xaoxuu/hexo-theme-stellar/tree/1.19.0';
+  stellar.config = {
+    date_suffix: {
+      just: '刚刚',
+      min: '分钟前',
+      hour: '小时前',
+      day: '天前',
+      month: '个月前',
+    },
+    root : '/RSSBOX/',
+  };
+
+  // required plugins (only load if needs)
+  stellar.plugins = {
+    jQuery: 'https://gcore.jsdelivr.net/npm/jquery@3.6.2/dist/jquery.min.js'
+  };
+
+  if ('local_search') {
+    stellar.search = {};
+    stellar.search.service = 'local_search';
+    if (stellar.search.service == 'local_search') {
+      let service_obj = Object.assign({}, {"field":"all","path":"/search.json","content":true,"codeblock":true,"sort":"-date"});
+      stellar.search[stellar.search.service] = service_obj;
+    }
+  }
+
+  // stellar js
+  stellar.plugins.stellar = Object.assign({"sites":"/js/plugins/sites.js","friends":"/js/plugins/friends.js","ghinfo":"/js/plugins/ghinfo.js","timeline":"/js/plugins/timeline.js","linkcard":"/js/plugins/linkcard.js","fcircle":"/js/plugins/fcircle.js","weibo":"/js/plugins/weibo.js"});
+
+  stellar.plugins.marked = Object.assign("https://cdn.bootcdn.net/ajax/libs/marked/4.0.18/marked.min.js");
+  // optional plugins
+  if ('true' == 'true') {
+    stellar.plugins.lazyload = Object.assign({"enable":true,"js":"https://gcore.jsdelivr.net/npm/vanilla-lazyload@17.8.3/dist/lazyload.min.js","transition":"blur"});
+  }
+  if ('true' == 'true') {
+    stellar.plugins.swiper = Object.assign({"enable":true,"css":"https://unpkg.com/swiper@8.4.5/swiper-bundle.min.css","js":"https://unpkg.com/swiper@8.4.5/swiper-bundle.min.js"});
+  }
+  if ('' == 'true') {
+    stellar.plugins.scrollreveal = Object.assign({"enable":null,"js":"https://gcore.jsdelivr.net/npm/scrollreveal@4.0.9/dist/scrollreveal.min.js","distance":"8px","duration":500,"interval":100,"scale":1});
+  }
+  if ('true' == 'true') {
+    stellar.plugins.preload = Object.assign({"enable":true,"service":"flying_pages","instant_page":"https://gcore.jsdelivr.net/gh/volantis-x/cdn-volantis@4.1.2/js/instant_page.js","flying_pages":"https://gcore.jsdelivr.net/gh/gijo-varghese/flying-pages@2.1.2/flying-pages.min.js"});
+  }
+  if ('true' == 'true') {
+    stellar.plugins.fancybox = Object.assign({"enable":true,"js":"https://gcore.jsdelivr.net/npm/@fancyapps/ui@4.0/dist/fancybox.umd.js","css":"https://gcore.jsdelivr.net/npm/@fancyapps/ui@4.0/dist/fancybox.css","selector":".swiper-slide img"});
+  }
+  if ('false' == 'true') {
+    stellar.plugins.heti = Object.assign({"enable":false,"css":"https://unpkg.com/heti@0.9.2/umd/heti.min.css","js":"https://unpkg.com/heti@0.9.2/umd/heti-addon.min.js"});
+  }
+  if ('true' == 'true') {
+    stellar.plugins.copycode = Object.assign({"enable":true,"js":"/js/plugins/copycode.js","default_text":"Copy","success_text":"Copied"});
+  }
+</script>
+
+<!-- required -->
+
+  
+<script src="/RSSBOX/js/main.js" async></script>
+
+
+
+<!-- optional -->
+
+  <script>
+  function loadJS() {
+    const els = document.querySelectorAll("#comments #giscus");
+    if (els.length === 0) return;
+    els.forEach((el, i) => {
+      try {
+        el.innerHTML = '';
+      } catch (error) {
+        console.log(error);
+      }
+      var script = document.createElement('script');
+      script.src = 'https://giscus.app/client.js';
+      script.async = true;
+      for (let key of Object.keys(el.attributes)) {
+        let attr = el.attributes[key];
+        if (['class', 'id'].includes(attr.name) === false) {
+          script.setAttribute(attr.name, attr.value);
+        }
+      }
+      el.appendChild(script);
+    });
+  }
+  window.addEventListener('DOMContentLoaded', (event) => {
+    loadJS();
+  });
+</script>
+
+
+
+
+<!-- inject -->
+
+
+  </div>
+</body>
+</html>

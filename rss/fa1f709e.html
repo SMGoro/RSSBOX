@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+  <meta name="generator" content="Hexo 6.3.0">
+  <meta name="hexo-theme" content="https://github.com/xaoxuu/hexo-theme-stellar/tree/1.19.0">
+  <meta charset="utf-8">
+  
+
+  <meta http-equiv="x-dns-prefetch-control" content="on">
+  <link rel="dns-prefetch" href="https://gcore.jsdelivr.net">
+  <link rel="preconnect" href="https://gcore.jsdelivr.net" crossorigin>
+  <link rel="dns-prefetch" href="//unpkg.com">
+
+  <meta name="renderer" content="webkit">
+  <meta name="force-rendering" content="webkit">
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+  <meta name="HandheldFriendly" content="True">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="theme-color" content="#f8f8f8">
+  
+  <title>搭建环境与部署博客的最简便方法 - RSSBOX</title>
+
+  
+    <meta name="description" content="使用脚本自动化搭建注：此脚本只适用于 Mac&#x2F;Linux 平台此脚本只适用于 Mac&#x2F;Linux 平台，其中 Mac 平台 全部指令 均支持，而 Linux 平台有部分指令存在兼容性 BUG 有待解决：blog initblog test xxxblog i 主题一键搭建环境如果电脑重装了系统，还没有安装 node.js 和 hexo 环境，可以在终端输入下面这行代码，一键完成前期准备工作：此命">
+<meta property="og:type" content="article">
+<meta property="og:title" content="搭建环境与部署博客的最简便方法">
+<meta property="og:url" content="https://blog.imc.re/RSSBOX/rss/fa1f709e.html">
+<meta property="og:site_name" content="RSSBOX">
+<meta property="og:description" content="使用脚本自动化搭建注：此脚本只适用于 Mac&#x2F;Linux 平台此脚本只适用于 Mac&#x2F;Linux 平台，其中 Mac 平台 全部指令 均支持，而 Linux 平台有部分指令存在兼容性 BUG 有待解决：blog initblog test xxxblog i 主题一键搭建环境如果电脑重装了系统，还没有安装 node.js 和 hexo 环境，可以在终端输入下面这行代码，一键完成前期准备工作：此命">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2022-11-25T16:00:00.000Z">
+<meta property="article:modified_time" content="2022-11-25T16:00:00.000Z">
+<meta property="article:author" content="SMGoro">
+<meta property="article:tag" content="Blogs">
+<meta property="article:tag" content="XAOXUU">
+<meta name="twitter:card" content="summary_large_image">
+  
+  
+  
+  <meta name="keywords" content="Blogs,XAOXUU">
+
+  <!-- feed -->
+  
+    <link rel="alternate" href="/RSSBOX/atom.xml" title="RSSBOX" type="application/atom+xml">
+  
+
+  
+    
+<link rel="stylesheet" href="/RSSBOX/css/main.css">
+
+  
+
+  
+
+  
+
+  
+    <link rel="stylesheet" href="https://gcore.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.css" integrity="sha384-vKruj+a13U8yHIkAyGgK1J3ArTLzrFGBbBc0tDp4ad/EyewESeXE/Iv67Aj8gKZ0" crossorigin="anonymous">
+    <script defer src="https://gcore.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.js" integrity="sha384-PwRUT/YqbnEjkZO0zZxNqcxACrXe+j766U2amXcgMg5457rve2Y7I6ZJSm2A0mS4" crossorigin="anonymous"></script>
+    <script defer src="https://gcore.jsdelivr.net/npm/katex@0.16.4/dist/contrib/auto-render.min.js" integrity="sha384-+VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4+/RRE05" crossorigin="anonymous" onload="renderMathInElement(document.body);"></script>
+  
+
+
+  
+
+<!--百度统计-->
+<script>
+  var _hmt = _hmt || [];
+  (function() {
+    var hm = document.createElement("script");
+    hm.src = "https://hm.baidu.com/hm.js?f42afe3e5b76d22c8b1a8060171c7184";
+    var s = document.getElementsByTagName("script")[0]; 
+    s.parentNode.insertBefore(hm, s);
+  })();
+</script>  
+  <!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-V2NSKYGXNG"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-V2NSKYGXNG');
+</script>
+<!--Google Adsense-->
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4773172018528901" crossorigin="anonymous"></script>
+</head>
+
+<body>
+  
+
+
+
+
+  <div class="l_body" id="start">
+    <aside class="l_left" layout="post">
+    
+
+  
+
+<header class="header"><div class="logo-wrap"><a class="avatar" href="/RSSBOX/archives"><div class="bg" style="opacity:0;background-image:url(https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.4/avatar/round/rainbow64@3x.webp);"></div><img no-lazy class="avatar" src="https://cdn.jsdelivr.net/gh/SMGCDN/photos/icon/rsshub.png" onerror="javascript:this.classList.add('error');this.src='https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.4/image/2659360.svg';"></a><a class="title" href="/RSSBOX/"><div class="main" ff="title">RSSBOX</div><div class="sub normal cap">SMGoroのRSS订阅</div><div class="sub hover cap" style="opacity:0"> 一些好康的东西</div></a></div>
+
+<nav class="menu dis-select"><a class="nav-item active" href="/RSSBOX/">订阅</a><a class="nav-item" href="https://blog.imc.re/">博客</a><a class="nav-item" href="https://blog.imc.re/contact">联系</a><a class="nav-item" href="https://blog.imc.re/more">更多</a></nav>
+</header>
+
+
+<div class="widgets">
+
+<widget class="widget-wrapper toc single" id="data-toc"><div class="widget-header cap dis-select"><span class="name">搭建环境与部署博客的最简便方法</span></div><div class="widget-body fs14"><div class="doc-tree active"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8%E8%84%9A%E6%9C%AC%E8%87%AA%E5%8A%A8%E5%8C%96%E6%90%AD%E5%BB%BA"><span class="toc-text">使用脚本自动化搭建</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%80%E9%94%AE%E6%90%AD%E5%BB%BA%E7%8E%AF%E5%A2%83"><span class="toc-text">一键搭建环境</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%80%E9%94%AE%E6%90%AD%E5%BB%BA%E7%8E%AF%E5%A2%83%E5%B9%B6%E5%85%8B%E9%9A%86%E8%87%AA%E5%B7%B1%E7%9A%84%E5%8D%9A%E5%AE%A2"><span class="toc-text">一键搭建环境并克隆自己的博客</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%B5%8B%E8%AF%95%E4%B8%BB%E9%A2%98%E6%95%88%E6%9E%9C"><span class="toc-text">测试主题效果</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%89%E8%A3%85%E5%85%B6%E5%AE%83%E4%B8%BB%E9%A2%98"><span class="toc-text">安装其它主题</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%99%84%EF%BC%9A%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4"><span class="toc-text">附：常用命令</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%AE%BE%E7%BD%AE-npm-run-%E8%BF%90%E8%A1%8C%E8%84%9A%E6%9C%AC"><span class="toc-text">设置 npm run 运行脚本</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#GitHub-Actions-%E8%87%AA%E5%8A%A8%E5%8C%96%E9%83%A8%E7%BD%B2"><span class="toc-text">GitHub Actions 自动化部署</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6"><span class="toc-text">配置文件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%85%B3%E9%94%AE%E5%8F%82%E6%95%B0"><span class="toc-text">关键参数</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#GitHub-Codespaces"><span class="toc-text">GitHub Codespaces</span></a></li></ol></div></div></widget>
+
+
+
+<widget class="widget-wrapper search"><div class="widget-body"><div class="search-wrapper" id="search"><form class="search-form"><input type="text" class="search-input" id="search-input" data-filter="/rss/" placeholder="文章搜索"><svg t="1670596976048" class="icon search-icon" viewbox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2676" width="200" height="200"><path d="M938.2 832.6L723.8 618.1c-2.5-2.5-5.3-4.4-7.9-6.4 36.2-55.6 57.3-121.8 57.3-193.1C773.3 222.8 614.6 64 418.7 64S64 222.8 64 418.6c0 195.9 158.8 354.6 354.6 354.6 71.3 0 137.5-21.2 193.2-57.4 2 2.7 3.9 5.4 6.3 7.8L832.5 938c14.6 14.6 33.7 21.9 52.8 21.9 19.1 0 38.2-7.3 52.8-21.8 29.2-29.1 29.2-76.4 0.1-105.5M418.7 661.3C284.9 661.3 176 552.4 176 418.6 176 284.9 284.9 176 418.7 176c133.8 0 242.6 108.9 242.6 242.7 0 133.7-108.9 242.6-242.6 242.6" p-id="2677"/></svg></form><div id="search-result"></div><div class="search-no-result">没有找到内容！</div></div></div></widget>
+
+
+
+<widget class="widget-wrapper recent"><div class="widget-header cap theme dis-select"><span class="name">最近更新</span><a class="cap-action" id="rss" title="Subscribe" href="/atom.xml"><svg class="icon" viewbox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="8938"><path d="M800.966 947.251c0-404.522-320.872-732.448-716.69-732.448V62.785c477.972 0 865.44 395.987 865.44 884.466h-148.75z m-162.273 0h-148.74c0-228.98-181.628-414.598-405.678-414.598v-152.01c306.205 0 554.418 253.68 554.418 566.608z m-446.24-221.12c59.748 0 108.189 49.503 108.189 110.557 0 61.063-48.44 110.563-108.188 110.563-59.747 0-108.18-49.5-108.18-110.563 0-61.054 48.433-110.556 108.18-110.556z" p-id="8939"/></svg></a></div><div class="widget-body related-posts fs14"><a class="item title" href="/RSSBOX/rss/2c2fbeb.html"><span class="title">七つの魔剣が支配する｜七魔剑支配天下</span></a><a class="item title" href="/RSSBOX/rss/3e937bc5.html"><span class="title">百姓貴族｜百姓贵族</span></a><a class="item title" href="/RSSBOX/rss/6b839856.html"><span class="title">シュガーアップル・フェアリーテイル(第2クール)｜银砂糖师与黑妖精 第2部分</span></a><a class="item title" href="/RSSBOX/rss/57dfaaf5.html"><span class="title">Girlhood</span></a><a class="item title" href="/RSSBOX/rss/d28c33bf.html"><span class="title">Headhunter's Eyes</span></a></div></widget>
+</div>
+<footer class="footer dis-select"><div class="social-wrap"><a class="social" href="https://github.com/SMGoro" target="_blank" rel="external nofollow noopener noreferrer"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cdn.jsdelivr.net/gh/SMGCDN/photos/icon/iconfont/social-github.svg"></a><a class="social" href="https://space.bilibili.com/359079394" target="_blank" rel="external nofollow noopener noreferrer"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cdn.jsdelivr.net/gh/SMGCDN/photos/icon/iconfont/bilibili.svg"></a><a class="social" href="https://l.imc.re/zhihu" target="_blank" rel="external nofollow noopener noreferrer"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cdn.jsdelivr.net/gh/SMGCDN/photos/icon/iconfont/zhihu.svg"></a><a class="social" href="https://l.imc.re/discord" target="_blank" rel="external nofollow noopener noreferrer"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cdn.jsdelivr.net/gh/SMGCDN/photos/icon/iconfont/discord.svg"></a><a class="social" href="https://blog.imc.re/contact" target="_blank" rel="external nofollow noopener noreferrer"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cdn.jsdelivr.net/gh/SMGCDN/photos/icon/iconfont/comments.svg"></a></div></footer>
+
+    </aside>
+    <div class="l_main">
+      
+
+      
+
+
+
+<div class="bread-nav fs12"><div id="breadcrumb"><a class="cap breadcrumb" href="/RSSBOX/">主页</a><span class="sep"></span><a class="cap breadcrumb" href="/RSSBOX/">文章</a><span class="sep"></span><a class="cap breadcrumb-link" href="/RSSBOX/categories/blogs/">Blogs</a> <span class="sep"></span> <a class="cap breadcrumb-link" href="/RSSBOX/categories/blogs/xaoxuu/">XAOXUU</a></div><div id="post-meta">发布于&nbsp;<time datetime="2022-11-25T16:00:00.000Z">2022-11-26</time></div></div>
+
+<article class="md-text content post">
+<h1 class="article-title"><span>搭建环境与部署博客的最简便方法</span></h1>
+<div>
+<h2 id="使用脚本自动化搭建"><a class="headerlink" href="#使用脚本自动化搭建" title="使用脚本自动化搭建"></a>使用脚本自动化搭建</h2><details class="tag-plugin folding"><summary><span>注：此脚本只适用于 Mac/Linux 平台</span></summary><div class="body"><p>此脚本只适用于 Mac/Linux 平台，其中 Mac 平台 <a target="_blank" rel="external nofollow noopener noreferrer" href="https://xaoxuu.com/wiki/cloud-shell/blog/">全部指令</a> 均支持，而 Linux 平台有部分指令存在兼容性 BUG 有待解决：</p><ul><li><code>blog init</code></li><li><code>blog test xxx</code></li><li><code>blog i 主题</code></li></ul></div></details><h3 id="一键搭建环境"><a class="headerlink" href="#一键搭建环境" title="一键搭建环境"></a>一键搭建环境</h3><p>如果电脑重装了系统，还没有安装 <mark class="tag-plugin mark" color="dark">node.js</mark> 和 <mark class="tag-plugin mark" color="dark">hexo</mark> 环境，可以在终端输入下面这行代码，一键完成前期准备工作：</p><div class="tag-plugin copy"><input class="copy-area" id="copy_1" readonly value="curl -s https://sh.xaox.cc/install | sh -s blog &amp;&amp; blog check"><button class="copy-btn" onclick="util.copy("copy_1","Copied!")"><svg aria-hidden="true" class="icon copy-btn" height="16" version="1.1" viewbox="0 0 16 16" width="16"><path d="M5.75 1a.75.75 0 00-.75.75v3c0 .414.336.75.75.75h4.5a.75.75 0 00.75-.75v-3a.75.75 0 00-.75-.75h-4.5zm.75 3V2.5h3V4h-3zm-2.874-.467a.75.75 0 00-.752-1.298A1.75 1.75 0 002 3.75v9.5c0 .966.784 1.75 1.75 1.75h8.5A1.75 1.75 0 0014 13.25v-9.5a1.75 1.75 0 00-.874-1.515.75.75 0 10-.752 1.298.25.25 0 01.126.217v9.5a.25.25 0 01-.25.25h-8.5a.25.25 0 01-.25-.25v-9.5a.25.25 0 01.126-.217z" fill-rule="evenodd"/></svg></button></div><p>此命令会完成以下内容：</p><ol><li>下载并安装 <code>blog</code> 脚本</li><li>由 <code>blog</code> 脚本检测 node.js 环境，如果没有则安装</li><li>由 <code>blog</code> 脚本检测 hexo 环境，如果没有则安装</li></ol><h3 id="一键搭建环境并克隆自己的博客"><a class="headerlink" href="#一键搭建环境并克隆自己的博客" title="一键搭建环境并克隆自己的博客"></a>一键搭建环境并克隆自己的博客</h3><p>如果博客源码是私有仓库，且还没有配置过 ssh 或 git 账号密码，此时需要先配置一下。然后将后面的地址换成自己的博客源码地址：</p><div align="left" class="tag-plugin tabs" id="tab_5"><div class="nav-tabs"><div class="tab active"><a href="#tab_5-1">已安装blog脚本</a></div><div class="tab"><a href="#tab_5-2">未安装blog脚本</a></div></div><div class="tab-content"><div class="tab-pane active" id="tab_5-1"><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">blog resume https://github.com/user/repo</span><br></pre></td></tr></table></figure><p>此命令会完成以下内容：</p><ol><li>克隆博客及其子模块源码</li><li>执行 <code>npm i</code> 安装依赖</li><li>执行 <code>hexo s</code> 运行博客</li><li>打开 <code>http://localhost:4000</code> 预览博客</li></ol></div><div class="tab-pane" id="tab_5-2"><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">curl -s https://sh.xaox.cc/install | sh -s blog &amp;&amp; blog resume https://github.com/user/repo</span><br></pre></td></tr></table></figure><p>此命令会完成以下内容：</p><ol><li>下载并安装 <code>blog</code> 脚本</li><li>由 <code>blog</code> 脚本检测 node.js 环境，如果没有则安装</li><li>由 <code>blog</code> 脚本检测 hexo 环境，如果没有则安装</li><li>克隆博客及其子模块源码</li><li>执行 <code>npm i</code> 安装依赖</li><li>执行 <code>hexo s</code> 运行博客</li><li>打开 <code>http://localhost:4000</code> 预览博客</li></ol></div></div></div><h3 id="测试主题效果"><a class="headerlink" href="#测试主题效果" title="测试主题效果"></a>测试主题效果</h3><p>如果遇到了问题，可以对比主题 demo 查看效果是否正常：</p><div align="left" class="tag-plugin tabs" id="tab_6"><div class="nav-tabs"><div class="tab active"><a href="#tab_6-1">已安装blog脚本</a></div><div class="tab"><a href="#tab_6-2">未安装blog脚本</a></div></div><div class="tab-content"><div class="tab-pane active" id="tab_6-1"><div class="tag-plugin copy"><input class="copy-area" id="copy_2" readonly value="blog test stellar"><button class="copy-btn" onclick="util.copy("copy_2","Copied!")"><svg aria-hidden="true" class="icon copy-btn" height="16" version="1.1" viewbox="0 0 16 16" width="16"><path d="M5.75 1a.75.75 0 00-.75.75v3c0 .414.336.75.75.75h4.5a.75.75 0 00.75-.75v-3a.75.75 0 00-.75-.75h-4.5zm.75 3V2.5h3V4h-3zm-2.874-.467a.75.75 0 00-.752-1.298A1.75 1.75 0 002 3.75v9.5c0 .966.784 1.75 1.75 1.75h8.5A1.75 1.75 0 0014 13.25v-9.5a1.75 1.75 0 00-.874-1.515.75.75 0 10-.752 1.298.25.25 0 01.126.217v9.5a.25.25 0 01-.25.25h-8.5a.25.25 0 01-.25-.25v-9.5a.25.25 0 01.126-.217z" fill-rule="evenodd"/></svg></button></div></div><div class="tab-pane" id="tab_6-2"><div class="tag-plugin copy"><input class="copy-area" id="copy_3" readonly value="curl -s https://sh.xaox.cc/install | sh -s blog &amp;&amp; blog test stellar"><button class="copy-btn" onclick="util.copy("copy_3","Copied!")"><svg aria-hidden="true" class="icon copy-btn" height="16" version="1.1" viewbox="0 0 16 16" width="16"><path d="M5.75 1a.75.75 0 00-.75.75v3c0 .414.336.75.75.75h4.5a.75.75 0 00.75-.75v-3a.75.75 0 00-.75-.75h-4.5zm.75 3V2.5h3V4h-3zm-2.874-.467a.75.75 0 00-.752-1.298A1.75 1.75 0 002 3.75v9.5c0 .966.784 1.75 1.75 1.75h8.5A1.75 1.75 0 0014 13.25v-9.5a1.75 1.75 0 00-.874-1.515.75.75 0 10-.752 1.298.25.25 0 01.126.217v9.5a.25.25 0 01-.25.25h-8.5a.25.25 0 01-.25-.25v-9.5a.25.25 0 01.126-.217z" fill-rule="evenodd"/></svg></button></div></div></div></div><h3 id="安装其它主题"><a class="headerlink" href="#安装其它主题" title="安装其它主题"></a>安装其它主题</h3><div class="tag-plugin copy"><input class="copy-area" id="copy_4" readonly value="blog i stellar"><button class="copy-btn" onclick="util.copy("copy_4","Copied!")"><svg aria-hidden="true" class="icon copy-btn" height="16" version="1.1" viewbox="0 0 16 16" width="16"><path d="M5.75 1a.75.75 0 00-.75.75v3c0 .414.336.75.75.75h4.5a.75.75 0 00.75-.75v-3a.75.75 0 00-.75-.75h-4.5zm.75 3V2.5h3V4h-3zm-2.874-.467a.75.75 0 00-.752-1.298A1.75 1.75 0 002 3.75v9.5c0 .966.784 1.75 1.75 1.75h8.5A1.75 1.75 0 0014 13.25v-9.5a1.75 1.75 0 00-.874-1.515.75.75 0 10-.752 1.298.25.25 0 01.126.217v9.5a.25.25 0 01-.25.25h-8.5a.25.25 0 01-.25-.25v-9.5a.25.25 0 01.126-.217z" fill-rule="evenodd"/></svg></button></div><p>换成任意主题名，需要是发布到 <a target="_blank" rel="external nofollow noopener noreferrer" href="https://www.npmjs.com/">npmjs.org</a> 的主题，匹配到 <code>hexo-theme-主题名</code> 的部分。</p><h3 id="附：常用命令"><a class="headerlink" href="#附：常用命令" title="附：常用命令"></a>附：常用命令</h3><table><thead><tr><th align="left">命令</th><th align="left">功能</th></tr></thead><tbody><tr><td align="left"><code>blog init</code></td><td align="left">检查并安装环境，然后创建并运行博客</td></tr><tr><td align="left"><code>blog test</code></td><td align="left">检查并安装环境，然后创建并运行单元测试博客（用于查看未经修改的主题效果）</td></tr><tr><td align="left"><code>blog test stellar</code></td><td align="left">检查并安装环境，然后创建并运行单元测试博客（用于查看未经修改的主题效果）</td></tr><tr><td align="left"><code>blog test vlts</code></td><td align="left">检查并安装环境，然后创建并运行单元测试博客（用于查看未经修改的主题效果）</td></tr><tr><td align="left"><code>blog test 主题名</code></td><td align="left">检查并安装环境，然后创建并运行单元测试博客（用于查看未经修改的主题效果）</td></tr><tr><td align="left"><code>blog i node</code></td><td align="left">安装 node.js</td></tr><tr><td align="left"><code>blog i hexo</code></td><td align="left">安装 hexo</td></tr><tr><td align="left"><code>blog i stellar</code></td><td align="left">安装 stellar 主题，同理换成其它主题名字都可以</td></tr><tr><td align="left"><code>blog i 主题名</code></td><td align="left">安装任意主题</td></tr><tr><td align="left"><code>blog c</code></td><td align="left">同 <code>hexo clean</code> 然后打开 <code>localhost:4000</code></td></tr><tr><td align="left"><code>blog cs</code></td><td align="left">同 <code>hexo clean &amp;&amp; hexo g</code> 然后打开 <code>localhost:4000</code></td></tr><tr><td align="left"><code>blog cgd</code></td><td align="left">同 <code>hexo clean &amp;&amp; hexo g &amp;&amp; hexo d &amp;&amp; git add --all &amp;&amp; git commit &amp;&amp; git push origin</code></td></tr><tr><td align="left"><code>blog help</code></td><td align="left">打开文档页面</td></tr></tbody></table><h2 id="设置-npm-run-运行脚本"><a class="headerlink" href="#设置-npm-run-运行脚本" title="设置 npm run 运行脚本"></a>设置 npm run 运行脚本</h2><p>打开博客的 <code>package.json</code> 文件，在 <code>scripts</code> 部分增加这些快捷指令：</p><figure class="highlight json"><table><tr><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">  ...</span><br><span class="line">  <span class="attr">"scripts"</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">    <span class="attr">"c"</span><span class="punctuation">:</span> <span class="string">"hexo clean"</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">"s"</span><span class="punctuation">:</span> <span class="string">"hexo clean &amp;&amp; hexo server"</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">"g"</span><span class="punctuation">:</span> <span class="string">"hexo clean &amp;&amp; hexo generate"</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">"d"</span><span class="punctuation">:</span> <span class="string">"hexo deploy"</span></span><br><span class="line">  <span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line">  ...</span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure><p>这样输入 <code>npm run s</code> 就相当于输入 <code>hexo clean &amp;&amp; hexo server</code> 了，除此之外你也可以根据自己的需要增加其他脚本。</p><h2 id="GitHub-Actions-自动化部署"><a class="headerlink" href="#GitHub-Actions-自动化部署" title="GitHub Actions 自动化部署"></a>GitHub Actions 自动化部署</h2><p>通过 GitHub <mark class="tag-plugin mark" color="dark">Actions</mark> 可以只提交源码到仓库，后续流程全部由 CI 自动完成，本质上是完成以下几个步骤：</p><ol><li>checkout 源码</li><li>配置环境</li><li>生成静态文件</li><li>部署到对应平台（GitHub Pages / Vercel / Server…）</li></ol><h3 id="配置文件"><a class="headerlink" href="#配置文件" title="配置文件"></a>配置文件</h3><figure class="highlight yaml"><figcaption><span>.github/workflows/auto-deploy.yml</span></figcaption><table><tr><td class="code"><pre><span class="line"><span class="attr">name:</span> <span class="string">auto</span> <span class="string">deploy</span></span><br><span class="line"></span><br><span class="line"><span class="attr">on:</span></span><br><span class="line">  <span class="attr">workflow_dispatch:</span></span><br><span class="line">  <span class="attr">push:</span></span><br><span class="line"></span><br><span class="line"><span class="attr">jobs:</span></span><br><span class="line">  <span class="attr">build:</span></span><br><span class="line">    <span class="attr">runs-on:</span> <span class="string">ubuntu-latest</span> <span class="comment"># 运行环境为最新版 Ubuntu</span></span><br><span class="line">    <span class="attr">name:</span> <span class="string">auto</span> <span class="string">deploy</span></span><br><span class="line">    <span class="attr">steps:</span></span><br><span class="line">    <span class="comment"># 1. 获取源码</span></span><br><span class="line">    <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">Checkout</span></span><br><span class="line">      <span class="attr">uses:</span> <span class="string">actions/checkout@v3</span> <span class="comment"># 使用 actions/checkout@v3</span></span><br><span class="line">      <span class="attr">with:</span> <span class="comment"># 条件</span></span><br><span class="line">        <span class="attr">submodules:</span> <span class="literal">true</span> <span class="comment"># Checkout private submodules(themes or something else). 当有子模块时切换分支？</span></span><br><span class="line">    <span class="comment"># 2. 配置环境</span></span><br><span class="line">    <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">Setup</span> <span class="string">Node.js</span> <span class="number">18.12</span><span class="string">.x</span></span><br><span class="line">      <span class="attr">uses:</span> <span class="string">actions/setup-node@master</span></span><br><span class="line">      <span class="attr">with:</span></span><br><span class="line">        <span class="attr">node-version:</span> <span class="string">"18.12.x"</span></span><br><span class="line">    <span class="comment"># 3. 生成静态文件</span></span><br><span class="line">    <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">Generate</span> <span class="string">Public</span> <span class="string">Files</span></span><br><span class="line">      <span class="attr">run:</span> <span class="string">|</span></span><br><span class="line"><span class="string">        npm i</span></span><br><span class="line"><span class="string">        npm install hexo-cli -g</span></span><br><span class="line"><span class="string">        hexo clean &amp;&amp; hexo generate</span></span><br><span class="line"><span class="string"></span>    <span class="comment"># 4. 部署到 GitHub 仓库（可选）</span></span><br><span class="line">    <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">Deploy</span> <span class="string">to</span> <span class="string">GitHub</span> <span class="string">Pages</span></span><br><span class="line">      <span class="attr">uses:</span> <span class="string">peaceiris/actions-gh-pages@v3</span></span><br><span class="line">      <span class="attr">with:</span></span><br><span class="line">        <span class="attr">deploy_key:</span> <span class="string">$&#123;&#123;</span> <span class="string">secrets.DEPLOY_KEY</span> <span class="string">&#125;&#125;</span></span><br><span class="line">        <span class="attr">external_repository:</span> <span class="string">xaoxuu/xaoxuu.github.io</span></span><br><span class="line">        <span class="attr">publish_branch:</span> <span class="string">gh-pages</span></span><br><span class="line">        <span class="attr">publish_dir:</span> <span class="string">./public</span></span><br><span class="line">        <span class="attr">commit_message:</span> <span class="string">$&#123;&#123;</span> <span class="string">github.event.head_commit.message</span> <span class="string">&#125;&#125;</span></span><br><span class="line">        <span class="attr">user_name:</span> <span class="string">'github-actions[bot]'</span></span><br><span class="line">        <span class="attr">user_email:</span> <span class="string">'github-actions[bot]@users.noreply.github.com'</span></span><br><span class="line">    <span class="comment"># 5. 部署到服务器（可选）</span></span><br><span class="line">    <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">Deploy</span> <span class="string">to</span> <span class="string">Server</span></span><br><span class="line">      <span class="attr">uses:</span> <span class="string">easingthemes/ssh-deploy@v3</span></span><br><span class="line">      <span class="attr">env:</span></span><br><span class="line">        <span class="attr">SSH_PRIVATE_KEY:</span> <span class="string">$&#123;&#123;</span> <span class="string">secrets.SERVER_SSH_KEY</span> <span class="string">&#125;&#125;</span></span><br><span class="line">        <span class="attr">ARGS:</span> <span class="string">"-rltgoDzvO --delete"</span></span><br><span class="line">        <span class="attr">EXCLUDE:</span> <span class="string">".well-known, .user.ini"</span></span><br><span class="line">        <span class="attr">SOURCE:</span> <span class="string">public/</span></span><br><span class="line">        <span class="attr">REMOTE_HOST:</span> <span class="string">$&#123;&#123;</span> <span class="string">secrets.REMOTE_HOST</span> <span class="string">&#125;&#125;</span></span><br><span class="line">        <span class="attr">REMOTE_PORT:</span> <span class="string">$&#123;&#123;</span> <span class="string">secrets.REMOTE_PORT</span> <span class="string">&#125;&#125;</span></span><br><span class="line">        <span class="attr">REMOTE_USER:</span> <span class="string">$&#123;&#123;</span> <span class="string">secrets.REMOTE_USER</span> <span class="string">&#125;&#125;</span></span><br><span class="line">        <span class="attr">TARGET:</span> <span class="string">$&#123;&#123;</span> <span class="string">secrets.TARGET</span> <span class="string">&#125;&#125;</span></span><br></pre></td></tr></table></figure><h3 id="关键参数"><a class="headerlink" href="#关键参数" title="关键参数"></a>关键参数</h3><p>如果要部署到 GitHub 的仓库，需要配置 <code>DEPLOY_KEY</code> 参数，在 Settings -&gt; Secrets 中填写对应的值：</p><figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">DEPLOY_KEY:</span> <span class="string">xxx</span></span><br></pre></td></tr></table></figure><p>如果要部署到服务器，需要配置这些参数，在 Settings -&gt; Secrets 中填写对应的值：</p><figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">SERVER_SSH_KEY:</span> <span class="string">第一步本机生成的</span> <span class="string">id_isa</span> <span class="string">文件内容</span></span><br><span class="line"><span class="attr">REMOTE_HOST:</span> <span class="string">服务器地址</span></span><br><span class="line"><span class="attr">REMOTE_PORT:</span> <span class="string">服务器SSH端口</span></span><br><span class="line"><span class="attr">REMOTE_USER:</span> <span class="string">用户名，例如</span> <span class="string">"git"</span></span><br><span class="line"><span class="attr">TARGET:</span> <span class="string">生成的文件路径，例如</span> <span class="string">"/www/wwwroot/xaoxuu.github.io/"</span></span><br></pre></td></tr></table></figure><h2 id="GitHub-Codespaces"><a class="headerlink" href="#GitHub-Codespaces" title="GitHub Codespaces"></a>GitHub Codespaces</h2><p>如果你经常需要在一些临时电脑上写写稿子、预览效果，不能立即发布且需要多端同步，或许这是个不错的选择，详见这篇文章：</p><div class="tag-plugin link dis-select"><a autofill="title,icon,desc" cardlink class="link-card rich" href="https://xaoxuu.com/blog/20221121/" rel="external nofollow noopener noreferrer" target="_blank" title><div class="top"><div class="lazy img" data-bg="https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.4/link/8f277b4ee0ecd.svg"></div><span class="cap link fs12">https://xaoxuu.com/blog/20221121/</span></div><div class="bottom"><span class="title">https://xaoxuu.com/blog/20221121/</span><span class="cap desc fs12"></span></div></a></div>
+</div>
+
+<div>
+<div class="tag-plugin link dis-select"><a class="link-card plain" title="搭建环境与部署博客的最简便方法" href="https://xaoxuu.com/blog/20221126/" target="_blank" rel="external nofollow noopener noreferrer" cardlink autofill="icon"><div class="left"><span class="title">搭建环境与部署博客的最简便方法</span><span class="cap link fs12">https://xaoxuu.com/blog/20221126/</span></div><div class="right"><div class="lazy img" data-bg="https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.4/link/8f277b4ee0ecd.svg"></div></div></a></div>
+</div>
+
+
+
+
+<div class="article-footer reveal fs14"><section id="license"><div class="header"><span>许可协议</span></div><div class="body"><p>本文采用 <a target="_blank" rel="external nofollow noopener noreferrer" href="https://github.com/me-shaon/GLWTPL/blob/master/translations/LICENSE_zh-CN">GLWT（Good Luck With That，祝你好运）公共许可证</a> 许可协议，转载请注明出处。</p>
+</div></section><section id="share"><div class="header"><span>分享文章</span></div><div class="body"><div class="link"><input class="copy-area" readonly="true" id="copy-link" value="https://blog.imc.re/RSSBOX/rss/fa1f709e.html"></div><div class="social-wrap dis-select"><a class="social share-item wechat" onclick="util.toggle(&quot;qrcode-wechat&quot)"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.4/social/b32ef3da1162a.svg"></a><a class="social share-item weibo" target="_blank" rel="external nofollow noopener noreferrer" href="https://service.weibo.com/share/share.php?url=https://blog.imc.re/RSSBOX/rss/fa1f709e.html&title=搭建环境与部署博客的最简便方法 - RSSBOX&pics=https://picsum.photos/400/300?random=6228&summary=
+使用脚本自动化搭建注：此脚本只适用于 Mac/Linux 平台此脚本只适用于 Mac/Linux 平台，其中 Mac 平台 全部指令 均支持，而 Linux 平台有部分指令存在兼容性 BUG 有待解决：blog initblog t..."><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.4/social/80c07e4dbb303.svg"></a><a class="social share-item email" href="mailto:?subject=搭建环境与部署博客的最简便方法 - RSSBOX&amp;body=https://blog.imc.re/RSSBOX/rss/fa1f709e.html"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.4/social/a1b00e20f425d.svg"></a><a class="social share-item link" onclick="util.copy(&quot;copy-link&quot;, &quot;复制成功&quot;)"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.4/social/8411ed322ced6.svg"></a></div><div class="qrcode" id="qrcode-wechat" style="visibility:hidden;height:0"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://api.qrserver.com/v1/create-qr-code/?size=256x256&data=https://blog.imc.re/RSSBOX/rss/fa1f709e.html"></div></div></section></div>
+
+</article>
+
+<div class="related-wrap reveal" id="read-next"><section class="body"><div class="item" id="prev"><div class="note">较新文章</div><a href="/RSSBOX/rss/a6d5156d.html">如何零基础创建一个属于自己的博客网站</a></div><div class="item" id="next"><div class="note">较早文章</div><a href="/RSSBOX/rss/2adaaae6.html">浅尝 GitHub Codespaces</a></div></section></div>
+
+
+<div class="related-wrap reveal" id="related-posts">
+    <section class="header">
+      <div class="title cap theme">您可能感兴趣的文章</div>
+    </section>
+    <section class="body">
+    <div class="related-posts"><a class="item" href="/RSSBOX/rss/c3c736f5.html" title="个人电脑作为办公设备时，我们如何保护隐私？"><span class="title">个人电脑作为办公设备时，我们如何保护隐私？</span></a><a class="item" href="/RSSBOX/rss/e5ddfe3c.html" title="使用链式语法打造一个 ObjC 安全的对象类型转换库"><span class="title">使用链式语法打造一个 ObjC 安全的对象类型转换库</span></a><a class="item" href="/RSSBOX/rss/67e16851.html" title="在 iOS 开发中，如何实现只推迟而不会重复执行的函数"><span class="title">在 iOS 开发中，如何实现只推迟而不会重复执行的函数</span></a><a class="item" href="/RSSBOX/rss/a6d5156d.html" title="如何零基础创建一个属于自己的博客网站"><span class="title">如何零基础创建一个属于自己的博客网站</span></a><a class="item" href="/RSSBOX/rss/dd37e3ae.html" title="心率管家的设计与开发（上篇：整体流程）"><span class="title">心率管家的设计与开发（上篇：整体流程）</span></a></div></section></div>
+
+
+
+
+
+      
+<footer class="page-footer reveal fs12"><hr><div class="sitemap"><div class="sitemap-group"><span class="fs14">文章</span><a href="/RSSBOX/categories">分类</a><a href="/RSSBOX/tags">标签</a><a href="/RSSBOX/archives">归档</a></div><div class="sitemap-group"><span class="fs14">更多</span><a href="https://blog.imc.re/">博客</a><a target="_blank" rel="noopener" href="https://imc.re/">IMC.RE</a></div></div><div class="text"><p><a href="/">@RSSBOX</a> 2023 author by <a target="_blank" rel="external nofollow noopener noreferrer" href="https://github.com/MHG-LAB/RSSBOX">MHuiG</a> powered by SummerGoro。<br><br>本博客所有文章除特别声明外，均采用 <a target="_blank" rel="external nofollow noopener noreferrer" href="https://github.com/me-shaon/GLWTPL/blob/master/translations/LICENSE_zh-CN">GLWT（Good Luck With That，祝你好运）公共许可证</a> 许可协议，转载请注明出处。</p>
+</div></footer>
+
+      <div class="float-panel mobile-only blur" style="display:none">
+  <button type="button" class="sidebar-toggle mobile" onclick="sidebar.toggle()">
+    <svg class="icon" style="width: 1em; height: 1em;vertical-align: middle;fill: currentColor;overflow: hidden;" viewbox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="15301"><path d="M566.407 808.3c26.9-0.1 49.3-20.8 51.6-47.6-1.9-27.7-23.9-49.7-51.6-51.6h-412.6c-28.2-1.4-52.6 19.5-55.5 47.6 2.3 26.8 24.6 47.5 51.6 47.6h416.5v4z m309.3-249.9c26.9-0.1 49.3-20.8 51.6-47.6-2.2-26.8-24.6-47.5-51.6-47.6h-721.9c-27.7-2.8-52.5 17.4-55.3 45.1-0.1 0.8-0.1 1.7-0.2 2.5 0.9 27.2 23.6 48.5 50.7 47.6H875.707z m-103.1-245.9c26.9-0.1 49.3-20.8 51.6-47.6-0.4-28.3-23.2-51.1-51.5-51.6h-618.9c-29.5-1.1-54.3 21.9-55.5 51.4v0.2c1.4 27.8 25.2 49.2 53 47.8 0.8 0 1.7-0.1 2.5-0.2h618.8z" p-id="15302"/><path d="M566.407 808.3c26.9-0.1 49.3-20.8 51.6-47.6-1.9-27.7-23.9-49.7-51.6-51.6h-412.6c-28.2-1.4-52.6 19.5-55.5 47.6 1.9 27.7 23.9 49.7 51.6 51.6h416.5z m309.3-249.9c26.9-0.1 49.3-20.8 51.6-47.6-2.2-26.8-24.6-47.5-51.6-47.6h-721.9c-27.7-2.8-52.5 17.4-55.3 45.1-0.1 0.8-0.1 1.7-0.2 2.5 0.9 27.2 23.6 48.5 50.7 47.6H875.707z m-103.1-245.9c26.9-0.1 49.3-20.8 51.6-47.6-0.4-28.3-23.2-51.1-51.5-51.6h-618.9c-29.5-1.1-54.3 21.9-55.5 51.4v0.2c1.4 27.8 25.2 49.2 53 47.8 0.8 0 1.7-0.1 2.5-0.2h618.8z" p-id="15303"/></svg>
+  </button>
+</div>
+
+    </div>
+  </div>
+  <div class="scripts">
+    <script type="text/javascript">
+  const stellar = {
+    // 懒加载 css https://github.com/filamentgroup/loadCSS
+    loadCSS: (href, before, media, attributes) => {
+      var doc = window.document;
+      var ss = doc.createElement("link");
+      var ref;
+      if (before) {
+        ref = before;
+      } else {
+        var refs = (doc.body || doc.getElementsByTagName("head")[0]).childNodes;
+        ref = refs[refs.length - 1];
+      }
+      var sheets = doc.styleSheets;
+      if (attributes) {
+        for (var attributeName in attributes) {
+          if (attributes.hasOwnProperty(attributeName)) {
+            ss.setAttribute(attributeName, attributes[attributeName]);
+          }
+        }
+      }
+      ss.rel = "stylesheet";
+      ss.href = href;
+      ss.media = "only x";
+      function ready(cb) {
+        if (doc.body) {
+          return cb();
+        }
+        setTimeout(function () {
+          ready(cb);
+        });
+      }
+      ready(function () {
+        ref.parentNode.insertBefore(ss, before ? ref : ref.nextSibling);
+      });
+      var onloadcssdefined = function (cb) {
+        var resolvedHref = ss.href;
+        var i = sheets.length;
+        while (i--) {
+          if (sheets[i].href === resolvedHref) {
+            return cb();
+          }
+        }
+        setTimeout(function () {
+          onloadcssdefined(cb);
+        });
+      };
+      function loadCB() {
+        if (ss.addEventListener) {
+          ss.removeEventListener("load", loadCB);
+        }
+        ss.media = media || "all";
+      }
+      if (ss.addEventListener) {
+        ss.addEventListener("load", loadCB);
+      }
+      ss.onloadcssdefined = onloadcssdefined;
+      onloadcssdefined(loadCB);
+      return ss;
+    },
+
+    // 从 butterfly 和 volantis 获得灵感
+    loadScript: (src, opt) => new Promise((resolve, reject) => {
+      var script = document.createElement('script');
+      if (src.startsWith('/')){
+        src = stellar.config.root + src.substring(1);
+      }
+      script.src = src;
+      if (opt) {
+        for (let key of Object.keys(opt)) {
+          script[key] = opt[key]
+        }
+      } else {
+        // 默认异步，如果需要同步，第二个参数传入 {} 即可
+        script.async = true
+      }
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    }),
+
+    // https://github.com/jerryc127/hexo-theme-butterfly
+    jQuery: (fn) => {
+      if (typeof jQuery === 'undefined') {
+        stellar.loadScript(stellar.plugins.jQuery).then(fn)
+      } else {
+        fn()
+      }
+    }
+  };
+  stellar.version = '1.19.0';
+  stellar.github = 'https://github.com/xaoxuu/hexo-theme-stellar/tree/1.19.0';
+  stellar.config = {
+    date_suffix: {
+      just: '刚刚',
+      min: '分钟前',
+      hour: '小时前',
+      day: '天前',
+      month: '个月前',
+    },
+    root : '/RSSBOX/',
+  };
+
+  // required plugins (only load if needs)
+  stellar.plugins = {
+    jQuery: 'https://gcore.jsdelivr.net/npm/jquery@3.6.2/dist/jquery.min.js'
+  };
+
+  if ('local_search') {
+    stellar.search = {};
+    stellar.search.service = 'local_search';
+    if (stellar.search.service == 'local_search') {
+      let service_obj = Object.assign({}, {"field":"all","path":"/search.json","content":true,"codeblock":true,"sort":"-date"});
+      stellar.search[stellar.search.service] = service_obj;
+    }
+  }
+
+  // stellar js
+  stellar.plugins.stellar = Object.assign({"sites":"/js/plugins/sites.js","friends":"/js/plugins/friends.js","ghinfo":"/js/plugins/ghinfo.js","timeline":"/js/plugins/timeline.js","linkcard":"/js/plugins/linkcard.js","fcircle":"/js/plugins/fcircle.js","weibo":"/js/plugins/weibo.js"});
+
+  stellar.plugins.marked = Object.assign("https://cdn.bootcdn.net/ajax/libs/marked/4.0.18/marked.min.js");
+  // optional plugins
+  if ('true' == 'true') {
+    stellar.plugins.lazyload = Object.assign({"enable":true,"js":"https://gcore.jsdelivr.net/npm/vanilla-lazyload@17.8.3/dist/lazyload.min.js","transition":"blur"});
+  }
+  if ('true' == 'true') {
+    stellar.plugins.swiper = Object.assign({"enable":true,"css":"https://unpkg.com/swiper@8.4.5/swiper-bundle.min.css","js":"https://unpkg.com/swiper@8.4.5/swiper-bundle.min.js"});
+  }
+  if ('' == 'true') {
+    stellar.plugins.scrollreveal = Object.assign({"enable":null,"js":"https://gcore.jsdelivr.net/npm/scrollreveal@4.0.9/dist/scrollreveal.min.js","distance":"8px","duration":500,"interval":100,"scale":1});
+  }
+  if ('true' == 'true') {
+    stellar.plugins.preload = Object.assign({"enable":true,"service":"flying_pages","instant_page":"https://gcore.jsdelivr.net/gh/volantis-x/cdn-volantis@4.1.2/js/instant_page.js","flying_pages":"https://gcore.jsdelivr.net/gh/gijo-varghese/flying-pages@2.1.2/flying-pages.min.js"});
+  }
+  if ('true' == 'true') {
+    stellar.plugins.fancybox = Object.assign({"enable":true,"js":"https://gcore.jsdelivr.net/npm/@fancyapps/ui@4.0/dist/fancybox.umd.js","css":"https://gcore.jsdelivr.net/npm/@fancyapps/ui@4.0/dist/fancybox.css","selector":".swiper-slide img"});
+  }
+  if ('false' == 'true') {
+    stellar.plugins.heti = Object.assign({"enable":false,"css":"https://unpkg.com/heti@0.9.2/umd/heti.min.css","js":"https://unpkg.com/heti@0.9.2/umd/heti-addon.min.js"});
+  }
+  if ('true' == 'true') {
+    stellar.plugins.copycode = Object.assign({"enable":true,"js":"/js/plugins/copycode.js","default_text":"Copy","success_text":"Copied"});
+  }
+</script>
+
+<!-- required -->
+
+  
+<script src="/RSSBOX/js/main.js" async></script>
+
+
+
+<!-- optional -->
+
+  <script>
+  function loadJS() {
+    const els = document.querySelectorAll("#comments #giscus");
+    if (els.length === 0) return;
+    els.forEach((el, i) => {
+      try {
+        el.innerHTML = '';
+      } catch (error) {
+        console.log(error);
+      }
+      var script = document.createElement('script');
+      script.src = 'https://giscus.app/client.js';
+      script.async = true;
+      for (let key of Object.keys(el.attributes)) {
+        let attr = el.attributes[key];
+        if (['class', 'id'].includes(attr.name) === false) {
+          script.setAttribute(attr.name, attr.value);
+        }
+      }
+      el.appendChild(script);
+    });
+  }
+  window.addEventListener('DOMContentLoaded', (event) => {
+    loadJS();
+  });
+</script>
+
+
+
+
+<!-- inject -->
+
+
+  </div>
+</body>
+</html>

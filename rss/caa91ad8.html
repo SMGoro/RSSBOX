@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+  <meta name="generator" content="Hexo 6.3.0">
+  <meta name="hexo-theme" content="https://github.com/xaoxuu/hexo-theme-stellar/tree/1.19.0">
+  <meta charset="utf-8">
+  
+
+  <meta http-equiv="x-dns-prefetch-control" content="on">
+  <link rel="dns-prefetch" href="https://gcore.jsdelivr.net">
+  <link rel="preconnect" href="https://gcore.jsdelivr.net" crossorigin>
+  <link rel="dns-prefetch" href="//unpkg.com">
+
+  <meta name="renderer" content="webkit">
+  <meta name="force-rendering" content="webkit">
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+  <meta name="HandheldFriendly" content="True">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="theme-color" content="#f8f8f8">
+  
+  <title>All the Way Up to 11: Serve Brotli From Origin and Introducing Compression Rules - RSSBOX</title>
+
+  
+    <meta name="description" content="This post is also available in 简体中文, 日本語, Español, Français and Deutsch. Throughout Speed Week, we have talked about the importance of optimizing performance. Compression plays a crucial role by redu">
+<meta property="og:type" content="article">
+<meta property="og:title" content="All the Way Up to 11: Serve Brotli From Origin and Introducing Compression Rules">
+<meta property="og:url" content="https://blog.imc.re/RSSBOX/rss/caa91ad8.html">
+<meta property="og:site_name" content="RSSBOX">
+<meta property="og:description" content="This post is also available in 简体中文, 日本語, Español, Français and Deutsch. Throughout Speed Week, we have talked about the importance of optimizing performance. Compression plays a crucial role by redu">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://blog.cloudflare.com/content/images/2023/06/image8-1.png">
+<meta property="og:image" content="http://blog.cloudflare.com/content/images/2023/06/image8-2.png">
+<meta property="og:image" content="http://blog.cloudflare.com/content/images/2023/06/Flow_how-CF-compresses_1.png">
+<meta property="og:image" content="http://blog.cloudflare.com/content/images/2023/06/Flow_how-CF-compresses_2.png">
+<meta property="og:image" content="http://blog.cloudflare.com/content/images/2023/06/Flow_how-CF-compresses_3.png">
+<meta property="og:image" content="http://blog.cloudflare.com/content/images/2023/06/pasted-image-0-3.png">
+<meta property="og:image" content="http://blog.cloudflare.com/content/images/2023/06/pasted-image-0--1--2.png">
+<meta property="og:image" content="http://blog.cloudflare.com/content/images/2023/06/pasted-image-0--2--1.png">
+<meta property="og:image" content="http://blog.cloudflare.com/content/images/2023/06/pasted-image-0--3--1.png">
+<meta property="og:image" content="http://blog.cloudflare.com/content/images/2023/06/pasted-image-0--4-.png">
+<meta property="article:published_time" content="2023-06-23T13:01:00.000Z">
+<meta property="article:modified_time" content="2023-06-23T13:01:00.000Z">
+<meta property="article:author" content="SMGoro">
+<meta property="article:tag" content="Blogs">
+<meta property="article:tag" content="Cloudflare">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="http://blog.cloudflare.com/content/images/2023/06/image8-1.png">
+  
+  
+  
+  <meta name="keywords" content="Blogs,Cloudflare">
+
+  <!-- feed -->
+  
+    <link rel="alternate" href="/RSSBOX/atom.xml" title="RSSBOX" type="application/atom+xml">
+  
+
+  
+    
+<link rel="stylesheet" href="/RSSBOX/css/main.css">
+
+  
+
+  
+
+  
+
+  
+    <link rel="stylesheet" href="https://gcore.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.css" integrity="sha384-vKruj+a13U8yHIkAyGgK1J3ArTLzrFGBbBc0tDp4ad/EyewESeXE/Iv67Aj8gKZ0" crossorigin="anonymous">
+    <script defer src="https://gcore.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.js" integrity="sha384-PwRUT/YqbnEjkZO0zZxNqcxACrXe+j766U2amXcgMg5457rve2Y7I6ZJSm2A0mS4" crossorigin="anonymous"></script>
+    <script defer src="https://gcore.jsdelivr.net/npm/katex@0.16.4/dist/contrib/auto-render.min.js" integrity="sha384-+VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4+/RRE05" crossorigin="anonymous" onload="renderMathInElement(document.body);"></script>
+  
+
+
+  
+
+<!--百度统计-->
+<script>
+  var _hmt = _hmt || [];
+  (function() {
+    var hm = document.createElement("script");
+    hm.src = "https://hm.baidu.com/hm.js?f42afe3e5b76d22c8b1a8060171c7184";
+    var s = document.getElementsByTagName("script")[0]; 
+    s.parentNode.insertBefore(hm, s);
+  })();
+</script>  
+  <!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-V2NSKYGXNG"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-V2NSKYGXNG');
+</script>
+<!--Google Adsense-->
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4773172018528901" crossorigin="anonymous"></script>
+</head>
+
+<body>
+  
+
+
+
+
+  <div class="l_body" id="start">
+    <aside class="l_left" layout="post">
+    
+
+  
+
+<header class="header"><div class="logo-wrap"><a class="avatar" href="/RSSBOX/archives"><div class="bg" style="opacity:0;background-image:url(https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.4/avatar/round/rainbow64@3x.webp);"></div><img no-lazy class="avatar" src="https://cdn.jsdelivr.net/gh/SMGCDN/photos/icon/rsshub.png" onerror="javascript:this.classList.add('error');this.src='https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.4/image/2659360.svg';"></a><a class="title" href="/RSSBOX/"><div class="main" ff="title">RSSBOX</div><div class="sub normal cap">SMGoroのRSS订阅</div><div class="sub hover cap" style="opacity:0"> 一些好康的东西</div></a></div>
+
+<nav class="menu dis-select"><a class="nav-item active" href="/RSSBOX/">订阅</a><a class="nav-item" href="https://blog.imc.re/">博客</a><a class="nav-item" href="https://blog.imc.re/contact">联系</a><a class="nav-item" href="https://blog.imc.re/more">更多</a></nav>
+</header>
+
+
+<div class="widgets">
+
+<widget class="widget-wrapper toc single" id="data-toc"><div class="widget-header cap dis-select"><span class="name">All the Way Up to 11: Serve Brotli From Origin and Introducing Compression Rules</span></div><div class="widget-body fs14"><div class="doc-tree active"><ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#brotli-compression-to-11"><span class="toc-text">Brotli compression to 11</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#testing"><span class="toc-text">Testing</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#implementation"><span class="toc-text">Implementation</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#introducing-compression-rulesgranular-control-of-compression-to-end-users"><span class="toc-text">Introducing Compression rules - Granular control of compression to end users</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#deprecating-the-brotli-toggle"><span class="toc-text">Deprecating the Brotli toggle</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#the-future-of-web-compression"><span class="toc-text">The future of web compression</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#try-it-now"><span class="toc-text">Try it now</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#watch-on-cloudflare-tv"><span class="toc-text">Watch on Cloudflare TV</span></a></li></ol></div></div></widget>
+
+
+
+<widget class="widget-wrapper search"><div class="widget-body"><div class="search-wrapper" id="search"><form class="search-form"><input type="text" class="search-input" id="search-input" data-filter="/rss/" placeholder="文章搜索"><svg t="1670596976048" class="icon search-icon" viewbox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2676" width="200" height="200"><path d="M938.2 832.6L723.8 618.1c-2.5-2.5-5.3-4.4-7.9-6.4 36.2-55.6 57.3-121.8 57.3-193.1C773.3 222.8 614.6 64 418.7 64S64 222.8 64 418.6c0 195.9 158.8 354.6 354.6 354.6 71.3 0 137.5-21.2 193.2-57.4 2 2.7 3.9 5.4 6.3 7.8L832.5 938c14.6 14.6 33.7 21.9 52.8 21.9 19.1 0 38.2-7.3 52.8-21.8 29.2-29.1 29.2-76.4 0.1-105.5M418.7 661.3C284.9 661.3 176 552.4 176 418.6 176 284.9 284.9 176 418.7 176c133.8 0 242.6 108.9 242.6 242.7 0 133.7-108.9 242.6-242.6 242.6" p-id="2677"/></svg></form><div id="search-result"></div><div class="search-no-result">没有找到内容！</div></div></div></widget>
+
+
+
+<widget class="widget-wrapper recent"><div class="widget-header cap theme dis-select"><span class="name">最近更新</span><a class="cap-action" id="rss" title="Subscribe" href="/atom.xml"><svg class="icon" viewbox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="8938"><path d="M800.966 947.251c0-404.522-320.872-732.448-716.69-732.448V62.785c477.972 0 865.44 395.987 865.44 884.466h-148.75z m-162.273 0h-148.74c0-228.98-181.628-414.598-405.678-414.598v-152.01c306.205 0 554.418 253.68 554.418 566.608z m-446.24-221.12c59.748 0 108.189 49.503 108.189 110.557 0 61.063-48.44 110.563-108.188 110.563-59.747 0-108.18-49.5-108.18-110.563 0-61.054 48.433-110.556 108.18-110.556z" p-id="8939"/></svg></a></div><div class="widget-body related-posts fs14"><a class="item title" href="/RSSBOX/rss/2c2fbeb.html"><span class="title">七つの魔剣が支配する｜七魔剑支配天下</span></a><a class="item title" href="/RSSBOX/rss/3e937bc5.html"><span class="title">百姓貴族｜百姓贵族</span></a><a class="item title" href="/RSSBOX/rss/6b839856.html"><span class="title">シュガーアップル・フェアリーテイル(第2クール)｜银砂糖师与黑妖精 第2部分</span></a><a class="item title" href="/RSSBOX/rss/57dfaaf5.html"><span class="title">Girlhood</span></a><a class="item title" href="/RSSBOX/rss/d28c33bf.html"><span class="title">Headhunter's Eyes</span></a></div></widget>
+</div>
+<footer class="footer dis-select"><div class="social-wrap"><a class="social" href="https://github.com/SMGoro" target="_blank" rel="external nofollow noopener noreferrer"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cdn.jsdelivr.net/gh/SMGCDN/photos/icon/iconfont/social-github.svg"></a><a class="social" href="https://space.bilibili.com/359079394" target="_blank" rel="external nofollow noopener noreferrer"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cdn.jsdelivr.net/gh/SMGCDN/photos/icon/iconfont/bilibili.svg"></a><a class="social" href="https://l.imc.re/zhihu" target="_blank" rel="external nofollow noopener noreferrer"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cdn.jsdelivr.net/gh/SMGCDN/photos/icon/iconfont/zhihu.svg"></a><a class="social" href="https://l.imc.re/discord" target="_blank" rel="external nofollow noopener noreferrer"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cdn.jsdelivr.net/gh/SMGCDN/photos/icon/iconfont/discord.svg"></a><a class="social" href="https://blog.imc.re/contact" target="_blank" rel="external nofollow noopener noreferrer"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cdn.jsdelivr.net/gh/SMGCDN/photos/icon/iconfont/comments.svg"></a></div></footer>
+
+    </aside>
+    <div class="l_main">
+      
+
+      
+
+
+
+<div class="bread-nav fs12"><div id="breadcrumb"><a class="cap breadcrumb" href="/RSSBOX/">主页</a><span class="sep"></span><a class="cap breadcrumb" href="/RSSBOX/">文章</a><span class="sep"></span><a class="cap breadcrumb-link" href="/RSSBOX/categories/blogs/">Blogs</a> <span class="sep"></span> <a class="cap breadcrumb-link" href="/RSSBOX/categories/blogs/cloudflare/">Cloudflare</a></div><div id="post-meta">发布于&nbsp;<time datetime="2023-06-23T13:01:00.000Z">2023-06-23</time></div></div>
+
+<article class="md-text content post">
+<h1 class="article-title"><span>All the Way Up to 11: Serve Brotli From Origin and Introducing Compression Rules</span></h1>
+<div>
+<!--kg-card-begin: markdown--><img class="lazy" alt="All the way up to 11: Serve Brotli from origin and Introducing Compression Rules" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="http://blog.cloudflare.com/content/images/2023/06/image8-1.png"><p><small>This post is also available in <a target="_blank" rel="external nofollow noopener noreferrer" href="http://blog.cloudflare.com/zh-cn/this-is-brotli-from-origin-zh-cn/">简体中文</a>, <a target="_blank" rel="external nofollow noopener noreferrer" href="http://blog.cloudflare.com/ja-jp/this-is-brotli-from-origin-ja-jp/">日本語</a>, <a target="_blank" rel="external nofollow noopener noreferrer" href="http://blog.cloudflare.com/es-es/this-is-brotli-from-origin-es-es/">Español</a>, <a target="_blank" rel="external nofollow noopener noreferrer" href="http://blog.cloudflare.com/fr-fr/this-is-brotli-from-origin-fr-fr/">Français</a> and <a target="_blank" rel="external nofollow noopener noreferrer" href="http://blog.cloudflare.com/de-de/this-is-brotli-from-origin-de-de/">Deutsch</a>.</small></p>
+<!--kg-card-end: markdown--><figure class="kg-card kg-image-card"><img alt="All the way up to 11: Serve Brotli from origin and Introducing Compression Rules" class="kg-image lazy" height="1125" loading="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="http://blog.cloudflare.com/content/images/2023/06/image8-2.png" width="1999"></figure><p>Throughout Speed Week, we have talked about the importance of optimizing performance. Compression plays a crucial role by reducing file sizes transmitted over the Internet. Smaller file sizes lead to faster downloads, quicker website loading, and an improved user experience.</p><p>Take household cleaning products as a real world example. It is <a target="_blank" rel="external nofollow noopener noreferrer" href="https://ellenmacarthurfoundation.org/circular-examples/replenish">estimated</a> “a typical bottle of cleaner is 90% water and less than 10% actual valuable ingredients”. Removing 90% of a typical 500ml bottle of household cleaner reduces the weight from 600g to 60g. This reduction means only a 60g parcel, with instructions to rehydrate on receipt, needs to be sent. Extrapolated into the gallons, this weight reduction soon becomes a huge shipping saving for businesses. Not to mention the environmental impact.</p><p>This is how compression works. The sender compresses the file to its smallest possible size, and then sends the smaller file with instructions on how to handle it when received. By reducing the size of the files sent, compression ensures the amount of bandwidth needed to send files over the Internet is a lot less. Where files are stored in <a target="_blank" rel="external nofollow noopener noreferrer" href="http://blog.cloudflare.com/aws-egregious-egress/">expensive cloud providers like AWS</a>, reducing the size of files sent can directly equate to significant cost savings on bandwidth.</p><p>Smaller file sizes are also particularly beneficial for end users with limited Internet connections, such as mobile devices on cellular networks or users in areas with slow network speeds.</p><p>Cloudflare has always supported compression in the form of Gzip. Gzip is a widely used compression algorithm that has been around since 1992 and provides file compression for all Cloudflare users. However, in 2013 Google introduced Brotli which supports higher compression levels and better performance overall. Switching from gzip to Brotli results in smaller file sizes and faster load times for web pages. We have supported Brotli since 2017 for the connection between Cloudflare and client browsers. Today we are announcing end-to-end Brotli support for web content: support for Brotli compression, at the highest possible levels, from the origin server to the client.</p><p>If your origin server supports Brotli, turn it on, crank up the compression level, and enjoy the performance boost.</p><h3 id="brotli-compression-to-11">Brotli compression to 11</h3><p>Brotli has 12 levels of compression ranging from 0 to 11, with 0 providing the fastest compression speed but the lowest compression ratio, and 11 offering the highest compression ratio but requiring more computational resources and time. During our initial implementation of Brotli five years ago, we identified that <a target="_blank" rel="external nofollow noopener noreferrer" href="http://blog.cloudflare.com/results-experimenting-brotli/">compression level 4</a> offered the balance between bytes saved and compression time without compromising performance.</p><p>Since 2017, Cloudflare has been using a maximum compression of Brotli level 4 for all compressible assets based on the end user's "accept-encoding" header. However, one issue was that Cloudflare only requested Gzip compression from the origin, even if the origin supported Brotli. Furthermore, Cloudflare would always decompress the content received from the origin before compressing and sending it to the end user, resulting in additional processing time. As a result, customers were unable to fully leverage the benefits offered by Brotli compression.</p><p><strong>Old world</strong></p><figure class="kg-card kg-image-card kg-width-wide"><img alt="All the way up to 11: Serve Brotli from origin and Introducing Compression Rules" class="kg-image lazy" height="373" loading="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="http://blog.cloudflare.com/content/images/2023/06/Flow_how-CF-compresses_1.png" width="1600"></figure><p>With Cloudflare now fully supporting Brotli end to end, customers will start seeing our updated accept-encoding header arriving at their origins. Once available customers can transfer, cache and serve heavily compressed Brotli files directly to us, all the way up to the maximum level of 11. This will help reduce <a target="_blank" rel="external nofollow noopener noreferrer" href="https://www.cloudflare.com/learning/performance/glossary/what-is-latency/">latency</a> and bandwidth consumption. If the end user device does not support Brotli compression, we will automatically decompress the file and serve it either in its decompressed format or as a Gzip-compressed file, depending on the Accept-Encoding header.</p><p><strong>Full end-to-end Brotli compression support</strong></p><figure class="kg-card kg-image-card kg-width-wide"><img alt="All the way up to 11: Serve Brotli from origin and Introducing Compression Rules" class="kg-image lazy" height="373" loading="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="http://blog.cloudflare.com/content/images/2023/06/Flow_how-CF-compresses_2.png" width="1600"></figure><p><strong>End user cannot support Brotli compression</strong></p><figure class="kg-card kg-image-card kg-width-wide"><img alt="All the way up to 11: Serve Brotli from origin and Introducing Compression Rules" class="kg-image lazy" height="373" loading="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="http://blog.cloudflare.com/content/images/2023/06/Flow_how-CF-compresses_3.png" width="1600"></figure><p>Customers can implement Brotli compression at their origin by referring to the appropriate online materials. For example, customers that are using NGINX, can implement Brotli by following this <a target="_blank" rel="external nofollow noopener noreferrer" href="https://github.com/google/ngx_brotli#installation">tutorial</a> and setting compression at level 11 within the <code>nginx.conf</code> configuration file as follows:</p><!--kg-card-begin: markdown--><pre><code>brotli on;
+brotli_comp_level 11;
+brotli_static on;
+brotli_types text/plain text/css application/javascript application/x-javascript text/xml 
+application/xml application/xml+rss text/javascript image/x-icon 
+image/vnd.microsoft.icon image/bmp image/svg+xml;
+</code></pre>
+<!--kg-card-end: markdown--><p>Cloudflare will then serve these assets to the client at the exact same compression level (11) for the matching file brotli_types. This means any SVG or BMP images will be sent to the client compressed at Brotli level 11.</p><h3 id="testing">Testing</h3><p>We applied compression against a simple CSS file, measuring the impact of various compression algorithms and levels. Our goal was to identify potential improvements that users could experience by optimizing compression techniques. These results can be seen in the following table:</p><!--kg-card-begin: html--><style type="text/css">
+.tg  &#123;border-collapse:collapse;border-color:#ccc;border-spacing:0;&#125;
+.tg td&#123;background-color:#fff;border-color:#ccc;border-style:solid;border-width:1px;color:#333;
+  font-family:Arial, sans-serif;font-size:14px;overflow:hidden;padding:10px 5px;word-break:normal;&#125;
+.tg th&#123;background-color:#f0f0f0;border-color:#ccc;border-style:solid;border-width:1px;color:#333;
+  font-family:Arial, sans-serif;font-size:14px;font-weight:normal;overflow:hidden;padding:10px 5px;word-break:normal;&#125;
+.tg .tg-stvh&#123;color:#172B4D;text-align:left;vertical-align:top&#125;
+.tg .tg-0lax&#123;text-align:left;vertical-align:top&#125;
+</style>
+<table class="tg" width="100%">
+<thead>
+<tr>
+<th class="tg-0lax"><span style="font-weight:400;font-style:normal;text-decoration:none;color:#000;background-color:transparent">Test</span></th>
+<th class="tg-0lax"><span style="font-weight:400;font-style:normal;text-decoration:none;color:#000;background-color:transparent">Size (bytes)</span></th>
+<th class="tg-0lax"><span style="font-weight:400;font-style:normal;text-decoration:none;color:#000;background-color:transparent">% Reduction of original file (Higher % better)</span></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tg-0lax"><span style="font-weight:400;font-style:normal;text-decoration:none;color:#000;background-color:transparent">Uncompressed response (no compression used)</span></td>
+<td class="tg-stvh"><span style="font-weight:400;font-style:normal;text-decoration:none;color:#172B4D;background-color:transparent">2,747</span></td>
+<td class="tg-0lax"><span style="font-weight:400;font-style:normal;text-decoration:none;color:#000;background-color:transparent">-</span></td>
+</tr>
+<tr>
+<td class="tg-0lax"><span style="font-weight:400;font-style:normal;text-decoration:none;color:#000;background-color:transparent">Cloudflare default Gzip compression (level 8)</span></td>
+<td class="tg-0lax"><span style="font-weight:400;font-style:normal;text-decoration:none;color:#000;background-color:transparent">1,121</span></td>
+<td class="tg-0lax"><span style="font-weight:400;font-style:normal;text-decoration:none;color:#000;background-color:transparent">59.21%</span></td>
+</tr>
+<tr>
+<td class="tg-0lax"><span style="font-weight:400;font-style:normal;text-decoration:none;color:#000;background-color:transparent">Cloudflare default Brotli compression (level 4)</span></td>
+<td class="tg-0lax"><span style="font-weight:400;font-style:normal;text-decoration:none;color:#000;background-color:transparent">1,110</span></td>
+<td class="tg-0lax"><span style="font-weight:400;font-style:normal;text-decoration:none;color:#000;background-color:transparent">59.58%</span></td>
+</tr>
+<tr>
+<td class="tg-0lax"><span style="font-weight:400;font-style:normal;text-decoration:none;color:#000;background-color:transparent">Compressed with max Gzip level (level 9)</span></td>
+<td class="tg-0lax"><span style="font-weight:400;font-style:normal;text-decoration:none;color:#000;background-color:transparent">1,121</span></td>
+<td class="tg-0lax"><span style="font-weight:400;font-style:normal;text-decoration:none;color:#000;background-color:transparent">59.21%</span></td>
+</tr>
+<tr>
+<td class="tg-0lax"><span style="font-weight:400;font-style:normal;text-decoration:none;color:#000;background-color:transparent">Compressed with max Brotli level (level 11)</span></td>
+<td class="tg-0lax"><span style="font-weight:400;font-style:normal;text-decoration:none;color:#000;background-color:transparent">909</span></td>
+<td class="tg-0lax"><span style="font-weight:400;font-style:normal;text-decoration:none;color:#000;background-color:transparent">66.94%</span></td>
+</tr>
+</tbody>
+</table><!--kg-card-end: html--><p>By compressing Brotli at level 11 users are able to reduce their file sizes by 19% compared to the best Gzip compression level. Additionally, the strongest Brotli compression level is around 18% smaller than the default level used by Cloudflare. This highlights a significant size reduction achieved by utilizing Brotli compression, particularly at its highest levels, which can lead to improved website performance, faster page load times and an overall reduction in egress fees.</p><p>To take advantage of higher end to end compression rates the following Cloudflare proxy features need to be disabled.</p><ul><li>Email Obfuscation</li><li>Rocket Loader</li><li>Server Side Excludes (SSE)</li><li>Mirage</li><li>HTML Minification - JavaScript and CSS can be left enabled.</li><li>Automatic HTTPS Rewrites</li></ul><p>This is due to Cloudflare needing to decompress and access the body to apply the requested settings. Alternatively a customer can disable these features for specific paths using Configuration Rules.</p><figure class="kg-card kg-image-card"><img alt="All the way up to 11: Serve Brotli from origin and Introducing Compression Rules" class="kg-image lazy" height="1518" loading="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="http://blog.cloudflare.com/content/images/2023/06/pasted-image-0-3.png" width="1114"></figure><p>If any of these rewrite features are enabled, your origin can still send Brotli compression at higher levels. However, we will decompress, apply the Cloudflare feature(s) enabled, and recompress on the fly using Cloudflare’s default Brotli level 4 or Gzip level 8 depending on the user's accept-encoding header.</p><p>For browsers that do not accept Brotli compression, we will continue to decompress and send Gzipped responses or uncompressed.</p><h3 id="implementation">Implementation</h3><p>The initial step towards implementing Brotli from the origin involved constructing a decompression module that could be integrated into Cloudflare software stack. It allows us to efficiently convert the compressed bits received from the origin into the original, uncompressed file. This step was crucial as numerous <a target="_blank" rel="external nofollow noopener noreferrer" href="http://blog.cloudflare.com/rust-nginx-module/">features</a> such as Email Obfuscation and Cloudflare Workers Customers, rely on accessing the body of a response to apply customizations.</p><p>We integrated the decompressor into  the core <a target="_blank" rel="external nofollow noopener noreferrer" href="https://www.cloudflare.com/learning/cdn/glossary/reverse-proxy/">reverse web proxy</a> of Cloudflare. This integration ensured that all Cloudflare products and features could access Brotli decompression effortlessly. This also allowed our Cloudflare Workers team to incorporate Brotli Directly into Cloudflare Workers allowing our Workers customers to be able to interact with responses returned in Brotli or pass through to the end user unmodified.</p><h3 id="introducing-compression-rulesgranular-control-of-compression-to-end-users">Introducing Compression rules - Granular control of compression to end users</h3><p>By default Cloudflare compresses <a target="_blank" rel="external nofollow noopener noreferrer" href="https://developers.cloudflare.com/support/speed/optimization-file-size/what-will-cloudflare-compress/">certain content types</a> based on the Content-Type header of the file. Today we are also announcing Compression Rules for our Enterprise Customers to allow you even more control on how and what Cloudflare will compress.</p><p>Today we are also announcing the introduction of Compression Rules for our Enterprise Customers. With Compression Rules, you gain enhanced control over Cloudflare's compression capabilities, enabling you to customize how and which content Cloudflare compresses to optimize your website's performance.</p><p>For example, by using Cloudflare's Compression Rules for .ktx files, customers can optimize the delivery of textures in webGL applications, enhancing the overall user experience. Enabling compression minimizes the bandwidth usage and ensures that webGL applications load quickly and smoothly, even when dealing with large and detailed textures.</p><figure class="kg-card kg-image-card"><img alt="All the way up to 11: Serve Brotli from origin and Introducing Compression Rules" class="kg-image lazy" height="1100" loading="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="http://blog.cloudflare.com/content/images/2023/06/pasted-image-0--1--2.png" width="1600"></figure><p>Alternatively customers can disable compression or specify a preference of how we compress. Another example could be an Infrastructure company only wanting to support Gzip for their IoT devices but allow Brotli compression for all other hostnames.</p><figure class="kg-card kg-image-card"><img alt="All the way up to 11: Serve Brotli from origin and Introducing Compression Rules" class="kg-image lazy" height="1114" loading="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="http://blog.cloudflare.com/content/images/2023/06/pasted-image-0--2--1.png" width="1470"></figure><p>Compression rules use the filters that our other <a target="_blank" rel="external nofollow noopener noreferrer" href="https://developers.cloudflare.com/rules/">rules</a> products are built on top of with the added fields of Media Type and Extension type. Allowing users to easily specify the content you wish to compress.</p><figure class="kg-card kg-image-card"><img alt="All the way up to 11: Serve Brotli from origin and Introducing Compression Rules" class="kg-image lazy" height="406" loading="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="http://blog.cloudflare.com/content/images/2023/06/pasted-image-0--3--1.png" width="1600"></figure><h3 id="deprecating-the-brotli-toggle">Deprecating the Brotli toggle</h3><p>Brotli has been long supported by some <a target="_blank" rel="external nofollow noopener noreferrer" href="https://caniuse.com/brotli">web browsers</a> since 2016 and Cloudflare offered Brotli Support in 2017. As with all new web technologies Brotli was unknown and we gave customers the ability to selectively enable or disable BrotlI via the API and our UI.</p><figure class="kg-card kg-image-card"><img alt="All the way up to 11: Serve Brotli from origin and Introducing Compression Rules" class="kg-image lazy" height="339" loading="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="http://blog.cloudflare.com/content/images/2023/06/pasted-image-0--4-.png" width="1600"></figure><p>Now that Brotli has evolved and is supported by all browsers, we plan to enable Brotli on all zones by default in the coming months. Mirroring the Gzip behavior we currently support and removing the toggle from our dashboard. If browsers do not support Brotli, Cloudflare will continue to support their accepted encoding types such as Gzip or uncompressed and Enterprise customers will still be able to use Compression rules to granularly control how we compress data towards their users.</p><h3 id="the-future-of-web-compression">The future of web compression</h3><p>We've seen great adoption and great performance for Brotli as the new compression technique for the web. Looking forward, we are closely following trends and new compression algorithms such as <a target="_blank" rel="external nofollow noopener noreferrer" href="https://www.rfc-editor.org/rfc/rfc8478">zstd</a> as a possible next-generation compression algorithm.</p><p>At the same time, we're looking to improve Brotli directly where we can. One development that we're particularly focused on is shared dictionaries with Brotli. Whenever you compress an asset, you use a "dictionary" that helps the compression to be more efficient. A simple analogy of this is typing OMW into an iPhone message. The iPhone will automatically translate it into On My Way using its own internal dictionary.</p><!--kg-card-begin: html--><style type="text/css">
+.tg  &#123;border-collapse:collapse;border-spacing:0;&#125;
+.tg td&#123;border-color:black;border-style:solid;border-width:1px;font-family:Arial, sans-serif;font-size:14px;
+  overflow:hidden;padding:10px 5px;word-break:normal;&#125;
+.tg th&#123;border-color:black;border-style:solid;border-width:1px;font-family:Arial, sans-serif;font-size:14px;
+  font-weight:normal;overflow:hidden;padding:10px 5px;word-break:normal;&#125;
+.tg .tg-baqh&#123;text-align:center;vertical-align:top&#125;
+.tg .tg-0lax&#123;text-align:left;vertical-align:top&#125;
+</style>
+<table class="tg" width="100%">
+<thead>
+<tr>
+<th class="tg-baqh"><span style="font-weight:400;font-style:normal;text-decoration:none;color:#000;background-color:transparent">O</span></th>
+<th class="tg-baqh"><span style="font-weight:400;font-style:normal;text-decoration:none;color:#000;background-color:transparent">M</span></th>
+<th class="tg-baqh"><span style="font-weight:400;font-style:normal;text-decoration:none;color:#000;background-color:transparent">W</span></th>
+<th class="tg-0lax"></th>
+<th class="tg-0lax"></th>
+<th class="tg-0lax"></th>
+<th class="tg-0lax"></th>
+<th class="tg-0lax"></th>
+<th class="tg-0lax"></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tg-baqh"><span style="font-weight:400;font-style:normal;text-decoration:none;color:#000;background-color:transparent">O</span></td>
+<td class="tg-baqh"><span style="font-weight:400;font-style:normal;text-decoration:none;color:#000;background-color:transparent">n</span></td>
+<td class="tg-0lax"></td>
+<td class="tg-baqh"><span style="font-weight:400;font-style:normal;text-decoration:none;color:#000;background-color:transparent">M</span></td>
+<td class="tg-baqh"><span style="font-weight:400;font-style:normal;text-decoration:none;color:#000;background-color:transparent">y</span></td>
+<td class="tg-0lax"></td>
+<td class="tg-baqh"><span style="font-weight:400;font-style:normal;text-decoration:none;color:#000;background-color:transparent">W</span></td>
+<td class="tg-baqh"><span style="font-weight:400;font-style:normal;text-decoration:none;color:#000;background-color:transparent">a</span></td>
+<td class="tg-baqh"><span style="font-weight:400;font-style:normal;text-decoration:none;color:#000;background-color:transparent">y</span></td>
+</tr>
+</tbody>
+</table><!--kg-card-end: html--><p><br></p><p>This internal dictionary has taken three characters and morphed this into nine characters (including spaces) The internal dictionary has saved six characters which equals performance benefits for users.</p><p>By default, the <a target="_blank" rel="external nofollow noopener noreferrer" href="https://www.rfc-editor.org/rfc/rfc7932#page-28">Brotli RFC</a> defines a static dictionary that both clients and the origin servers use. The static dictionary was designed to be general purpose and apply to everyone. Optimizing the size of the dictionary as to not be too large whilst able to generate best compression results. However, what if an origin could generate a bespoke dictionary tailored to a specific website? For example a Cloudflare-specific dictionary would allow us to compress the words and phrases that appear repeatedly on our site such as the word “Cloudflare”. The bespoke dictionary would be designed to compress this as heavily as possible and the browser using the same dictionary would be able to translate this back.</p><p>A <a target="_blank" rel="external nofollow noopener noreferrer" href="https://github.com/wicG/compression-dictionary-transport">new proposal</a> by the Web Incubator CG aims to do just that, allowing you to specify your own dictionaries that browsers can use to allow websites to optimize compression further. We're excited about contributing to this proposal and plan on publishing our research soon.</p><h3 id="try-it-now">Try it now</h3><p>Compression Rules are available now! With End to End Brotli being rolled out over the coming weeks. Allowing you to improve performance, reduce bandwidth and granularly control how Cloudflare handles compression to your end users.</p><h3 id="watch-on-cloudflare-tv">Watch on Cloudflare TV</h3><!--kg-card-begin: html--><div style="position: relative; padding-top: 56.25%;"><iframe allow="accelerometer; gyroscope; autoplay; encrypted-media; picture-in-picture;" allowfullscreen="true" src="https://customer-rhnwzxvb3mg4wz3v.cloudflarestream.com/f1c71fdb05263b5ec3077e6e7acdb7e2/iframe?preload=true&amp;poster=https%3A%2F%2Fcustomer-rhnwzxvb3mg4wz3v.cloudflarestream.com%2Ff1c71fdb05263b5ec3077e6e7acdb7e2%2Fthumbnails%2Fthumbnail.jpg%3Ftime%3D1s%26height%3D600" style="border: none; position: absolute; top: 0; left: 0; height: 100%; width: 100%;"></iframe></div>
+<p></p><!--kg-card-end: html-->
+</div>
+
+<div>
+<div class="tag-plugin link dis-select"><a class="link-card plain" title="All the way up to 11: Serve Brotli from origin and Introducing Compression Rules" href="http://blog.cloudflare.com/this-is-brotli-from-origin/" target="_blank" rel="external nofollow noopener noreferrer" cardlink autofill="icon"><div class="left"><span class="title">All the way up to 11: Serve Brotli from origin and Introducing Compression Rules</span><span class="cap link fs12">http://blog.cloudflare.com/this-is-brotli-from-origin/</span></div><div class="right"><div class="lazy img" data-bg="https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.4/link/8f277b4ee0ecd.svg"></div></div></a></div>
+</div>
+
+
+
+
+<div class="article-footer reveal fs14"><section id="license"><div class="header"><span>许可协议</span></div><div class="body"><p>本文采用 <a target="_blank" rel="external nofollow noopener noreferrer" href="https://github.com/me-shaon/GLWTPL/blob/master/translations/LICENSE_zh-CN">GLWT（Good Luck With That，祝你好运）公共许可证</a> 许可协议，转载请注明出处。</p>
+</div></section><section id="share"><div class="header"><span>分享文章</span></div><div class="body"><div class="link"><input class="copy-area" readonly="true" id="copy-link" value="https://blog.imc.re/RSSBOX/rss/caa91ad8.html"></div><div class="social-wrap dis-select"><a class="social share-item wechat" onclick="util.toggle(&quot;qrcode-wechat&quot)"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.4/social/b32ef3da1162a.svg"></a><a class="social share-item weibo" target="_blank" rel="external nofollow noopener noreferrer" href="https://service.weibo.com/share/share.php?url=https://blog.imc.re/RSSBOX/rss/caa91ad8.html&title=All the Way Up to 11: Serve Brotli From Origin and Introducing Compression Rules - RSSBOX&pics=http://blog.cloudflare.com/content/images/2023/06/image8-1.png&summary=
+This post is also available in 简体中文, 日本語, Español, Français and Deutsch.
+Throughout Speed Week, we have talked about..."><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.4/social/80c07e4dbb303.svg"></a><a class="social share-item email" href="mailto:?subject=All the Way Up to 11: Serve Brotli From Origin and Introducing Compression Rules - RSSBOX&amp;body=https://blog.imc.re/RSSBOX/rss/caa91ad8.html"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.4/social/a1b00e20f425d.svg"></a><a class="social share-item link" onclick="util.copy(&quot;copy-link&quot;, &quot;复制成功&quot;)"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.4/social/8411ed322ced6.svg"></a></div><div class="qrcode" id="qrcode-wechat" style="visibility:hidden;height:0"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://api.qrserver.com/v1/create-qr-code/?size=256x256&data=https://blog.imc.re/RSSBOX/rss/caa91ad8.html"></div></div></section></div>
+
+</article>
+
+<div class="related-wrap reveal" id="read-next"><section class="body"><div class="item" id="prev"><div class="note">较新文章</div><a href="/RSSBOX/rss/dbb19e0d.html">Minecraft Trails & Tales Event</a></div><div class="item" id="next"><div class="note">较早文章</div><a href="/RSSBOX/rss/5d25f5e6.html">How We Scaled and Protected Eurovision 2023 Voting With Pages and Turnstile</a></div></section></div>
+
+
+<div class="related-wrap reveal" id="related-posts">
+    <section class="header">
+      <div class="title cap theme">您可能感兴趣的文章</div>
+    </section>
+    <section class="body">
+    <div class="related-posts"><a class="item" href="/RSSBOX/rss/74584793.html" title="A Step-by-Step Guide to Transferring Domains to Cloudflare"><span class="title">A Step-by-Step Guide to Transferring Domains to Cloudflare</span></a><a class="item" href="/RSSBOX/rss/7bd87fb2.html" title="Bring Your Own CA for Client Certificate Validation With API Shield"><span class="title">Bring Your Own CA for Client Certificate Validation With API Shield</span></a><a class="item" href="/RSSBOX/rss/77acea1e.html" title="Cloudflare Zaraz Supports JSONata"><span class="title">Cloudflare Zaraz Supports JSONata</span></a><a class="item" href="/RSSBOX/rss/e43023fe.html" title="Connection Errors in Asia Pacific Region on July 9, 2023"><span class="title">Connection Errors in Asia Pacific Region on July 9, 2023</span></a><a class="item" href="/RSSBOX/rss/fd2ea32f.html" title="DLP Exact Data Match Beta Now Available"><span class="title">DLP Exact Data Match Beta Now Available</span></a></div></section></div>
+
+
+
+
+
+      
+<footer class="page-footer reveal fs12"><hr><div class="sitemap"><div class="sitemap-group"><span class="fs14">文章</span><a href="/RSSBOX/categories">分类</a><a href="/RSSBOX/tags">标签</a><a href="/RSSBOX/archives">归档</a></div><div class="sitemap-group"><span class="fs14">更多</span><a href="https://blog.imc.re/">博客</a><a target="_blank" rel="noopener" href="https://imc.re/">IMC.RE</a></div></div><div class="text"><p><a href="/">@RSSBOX</a> 2023 author by <a target="_blank" rel="external nofollow noopener noreferrer" href="https://github.com/MHG-LAB/RSSBOX">MHuiG</a> powered by SummerGoro。<br><br>本博客所有文章除特别声明外，均采用 <a target="_blank" rel="external nofollow noopener noreferrer" href="https://github.com/me-shaon/GLWTPL/blob/master/translations/LICENSE_zh-CN">GLWT（Good Luck With That，祝你好运）公共许可证</a> 许可协议，转载请注明出处。</p>
+</div></footer>
+
+      <div class="float-panel mobile-only blur" style="display:none">
+  <button type="button" class="sidebar-toggle mobile" onclick="sidebar.toggle()">
+    <svg class="icon" style="width: 1em; height: 1em;vertical-align: middle;fill: currentColor;overflow: hidden;" viewbox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="15301"><path d="M566.407 808.3c26.9-0.1 49.3-20.8 51.6-47.6-1.9-27.7-23.9-49.7-51.6-51.6h-412.6c-28.2-1.4-52.6 19.5-55.5 47.6 2.3 26.8 24.6 47.5 51.6 47.6h416.5v4z m309.3-249.9c26.9-0.1 49.3-20.8 51.6-47.6-2.2-26.8-24.6-47.5-51.6-47.6h-721.9c-27.7-2.8-52.5 17.4-55.3 45.1-0.1 0.8-0.1 1.7-0.2 2.5 0.9 27.2 23.6 48.5 50.7 47.6H875.707z m-103.1-245.9c26.9-0.1 49.3-20.8 51.6-47.6-0.4-28.3-23.2-51.1-51.5-51.6h-618.9c-29.5-1.1-54.3 21.9-55.5 51.4v0.2c1.4 27.8 25.2 49.2 53 47.8 0.8 0 1.7-0.1 2.5-0.2h618.8z" p-id="15302"/><path d="M566.407 808.3c26.9-0.1 49.3-20.8 51.6-47.6-1.9-27.7-23.9-49.7-51.6-51.6h-412.6c-28.2-1.4-52.6 19.5-55.5 47.6 1.9 27.7 23.9 49.7 51.6 51.6h416.5z m309.3-249.9c26.9-0.1 49.3-20.8 51.6-47.6-2.2-26.8-24.6-47.5-51.6-47.6h-721.9c-27.7-2.8-52.5 17.4-55.3 45.1-0.1 0.8-0.1 1.7-0.2 2.5 0.9 27.2 23.6 48.5 50.7 47.6H875.707z m-103.1-245.9c26.9-0.1 49.3-20.8 51.6-47.6-0.4-28.3-23.2-51.1-51.5-51.6h-618.9c-29.5-1.1-54.3 21.9-55.5 51.4v0.2c1.4 27.8 25.2 49.2 53 47.8 0.8 0 1.7-0.1 2.5-0.2h618.8z" p-id="15303"/></svg>
+  </button>
+</div>
+
+    </div>
+  </div>
+  <div class="scripts">
+    <script type="text/javascript">
+  const stellar = {
+    // 懒加载 css https://github.com/filamentgroup/loadCSS
+    loadCSS: (href, before, media, attributes) => {
+      var doc = window.document;
+      var ss = doc.createElement("link");
+      var ref;
+      if (before) {
+        ref = before;
+      } else {
+        var refs = (doc.body || doc.getElementsByTagName("head")[0]).childNodes;
+        ref = refs[refs.length - 1];
+      }
+      var sheets = doc.styleSheets;
+      if (attributes) {
+        for (var attributeName in attributes) {
+          if (attributes.hasOwnProperty(attributeName)) {
+            ss.setAttribute(attributeName, attributes[attributeName]);
+          }
+        }
+      }
+      ss.rel = "stylesheet";
+      ss.href = href;
+      ss.media = "only x";
+      function ready(cb) {
+        if (doc.body) {
+          return cb();
+        }
+        setTimeout(function () {
+          ready(cb);
+        });
+      }
+      ready(function () {
+        ref.parentNode.insertBefore(ss, before ? ref : ref.nextSibling);
+      });
+      var onloadcssdefined = function (cb) {
+        var resolvedHref = ss.href;
+        var i = sheets.length;
+        while (i--) {
+          if (sheets[i].href === resolvedHref) {
+            return cb();
+          }
+        }
+        setTimeout(function () {
+          onloadcssdefined(cb);
+        });
+      };
+      function loadCB() {
+        if (ss.addEventListener) {
+          ss.removeEventListener("load", loadCB);
+        }
+        ss.media = media || "all";
+      }
+      if (ss.addEventListener) {
+        ss.addEventListener("load", loadCB);
+      }
+      ss.onloadcssdefined = onloadcssdefined;
+      onloadcssdefined(loadCB);
+      return ss;
+    },
+
+    // 从 butterfly 和 volantis 获得灵感
+    loadScript: (src, opt) => new Promise((resolve, reject) => {
+      var script = document.createElement('script');
+      if (src.startsWith('/')){
+        src = stellar.config.root + src.substring(1);
+      }
+      script.src = src;
+      if (opt) {
+        for (let key of Object.keys(opt)) {
+          script[key] = opt[key]
+        }
+      } else {
+        // 默认异步，如果需要同步，第二个参数传入 {} 即可
+        script.async = true
+      }
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    }),
+
+    // https://github.com/jerryc127/hexo-theme-butterfly
+    jQuery: (fn) => {
+      if (typeof jQuery === 'undefined') {
+        stellar.loadScript(stellar.plugins.jQuery).then(fn)
+      } else {
+        fn()
+      }
+    }
+  };
+  stellar.version = '1.19.0';
+  stellar.github = 'https://github.com/xaoxuu/hexo-theme-stellar/tree/1.19.0';
+  stellar.config = {
+    date_suffix: {
+      just: '刚刚',
+      min: '分钟前',
+      hour: '小时前',
+      day: '天前',
+      month: '个月前',
+    },
+    root : '/RSSBOX/',
+  };
+
+  // required plugins (only load if needs)
+  stellar.plugins = {
+    jQuery: 'https://gcore.jsdelivr.net/npm/jquery@3.6.2/dist/jquery.min.js'
+  };
+
+  if ('local_search') {
+    stellar.search = {};
+    stellar.search.service = 'local_search';
+    if (stellar.search.service == 'local_search') {
+      let service_obj = Object.assign({}, {"field":"all","path":"/search.json","content":true,"codeblock":true,"sort":"-date"});
+      stellar.search[stellar.search.service] = service_obj;
+    }
+  }
+
+  // stellar js
+  stellar.plugins.stellar = Object.assign({"sites":"/js/plugins/sites.js","friends":"/js/plugins/friends.js","ghinfo":"/js/plugins/ghinfo.js","timeline":"/js/plugins/timeline.js","linkcard":"/js/plugins/linkcard.js","fcircle":"/js/plugins/fcircle.js","weibo":"/js/plugins/weibo.js"});
+
+  stellar.plugins.marked = Object.assign("https://cdn.bootcdn.net/ajax/libs/marked/4.0.18/marked.min.js");
+  // optional plugins
+  if ('true' == 'true') {
+    stellar.plugins.lazyload = Object.assign({"enable":true,"js":"https://gcore.jsdelivr.net/npm/vanilla-lazyload@17.8.3/dist/lazyload.min.js","transition":"blur"});
+  }
+  if ('true' == 'true') {
+    stellar.plugins.swiper = Object.assign({"enable":true,"css":"https://unpkg.com/swiper@8.4.5/swiper-bundle.min.css","js":"https://unpkg.com/swiper@8.4.5/swiper-bundle.min.js"});
+  }
+  if ('' == 'true') {
+    stellar.plugins.scrollreveal = Object.assign({"enable":null,"js":"https://gcore.jsdelivr.net/npm/scrollreveal@4.0.9/dist/scrollreveal.min.js","distance":"8px","duration":500,"interval":100,"scale":1});
+  }
+  if ('true' == 'true') {
+    stellar.plugins.preload = Object.assign({"enable":true,"service":"flying_pages","instant_page":"https://gcore.jsdelivr.net/gh/volantis-x/cdn-volantis@4.1.2/js/instant_page.js","flying_pages":"https://gcore.jsdelivr.net/gh/gijo-varghese/flying-pages@2.1.2/flying-pages.min.js"});
+  }
+  if ('true' == 'true') {
+    stellar.plugins.fancybox = Object.assign({"enable":true,"js":"https://gcore.jsdelivr.net/npm/@fancyapps/ui@4.0/dist/fancybox.umd.js","css":"https://gcore.jsdelivr.net/npm/@fancyapps/ui@4.0/dist/fancybox.css","selector":".swiper-slide img"});
+  }
+  if ('false' == 'true') {
+    stellar.plugins.heti = Object.assign({"enable":false,"css":"https://unpkg.com/heti@0.9.2/umd/heti.min.css","js":"https://unpkg.com/heti@0.9.2/umd/heti-addon.min.js"});
+  }
+  if ('true' == 'true') {
+    stellar.plugins.copycode = Object.assign({"enable":true,"js":"/js/plugins/copycode.js","default_text":"Copy","success_text":"Copied"});
+  }
+</script>
+
+<!-- required -->
+
+  
+<script src="/RSSBOX/js/main.js" async></script>
+
+
+
+<!-- optional -->
+
+  <script>
+  function loadJS() {
+    const els = document.querySelectorAll("#comments #giscus");
+    if (els.length === 0) return;
+    els.forEach((el, i) => {
+      try {
+        el.innerHTML = '';
+      } catch (error) {
+        console.log(error);
+      }
+      var script = document.createElement('script');
+      script.src = 'https://giscus.app/client.js';
+      script.async = true;
+      for (let key of Object.keys(el.attributes)) {
+        let attr = el.attributes[key];
+        if (['class', 'id'].includes(attr.name) === false) {
+          script.setAttribute(attr.name, attr.value);
+        }
+      }
+      el.appendChild(script);
+    });
+  }
+  window.addEventListener('DOMContentLoaded', (event) => {
+    loadJS();
+  });
+</script>
+
+
+
+
+<!-- inject -->
+
+
+  </div>
+</body>
+</html>

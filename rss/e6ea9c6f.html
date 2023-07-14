@@ -1,0 +1,490 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+  <meta name="generator" content="Hexo 6.3.0">
+  <meta name="hexo-theme" content="https://github.com/xaoxuu/hexo-theme-stellar/tree/1.19.0">
+  <meta charset="utf-8">
+  
+
+  <meta http-equiv="x-dns-prefetch-control" content="on">
+  <link rel="dns-prefetch" href="https://gcore.jsdelivr.net">
+  <link rel="preconnect" href="https://gcore.jsdelivr.net" crossorigin>
+  <link rel="dns-prefetch" href="//unpkg.com">
+
+  <meta name="renderer" content="webkit">
+  <meta name="force-rendering" content="webkit">
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+  <meta name="HandheldFriendly" content="True">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="theme-color" content="#f8f8f8">
+  
+  <title>多元融合：流媒体传输网络的全盘解法 - RSSBOX</title>
+
+  
+    <meta name="description" content="我们在寻找「网络」的全盘解法。  音视频数字化在消费领域的红利俨然见顶，而产业级视频应用激活了更多场景下的业务模式。与此同时，音视频客户也从单一的业务需求，趋向于多种业务并行存在的需求。 固有的网络能满足新兴的业态吗？延时与成本之间存在区间最优解吗？业务的升级切换如何不再费时费力？在成本可控下网络的稳定性怎样保障？ 一张多元融合的流媒体传输网络可否解决全盘之困？ 面向未来的流媒体传输网络，又将">
+<meta property="og:type" content="article">
+<meta property="og:title" content="多元融合：流媒体传输网络的全盘解法">
+<meta property="og:url" content="https://blog.imc.re/RSSBOX/rss/e6ea9c6f.html">
+<meta property="og:site_name" content="RSSBOX">
+<meta property="og:description" content="我们在寻找「网络」的全盘解法。  音视频数字化在消费领域的红利俨然见顶，而产业级视频应用激活了更多场景下的业务模式。与此同时，音视频客户也从单一的业务需求，趋向于多种业务并行存在的需求。 固有的网络能满足新兴的业态吗？延时与成本之间存在区间最优解吗？业务的升级切换如何不再费时费力？在成本可控下网络的稳定性怎样保障？ 一张多元融合的流媒体传输网络可否解决全盘之困？ 面向未来的流媒体传输网络，又将">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/14896fe6713e42bfa1afb8eaaea54050~tplv-k3u1fbpfcp-zoom-1.image">
+<meta property="og:image" content="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/e21ace576554410d816a59b7b0083173~tplv-k3u1fbpfcp-zoom-1.image">
+<meta property="og:image" content="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/643b105c11a04a3e8cef20f45eaa22fd~tplv-k3u1fbpfcp-zoom-1.image">
+<meta property="og:image" content="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/c0ef4e97dc3a440ca4a1c97f200e45f4~tplv-k3u1fbpfcp-zoom-1.image">
+<meta property="og:image" content="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/4eece25a57404cd0acc6a7b617602f58~tplv-k3u1fbpfcp-zoom-1.image">
+<meta property="og:image" content="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/aea73f9565f6498d8a5fffb41f4768a7~tplv-k3u1fbpfcp-zoom-1.image">
+<meta property="og:image" content="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/8a9518a851204d99828bcd7f3bdf949b~tplv-k3u1fbpfcp-zoom-1.image">
+<meta property="og:image" content="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/30d48c16e0454818bb195dfc8ff26f1c~tplv-k3u1fbpfcp-zoom-1.image">
+<meta property="og:image" content="https://p9-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/193f7f3b6efb4597b8c4b739243944f7~tplv-k3u1fbpfcp-watermark.image?">
+<meta property="article:published_time" content="2023-07-12T02:38:47.000Z">
+<meta property="article:modified_time" content="2023-07-12T02:38:47.000Z">
+<meta property="article:author" content="SMGoro">
+<meta property="article:tag" content="媒体">
+<meta property="article:tag" content="掘金">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/14896fe6713e42bfa1afb8eaaea54050~tplv-k3u1fbpfcp-zoom-1.image">
+  
+  
+  
+  <meta name="keywords" content="媒体,掘金">
+
+  <!-- feed -->
+  
+    <link rel="alternate" href="/RSSBOX/atom.xml" title="RSSBOX" type="application/atom+xml">
+  
+
+  
+    
+<link rel="stylesheet" href="/RSSBOX/css/main.css">
+
+  
+
+  
+
+  
+
+  
+    <link rel="stylesheet" href="https://gcore.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.css" integrity="sha384-vKruj+a13U8yHIkAyGgK1J3ArTLzrFGBbBc0tDp4ad/EyewESeXE/Iv67Aj8gKZ0" crossorigin="anonymous">
+    <script defer src="https://gcore.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.js" integrity="sha384-PwRUT/YqbnEjkZO0zZxNqcxACrXe+j766U2amXcgMg5457rve2Y7I6ZJSm2A0mS4" crossorigin="anonymous"></script>
+    <script defer src="https://gcore.jsdelivr.net/npm/katex@0.16.4/dist/contrib/auto-render.min.js" integrity="sha384-+VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4+/RRE05" crossorigin="anonymous" onload="renderMathInElement(document.body);"></script>
+  
+
+
+  
+
+<!--百度统计-->
+<script>
+  var _hmt = _hmt || [];
+  (function() {
+    var hm = document.createElement("script");
+    hm.src = "https://hm.baidu.com/hm.js?f42afe3e5b76d22c8b1a8060171c7184";
+    var s = document.getElementsByTagName("script")[0]; 
+    s.parentNode.insertBefore(hm, s);
+  })();
+</script>  
+  <!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-V2NSKYGXNG"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-V2NSKYGXNG');
+</script>
+<!--Google Adsense-->
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4773172018528901" crossorigin="anonymous"></script>
+</head>
+
+<body>
+  
+
+
+
+
+  <div class="l_body" id="start">
+    <aside class="l_left" layout="post">
+    
+
+  
+
+<header class="header"><div class="logo-wrap"><a class="avatar" href="/RSSBOX/archives"><div class="bg" style="opacity:0;background-image:url(https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.4/avatar/round/rainbow64@3x.webp);"></div><img no-lazy class="avatar" src="https://cdn.jsdelivr.net/gh/SMGCDN/photos/icon/rsshub.png" onerror="javascript:this.classList.add('error');this.src='https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.4/image/2659360.svg';"></a><a class="title" href="/RSSBOX/"><div class="main" ff="title">RSSBOX</div><div class="sub normal cap">SMGoroのRSS订阅</div><div class="sub hover cap" style="opacity:0"> 一些好康的东西</div></a></div>
+
+<nav class="menu dis-select"><a class="nav-item active" href="/RSSBOX/">订阅</a><a class="nav-item" href="https://blog.imc.re/">博客</a><a class="nav-item" href="https://blog.imc.re/contact">联系</a><a class="nav-item" href="https://blog.imc.re/more">更多</a></nav>
+</header>
+
+
+<div class="widgets">
+
+<widget class="widget-wrapper toc single" id="data-toc"><div class="widget-header cap dis-select"><span class="name">多元融合：流媒体传输网络的全盘解法</span></div><div class="widget-body fs14"><div class="doc-tree active"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-text">网络新基建，若隐若现</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-text">降本还是网络最大痛点吗？“元数据”是新主角吗？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-text">「Unified」能解决所有关键吗？</span></a></li></ol></li></ol><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-text">延时可以是自由的</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-text">任何延时的业务，都能跑在一张网上？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-text">延时“抢跑”，怎样实现？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-text">延时vs成本，网络可以handle?</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-text">多元融合，红利释放</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-text">业务复用，就是最大的技术普惠？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-text">支持的业务多了，会打架吗？</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-text">未来的N种可能</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-text">一张传递“人类五感”的网</span></a></li><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-text">三管齐下，优先布局</span></a></li><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-text">面向未来，MediaUni将如何实现「多元融合」下的新升级？</span></a></li></ol></li></div></div></widget>
+
+
+
+<widget class="widget-wrapper search"><div class="widget-body"><div class="search-wrapper" id="search"><form class="search-form"><input type="text" class="search-input" id="search-input" data-filter="/rss/" placeholder="文章搜索"><svg t="1670596976048" class="icon search-icon" viewbox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2676" width="200" height="200"><path d="M938.2 832.6L723.8 618.1c-2.5-2.5-5.3-4.4-7.9-6.4 36.2-55.6 57.3-121.8 57.3-193.1C773.3 222.8 614.6 64 418.7 64S64 222.8 64 418.6c0 195.9 158.8 354.6 354.6 354.6 71.3 0 137.5-21.2 193.2-57.4 2 2.7 3.9 5.4 6.3 7.8L832.5 938c14.6 14.6 33.7 21.9 52.8 21.9 19.1 0 38.2-7.3 52.8-21.8 29.2-29.1 29.2-76.4 0.1-105.5M418.7 661.3C284.9 661.3 176 552.4 176 418.6 176 284.9 284.9 176 418.7 176c133.8 0 242.6 108.9 242.6 242.7 0 133.7-108.9 242.6-242.6 242.6" p-id="2677"/></svg></form><div id="search-result"></div><div class="search-no-result">没有找到内容！</div></div></div></widget>
+
+
+
+<widget class="widget-wrapper recent"><div class="widget-header cap theme dis-select"><span class="name">最近更新</span><a class="cap-action" id="rss" title="Subscribe" href="/atom.xml"><svg class="icon" viewbox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="8938"><path d="M800.966 947.251c0-404.522-320.872-732.448-716.69-732.448V62.785c477.972 0 865.44 395.987 865.44 884.466h-148.75z m-162.273 0h-148.74c0-228.98-181.628-414.598-405.678-414.598v-152.01c306.205 0 554.418 253.68 554.418 566.608z m-446.24-221.12c59.748 0 108.189 49.503 108.189 110.557 0 61.063-48.44 110.563-108.188 110.563-59.747 0-108.18-49.5-108.18-110.563 0-61.054 48.433-110.556 108.18-110.556z" p-id="8939"/></svg></a></div><div class="widget-body related-posts fs14"><a class="item title" href="/RSSBOX/rss/2c2fbeb.html"><span class="title">七つの魔剣が支配する｜七魔剑支配天下</span></a><a class="item title" href="/RSSBOX/rss/3e937bc5.html"><span class="title">百姓貴族｜百姓贵族</span></a><a class="item title" href="/RSSBOX/rss/6b839856.html"><span class="title">シュガーアップル・フェアリーテイル(第2クール)｜银砂糖师与黑妖精 第2部分</span></a><a class="item title" href="/RSSBOX/rss/57dfaaf5.html"><span class="title">Girlhood</span></a><a class="item title" href="/RSSBOX/rss/d28c33bf.html"><span class="title">Headhunter's Eyes</span></a></div></widget>
+</div>
+<footer class="footer dis-select"><div class="social-wrap"><a class="social" href="https://github.com/SMGoro" target="_blank" rel="external nofollow noopener noreferrer"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cdn.jsdelivr.net/gh/SMGCDN/photos/icon/iconfont/social-github.svg"></a><a class="social" href="https://space.bilibili.com/359079394" target="_blank" rel="external nofollow noopener noreferrer"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cdn.jsdelivr.net/gh/SMGCDN/photos/icon/iconfont/bilibili.svg"></a><a class="social" href="https://l.imc.re/zhihu" target="_blank" rel="external nofollow noopener noreferrer"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cdn.jsdelivr.net/gh/SMGCDN/photos/icon/iconfont/zhihu.svg"></a><a class="social" href="https://l.imc.re/discord" target="_blank" rel="external nofollow noopener noreferrer"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cdn.jsdelivr.net/gh/SMGCDN/photos/icon/iconfont/discord.svg"></a><a class="social" href="https://blog.imc.re/contact" target="_blank" rel="external nofollow noopener noreferrer"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cdn.jsdelivr.net/gh/SMGCDN/photos/icon/iconfont/comments.svg"></a></div></footer>
+
+    </aside>
+    <div class="l_main">
+      
+
+      
+
+
+
+<div class="bread-nav fs12"><div id="breadcrumb"><a class="cap breadcrumb" href="/RSSBOX/">主页</a><span class="sep"></span><a class="cap breadcrumb" href="/RSSBOX/">文章</a><span class="sep"></span><a class="cap breadcrumb-link" href="/RSSBOX/categories/%E5%AA%92%E4%BD%93/">媒体</a> <span class="sep"></span> <a class="cap breadcrumb-link" href="/RSSBOX/categories/%E5%AA%92%E4%BD%93/%E6%8E%98%E9%87%91/">掘金</a></div><div id="post-meta">发布于&nbsp;<time datetime="2023-07-12T02:38:47.000Z">2023-07-12</time></div></div>
+
+<article class="md-text content post">
+<h1 class="article-title"><span>多元融合：流媒体传输网络的全盘解法</span></h1>
+<div>
+<blockquote>
+<p><strong>我们在寻找「网络」的全盘解法。</strong></p>
+</blockquote>
+<p>音视频数字化在消费领域的红利俨然见顶，而产业级视频应用激活了更多场景下的业务模式。与此同时，音视频客户也从单一的业务需求，趋向于多种业务并行存在的需求。</p>
+<p>固有的网络能满足新兴的业态吗？延时与成本之间存在区间最优解吗？业务的升级切换如何不再费时费力？在成本可控下网络的稳定性怎样保障？</p>
+<p>一张多元融合的流媒体传输网络可否解决全盘之困？</p>
+<p>面向未来的流媒体传输网络，又将从何揭开其神秘面纱？</p>
+<p><em>本文由IMMENSE、「阿里云视频云」通讯服务负责人黄海宇和LiveVideoStack策划、采访而成。</em></p>
+<h1><strong>网络新基建，若隐若现</strong></h1>
+<h3><strong>降本还是网络最大痛点吗？“元数据”是新主角吗？</strong></h3>
+<p>网络基础设施升级、音视频传输技术迭代、WebRTC开源等发展，音视频业务在消费互联网领域蓬勃发展，并逐渐向产业互联网领域加速渗透。</p>
+<p>然而，行业红利期退却之后，以往隐蔽的音视频业务现象，逐渐显露。</p>
+<p>一方面， <strong>“降本”是持续热议的话题</strong>。而在音视频应用中，网络传输在IT成本中占比很高，例如，在一个典型的直播应用中，网络传输成本占<strong>总成本70%以上</strong>。于是，在降本增效的大背景下，降低网络传输成本，是行业客户和云厂商共同面临的课题。</p>
+<p>另一方面， <strong>“延时”带来更多价值和空间</strong>。从消费端的实时交互，到产业端的实时远程，对视频流的延时要求越来越高， 在云渲染、云游戏、数字虚拟场景中，涉及复杂的编码、解码、传输环节，而<strong>最复杂的瓶颈</strong>就在于<strong>传输网络的时延</strong>，但网络的构成与影响因素高度复杂，对其延时的提升也是极大挑战。</p>
+<p><strong>与此同时，新趋势的生长也带来更多挑战。</strong></p>
+<p>不久前，苹果Vision Pro在 WWDC 2023 亮相，推出其首个空间计算设备，将热度渐消的元宇宙重新拉回大众视野。</p>
+<p><img class="lazy" alt referrerpolicy="no-referrer" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/14896fe6713e42bfa1afb8eaaea54050~tplv-k3u1fbpfcp-zoom-1.image">图片来源于网络</p>
+<p><strong>对未来的想象，不再局限于头盔上的渲染视频，更涉及到云端的交互与合成。</strong> 然而，元宇宙的真正繁荣，不仅需要MR硬件终端的性能升级，更取决于流媒体传输网络的迭代演进。</p>
+<p>我们发现，当下的海量视频主要基于传统拍摄模式而生，可以预想，未来源自渲染合成的视频比例将显著增加，这一趋势势必带来海量的计算和传输需求，同样也带来计算成本和传输成本的极大考验。</p>
+<p>同时，这也意味着网络需要承载更加不可估量的数据量级，这其中，不仅有常规的音视频，更涵盖<strong>更多维度的数据传输</strong>，比如基于远程场景、云游戏下的控制信令数据、用于控制渲染视频生成的“<strong>元数据</strong>”，可以表达更复杂的立体场景信息。</p>
+<p><strong>如此来看，需要一张承载多元内容的强大网络，同时提供高性能的云边计算能力，其作为新基建才能支撑未来式的视频化业态。</strong></p>
+<h3><strong>「Unified」能解决所有关键吗？</strong></h3>
+<p>更低成本、更低延时、更多算力结合、更多维内容传输，这些无疑都是传输网络的趋势关键，而怎样的招式可以全盘解决？也许是“Uni”。</p>
+<p>Uni源于Unified，意味着“<strong>统一</strong>”。</p>
+<p>在网络上，我们正在探索落地更好的“Uni”技术、真正的“Uni”能力，创造由“Uni”带来的业务价值。</p>
+<p>阿里云视频云基于广泛的异构节点，构建了<strong>全分布式、超低延时、多业务支撑的多元融合流媒体传输网络——MediaUni</strong>。</p>
+<p>这是在我们的<strong>全球实时传输网络GRTN</strong>之上，以“大一统”的理念对网络深化设计，实现<strong>网络底座的全新升级</strong>。</p>
+<p>MediaUni打通底层资源，统一技术架构，以一张流媒体传输网络，实现音视频应用中多形态的内容传输，并满足更低成本、更低延时的多元融合业务需求。</p>
+<p><img class="lazy" alt referrerpolicy="no-referrer" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/e21ace576554410d816a59b7b0083173~tplv-k3u1fbpfcp-zoom-1.image"></p>
+<h1><strong>延时可以是自由的</strong></h1>
+<h3><strong>任何延时的业务，都能跑在一张网上？</strong></h3>
+<p>得益于底座能力和关键技术的持续突破，音视频服务已实现了从传统的点播、直播，到实时音视频的深化发展，未来，还将撬动传统行业中众多强实时、强互动场景的数字化升级。</p>
+<p>其中，“时延”首当其冲成为最需攻克的难题之一。</p>
+<p><strong>以一张网，MediaUni能够支撑全域延时的业务：</strong></p>
+<p>从普通直播（HLS/FLV）、到基于WebRTC技术的超低延时直播RTS（约1s左右延迟）、再到实时音视频传输（如直播连麦、远程监考等场景），同时，更可支持对延迟要求极高的云渲染、实时远程控制等业务，实现所有业务<strong>真正跑在一张网上</strong>。</p>
+<h3><strong>延时“抢跑”，怎样实现？</strong></h3>
+<p>从根本上看，<strong>网络的延迟源自两方面：物理的延迟与IP网络的不可靠。</strong></p>
+<p>为<strong>对抗物理的延迟</strong>，MediaUni基于全球3200+边缘下沉节点的就近分布，缩短了与用户之间的“最后一公里”，缩短数据的传输路径，以便更快感知传输网络质量的变化。</p>
+<p>通过将渲染服务部署到靠近用户的节点，阿里云视频云在双11支持<strong>淘宝直播全真虚拟互动空间“未来城”</strong> ，实现超万路并发在线的虚拟直播，并在2023央视春晚，以低延时传输云渲染技术打造了<strong>首个元宇宙庙会</strong>，实现极致的超低延时体验。</p>
+<p><img class="lazy" alt referrerpolicy="no-referrer" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/643b105c11a04a3e8cef20f45eaa22fd~tplv-k3u1fbpfcp-zoom-1.image">淘宝3D虚拟电商空间“未来城”</p>
+<p>在<strong>对抗IP网络的不可靠性</strong>上，MediaUni设计了<strong>实时感知系统</strong>，实现对节点的负载、链路的网络状况、以及业务关键信息的秒级感知，并基于感知数据，智能调整调度策略与路由策略，可以更好地分配物理资源，选择服务质量更高的物理链路。</p>
+<p>同时，通过不断迭代的<strong>QoS技术</strong>，在拥塞控制、FEC、多径传输等方向持续优化，对抗网络中的丢包、延迟与乱序，以满足更低的网络延时。</p>
+<p>目前，科学界公认的人类极限反应速度为100毫秒，一般人的反应在0.2～0.3秒间，在百米赛跑中，枪响后的0.1秒内起跑会被视为“抢跑”，而MediaUni支撑实现的云渲染场景，已<strong>突破60ms以内的端到端交互延时</strong>，可谓音视频延时的“抢跑”。</p>
+<h3><strong>延时vs成本，网络可以handle?</strong></h3>
+<p>众所周知，<strong>在网络优化到一定程度以后，延时和传输成本会成为一对矛盾</strong>。</p>
+<p>例如，在带宽允许范围内，为对抗丢包，协议栈不惜代价进行重传或增加FEC，有效降低传输的延迟，但会因此付出更高的传输成本。</p>
+<p>在行业普遍追求“快与更快”之际，低延时与低成本之间，是否有两全之法？</p>
+<p>对此，MediaUni的精要在于<strong>将降低延时的手段与增加传输成本进行量化</strong>，再根据业务的场景提供ROI最高的综合方案，<strong>将每个bit的传输价值都发挥到极致</strong>。</p>
+<p>➤ 对于普通的娱乐直播，其互动方式为弹幕，可以采取5s左右的FLV直播；</p>
+<p>➤ 对于世界杯等赛事直播，可选用延迟1s左右的低延时直播；</p>
+<p>➤ 对于电商直播，通过AB测试发现，采用延时低于1s的互动直播，能够对GMV有一定的提升。</p>
+<p><strong>由此可见，能够针对不同业务场景进行网络的精细化运营，自由选择成本可控的业务延时，才是真正的“延时自由”。</strong></p>
+<p><img class="lazy" alt referrerpolicy="no-referrer" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/c0ef4e97dc3a440ca4a1c97f200e45f4~tplv-k3u1fbpfcp-zoom-1.image"></p>
+<h1><strong>多元融合，红利释放</strong></h1>
+<h3><strong>业务复用，就是最大的技术普惠？</strong></h3>
+<p>依托于强大的底层基础设施资源，和长期积累的音视频技术能力，相比于其他赛道玩家，云厂商在网络服务中具备规模优势。</p>
+<p>此外，<strong>通过一张网络支持多元业务，“业务复用”本身将持续释放技术红利。</strong></p>
+<p>“红利”可以透过三点显现：</p>
+<p><strong>第一，业务混跑，驱动资源复用率的提高。</strong></p>
+<p>不同业务的错峰复用率会更高，从而带来<strong>更高的计算资源、网络资源复用率</strong>，如大部分会议、远程监控等业务都处于白天工作时间，这与互联网娱乐等“夜间经济”形成很好的错峰运行。</p>
+<p><strong>第二，技术复用，带来研发边际成本的降低。</strong></p>
+<p>在流媒体传输中，无论是音视频还是消息信令的传输，无论是直播还是实时通讯业务，都需要解决基于<strong>大量节点的路由问题、全局的快速信息感知问题、协议栈优化抗弱网问题</strong>。</p>
+<p>通过使用一张网络支持多元业务，可以<strong>复用这些基础技术</strong>，使得在同样的研发投入上，获取更优的技术指标。</p>
+<p><strong>第三，云产品的使用更便捷、更高效。</strong></p>
+<p>由于多业务的支撑，用户可以更方便地升级服务或者组合出新的场景化方案。</p>
+<p>例如，通过阿里云控制台，用户<strong>只需“一键升级”</strong> ，就可以将延时5s左右的普通直播，切换成延时仅为1s的超低延时直播RTS，或者延时在400ms以内的互动直播。</p>
+<p><strong>从资源利用、研发成本，再到产品使用，一张多元融合的网络实现了最极致的红利释放。</strong></p>
+<p><img class="lazy" alt referrerpolicy="no-referrer" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/4eece25a57404cd0acc6a7b617602f58~tplv-k3u1fbpfcp-zoom-1.image"></p>
+<h3><strong>支持的业务多了，会打架吗？</strong></h3>
+<p>在驾驭“Uni”之下的多元业务时，MediaUni不可避免面临着许多技术挑战。</p>
+<p>其中，<strong>最大的挑战，来自于多业务复用之后对工程能力的要求</strong>。</p>
+<p>一张网络支持多个业务以后，需要解决业务之间相互影响的问题，解决业务功能快速迭代的问题。</p>
+<p>而MediaUni，通过良好的<strong>模块化设计</strong>来进行<strong>业务的隔离</strong>，减少不同业务的相互影响；同时，MediaUni构建了<strong>可编程能力</strong>，对于一些简单的业务需求，可以通过运行时可编程来解决，从而满足业务功能的快速迭代。</p>
+<p>再者，多元业务复用的<strong>另一个技术挑战，来源于资源的复用</strong>，即不同业务对资源消耗的瓶颈可能不同，例如直播的瓶颈在于带宽，音视频通讯中复杂的QoS策略可能带来CPU的瓶颈，这时候需要<strong>更智能的调度系统</strong>来对不同业务进行编排。</p>
+<p><img class="lazy" alt referrerpolicy="no-referrer" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/aea73f9565f6498d8a5fffb41f4768a7~tplv-k3u1fbpfcp-zoom-1.image"></p>
+<h1><strong>未来的N种可能</strong></h1>
+<h3><strong>一张传递“人类五感”的网</strong></h3>
+<p>在过去的几十年中，通过一代代技术人的努力，人类的<strong>视觉和听觉</strong>已经得到了较好的数字化呈现，实现了如今低延时、高可靠的音视频体验。然而，人类的感觉除了视觉与听觉之外，还包括嗅觉、味觉、触觉等。</p>
+<p>可预见的是，沉浸式XR作为面向未来的交互形态，将需要同时对<strong>嗅觉、味觉、触觉</strong>等感官信息进行完全模拟和实时交互，从而实现用户体验扩展与人机互动，给用户创造身临其境、感同身受的逼真体验。</p>
+<p><strong>面向未来的流媒体传输网络，将实现更多维数据的高效传输。</strong></p>
+<p>未来，网络将支撑多种感觉（如味觉、嗅觉、触觉甚至情感等）的互动通信，<strong>人类多维感知的数据化、交互协作，也将在同一张网内进行</strong>。</p>
+<p>如同游戏手柄上的震动一般，刺激着一个复刻真实世界的真正元宇宙诞生。</p>
+<p><img class="lazy" alt referrerpolicy="no-referrer" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/8a9518a851204d99828bcd7f3bdf949b~tplv-k3u1fbpfcp-zoom-1.image"></p>
+<h3><strong>三管齐下，优先布局</strong></h3>
+<p>为了支持<strong>未来多感官的音视频应用</strong>，流媒体传输网络将具备<strong>毫秒级的延时、与计算的紧密结合、元数据的传输能力</strong>三大关键特征，而MediaUni多元融合流媒体传输网络正在这三个方面化深度演进。</p>
+<p><strong>➢ 高质量的毫秒级延时</strong></p>
+<p>在音视频全链路延时中，网络传输延时，是其中最困难、优化空间最大的部分。</p>
+<p>MediaUni通过大量的节点覆盖和极具媒体特性感知的QoS优化，在云渲染场景已达60ms以内的端到端延时，并持续探索更低延时的传输能力，未来将在<strong>20-100ms</strong>之间寻求延时的极致与质量的平衡。</p>
+<p>➢ <strong>收放自如的算网</strong></p>
+<p>网络天然就靠近用户，我们希望通过网络连接分布式资源，有效促进<strong>算力资源的按需“流动”</strong> ，弥补终端算力的不足。</p>
+<p>利用全球广域的分布式计算能力，MediaUni正在实现计算与传输的统一调度，已将部分实时媒体处理的业务部署在传输网络上，并支持实时启动处理任务，在降低用户延时的同时，有效优化媒体的网络传输成本。</p>
+<p><strong>➢ 元数据传输</strong></p>
+<p>元数据（Metadata），越来越成为音视频产品的一部分，结合元数据自定义音视频功能，可以更好满足场景的个性化需求。<strong>尤其在通向“人类五感”传输的网络世界里，多维感官的数据化、精准化，更需要元数据的支撑。</strong></p>
+<p>在音视频传输之外，MediaUni也支持更多维度的数据内容，例如消息信令的传输，进而可以扩展到<strong>更丰富的IM、多场景远程控制、元宇宙</strong>等业务。未来，随着多感官网络通道的真正打开，MediaUni将发挥更大的能量。</p>
+<p><img class="lazy" alt referrerpolicy="no-referrer" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/30d48c16e0454818bb195dfc8ff26f1c~tplv-k3u1fbpfcp-zoom-1.image"></p>
+<h3><strong>面向未来，MediaUni将如何实现「多元融合」下的新升级？</strong></h3>
+<p>敬请期待7月28日</p>
+<p>LiveVideoStackCon2023上海站</p>
+<p><strong>阿里云视频云专场</strong></p>
+<p>阿里云智能高级技术专家带来演讲</p>
+<p><strong>《MediaUni：面向未来的流媒体传输网络设计与实践》</strong></p>
+<p>一同走进“多元融合”的网络世界！</p>
+<p><img class="lazy" alt="讲师海报-无二维码.png" referrerpolicy="no-referrer" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://p9-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/193f7f3b6efb4597b8c4b739243944f7~tplv-k3u1fbpfcp-watermark.image?"></p>
+
+</div>
+
+<div>
+<div class="tag-plugin link dis-select"><a class="link-card plain" title="多元融合：流媒体传输网络的全盘解法" href="https://juejin.cn/post/7254572372136837157" target="_blank" rel="external nofollow noopener noreferrer" cardlink autofill="icon"><div class="left"><span class="title">多元融合：流媒体传输网络的全盘解法</span><span class="cap link fs12">https://juejin.cn/post/7254572372136837157</span></div><div class="right"><div class="lazy img" data-bg="https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.4/link/8f277b4ee0ecd.svg"></div></div></a></div>
+</div>
+
+
+
+
+<div class="article-footer reveal fs14"><section id="license"><div class="header"><span>许可协议</span></div><div class="body"><p>本文采用 <a target="_blank" rel="external nofollow noopener noreferrer" href="https://github.com/me-shaon/GLWTPL/blob/master/translations/LICENSE_zh-CN">GLWT（Good Luck With That，祝你好运）公共许可证</a> 许可协议，转载请注明出处。</p>
+</div></section><section id="share"><div class="header"><span>分享文章</span></div><div class="body"><div class="link"><input class="copy-area" readonly="true" id="copy-link" value="https://blog.imc.re/RSSBOX/rss/e6ea9c6f.html"></div><div class="social-wrap dis-select"><a class="social share-item wechat" onclick="util.toggle(&quot;qrcode-wechat&quot)"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.4/social/b32ef3da1162a.svg"></a><a class="social share-item weibo" target="_blank" rel="external nofollow noopener noreferrer" href="https://service.weibo.com/share/share.php?url=https://blog.imc.re/RSSBOX/rss/e6ea9c6f.html&title=多元融合：流媒体传输网络的全盘解法 - RSSBOX&pics=https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/14896fe6713e42bfa1afb8eaaea54050~tplv-k3u1fbpfcp-zoom-1.image&summary=
+
+我们在寻找「网络」的全盘解法。
+
+音视频数字化在消费领域的红利俨然见顶，而产业级视频应用激活了更多场景下的业务模式。与此同时，音视频客户也从单一的业务需求，趋向于多种业务并行存在的需求。
+固有的网络能满足新兴的业态吗？延时与成本之..."><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.4/social/80c07e4dbb303.svg"></a><a class="social share-item email" href="mailto:?subject=多元融合：流媒体传输网络的全盘解法 - RSSBOX&amp;body=https://blog.imc.re/RSSBOX/rss/e6ea9c6f.html"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.4/social/a1b00e20f425d.svg"></a><a class="social share-item link" onclick="util.copy(&quot;copy-link&quot;, &quot;复制成功&quot;)"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.4/social/8411ed322ced6.svg"></a></div><div class="qrcode" id="qrcode-wechat" style="visibility:hidden;height:0"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://api.qrserver.com/v1/create-qr-code/?size=256x256&data=https://blog.imc.re/RSSBOX/rss/e6ea9c6f.html"></div></div></section></div>
+
+</article>
+
+<div class="related-wrap reveal" id="read-next"><section class="body"><div class="item" id="prev"><div class="note">较新文章</div><a href="/RSSBOX/rss/996a762a.html">深度解析人脸识别绕过问题及解决方案</a></div><div class="item" id="next"><div class="note">较早文章</div><a href="/RSSBOX/rss/d0f75db5.html">我的2023年上半年总结</a></div></section></div>
+
+
+<div class="related-wrap reveal" id="related-posts">
+    <section class="header">
+      <div class="title cap theme">您可能感兴趣的文章</div>
+    </section>
+    <section class="body">
+    <div class="related-posts"><a class="item" href="/RSSBOX/rss/53c83605.html" title="2023年10款超好用的Mac软件推荐（一）"><span class="title">2023年10款超好用的Mac软件推荐（一）</span></a><a class="item" href="/RSSBOX/rss/e520a442.html" title="Figma Dev Mode 初试"><span class="title">Figma Dev Mode 初试</span></a><a class="item" href="/RSSBOX/rss/77487785.html" title="Linux 和 Dockerfile 中配置环境变量的方式"><span class="title">Linux 和 Dockerfile 中配置环境变量的方式</span></a><a class="item" href="/RSSBOX/rss/9f3a1fb8.html" title="三层交换机的配置"><span class="title">三层交换机的配置</span></a><a class="item" href="/RSSBOX/rss/f2cb5983.html" title="主流开源分析引擎梳理，看看你最中意谁？| StoneDB数据库观察"><span class="title">主流开源分析引擎梳理，看看你最中意谁？| StoneDB数据库观察</span></a></div></section></div>
+
+
+
+
+
+      
+<footer class="page-footer reveal fs12"><hr><div class="sitemap"><div class="sitemap-group"><span class="fs14">文章</span><a href="/RSSBOX/categories">分类</a><a href="/RSSBOX/tags">标签</a><a href="/RSSBOX/archives">归档</a></div><div class="sitemap-group"><span class="fs14">更多</span><a href="https://blog.imc.re/">博客</a><a target="_blank" rel="noopener" href="https://imc.re/">IMC.RE</a></div></div><div class="text"><p><a href="/">@RSSBOX</a> 2023 author by <a target="_blank" rel="external nofollow noopener noreferrer" href="https://github.com/MHG-LAB/RSSBOX">MHuiG</a> powered by SummerGoro。<br><br>本博客所有文章除特别声明外，均采用 <a target="_blank" rel="external nofollow noopener noreferrer" href="https://github.com/me-shaon/GLWTPL/blob/master/translations/LICENSE_zh-CN">GLWT（Good Luck With That，祝你好运）公共许可证</a> 许可协议，转载请注明出处。</p>
+</div></footer>
+
+      <div class="float-panel mobile-only blur" style="display:none">
+  <button type="button" class="sidebar-toggle mobile" onclick="sidebar.toggle()">
+    <svg class="icon" style="width: 1em; height: 1em;vertical-align: middle;fill: currentColor;overflow: hidden;" viewbox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="15301"><path d="M566.407 808.3c26.9-0.1 49.3-20.8 51.6-47.6-1.9-27.7-23.9-49.7-51.6-51.6h-412.6c-28.2-1.4-52.6 19.5-55.5 47.6 2.3 26.8 24.6 47.5 51.6 47.6h416.5v4z m309.3-249.9c26.9-0.1 49.3-20.8 51.6-47.6-2.2-26.8-24.6-47.5-51.6-47.6h-721.9c-27.7-2.8-52.5 17.4-55.3 45.1-0.1 0.8-0.1 1.7-0.2 2.5 0.9 27.2 23.6 48.5 50.7 47.6H875.707z m-103.1-245.9c26.9-0.1 49.3-20.8 51.6-47.6-0.4-28.3-23.2-51.1-51.5-51.6h-618.9c-29.5-1.1-54.3 21.9-55.5 51.4v0.2c1.4 27.8 25.2 49.2 53 47.8 0.8 0 1.7-0.1 2.5-0.2h618.8z" p-id="15302"/><path d="M566.407 808.3c26.9-0.1 49.3-20.8 51.6-47.6-1.9-27.7-23.9-49.7-51.6-51.6h-412.6c-28.2-1.4-52.6 19.5-55.5 47.6 1.9 27.7 23.9 49.7 51.6 51.6h416.5z m309.3-249.9c26.9-0.1 49.3-20.8 51.6-47.6-2.2-26.8-24.6-47.5-51.6-47.6h-721.9c-27.7-2.8-52.5 17.4-55.3 45.1-0.1 0.8-0.1 1.7-0.2 2.5 0.9 27.2 23.6 48.5 50.7 47.6H875.707z m-103.1-245.9c26.9-0.1 49.3-20.8 51.6-47.6-0.4-28.3-23.2-51.1-51.5-51.6h-618.9c-29.5-1.1-54.3 21.9-55.5 51.4v0.2c1.4 27.8 25.2 49.2 53 47.8 0.8 0 1.7-0.1 2.5-0.2h618.8z" p-id="15303"/></svg>
+  </button>
+</div>
+
+    </div>
+  </div>
+  <div class="scripts">
+    <script type="text/javascript">
+  const stellar = {
+    // 懒加载 css https://github.com/filamentgroup/loadCSS
+    loadCSS: (href, before, media, attributes) => {
+      var doc = window.document;
+      var ss = doc.createElement("link");
+      var ref;
+      if (before) {
+        ref = before;
+      } else {
+        var refs = (doc.body || doc.getElementsByTagName("head")[0]).childNodes;
+        ref = refs[refs.length - 1];
+      }
+      var sheets = doc.styleSheets;
+      if (attributes) {
+        for (var attributeName in attributes) {
+          if (attributes.hasOwnProperty(attributeName)) {
+            ss.setAttribute(attributeName, attributes[attributeName]);
+          }
+        }
+      }
+      ss.rel = "stylesheet";
+      ss.href = href;
+      ss.media = "only x";
+      function ready(cb) {
+        if (doc.body) {
+          return cb();
+        }
+        setTimeout(function () {
+          ready(cb);
+        });
+      }
+      ready(function () {
+        ref.parentNode.insertBefore(ss, before ? ref : ref.nextSibling);
+      });
+      var onloadcssdefined = function (cb) {
+        var resolvedHref = ss.href;
+        var i = sheets.length;
+        while (i--) {
+          if (sheets[i].href === resolvedHref) {
+            return cb();
+          }
+        }
+        setTimeout(function () {
+          onloadcssdefined(cb);
+        });
+      };
+      function loadCB() {
+        if (ss.addEventListener) {
+          ss.removeEventListener("load", loadCB);
+        }
+        ss.media = media || "all";
+      }
+      if (ss.addEventListener) {
+        ss.addEventListener("load", loadCB);
+      }
+      ss.onloadcssdefined = onloadcssdefined;
+      onloadcssdefined(loadCB);
+      return ss;
+    },
+
+    // 从 butterfly 和 volantis 获得灵感
+    loadScript: (src, opt) => new Promise((resolve, reject) => {
+      var script = document.createElement('script');
+      if (src.startsWith('/')){
+        src = stellar.config.root + src.substring(1);
+      }
+      script.src = src;
+      if (opt) {
+        for (let key of Object.keys(opt)) {
+          script[key] = opt[key]
+        }
+      } else {
+        // 默认异步，如果需要同步，第二个参数传入 {} 即可
+        script.async = true
+      }
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    }),
+
+    // https://github.com/jerryc127/hexo-theme-butterfly
+    jQuery: (fn) => {
+      if (typeof jQuery === 'undefined') {
+        stellar.loadScript(stellar.plugins.jQuery).then(fn)
+      } else {
+        fn()
+      }
+    }
+  };
+  stellar.version = '1.19.0';
+  stellar.github = 'https://github.com/xaoxuu/hexo-theme-stellar/tree/1.19.0';
+  stellar.config = {
+    date_suffix: {
+      just: '刚刚',
+      min: '分钟前',
+      hour: '小时前',
+      day: '天前',
+      month: '个月前',
+    },
+    root : '/RSSBOX/',
+  };
+
+  // required plugins (only load if needs)
+  stellar.plugins = {
+    jQuery: 'https://gcore.jsdelivr.net/npm/jquery@3.6.2/dist/jquery.min.js'
+  };
+
+  if ('local_search') {
+    stellar.search = {};
+    stellar.search.service = 'local_search';
+    if (stellar.search.service == 'local_search') {
+      let service_obj = Object.assign({}, {"field":"all","path":"/search.json","content":true,"codeblock":true,"sort":"-date"});
+      stellar.search[stellar.search.service] = service_obj;
+    }
+  }
+
+  // stellar js
+  stellar.plugins.stellar = Object.assign({"sites":"/js/plugins/sites.js","friends":"/js/plugins/friends.js","ghinfo":"/js/plugins/ghinfo.js","timeline":"/js/plugins/timeline.js","linkcard":"/js/plugins/linkcard.js","fcircle":"/js/plugins/fcircle.js","weibo":"/js/plugins/weibo.js"});
+
+  stellar.plugins.marked = Object.assign("https://cdn.bootcdn.net/ajax/libs/marked/4.0.18/marked.min.js");
+  // optional plugins
+  if ('true' == 'true') {
+    stellar.plugins.lazyload = Object.assign({"enable":true,"js":"https://gcore.jsdelivr.net/npm/vanilla-lazyload@17.8.3/dist/lazyload.min.js","transition":"blur"});
+  }
+  if ('true' == 'true') {
+    stellar.plugins.swiper = Object.assign({"enable":true,"css":"https://unpkg.com/swiper@8.4.5/swiper-bundle.min.css","js":"https://unpkg.com/swiper@8.4.5/swiper-bundle.min.js"});
+  }
+  if ('' == 'true') {
+    stellar.plugins.scrollreveal = Object.assign({"enable":null,"js":"https://gcore.jsdelivr.net/npm/scrollreveal@4.0.9/dist/scrollreveal.min.js","distance":"8px","duration":500,"interval":100,"scale":1});
+  }
+  if ('true' == 'true') {
+    stellar.plugins.preload = Object.assign({"enable":true,"service":"flying_pages","instant_page":"https://gcore.jsdelivr.net/gh/volantis-x/cdn-volantis@4.1.2/js/instant_page.js","flying_pages":"https://gcore.jsdelivr.net/gh/gijo-varghese/flying-pages@2.1.2/flying-pages.min.js"});
+  }
+  if ('true' == 'true') {
+    stellar.plugins.fancybox = Object.assign({"enable":true,"js":"https://gcore.jsdelivr.net/npm/@fancyapps/ui@4.0/dist/fancybox.umd.js","css":"https://gcore.jsdelivr.net/npm/@fancyapps/ui@4.0/dist/fancybox.css","selector":".swiper-slide img"});
+  }
+  if ('false' == 'true') {
+    stellar.plugins.heti = Object.assign({"enable":false,"css":"https://unpkg.com/heti@0.9.2/umd/heti.min.css","js":"https://unpkg.com/heti@0.9.2/umd/heti-addon.min.js"});
+  }
+  if ('true' == 'true') {
+    stellar.plugins.copycode = Object.assign({"enable":true,"js":"/js/plugins/copycode.js","default_text":"Copy","success_text":"Copied"});
+  }
+</script>
+
+<!-- required -->
+
+  
+<script src="/RSSBOX/js/main.js" async></script>
+
+
+
+<!-- optional -->
+
+  <script>
+  function loadJS() {
+    const els = document.querySelectorAll("#comments #giscus");
+    if (els.length === 0) return;
+    els.forEach((el, i) => {
+      try {
+        el.innerHTML = '';
+      } catch (error) {
+        console.log(error);
+      }
+      var script = document.createElement('script');
+      script.src = 'https://giscus.app/client.js';
+      script.async = true;
+      for (let key of Object.keys(el.attributes)) {
+        let attr = el.attributes[key];
+        if (['class', 'id'].includes(attr.name) === false) {
+          script.setAttribute(attr.name, attr.value);
+        }
+      }
+      el.appendChild(script);
+    });
+  }
+  window.addEventListener('DOMContentLoaded', (event) => {
+    loadJS();
+  });
+</script>
+
+
+
+
+<!-- inject -->
+
+
+  </div>
+</body>
+</html>

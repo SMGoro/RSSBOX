@@ -1,0 +1,479 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+  <meta name="generator" content="Hexo 6.3.0">
+  <meta name="hexo-theme" content="https://github.com/xaoxuu/hexo-theme-stellar/tree/1.19.0">
+  <meta charset="utf-8">
+  
+
+  <meta http-equiv="x-dns-prefetch-control" content="on">
+  <link rel="dns-prefetch" href="https://gcore.jsdelivr.net">
+  <link rel="preconnect" href="https://gcore.jsdelivr.net" crossorigin>
+  <link rel="dns-prefetch" href="//unpkg.com">
+
+  <meta name="renderer" content="webkit">
+  <meta name="force-rendering" content="webkit">
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+  <meta name="HandheldFriendly" content="True">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="theme-color" content="#f8f8f8">
+  
+  <title>Moving From a Product to a Service Mindset - RSSBOX</title>
+
+  
+    <meta name="description" content="Throughout the last decade, cloud computing has disrupted the technology industry and beyond. It has opened up new ways for engineering teams to build solutions and work with end customers. Our engin">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Moving From a Product to a Service Mindset">
+<meta property="og:url" content="https://blog.imc.re/RSSBOX/rss/783da746.html">
+<meta property="og:site_name" content="RSSBOX">
+<meta property="og:description" content="Throughout the last decade, cloud computing has disrupted the technology industry and beyond. It has opened up new ways for engineering teams to build solutions and work with end customers. Our engin">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2023-07-13T05:44:24.000Z">
+<meta property="article:modified_time" content="2023-07-13T05:44:24.000Z">
+<meta property="article:author" content="SMGoro">
+<meta property="article:tag" content="Blogs">
+<meta property="article:tag" content="Github">
+<meta name="twitter:card" content="summary_large_image">
+  
+  
+  
+  <meta name="keywords" content="Blogs,Github">
+
+  <!-- feed -->
+  
+    <link rel="alternate" href="/RSSBOX/atom.xml" title="RSSBOX" type="application/atom+xml">
+  
+
+  
+    
+<link rel="stylesheet" href="/RSSBOX/css/main.css">
+
+  
+
+  
+
+  
+
+  
+    <link rel="stylesheet" href="https://gcore.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.css" integrity="sha384-vKruj+a13U8yHIkAyGgK1J3ArTLzrFGBbBc0tDp4ad/EyewESeXE/Iv67Aj8gKZ0" crossorigin="anonymous">
+    <script defer src="https://gcore.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.js" integrity="sha384-PwRUT/YqbnEjkZO0zZxNqcxACrXe+j766U2amXcgMg5457rve2Y7I6ZJSm2A0mS4" crossorigin="anonymous"></script>
+    <script defer src="https://gcore.jsdelivr.net/npm/katex@0.16.4/dist/contrib/auto-render.min.js" integrity="sha384-+VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4+/RRE05" crossorigin="anonymous" onload="renderMathInElement(document.body);"></script>
+  
+
+
+  
+
+<!--百度统计-->
+<script>
+  var _hmt = _hmt || [];
+  (function() {
+    var hm = document.createElement("script");
+    hm.src = "https://hm.baidu.com/hm.js?f42afe3e5b76d22c8b1a8060171c7184";
+    var s = document.getElementsByTagName("script")[0]; 
+    s.parentNode.insertBefore(hm, s);
+  })();
+</script>  
+  <!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-V2NSKYGXNG"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-V2NSKYGXNG');
+</script>
+<!--Google Adsense-->
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4773172018528901" crossorigin="anonymous"></script>
+</head>
+
+<body>
+  
+
+
+
+
+  <div class="l_body" id="start">
+    <aside class="l_left" layout="post">
+    
+
+  
+
+<header class="header"><div class="logo-wrap"><a class="avatar" href="/RSSBOX/archives"><div class="bg" style="opacity:0;background-image:url(https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.4/avatar/round/rainbow64@3x.webp);"></div><img no-lazy class="avatar" src="https://cdn.jsdelivr.net/gh/SMGCDN/photos/icon/rsshub.png" onerror="javascript:this.classList.add('error');this.src='https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.4/image/2659360.svg';"></a><a class="title" href="/RSSBOX/"><div class="main" ff="title">RSSBOX</div><div class="sub normal cap">SMGoroのRSS订阅</div><div class="sub hover cap" style="opacity:0"> 一些好康的东西</div></a></div>
+
+<nav class="menu dis-select"><a class="nav-item active" href="/RSSBOX/">订阅</a><a class="nav-item" href="https://blog.imc.re/">博客</a><a class="nav-item" href="https://blog.imc.re/contact">联系</a><a class="nav-item" href="https://blog.imc.re/more">更多</a></nav>
+</header>
+
+
+<div class="widgets">
+
+<widget class="widget-wrapper toc single" id="data-toc"><div class="widget-header cap dis-select"><span class="name">Moving From a Product to a Service Mindset</span></div><div class="widget-body fs14"><div class="doc-tree active"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#the-role-of-a-developer-has-evolved"><span class="toc-text">The role of a developer has evolved</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#navigating-the-change-challenges-and-strategies"><span class="toc-text">Navigating the change: challenges and strategies</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#shipping-more-frequently-safely"><span class="toc-text">Shipping more frequently, safely</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#bring-quality-into-everything-that-you-do"><span class="toc-text">Bring quality into everything that you do</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#customer-focused-development-not-product-focused"><span class="toc-text">Customer-focused development, not product-focused</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#continuous-learning-and-improvement"><span class="toc-text">Continuous learning and improvement</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#from-strategies-to-action"><span class="toc-text">From strategies to action</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#implement-ci-cd"><span class="toc-text">Implement CI&#x2F;CD</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#everything-as-code"><span class="toc-text">‘Everything’ as code</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#promote-a-culture-of-innovation-collaboration-and-learning"><span class="toc-text">Promote a culture of innovation, collaboration, and learning</span></a></li></ol></li></ol><li class="toc-item toc-level-1"><a class="toc-link" href="#conclusion"><span class="toc-text">Conclusion</span></a></li></div></div></widget>
+
+
+
+<widget class="widget-wrapper search"><div class="widget-body"><div class="search-wrapper" id="search"><form class="search-form"><input type="text" class="search-input" id="search-input" data-filter="/rss/" placeholder="文章搜索"><svg t="1670596976048" class="icon search-icon" viewbox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2676" width="200" height="200"><path d="M938.2 832.6L723.8 618.1c-2.5-2.5-5.3-4.4-7.9-6.4 36.2-55.6 57.3-121.8 57.3-193.1C773.3 222.8 614.6 64 418.7 64S64 222.8 64 418.6c0 195.9 158.8 354.6 354.6 354.6 71.3 0 137.5-21.2 193.2-57.4 2 2.7 3.9 5.4 6.3 7.8L832.5 938c14.6 14.6 33.7 21.9 52.8 21.9 19.1 0 38.2-7.3 52.8-21.8 29.2-29.1 29.2-76.4 0.1-105.5M418.7 661.3C284.9 661.3 176 552.4 176 418.6 176 284.9 284.9 176 418.7 176c133.8 0 242.6 108.9 242.6 242.7 0 133.7-108.9 242.6-242.6 242.6" p-id="2677"/></svg></form><div id="search-result"></div><div class="search-no-result">没有找到内容！</div></div></div></widget>
+
+
+
+<widget class="widget-wrapper recent"><div class="widget-header cap theme dis-select"><span class="name">最近更新</span><a class="cap-action" id="rss" title="Subscribe" href="/atom.xml"><svg class="icon" viewbox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="8938"><path d="M800.966 947.251c0-404.522-320.872-732.448-716.69-732.448V62.785c477.972 0 865.44 395.987 865.44 884.466h-148.75z m-162.273 0h-148.74c0-228.98-181.628-414.598-405.678-414.598v-152.01c306.205 0 554.418 253.68 554.418 566.608z m-446.24-221.12c59.748 0 108.189 49.503 108.189 110.557 0 61.063-48.44 110.563-108.188 110.563-59.747 0-108.18-49.5-108.18-110.563 0-61.054 48.433-110.556 108.18-110.556z" p-id="8939"/></svg></a></div><div class="widget-body related-posts fs14"><a class="item title" href="/RSSBOX/rss/2c2fbeb.html"><span class="title">七つの魔剣が支配する｜七魔剑支配天下</span></a><a class="item title" href="/RSSBOX/rss/3e937bc5.html"><span class="title">百姓貴族｜百姓贵族</span></a><a class="item title" href="/RSSBOX/rss/6b839856.html"><span class="title">シュガーアップル・フェアリーテイル(第2クール)｜银砂糖师与黑妖精 第2部分</span></a><a class="item title" href="/RSSBOX/rss/57dfaaf5.html"><span class="title">Girlhood</span></a><a class="item title" href="/RSSBOX/rss/d28c33bf.html"><span class="title">Headhunter's Eyes</span></a></div></widget>
+</div>
+<footer class="footer dis-select"><div class="social-wrap"><a class="social" href="https://github.com/SMGoro" target="_blank" rel="external nofollow noopener noreferrer"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cdn.jsdelivr.net/gh/SMGCDN/photos/icon/iconfont/social-github.svg"></a><a class="social" href="https://space.bilibili.com/359079394" target="_blank" rel="external nofollow noopener noreferrer"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cdn.jsdelivr.net/gh/SMGCDN/photos/icon/iconfont/bilibili.svg"></a><a class="social" href="https://l.imc.re/zhihu" target="_blank" rel="external nofollow noopener noreferrer"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cdn.jsdelivr.net/gh/SMGCDN/photos/icon/iconfont/zhihu.svg"></a><a class="social" href="https://l.imc.re/discord" target="_blank" rel="external nofollow noopener noreferrer"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cdn.jsdelivr.net/gh/SMGCDN/photos/icon/iconfont/discord.svg"></a><a class="social" href="https://blog.imc.re/contact" target="_blank" rel="external nofollow noopener noreferrer"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cdn.jsdelivr.net/gh/SMGCDN/photos/icon/iconfont/comments.svg"></a></div></footer>
+
+    </aside>
+    <div class="l_main">
+      
+
+      
+
+
+
+<div class="bread-nav fs12"><div id="breadcrumb"><a class="cap breadcrumb" href="/RSSBOX/">主页</a><span class="sep"></span><a class="cap breadcrumb" href="/RSSBOX/">文章</a><span class="sep"></span><a class="cap breadcrumb-link" href="/RSSBOX/categories/blogs/">Blogs</a> <span class="sep"></span> <a class="cap breadcrumb-link" href="/RSSBOX/categories/blogs/github/">Github</a></div><div id="post-meta">发布于&nbsp;<time datetime="2023-07-13T05:44:24.000Z">2023-07-13</time></div></div>
+
+<article class="md-text content post">
+<h1 class="article-title"><span>Moving From a Product to a Service Mindset</span></h1>
+<div>
+<p>Throughout the last decade, cloud computing has disrupted the technology industry and beyond. It has opened up new ways for engineering teams to build solutions and work with end customers. Our engineering teams now have access to highly scalable infrastructure, the ability to rapidly deploy across the globe and, in most cases, the ability to pay for what we use rather than high upfront costs.</p>
+<p>But this change goes beyond technology implementation and touches how we work as software engineering teams. In some cases, it has caused us to adopt new internal processes, work more iteratively with our customers and ultimately, think in a different mindset. As an industry, we’re transitioning away from shipping products to shipping services.</p>
+<p>In this blog, we explore how this impacts software engineering teams and end users and how you can set yourself up for success on your service-led journey.</p>
+<h2 id="the-role-of-a-developer-has-evolved">The role of a developer has evolved<a aria-label="The role of a developer has evolved" class="heading-link pl-2 text-italic text-bold" href="#the-role-of-a-developer-has-evolved"></a></h2>
+<p>The role of a developer has drastically changed, whether you’re comparing that over the last 10, 20, 30 years or beyond—most recently, with the disruption of AI and Large Language Models (LLMs), cloud computing, the internet, mainframes, graphical user interfaces, and more. Developers have been evolving and refining their development practices throughout these evolutions to keep up to date with the latest technologies and paradigms.</p>
+<p>Diving into some of these evolutions further:</p>
+<ul>
+<li aria-level="1"><strong>Working with multiple programming languages and frameworks.</strong>With cloud computing and microservices, individual engineering teams are empowered to choose the most appropriate programming language, framework and platform for their needs.</li>
+<li aria-level="1"><strong>Infrastructure-as-code (IaC). </strong>Cloud has provided APIs access to manage and configure the underlying infrastructure that our teams build upon. Scaling infrastructure to deal with unexpected spikes or spinning up a deployment stamp in another region has never been easier.</li>
+<li aria-level="1"><strong>Increased consumer expectations.</strong> Imagine if your favorite shopping app was unavailable. What would you do? You’d probably complete your purchase elsewhere, and may even switch loyalty. Those expectations translate into enhanced engineering requirements, such as Service Level Agreements (SLAs), Recovery Time/Point Objectives (RTOs/RPOs), fast page loads and more, which add additional engineering complexity and pressure for our teams.</li>
+</ul>
+<p>Throughout these evolutions, there is a subtle underlying expectation that I haven’t explicitly called out. The lines between development, testing, operations and similar begin to blur. This isn’t surprising, as this is one of the critical premises of a DevOps cultural transformation, removing silos, and focusing on delivering value for your customers.</p>
+<p>This means that many of our engineers are likely cross-skilling and learning areas outside their areas of expertise. Developers are learning more about infrastructure as code and networking concepts. Operations teams are learning more about the applications and design patterns being adopted. This is before we even consider platforms like Kubernetes, where the responsibilities are further intertwined.</p>
+<p>This is different to several years ago, where software engineering teams would ship approved application versions to users on discs (take your choice of CD or floppy disk). Product teams would prioritize the most critical features, while customer feature requests may have to wait for a later product release, months, or even years later. The cadence and pace of releases were also slower compared to now.</p>
+<p>One example is Microsoft’s transition from Office as a boxed product to Office 365. This has also translated to subscription-based payments and customer-focused models, where updates are shipped frequently and quality is essential in continuously delighting customers, and delivering value in the platform.</p>
+<p>But this change doesn’t happen overnight and is a journey. The DevOps transformation you’ve likely already embarked on is a vital part of that. Let’s identify some of the common challenges and strategies to overcome them.</p>
+<h2 id="navigating-the-change-challenges-and-strategies">Navigating the change: challenges and strategies<a aria-label="Navigating the change: challenges and strategies" class="heading-link pl-2 text-italic text-bold" href="#navigating-the-change-challenges-and-strategies"></a></h2>
+<p>We’ve covered some of those strategies and challenges in our introduction, so let’s examine them more explicitly.</p>
+<h3 id="shipping-more-frequently-safely">Shipping more frequently, safely<a aria-label="Shipping more frequently, safely" class="heading-link pl-2 text-italic text-bold" href="#shipping-more-frequently-safely"></a></h3>
+<p>One of the promises of DevOps is to break down barriers across teams. This leads to a mindset where the engineering team thinks about the application holistically rather than application versus infrastructure. This subtle change already shifts the perspective away from product development. The team now takes end-to-end accountability for the build, testing and release to customers, shifting the focus to the customer’s experience rather than the internal friction and product development viewpoint.</p>
+<p>Automation is commonly adopted to enable this change, particularly in <strong>Continuous Integration (CI)</strong> and <strong>Continuous Delivery (CD).</strong></p>
+<p>CI allows you to regularly check that the code compiles successfully and that the project passes some tests.</p>
+<p style="padding-left: 40px;"><em>Have you started writing code, only to find that it does not compile? Or, perhaps you’ve written a new method, but found other parts of the codebase are not passing their tests?</em></p>
+<p>Building a robust CI process helps you gain confidence in the quality of the software that you’re creating. CD then allows you to automate the release of that application to your target environments, and progress those towards production.</p>
+<p style="padding-left: 40px;"><em>Have you ever accidentally executed a script against a production environment intended for dev? How about manually publishing a new release, to find that you have incorrectly configured the environment? Or, attempting to diagnose why the application will not deploy to your environment after following your internally documented steps?</em></p>
+<p>CD allows you to remove the overhead that can slow down a release of the software to your users. Most importantly, the potential for error-prone human intervention is reduced, and a consistent release process enables more releases.</p>
+<p>As organizations gain confidence in their processes, they may begin shipping directly to production. For example, an engineering team might ship versions of their product to the engineering organization and use that in their day-to-day work. Critically, if the application has flaws, it will impact the engineering team’s productivity. Therefore, standards need to be followed, and a level of quality needs to be baked into the process.</p>
+<h3 id="bring-quality-into-everything-that-you-do">Bring quality into everything that you do<a aria-label="Bring quality into everything that you do" class="heading-link pl-2 text-italic text-bold" href="#bring-quality-into-everything-that-you-do"></a></h3>
+<p>Quality can mean many different things, and entirely depends on where you are in your transformation:</p>
+<ul>
+<li aria-level="1">Does the code compile?</li>
+<li aria-level="1">Does the code successfully pass your tests?</li>
+<li aria-level="1">Does the code pass a certain level of code coverage?</li>
+</ul>
+<p>But we can consider a wide variety of checks:</p>
+<ul>
+<li aria-level="1">Is the user interface accessible for all users (for example, screen readers, high contrast, and similar)?</li>
+<li aria-level="1">Does the application scale to our expectations?</li>
+<li aria-level="1">Does the application respond in an expected timeframe (for example, less than a certain number of milliseconds)?</li>
+<li aria-level="1">Is the application as reliable as we expect it to be? What happens if a core service fails?</li>
+<li aria-level="1">Are there vulnerable code paths in the code that we have written?</li>
+<li aria-level="1">Are we relying upon vulnerable dependencies in our project?</li>
+<li aria-level="1">Have we accidentally leaked secrets, which risks continuity of our ongoing services?</li>
+</ul>
+<p>This is where several of the puzzle pieces start coming together. Cloud and IaC allow us to create new environments on demand as part of our automated processes. With that, we can begin bringing scalability tests, performance tests, chaos tests, accessibility tests and more to a running instance of our service, configured in a like-for-like environment to production.</p>
+<p>That way, we’re no longer hypothesizing whether the application can scale. Instead, we’re able to deploy a version of the application, and simulate the expected scenarios.</p>
+<p>However, these checks should not first occur on builds/releases from our production codebase. Ideally, we should be bringing many of these checks earlier into our development flow, checking for quality in a pull request before we merge to the main branch.</p>
+<h3 id="customer-focused-development-not-product-focused">Customer-focused development, not product-focused<a aria-label="Customer-focused development, not product-focused" class="heading-link pl-2 text-italic text-bold" href="#customer-focused-development-not-product-focused"></a></h3>
+<p>So far, we’ve been on a journey. Building automation and quality into everything we do so we can frequently deliver updated product versions to our customers.</p>
+<p>But as we ship more frequently and move towards a cloud deployment model, our customers’ expectations shift. Depending on the service, downtime may be unacceptable. Similarly, customers may expect transactions to be completed within a given time or that the application meets specific accessibility standards.</p>
+<p>The most important part here is the customer, and understanding what is most important to them. From a business perspective, this is important for several reasons:</p>
+<ul>
+<li aria-level="1">You must be perceived as bringing value to a prospective customer to attract new users. Therefore, if your application is hard to use, slow, and does not meet their needs, they will be unlikely to choose you over a competitor.</li>
+<li aria-level="1">In a service model, organizations typically pay for access through subscriptions. These subscriptions are recurring payments (potentially monthly or annual), meaning it’s vital to continually demonstrate value. If you don’t, you risk customer churn to competitors.</li>
+</ul>
+<p>Rather than believing we know what customers want, we must know what they want by building feedback loops into our platforms, building communities with our top users, and, ultimately, using their feedback to prioritize our backlog.</p>
+<h3 id="continuous-learning-and-improvement">Continuous learning and improvement<a aria-label="Continuous learning and improvement" class="heading-link pl-2 text-italic text-bold" href="#continuous-learning-and-improvement"></a></h3>
+<p>As I’ve outlined, running these services can come with high expectations. Depending on your size, scale, or even the types of customers, you may have a high set of availability targets to reach.</p>
+<p>When things go wrong, it’s okay to demonstrate continuous learning, identify areas for improvement, and remediate it for the future. When something goes wrong, conduct a blameless retrospective. The idea is not to find who to blame, but to discover the root cause of the problem and determine how automation, refined processes, additional tests, and more can be adopted to prevent similar issues from happening in the future. Treat each failure as an opportunity to learn and improve.</p>
+<p>Much like the functional requirements I’ve alluded to throughout the process (specific platform features), non-functional requirements should also be considered on our backlog. Communicating with transparency and with your customers in mind is vital. What have you identified? What are you going to do about it? And how are you going to improve it in the future?</p>
+<h2 id="from-strategies-to-action">From strategies to action<a aria-label="From strategies to action" class="heading-link pl-2 text-italic text-bold" href="#from-strategies-to-action"></a></h2>
+<p>We’ve talked through how the industry has transformed, and the strategies that can overcome the potential challenges which may arise. But how do we put this into practice?</p>
+<h3 id="implement-ci-cd">Implement CI/CD<a aria-label="Implement CI/CD" class="heading-link pl-2 text-italic text-bold" href="#implement-ci-cd"></a></h3>
+<p>Consider your current development practices:</p>
+<ul>
+<li aria-level="1"><strong>Have you prevented manual/human error-prone issues from taking place? </strong><em>Manual tasks, whether typing the incorrect configuration value or dragging and dropping deployment files, can quickly go wrong.</em></li>
+<li aria-level="1"><strong>Are there enough quality checks in place today?</strong> <em>You are aiming to provide an exceptional experience to your customers. Are you including checks and balances within the development lifecycle to deliver on that? As challenges and live site issues arise, are you adding those to the backlog to prevent future repercussions?</em></li>
+<li aria-level="1"><strong>Is your production codebase always in a shippable state?</strong> <em>Are you preventing your engineering teams from directly committing to the production codebase? In other words, have you implemented branch protection rules or repository rules to ensure changes are made through pull requests? This will allow you to run some of these checks earlier in your development process, preventing issues from ever reaching the production codebase.</em></li>
+</ul>
+<p>If you’ve answered ‘yes’ to all three questions, then you’re progressing along the right lines! Investing in automation will help bring consistency and rigor to your deployment lifecycle.</p>
+<h3 id="everything-as-code">‘Everything’ as code<a aria-label="‘Everything’ as code" class="heading-link pl-2 text-italic text-bold" href="#everything-as-code"></a></h3>
+<p>‘Code’ has historically referred to application code. But now, we can create our infrastructure and CI/CD workflows as code. This evolution has a subtle set of benefits which are worth remembering.</p>
+<p>Our code is stored in version control, which means we’re able to reuse the same practices that we’re used to as our application code:</p>
+<ul>
+<li aria-level="1">Changes can be viewed over time, allowing us to understand who made a change and why.</li>
+<li aria-level="1">You can use pull requests to ensure that each change is reviewed by at least one other human. After all, two heads are better than one, as they say!</li>
+<li aria-level="1">Changes to workflow code appear next to app-code changes in the same commit or pull request, allowing us to understand and verify their relationship.</li>
+<li aria-level="1">Automation can be triggered based on changes to a branch of code, and can surface results in a commonly-visible area (the pull request). Therefore, whether from an operations background, a traditional developer, or a data scientist, we can benefit from automating quality checks by storing our code in version control.</li>
+</ul>
+<p><em><a target="_blank" rel="external nofollow noopener noreferrer" href="https://github.blog/2023-06-02-applying-gitops-principles-to-your-operations/">Check out this blog</a> if you’re interested in learning more about GitOps, and how you can operate your infrastructure using similar techniques to application code.</em></p>
+<h3 id="promote-a-culture-of-innovation-collaboration-and-learning">Promote a culture of innovation, collaboration, and learning<a aria-label="Promote a culture of innovation, collaboration, and learning" class="heading-link pl-2 text-italic text-bold" href="#promote-a-culture-of-innovation-collaboration-and-learning"></a></h3>
+<p>Many enterprises operate in silos, but building a culture of innovation, collaboration, and learning is possible. The open source community builds openly, asynchronously, globally, and at scale, many lessons that we can adopt for our internal development.</p>
+<p><em><a target="_blank" rel="external nofollow noopener noreferrer" href="https://github.blog/2023-05-08-building-a-culture-of-innovation-in-your-business-with-github/">Check out how</a> you can reuse these practices for your internal software development.</em></p>
+<p>This is the first step of a more extensive cultural transformation. Once you’ve removed those silos, consider how you can begin collaborating across your organization. What are the most critical customer priorities, and how are you collectively working towards solving those? Are you capturing and sharing feedback so that it can be delivered to the right teams across the organization?</p>
+<p>And finally, challenges happen. While no one enjoys live site incidents, it’s a natural occurrence in the nature of our work. The vital part is being able to learn from those situations:</p>
+<ul>
+<li aria-level="1">What went wrong?</li>
+<li aria-level="1">How can you prevent it in the future?</li>
+<li aria-level="1">Have you communicated to your customers in a transparent and customer-focused way?</li>
+</ul>
+<p>To put this into context, here are some of the ways that GitHub communicates openly:</p>
+<ul>
+<li aria-level="1">We <a target="_blank" rel="external nofollow noopener noreferrer" href="https://github.com/orgs/github/projects/4247">publish a public roadmap</a>, so you have an idea of our upcoming priorities.</li>
+<li aria-level="1">The <a target="_blank" rel="external nofollow noopener noreferrer" href="https://github.com/orgs/community/discussions">communities discussions</a> area provides an opportunity for you to give us feedback, and for you to discuss your proven practices, challenges, and opportunities with other community members.</li>
+<li aria-level="1">The <a target="_blank" rel="external nofollow noopener noreferrer" href="https://github.blog">GitHub Blog</a> provides updates on significant product announcements, thought leadership, and policy updates relating to the industry.</li>
+<li aria-level="1">The <a target="_blank" rel="external nofollow noopener noreferrer" href="https://github.blog/changelog/">GitHub Changelog</a> is a more granular set of updates on our recent releases, including incremental feature updates.</li>
+<li aria-level="1">Our <a target="_blank" rel="external nofollow noopener noreferrer" href="https://www.githubstatus.com">GitHub Status page</a> provides an up-to-date view of the platform’s operational health. If there are any ongoing issues, you’ll be able to find out about them here.</li>
+<li aria-level="1">GitHub <a target="_blank" rel="external nofollow noopener noreferrer" href="https://github.blog/?s=Availability+Report">publishes monthly availability reports</a>, including a summary of each incident, the cause, and steps taken to improve for the future.</li>
+</ul>
+<h1 id="conclusion">Conclusion<a aria-label="Conclusion" class="heading-link pl-2 text-italic text-bold" href="#conclusion"></a></h1>
+<p>Through this blog, we’ve explored the journey from a product to a service mindset. Much of this has been driven by new industry opportunities and trends (such as DevOps transformation, cloud computing and IaC). Even so, there is much for us to consider along this path:</p>
+<ul>
+<li aria-level="1">Implement CI/CD to help you ship more frequently and safely by bringing quality into everything you do.</li>
+<li aria-level="1">Adopt an ‘everything as code’ mentality to benefit from the above automation practices.</li>
+<li aria-level="1">Promote a culture of innovation, collaboration and learning by pivoting your focus to the customer, accepting that things may go wrong, and adopting a culture of continuous improvement.</li>
+</ul>
+
+</div>
+
+<div>
+<div class="tag-plugin link dis-select"><a class="link-card plain" title="Moving from a product to a service mindset" href="https://github.blog/2023-07-13-moving-from-a-product-to-a-service-mindset/" target="_blank" rel="external nofollow noopener noreferrer" cardlink autofill="icon"><div class="left"><span class="title">Moving from a product to a service mindset</span><span class="cap link fs12">https://github.blog/2023-07-13-moving-from-a-product-to-a-service-mindset/</span></div><div class="right"><div class="lazy img" data-bg="https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.4/link/8f277b4ee0ecd.svg"></div></div></a></div>
+</div>
+
+
+
+
+<div class="article-footer reveal fs14"><section id="license"><div class="header"><span>许可协议</span></div><div class="body"><p>本文采用 <a target="_blank" rel="external nofollow noopener noreferrer" href="https://github.com/me-shaon/GLWTPL/blob/master/translations/LICENSE_zh-CN">GLWT（Good Luck With That，祝你好运）公共许可证</a> 许可协议，转载请注明出处。</p>
+</div></section><section id="share"><div class="header"><span>分享文章</span></div><div class="body"><div class="link"><input class="copy-area" readonly="true" id="copy-link" value="https://blog.imc.re/RSSBOX/rss/783da746.html"></div><div class="social-wrap dis-select"><a class="social share-item wechat" onclick="util.toggle(&quot;qrcode-wechat&quot)"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.4/social/b32ef3da1162a.svg"></a><a class="social share-item weibo" target="_blank" rel="external nofollow noopener noreferrer" href="https://service.weibo.com/share/share.php?url=https://blog.imc.re/RSSBOX/rss/783da746.html&title=Moving From a Product to a Service Mindset - RSSBOX&pics=https://picsum.photos/400/300?random=7795&summary=
+Throughout the last decade, cloud computing has disrupted the technology industry and beyond. It has opened up new w..."><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.4/social/80c07e4dbb303.svg"></a><a class="social share-item email" href="mailto:?subject=Moving From a Product to a Service Mindset - RSSBOX&amp;body=https://blog.imc.re/RSSBOX/rss/783da746.html"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.4/social/a1b00e20f425d.svg"></a><a class="social share-item link" onclick="util.copy(&quot;copy-link&quot;, &quot;复制成功&quot;)"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.4/social/8411ed322ced6.svg"></a></div><div class="qrcode" id="qrcode-wechat" style="visibility:hidden;height:0"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://api.qrserver.com/v1/create-qr-code/?size=256x256&data=https://blog.imc.re/RSSBOX/rss/783da746.html"></div></div></section></div>
+
+</article>
+
+<div class="related-wrap reveal" id="read-next"><section class="body"><div class="item" id="prev"><div class="note">较新文章</div><a href="/RSSBOX/rss/befc590f.html">LibreOffice 7.6 发布首个 RC</a></div><div class="item" id="next"><div class="note">较早文章</div><a href="/RSSBOX/rss/fb698368.html">省广集团宣布成为 Meta 中国区官方授权代理商</a></div></section></div>
+
+
+<div class="related-wrap reveal" id="related-posts">
+    <section class="header">
+      <div class="title cap theme">您可能感兴趣的文章</div>
+    </section>
+    <section class="body">
+    <div class="related-posts"><a class="item" href="/RSSBOX/rss/8f6843fe.html" title="(De)coding Conventions"><span class="title">(De)coding Conventions</span></a><a class="item" href="/RSSBOX/rss/5eca91cc.html" title="Accessibility Considerations Behind Code Search and Code View"><span class="title">Accessibility Considerations Behind Code Search and Code View</span></a><a class="item" href="/RSSBOX/rss/257d1cd2.html" title="Demonstrating End-to-End Traceability With Pull Requests"><span class="title">Demonstrating End-to-End Traceability With Pull Requests</span></a><a class="item" href="/RSSBOX/rss/64ca8782.html" title="GitHub Availability Report: June 2023"><span class="title">GitHub Availability Report: June 2023</span></a><a class="item" href="/RSSBOX/rss/d1163c4.html" title="GitHub CLI Project Command Is Now Generally Available!"><span class="title">GitHub CLI Project Command Is Now Generally Available!</span></a></div></section></div>
+
+
+
+
+
+      
+<footer class="page-footer reveal fs12"><hr><div class="sitemap"><div class="sitemap-group"><span class="fs14">文章</span><a href="/RSSBOX/categories">分类</a><a href="/RSSBOX/tags">标签</a><a href="/RSSBOX/archives">归档</a></div><div class="sitemap-group"><span class="fs14">更多</span><a href="https://blog.imc.re/">博客</a><a target="_blank" rel="noopener" href="https://imc.re/">IMC.RE</a></div></div><div class="text"><p><a href="/">@RSSBOX</a> 2023 author by <a target="_blank" rel="external nofollow noopener noreferrer" href="https://github.com/MHG-LAB/RSSBOX">MHuiG</a> powered by SummerGoro。<br><br>本博客所有文章除特别声明外，均采用 <a target="_blank" rel="external nofollow noopener noreferrer" href="https://github.com/me-shaon/GLWTPL/blob/master/translations/LICENSE_zh-CN">GLWT（Good Luck With That，祝你好运）公共许可证</a> 许可协议，转载请注明出处。</p>
+</div></footer>
+
+      <div class="float-panel mobile-only blur" style="display:none">
+  <button type="button" class="sidebar-toggle mobile" onclick="sidebar.toggle()">
+    <svg class="icon" style="width: 1em; height: 1em;vertical-align: middle;fill: currentColor;overflow: hidden;" viewbox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="15301"><path d="M566.407 808.3c26.9-0.1 49.3-20.8 51.6-47.6-1.9-27.7-23.9-49.7-51.6-51.6h-412.6c-28.2-1.4-52.6 19.5-55.5 47.6 2.3 26.8 24.6 47.5 51.6 47.6h416.5v4z m309.3-249.9c26.9-0.1 49.3-20.8 51.6-47.6-2.2-26.8-24.6-47.5-51.6-47.6h-721.9c-27.7-2.8-52.5 17.4-55.3 45.1-0.1 0.8-0.1 1.7-0.2 2.5 0.9 27.2 23.6 48.5 50.7 47.6H875.707z m-103.1-245.9c26.9-0.1 49.3-20.8 51.6-47.6-0.4-28.3-23.2-51.1-51.5-51.6h-618.9c-29.5-1.1-54.3 21.9-55.5 51.4v0.2c1.4 27.8 25.2 49.2 53 47.8 0.8 0 1.7-0.1 2.5-0.2h618.8z" p-id="15302"/><path d="M566.407 808.3c26.9-0.1 49.3-20.8 51.6-47.6-1.9-27.7-23.9-49.7-51.6-51.6h-412.6c-28.2-1.4-52.6 19.5-55.5 47.6 1.9 27.7 23.9 49.7 51.6 51.6h416.5z m309.3-249.9c26.9-0.1 49.3-20.8 51.6-47.6-2.2-26.8-24.6-47.5-51.6-47.6h-721.9c-27.7-2.8-52.5 17.4-55.3 45.1-0.1 0.8-0.1 1.7-0.2 2.5 0.9 27.2 23.6 48.5 50.7 47.6H875.707z m-103.1-245.9c26.9-0.1 49.3-20.8 51.6-47.6-0.4-28.3-23.2-51.1-51.5-51.6h-618.9c-29.5-1.1-54.3 21.9-55.5 51.4v0.2c1.4 27.8 25.2 49.2 53 47.8 0.8 0 1.7-0.1 2.5-0.2h618.8z" p-id="15303"/></svg>
+  </button>
+</div>
+
+    </div>
+  </div>
+  <div class="scripts">
+    <script type="text/javascript">
+  const stellar = {
+    // 懒加载 css https://github.com/filamentgroup/loadCSS
+    loadCSS: (href, before, media, attributes) => {
+      var doc = window.document;
+      var ss = doc.createElement("link");
+      var ref;
+      if (before) {
+        ref = before;
+      } else {
+        var refs = (doc.body || doc.getElementsByTagName("head")[0]).childNodes;
+        ref = refs[refs.length - 1];
+      }
+      var sheets = doc.styleSheets;
+      if (attributes) {
+        for (var attributeName in attributes) {
+          if (attributes.hasOwnProperty(attributeName)) {
+            ss.setAttribute(attributeName, attributes[attributeName]);
+          }
+        }
+      }
+      ss.rel = "stylesheet";
+      ss.href = href;
+      ss.media = "only x";
+      function ready(cb) {
+        if (doc.body) {
+          return cb();
+        }
+        setTimeout(function () {
+          ready(cb);
+        });
+      }
+      ready(function () {
+        ref.parentNode.insertBefore(ss, before ? ref : ref.nextSibling);
+      });
+      var onloadcssdefined = function (cb) {
+        var resolvedHref = ss.href;
+        var i = sheets.length;
+        while (i--) {
+          if (sheets[i].href === resolvedHref) {
+            return cb();
+          }
+        }
+        setTimeout(function () {
+          onloadcssdefined(cb);
+        });
+      };
+      function loadCB() {
+        if (ss.addEventListener) {
+          ss.removeEventListener("load", loadCB);
+        }
+        ss.media = media || "all";
+      }
+      if (ss.addEventListener) {
+        ss.addEventListener("load", loadCB);
+      }
+      ss.onloadcssdefined = onloadcssdefined;
+      onloadcssdefined(loadCB);
+      return ss;
+    },
+
+    // 从 butterfly 和 volantis 获得灵感
+    loadScript: (src, opt) => new Promise((resolve, reject) => {
+      var script = document.createElement('script');
+      if (src.startsWith('/')){
+        src = stellar.config.root + src.substring(1);
+      }
+      script.src = src;
+      if (opt) {
+        for (let key of Object.keys(opt)) {
+          script[key] = opt[key]
+        }
+      } else {
+        // 默认异步，如果需要同步，第二个参数传入 {} 即可
+        script.async = true
+      }
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    }),
+
+    // https://github.com/jerryc127/hexo-theme-butterfly
+    jQuery: (fn) => {
+      if (typeof jQuery === 'undefined') {
+        stellar.loadScript(stellar.plugins.jQuery).then(fn)
+      } else {
+        fn()
+      }
+    }
+  };
+  stellar.version = '1.19.0';
+  stellar.github = 'https://github.com/xaoxuu/hexo-theme-stellar/tree/1.19.0';
+  stellar.config = {
+    date_suffix: {
+      just: '刚刚',
+      min: '分钟前',
+      hour: '小时前',
+      day: '天前',
+      month: '个月前',
+    },
+    root : '/RSSBOX/',
+  };
+
+  // required plugins (only load if needs)
+  stellar.plugins = {
+    jQuery: 'https://gcore.jsdelivr.net/npm/jquery@3.6.2/dist/jquery.min.js'
+  };
+
+  if ('local_search') {
+    stellar.search = {};
+    stellar.search.service = 'local_search';
+    if (stellar.search.service == 'local_search') {
+      let service_obj = Object.assign({}, {"field":"all","path":"/search.json","content":true,"codeblock":true,"sort":"-date"});
+      stellar.search[stellar.search.service] = service_obj;
+    }
+  }
+
+  // stellar js
+  stellar.plugins.stellar = Object.assign({"sites":"/js/plugins/sites.js","friends":"/js/plugins/friends.js","ghinfo":"/js/plugins/ghinfo.js","timeline":"/js/plugins/timeline.js","linkcard":"/js/plugins/linkcard.js","fcircle":"/js/plugins/fcircle.js","weibo":"/js/plugins/weibo.js"});
+
+  stellar.plugins.marked = Object.assign("https://cdn.bootcdn.net/ajax/libs/marked/4.0.18/marked.min.js");
+  // optional plugins
+  if ('true' == 'true') {
+    stellar.plugins.lazyload = Object.assign({"enable":true,"js":"https://gcore.jsdelivr.net/npm/vanilla-lazyload@17.8.3/dist/lazyload.min.js","transition":"blur"});
+  }
+  if ('true' == 'true') {
+    stellar.plugins.swiper = Object.assign({"enable":true,"css":"https://unpkg.com/swiper@8.4.5/swiper-bundle.min.css","js":"https://unpkg.com/swiper@8.4.5/swiper-bundle.min.js"});
+  }
+  if ('' == 'true') {
+    stellar.plugins.scrollreveal = Object.assign({"enable":null,"js":"https://gcore.jsdelivr.net/npm/scrollreveal@4.0.9/dist/scrollreveal.min.js","distance":"8px","duration":500,"interval":100,"scale":1});
+  }
+  if ('true' == 'true') {
+    stellar.plugins.preload = Object.assign({"enable":true,"service":"flying_pages","instant_page":"https://gcore.jsdelivr.net/gh/volantis-x/cdn-volantis@4.1.2/js/instant_page.js","flying_pages":"https://gcore.jsdelivr.net/gh/gijo-varghese/flying-pages@2.1.2/flying-pages.min.js"});
+  }
+  if ('true' == 'true') {
+    stellar.plugins.fancybox = Object.assign({"enable":true,"js":"https://gcore.jsdelivr.net/npm/@fancyapps/ui@4.0/dist/fancybox.umd.js","css":"https://gcore.jsdelivr.net/npm/@fancyapps/ui@4.0/dist/fancybox.css","selector":".swiper-slide img"});
+  }
+  if ('false' == 'true') {
+    stellar.plugins.heti = Object.assign({"enable":false,"css":"https://unpkg.com/heti@0.9.2/umd/heti.min.css","js":"https://unpkg.com/heti@0.9.2/umd/heti-addon.min.js"});
+  }
+  if ('true' == 'true') {
+    stellar.plugins.copycode = Object.assign({"enable":true,"js":"/js/plugins/copycode.js","default_text":"Copy","success_text":"Copied"});
+  }
+</script>
+
+<!-- required -->
+
+  
+<script src="/RSSBOX/js/main.js" async></script>
+
+
+
+<!-- optional -->
+
+  <script>
+  function loadJS() {
+    const els = document.querySelectorAll("#comments #giscus");
+    if (els.length === 0) return;
+    els.forEach((el, i) => {
+      try {
+        el.innerHTML = '';
+      } catch (error) {
+        console.log(error);
+      }
+      var script = document.createElement('script');
+      script.src = 'https://giscus.app/client.js';
+      script.async = true;
+      for (let key of Object.keys(el.attributes)) {
+        let attr = el.attributes[key];
+        if (['class', 'id'].includes(attr.name) === false) {
+          script.setAttribute(attr.name, attr.value);
+        }
+      }
+      el.appendChild(script);
+    });
+  }
+  window.addEventListener('DOMContentLoaded', (event) => {
+    loadJS();
+  });
+</script>
+
+
+
+
+<!-- inject -->
+
+
+  </div>
+</body>
+</html>
