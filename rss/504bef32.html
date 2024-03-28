@@ -1,0 +1,575 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+  <meta name="generator" content="Hexo 6.3.0">
+  <meta name="hexo-theme" content="https://github.com/xaoxuu/hexo-theme-stellar/tree/1.19.0">
+  <meta charset="utf-8">
+  
+
+  <meta http-equiv="x-dns-prefetch-control" content="on">
+  <link rel="dns-prefetch" href="https://gcore.jsdelivr.net">
+  <link rel="preconnect" href="https://gcore.jsdelivr.net" crossorigin>
+  <link rel="dns-prefetch" href="//unpkg.com">
+
+  <meta name="renderer" content="webkit">
+  <meta name="force-rendering" content="webkit">
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+  <meta name="HandheldFriendly" content="True">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="theme-color" content="#f8f8f8">
+  
+  <title>Using GitHub Copilot in Your IDE: Tips, Tricks and Best Practices - RSSBOX</title>
+
+  
+    <meta name="description" content="AI has become an integral part of my workflow these days, and with the assistance of GitHub Copilot, I move a lot faster when I’m building a project. Having used AI tools to increase my productivit">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Using GitHub Copilot in Your IDE: Tips, Tricks and Best Practices">
+<meta property="og:url" content="https://blog.imc.re/RSSBOX/rss/504bef32.html">
+<meta property="og:site_name" content="RSSBOX">
+<meta property="og:description" content="AI has become an integral part of my workflow these days, and with the assistance of GitHub Copilot, I move a lot faster when I’m building a project. Having used AI tools to increase my productivit">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://github.blog/wp-content/uploads/2024/03/02_top_level_comment.png?w=1024&amp;resize=1024%2C374">
+<meta property="og:image" content="https://github.blog/wp-content/uploads/2024/03/04_meaningful_name.png?w=969&amp;resize=969%2C640">
+<meta property="og:image" content="https://github.blog/wp-content/uploads/2024/03/07_b_doc_command.png?w=1024&amp;resize=1024%2C321">
+<meta property="og:image" content="https://github.blog/wp-content/uploads/2024/03/08_remove_convo_border.png?w=1024&amp;resize=1024%2C814">
+<meta property="og:image" content="https://github.blog/wp-content/uploads/2024/03/12_start_new_thread_border.png?w=785&amp;resize=785%2C671">
+<meta property="og:image" content="https://github.blog/wp-content/uploads/2024/03/13_slash_commands_vscode.png?w=1024&amp;resize=1024%2C684">
+<meta property="article:published_time" content="2024-03-27T06:05:50.000Z">
+<meta property="article:modified_time" content="2024-03-27T06:05:50.000Z">
+<meta property="article:author" content="SMGoro">
+<meta property="article:tag" content="Blogs">
+<meta property="article:tag" content="Github">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://github.blog/wp-content/uploads/2024/03/02_top_level_comment.png?w=1024&amp;resize=1024%2C374">
+  
+  
+  
+  <meta name="keywords" content="Blogs,Github">
+
+  <!-- feed -->
+  
+    <link rel="alternate" href="/RSSBOX/atom.xml" title="RSSBOX" type="application/atom+xml">
+  
+
+  
+    
+<link rel="stylesheet" href="/RSSBOX/css/main.css">
+
+  
+
+  
+
+  
+
+  
+    <link rel="stylesheet" href="https://gcore.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.css" integrity="sha384-vKruj+a13U8yHIkAyGgK1J3ArTLzrFGBbBc0tDp4ad/EyewESeXE/Iv67Aj8gKZ0" crossorigin="anonymous">
+    <script defer src="https://gcore.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.js" integrity="sha384-PwRUT/YqbnEjkZO0zZxNqcxACrXe+j766U2amXcgMg5457rve2Y7I6ZJSm2A0mS4" crossorigin="anonymous"></script>
+    <script defer src="https://gcore.jsdelivr.net/npm/katex@0.16.4/dist/contrib/auto-render.min.js" integrity="sha384-+VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4+/RRE05" crossorigin="anonymous" onload="renderMathInElement(document.body);"></script>
+  
+
+
+  
+
+<!--百度统计-->
+<script>
+  var _hmt = _hmt || [];
+  (function() {
+    var hm = document.createElement("script");
+    hm.src = "https://hm.baidu.com/hm.js?f42afe3e5b76d22c8b1a8060171c7184";
+    var s = document.getElementsByTagName("script")[0]; 
+    s.parentNode.insertBefore(hm, s);
+  })();
+</script>  
+  <!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-V2NSKYGXNG"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-V2NSKYGXNG');
+</script>
+<!--Google Adsense-->
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4773172018528901" crossorigin="anonymous"></script>
+</head>
+
+<body>
+  
+
+
+
+
+  <div class="l_body" id="start">
+    <aside class="l_left" layout="post">
+    
+
+  
+
+<header class="header"><div class="logo-wrap"><a class="avatar" href="/RSSBOX/archives"><div class="bg" style="opacity:0;background-image:url(https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.4/avatar/round/rainbow64@3x.webp);"></div><img no-lazy class="avatar" src="https://cdn.jsdelivr.net/gh/SMGCDN/photos/icon/rsshub.png" onerror="javascript:this.classList.add('error');this.src='https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.4/image/2659360.svg';"></a><a class="title" href="/RSSBOX/"><div class="main" ff="title">RSSBOX</div><div class="sub normal cap">SMGoroのRSS订阅</div><div class="sub hover cap" style="opacity:0"> 一些好康的东西</div></a></div>
+
+<nav class="menu dis-select"><a class="nav-item active" href="/RSSBOX/">订阅</a><a class="nav-item" href="https://blog.imc.re/">博客</a><a class="nav-item" href="https://blog.imc.re/contact">联系</a><a class="nav-item" href="https://blog.imc.re/more">更多</a></nav>
+</header>
+
+
+<div class="widgets">
+
+<widget class="widget-wrapper toc single" id="data-toc"><div class="widget-header cap dis-select"><span class="name">Using GitHub Copilot in Your IDE: Tips, Tricks and Best Practices</span></div><div class="widget-body fs14"><div class="doc-tree active"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#beyond-code-completion"><span class="toc-text">Beyond code completion</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#context-context-context"><span class="toc-text">Context, context, context</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-open-your-relevant-files"><span class="toc-text">1. Open your relevant files</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-provide-a-top-level-comment"><span class="toc-text">2. Provide a top-level comment</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-set-includes-and-references"><span class="toc-text">3. Set Includes and references</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-meaningful-names-matter"><span class="toc-text">4. Meaningful names matter</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-provide-specific-and-well-scoped-function-comments"><span class="toc-text">5. Provide specific and well- scoped function comments</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#6-provide-sample-code"><span class="toc-text">6. Provide sample code</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#inline-chat-with-github-copilot"><span class="toc-text">Inline Chat with GitHub Copilot</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#inline-chat"><span class="toc-text">Inline chat</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#tips-and-tricks-with-github-copilot-chat"><span class="toc-text">Tips and tricks with GitHub Copilot Chat</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#8-remove-irrelevant-requests"><span class="toc-text">8. Remove irrelevant requests</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#9-navigate-through-your-conversation"><span class="toc-text">9. Navigate through your conversation</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#10-use-the-workspace-agent"><span class="toc-text">10. Use the @workspace agent</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#11-highlight-relevant-code"><span class="toc-text">11. Highlight relevant code</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#12-organize-your-conversations-with-threads"><span class="toc-text">12. Organize your conversations with threads</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#13-slash-commands-for-common-tasks"><span class="toc-text">13. Slash Commands for common tasks</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#14-attach-relevant-files-for-reference"><span class="toc-text">14. Attach relevant files for reference</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#15-start-with-github-copilot-chat-for-faster-debugging"><span class="toc-text">15. Start with GitHub Copilot Chat for faster debugging</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#be-on-the-lookout-for-sparkles"><span class="toc-text">Be on the lookout for sparkles!</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#know-where-your-ai-assistant-shines"><span class="toc-text">Know where your AI assistant shines</span></a></li></ol></div></div></widget>
+
+
+
+<widget class="widget-wrapper search"><div class="widget-body"><div class="search-wrapper" id="search"><form class="search-form"><input type="text" class="search-input" id="search-input" data-filter="/rss/" placeholder="文章搜索"><svg t="1670596976048" class="icon search-icon" viewbox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2676" width="200" height="200"><path d="M938.2 832.6L723.8 618.1c-2.5-2.5-5.3-4.4-7.9-6.4 36.2-55.6 57.3-121.8 57.3-193.1C773.3 222.8 614.6 64 418.7 64S64 222.8 64 418.6c0 195.9 158.8 354.6 354.6 354.6 71.3 0 137.5-21.2 193.2-57.4 2 2.7 3.9 5.4 6.3 7.8L832.5 938c14.6 14.6 33.7 21.9 52.8 21.9 19.1 0 38.2-7.3 52.8-21.8 29.2-29.1 29.2-76.4 0.1-105.5M418.7 661.3C284.9 661.3 176 552.4 176 418.6 176 284.9 284.9 176 418.7 176c133.8 0 242.6 108.9 242.6 242.7 0 133.7-108.9 242.6-242.6 242.6" p-id="2677"/></svg></form><div id="search-result"></div><div class="search-no-result">没有找到内容！</div></div></div></widget>
+
+
+
+<widget class="widget-wrapper recent"><div class="widget-header cap theme dis-select"><span class="name">最近更新</span><a class="cap-action" id="rss" title="Subscribe" href="/atom.xml"><svg class="icon" viewbox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="8938"><path d="M800.966 947.251c0-404.522-320.872-732.448-716.69-732.448V62.785c477.972 0 865.44 395.987 865.44 884.466h-148.75z m-162.273 0h-148.74c0-228.98-181.628-414.598-405.678-414.598v-152.01c306.205 0 554.418 253.68 554.418 566.608z m-446.24-221.12c59.748 0 108.189 49.503 108.189 110.557 0 61.063-48.44 110.563-108.188 110.563-59.747 0-108.18-49.5-108.18-110.563 0-61.054 48.433-110.556 108.18-110.556z" p-id="8939"/></svg></a></div><div class="widget-body related-posts fs14"><a class="item title" href="/RSSBOX/rss/b51353e8.html"><span class="title">第11集 到了30岁还是处男，似乎会变成魔法师</span></a><a class="item title" href="/RSSBOX/rss/399916dd.html"><span class="title">第11集 金属胭脂</span></a><a class="item title" href="/RSSBOX/rss/c71b60b.html"><span class="title">第12集 战国妖狐</span></a><a class="item title" href="/RSSBOX/rss/26505cd4.html"><span class="title">第12集 月光下的异世界之旅 第二季</span></a><a class="item title" href="/RSSBOX/rss/65bb4e47.html"><span class="title">第12集 通灵王 FLOWERS</span></a></div></widget>
+</div>
+<footer class="footer dis-select"><div class="social-wrap"><a class="social" href="https://github.com/SMGoro" target="_blank" rel="external nofollow noopener noreferrer"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cdn.jsdelivr.net/gh/SMGCDN/photos/icon/iconfont/social-github.svg"></a><a class="social" href="https://space.bilibili.com/359079394" target="_blank" rel="external nofollow noopener noreferrer"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cdn.jsdelivr.net/gh/SMGCDN/photos/icon/iconfont/bilibili.svg"></a><a class="social" href="https://l.imc.re/zhihu" target="_blank" rel="external nofollow noopener noreferrer"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cdn.jsdelivr.net/gh/SMGCDN/photos/icon/iconfont/zhihu.svg"></a><a class="social" href="https://l.imc.re/discord" target="_blank" rel="external nofollow noopener noreferrer"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cdn.jsdelivr.net/gh/SMGCDN/photos/icon/iconfont/discord.svg"></a><a class="social" href="https://blog.imc.re/contact" target="_blank" rel="external nofollow noopener noreferrer"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cdn.jsdelivr.net/gh/SMGCDN/photos/icon/iconfont/comments.svg"></a></div></footer>
+
+    </aside>
+    <div class="l_main">
+      
+
+      
+
+
+
+<div class="bread-nav fs12"><div id="breadcrumb"><a class="cap breadcrumb" href="/RSSBOX/">主页</a><span class="sep"></span><a class="cap breadcrumb" href="/RSSBOX/">文章</a><span class="sep"></span><a class="cap breadcrumb-link" href="/RSSBOX/categories/blogs/">Blogs</a> <span class="sep"></span> <a class="cap breadcrumb-link" href="/RSSBOX/categories/blogs/github/">Github</a></div><div id="post-meta">发布于&nbsp;<time datetime="2024-03-27T06:05:50.000Z">2024-03-27</time></div></div>
+
+<article class="md-text content post">
+<h1 class="article-title"><span>Using GitHub Copilot in Your IDE: Tips, Tricks and Best Practices</span></h1>
+<div>
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN" "http://www.w3.org/TR/REC-html40/loose.dtd">
+
+<html><body><p>AI has become an integral part of my workflow these days, and with the assistance of GitHub Copilot, I move a lot faster when I’m building a project. Having used AI tools to increase my productivity over the past year, I’ve realized that similar to learning how to use a new framework or library, we can enhance our efficiency with AI tools by learning how to best use them.</p>
+<p>In this blog post, I’ll share some of the daily things I do to get the most out of GitHub Copilot. I hope these tips will help you become a more efficient and productive user of the AI assistant.</p>
+<div class="content-table-wrap"><table style="border: 1px black">
+<tbody>
+<tr>
+<td>
+<strong>Need a refresher on how to use GitHub Copilot?</strong>
+<p>Since GitHub Copilot continues to evolve in the IDE, CLI, and across GitHub.com, we put together a full guide on using GitHub Copilot with prompt tips and tricks. <a target="_blank" rel="external nofollow noopener noreferrer" href="https://github.blog/2023-06-20-how-to-write-better-prompts-for-github-copilot/">Get the guide &gt;</a></p>
+<p>Want to learn how best to leverage it in the IDE? Keep on reading. ⤵</p>
+</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="beyond-code-completion">Beyond code completion<a aria-label="Beyond code completion" class="heading-link pl-2 text-italic text-bold" href="#beyond-code-completion"></a></h2>
+<p>To make full use of the power of GitHub Copilot, it’s important to understand its capabilities. GitHub Copilot is developing rapidly, and new features are being added all the time. It’s no longer just a code completion tool in your editor—it now includes a chat interface that you can use in your IDE, a command line tool via a <a target="_blank" rel="external nofollow noopener noreferrer" href="https://github.blog/changelog/2024-03-21-github-copilot-general-availability-in-the-cli/">GitHub CLI extension</a>, a summary tool in your pull requests, a helper tool in your terminals, and much, much more.</p>
+<p>In a <a target="_blank" rel="external nofollow noopener noreferrer" href="https://github.blog/2024-01-22-10-unexpected-ways-to-use-github-copilot/">recent blog post</a>, I’ve listed some of the ways you didn’t know you could use GitHub Copilot. This will give you a great overview of how much the AI assistant can currently do.</p>
+<div class="mod-vh position-relative" style="height: 0; padding-bottom: calc((9 / 16)*100%);">
+<iframe allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen class="position-absolute top-0 left-0 width-full height-full" frameborder="0" loading="lazy" src="https://www.youtube.com/embed/fHwtrOcLAnI?version=3&amp;rel=1&amp;showsearch=0&amp;showinfo=1&amp;iv_load_policy=1&amp;fs=1&amp;hl=en-US&amp;autohide=2&amp;start=32&amp;wmode=transparent" title="YouTube video player"></iframe>
+</div>
+<p>But beyond interacting with GitHub Copilot, how do you help it give you better answers? Well, the answer to that needs a bit more context.</p>
+<h2 id="context-context-context">Context, context, context<a aria-label="Context, context, context" class="heading-link pl-2 text-italic text-bold" href="#context-context-context"></a></h2>
+<p>If you understand Large Language Models ( LLMs), you will know that they are designed to make predictions based on the context provided. This means, the more contextually rich our input or prompt is, the better the prediction or output will be.</p>
+<p>As such, learning to provide as much context as possible is key when interacting with GitHub Copilot, especially with the code completion feature. Unlike ChatGPT where you need to provide all the data to the model in the prompt window, by installing GitHub Copilot in your editor, the assistant is able to infer context from the code you’re working on. It then uses that context to provide code suggestions.</p>
+<p>We already know this, but what else can we do to give it additional context?</p>
+<p>I want to share a few essential tips with you to provide GitHub Copilot with more context in your editor to get the most relevant and useful code out of it:</p>
+<h3 id="1-open-your-relevant-files">1. Open your relevant files<a aria-label="1. Open your relevant files" class="heading-link pl-2 text-italic text-bold" href="#1-open-your-relevant-files"></a></h3>
+<p>Having your files open provides GitHub Copilot with context. When you have additional files open, it will help to inform the suggestion that is returned. Remember, if a file is closed, GitHub Copilot cannot see the file’s content in your editor, which means it cannot get the context from those closed files.</p>
+<p>GitHub Copilot looks at the current open files in your editor to analyze the context, create a prompt that gets sent to the server, and return an appropriate suggestion.</p>
+<p>Have a few files open in your editor to give GitHub Copilot a bigger picture of your project. You can also use <code>#editor</code> in the chat interface to provide GitHub Copilot with additional context on your currently opened files in Visual Studio Code (VS Code) and Visual Studio.</p>
+<div class="wp-video" style="width: 1784px;"><video class="wp-video-shortcode" controls="controls" height="1080" id="video-77119-2" preload="metadata" width="1784"><source src="https://github.blog/wp-content/uploads/2024/03/01_editor_command_open_files.mp4?_=2" type="video/mp4"><a target="_blank" rel="external nofollow noopener noreferrer" href="https://github.blog/wp-content/uploads/2024/03/01_editor_command_open_files.mp4">https://github.blog/wp-content/uploads/2024/03/01_editor_command_open_files.mp4</a></video></div>
+<p>Remember to close unneeded files when context switching or moving on to the next task.</p>
+<h3 id="2-provide-a-top-level-comment">2. Provide a top-level comment<a aria-label="2. Provide a top-level comment" class="heading-link pl-2 text-italic text-bold" href="#2-provide-a-top-level-comment"></a></h3>
+<p>Just as you would give a brief, high-level introduction to a coworker, a top-level comment in the file you’re working in can help GitHub Copilot understand the overall context of the pieces you will be creating—especially if you want your AI assistant to generate the boilerplate code for you to get going.</p>
+<p>Be sure to include details about what you need and provide a good description so it has as much information as possible. This will help to guide GitHub Copilot to give better suggestions, and give it a goal on what to work on. Having examples, especially when processing data or manipulation strings, helps quite a bit.</p>
+<p><img><img alt="index.js file with a comment at the top asking Copilot to create a HomePage Component following detailed guidelines: a H1 text with label, a text area with a button, and a server response displaying facts returned" class="aligncenter size-large wp-image-77121 width-fit" data-recalc-dims="1" data-src="data:image/gif;base64,R0lGODlhAQABAIAAAP///////yH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" decoding="async" height="374" loading="lazy" sizes="(max-width: 1000px) 100vw, 1000px" src="https://github.blog/wp-content/uploads/2024/03/02_top_level_comment.png?w=1024&amp;resize=1024%2C374" width="1024"></p>
+<h3 id="3-set-includes-and-references">3. Set Includes and references<a aria-label="3. Set Includes and references" class="heading-link pl-2 text-italic text-bold" href="#3-set-includes-and-references"></a></h3>
+<p>It’s best to manually set the includes/imports or module references you need for your work, particularly if you’re working with a specific version of a package.</p>
+<p>GitHub Copilot will make suggestions, but you know what dependencies you want to use. This can also help to let GitHub Copilot know what frameworks, libraries, and their versions you’d like it to use when crafting suggestions.</p>
+<p>This can be helpful to jump start GitHub Copilot to a newer library version when it defaults to providing older code suggestions.</p>
+<div class="wp-video" style="width: 1736px;"><video class="wp-video-shortcode" controls="controls" height="1080" id="video-77119-3" preload="metadata" width="1736"><source src="https://github.blog/wp-content/uploads/2024/03/03_includes_references.mp4?_=3" type="video/mp4"><a target="_blank" rel="external nofollow noopener noreferrer" href="https://github.blog/wp-content/uploads/2024/03/03_includes_references.mp4">https://github.blog/wp-content/uploads/2024/03/03_includes_references.mp4</a></video></div>
+<h3 id="4-meaningful-names-matter">4. Meaningful names matter<a aria-label="4. Meaningful names matter" class="heading-link pl-2 text-italic text-bold" href="#4-meaningful-names-matter"></a></h3>
+<p>The name of your variables and functions matter. If you have a function named <code>foo</code> or <code>bar</code>, GitHub Copilot will not be able to give you the best completion because it isn’t able to infer intent from the names.</p>
+<p>Just as the function name <code>fetchData()</code> won’t mean much to a coworker (or you after a few months), <code>fetchData()</code> won’t mean much to GitHub Copilot either.</p>
+<p>Implementing good coding practices will help you get the most value from GitHub Copilot. While GitHub Copilot helps you code and iterate faster, remember the old rule of programming still applies: garbage in, garbage out.</p>
+<p><img><img alt="function named "fetchAirports" that gets data from the /airport route and returns json output of airports to demonstrate meaningful names." class="aligncenter size-large wp-image-77123 width-fit" data-recalc-dims="1" data-src="data:image/gif;base64,R0lGODlhAQABAIAAAP///////yH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" decoding="async" height="640" loading="lazy" sizes="(max-width: 969px) 100vw, 969px" src="https://github.blog/wp-content/uploads/2024/03/04_meaningful_name.png?w=969&amp;resize=969%2C640" width="969"></p>
+<h3 id="5-provide-specific-and-well-scoped-function-comments">5. Provide specific and well- scoped function comments<a aria-label="5. Provide specific and well- scoped function comments" class="heading-link pl-2 text-italic text-bold" href="#5-provide-specific-and-well-scoped-function-comments"></a></h3>
+<p>Commenting your code helps you get very specific, targeted suggestions.</p>
+<p>A function name can only be so descriptive without being overly long, so function comments can help fill in details that GitHub Copilot might need to know. One of the neat features about GitHub Copilot is that it can determine the correct comment syntax that is typically used in your programming language for function / method comments and will help create them for you based on what the code does. Adding more detail to these as the first change you do then helps GitHub Copilot determine what you would like to do in code and how to interact with that function.</p>
+<p class="purple-text text-gradient-purple-coral mt-6 mb-6">Remember: Single, specific, short comments help GitHub Copilot provide better context.</p>
+<div class="wp-video" style="width: 1784px;"><video class="wp-video-shortcode" controls="controls" height="1080" id="video-77119-4" preload="metadata" width="1784"><source src="https://github.blog/wp-content/uploads/2024/03/05_simple_specific_short.mp4?_=4" type="video/mp4"><a target="_blank" rel="external nofollow noopener noreferrer" href="https://github.blog/wp-content/uploads/2024/03/05_simple_specific_short.mp4">https://github.blog/wp-content/uploads/2024/03/05_simple_specific_short.mp4</a></video></div>
+<h3 id="6-provide-sample-code">6. Provide sample code<a aria-label="6. Provide sample code" class="heading-link pl-2 text-italic text-bold" href="#6-provide-sample-code"></a></h3>
+<p>Providing sample code to GitHub Copilot will help it determine what you’re looking for. This helps to ground the model and provide it with even more context.</p>
+<p>It also helps GitHub Copilot generate suggestions that match the language and tasks you want to achieve, and return suggestions based on your current coding standards and practices. Unit tests provide one level of sample code at the individual function/method level, but you can also provide code examples in your project showing how to do things end to end. The cool thing about using GitHub Copilot long-term is that it nudges us to do a lot of the good coding practices we should’ve been doing all along.</p>
+<p>Learn more about providing context to GitHub Copilot by watching this Youtube video:</p>
+<div class="mod-vh position-relative" style="height: 0; padding-bottom: calc((9 / 16)*100%);">
+<iframe allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen class="position-absolute top-0 left-0 width-full height-full" frameborder="0" loading="lazy" src="https://www.youtube.com/embed/GPLUGJsVx0s?version=3&amp;rel=1&amp;showsearch=0&amp;showinfo=1&amp;iv_load_policy=1&amp;fs=1&amp;hl=en-US&amp;autohide=2&amp;wmode=transparent" title="YouTube video player"></iframe>
+</div>
+<h2 id="inline-chat-with-github-copilot">Inline Chat with GitHub Copilot<a aria-label="Inline Chat with GitHub Copilot" class="heading-link pl-2 text-italic text-bold" href="#inline-chat-with-github-copilot"></a></h2>
+<h3 id="inline-chat">Inline chat<a aria-label="Inline chat" class="heading-link pl-2 text-italic text-bold" href="#inline-chat"></a></h3>
+<p>Outside of providing enough context, there are some built-in features of GitHub Copilot that you may not be taking advantage of. Inline chat, for example, gives you an opportunity to almost chat with GitHub Copilot between your lines of code. By pressing CMD + I (CTRL + I on Windows) you’ll have Copilot right there to ask questions. This is a bit more convenient for quick fixes instead of opening up GitHub Copilot Chat’s side panel.</p>
+<div class="wp-video" style="width: 1920px;"><video class="wp-video-shortcode" controls="controls" height="1080" id="video-77119-5" preload="metadata" width="1920"><source src="https://github.blog/wp-content/uploads/2024/03/07_a_inline_chat_animated.mp4?_=5" type="video/mp4"><a target="_blank" rel="external nofollow noopener noreferrer" href="https://github.blog/wp-content/uploads/2024/03/07_a_inline_chat_animated.mp4">https://github.blog/wp-content/uploads/2024/03/07_a_inline_chat_animated.mp4</a></video></div>
+<p>This experience provides you with code diffs inline, which is awesome. There are also special slash commands available like creating documentation with just the slash of a button!</p>
+<p><img><img alt="inline chat in the VS Code editor with the /doc command in focus" class="aligncenter size-large wp-image-77127 width-fit" data-recalc-dims="1" data-src="data:image/gif;base64,R0lGODlhAQABAIAAAP///////yH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" decoding="async" height="321" loading="lazy" sizes="(max-width: 1000px) 100vw, 1000px" src="https://github.blog/wp-content/uploads/2024/03/07_b_doc_command.png?w=1024&amp;resize=1024%2C321" width="1024"></p>
+<h2 id="tips-and-tricks-with-github-copilot-chat">Tips and tricks with GitHub Copilot Chat<a aria-label="Tips and tricks with GitHub Copilot Chat" class="heading-link pl-2 text-italic text-bold" href="#tips-and-tricks-with-github-copilot-chat"></a></h2>
+<p>GitHub Copilot Chat provides an experience in your editor where you can have a conversation with the AI assistant. You can improve this experience by using built-in features to make the most out of it.</p>
+<h3 id="8-remove-irrelevant-requests">8. Remove irrelevant requests<a aria-label="8. Remove irrelevant requests" class="heading-link pl-2 text-italic text-bold" href="#8-remove-irrelevant-requests"></a></h3>
+<p>For example, did you know that you can delete a previously asked question in the chat interface to remove it from the indexed conversation? Especially if it is no longer relevant?</p>
+<p><img><img alt="Copilot Chat interface with a mouse click hovered over a conversation and the X button to delete it." class="aligncenter size-large wp-image-77128 width-fit" data-recalc-dims="1" data-src="data:image/gif;base64,R0lGODlhAQABAIAAAP///////yH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" decoding="async" height="814" loading="lazy" sizes="(max-width: 1000px) 100vw, 1000px" src="https://github.blog/wp-content/uploads/2024/03/08_remove_convo_border.png?w=1024&amp;resize=1024%2C814" width="1024"></p>
+<p>Doing this will improve the flow of conversation and give GitHub Copilot only the necessary information needed to provide you with the best output.</p>
+<h3 id="9-navigate-through-your-conversation">9. Navigate through your conversation<a aria-label="9. Navigate through your conversation" class="heading-link pl-2 text-italic text-bold" href="#9-navigate-through-your-conversation"></a></h3>
+<p>Another tip I found is to use the up and down arrows to navigate through your conversation with GitHub Copilot Chat. I found myself scrolling through the chat interface to find that last question I asked, then discovered I can just use my keyboard arrows just like in the terminal!</p>
+<div class="wp-video" style="width: 1920px;"><video class="wp-video-shortcode" controls="controls" height="1080" id="video-77119-6" preload="metadata" width="1920"><source src="https://github.blog/wp-content/uploads/2024/03/09_up_down_arrows_animated.mp4?_=6" type="video/mp4"><a target="_blank" rel="external nofollow noopener noreferrer" href="https://github.blog/wp-content/uploads/2024/03/09_up_down_arrows_animated.mp4">https://github.blog/wp-content/uploads/2024/03/09_up_down_arrows_animated.mp4</a></video></div>
+<h3 id="10-use-the-workspace-agent">10. Use the <code>@workspace</code> agent<a aria-label="10. Use the &lt;code&gt;@workspace&lt;/code&gt; agent" class="heading-link pl-2 text-italic text-bold" href="#10-use-the-workspace-agent"></a></h3>
+<p>If you’re using VS Code or Visual Studio, remember that agents are available to help you go even further. The <a target="_blank" rel="external nofollow noopener noreferrer" href="https://github.blog/changelog/label/copilot/#introducing-agents-in-copilot-chat-in-vs-code"><code>@workspace</code> agent</a> for example, is aware of your entire workspace and can answer questions related to it. As such, it can provide even more context when trying to get a good output from GitHub Copilot.</p>
+<div class="wp-video" style="width: 1784px;"><video class="wp-video-shortcode" controls="controls" height="1080" id="video-77119-7" preload="metadata" width="1784"><source src="https://github.blog/wp-content/uploads/2024/03/10_workspace_agent.mp4?_=7" type="video/mp4"><a target="_blank" rel="external nofollow noopener noreferrer" href="https://github.blog/wp-content/uploads/2024/03/10_workspace_agent.mp4">https://github.blog/wp-content/uploads/2024/03/10_workspace_agent.mp4</a></video></div>
+<h3 id="11-highlight-relevant-code">11. Highlight relevant code<a aria-label="11. Highlight relevant code" class="heading-link pl-2 text-italic text-bold" href="#11-highlight-relevant-code"></a></h3>
+<p>Another great tip when using GitHub Copilot Chat is to highlight relevant code in your files before asking it questions. This will help to give targeted suggestions and just provides the assistant with more context into what you need help with.</p>
+<h3 id="12-organize-your-conversations-with-threads">12. Organize your conversations with threads<a aria-label="12. Organize your conversations with threads" class="heading-link pl-2 text-italic text-bold" href="#12-organize-your-conversations-with-threads"></a></h3>
+<p>You can have multiple ongoing conversations with GitHub Copilot Chat on different topics by isolating your conversations with threads. We’ve provided a convenient way for you to start new conversations (thread) by clicking the + sign on the chat interface.</p>
+<p><img><img alt="copilot chat interface with a mouse click on the plus button to start a new thread or conversation" class="aligncenter size-large wp-image-77131 width-fit" data-recalc-dims="1" data-src="data:image/gif;base64,R0lGODlhAQABAIAAAP///////yH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" decoding="async" height="671" loading="lazy" sizes="(max-width: 785px) 100vw, 785px" src="https://github.blog/wp-content/uploads/2024/03/12_start_new_thread_border.png?w=785&amp;resize=785%2C671" width="785"></p>
+<h3 id="13-slash-commands-for-common-tasks">13. Slash Commands for common tasks<a aria-label="13. Slash Commands for common tasks" class="heading-link pl-2 text-italic text-bold" href="#13-slash-commands-for-common-tasks"></a></h3>
+<p><a target="_blank" rel="external nofollow noopener noreferrer" href="https://github.blog/changelog/2024-01-30-code-faster-and-better-with-github-copilots-new-features-in-visual-studio/#slash-commands">Slash commands</a> are awesome, and there are quite a few of them. We have commands to help you explain code, fix code, create a new notebook, write tests, and many more. They are just shortcuts to common prompts that we’ve found to be particularly helpful in day-to-day development from our own internal usage.</p>
+<div class="content-table-wrap"><table>
+<tbody>
+<tr>
+<td><strong>Command</strong></td>
+<td><strong>Description</strong></td>
+<td><strong>Usage</strong></td>
+</tr>
+<tr>
+<td>/explain</td>
+<td>Get code explanations</td>
+<td>Open file with code or highlight code you want explained and type:
+<p><code>/explain what is the fetchPrediction method?</code></p></td>
+</tr>
+<tr>
+<td>/fix</td>
+<td>Receive a proposed fix for the problems in the selected code</td>
+<td>Highlight problematic code and type:
+<p><code>/fix propose a fix for the problems in fetchAirports route</code></p></td>
+</tr>
+<tr>
+<td>/tests</td>
+<td>Generate unit tests for selected code</td>
+<td>Open file with code or highlight code you want tests for and type:
+<p><code>/tests</code></p></td>
+</tr>
+<tr>
+<td>/help</td>
+<td>Get help on using Copilot Chat</td>
+<td>Type:
+<p><code>/help what can you do?</code></p></td>
+</tr>
+<tr>
+<td>/clear</td>
+<td>Clear current conversation</td>
+<td>Type:
+<p><code>/clear</code></p></td>
+</tr>
+<tr>
+<td>/doc</td>
+<td>Add a documentation comment</td>
+<td>Highlight code and type:
+<p><code>/doc</code></p>
+<p>You can also press CMD+I in your editor and type <code>/doc/</code> inline</p></td>
+</tr>
+<tr>
+<td>/generate</td>
+<td>Generate code to answer your question</td>
+<td>Type:
+<p><code>/generate code that validates a phone number</code></p></td>
+</tr>
+<tr>
+<td>/optimize</td>
+<td>Analyze and improve running time of the selected code</td>
+<td>Highlight code and type:
+<p><code>/optimize fetchPrediction method</code></p></td>
+</tr>
+<tr>
+<td>/clear</td>
+<td>Clear current chat</td>
+<td>Type:
+<p><code>/clear</code></p></td>
+</tr>
+<tr>
+<td>/new</td>
+<td>Scaffold code for a new workspace</td>
+<td>Type:
+<p><code>/new create a new django app</code></p></td>
+</tr>
+<tr>
+<td>/simplify</td>
+<td>Simplify the selected code</td>
+<td>Highlight code and type:
+<p><code>/simplify</code></p></td>
+</tr>
+<tr>
+<td>/feedback</td>
+<td>Provide feedback to the team</td>
+<td>Type:
+<p><code>/feedback</code></p></td>
+</tr>
+</tbody>
+</table></div>
+<p>See the following image for commands available in VS Code:</p>
+<p><img><img alt=" slash commands in VS Code terminal. commands shown are listed in the table above" class="aligncenter size-large wp-image-77132 width-fit" data-recalc-dims="1" data-src="data:image/gif;base64,R0lGODlhAQABAIAAAP///////yH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" decoding="async" height="684" loading="lazy" sizes="(max-width: 1000px) 100vw, 1000px" src="https://github.blog/wp-content/uploads/2024/03/13_slash_commands_vscode.png?w=1024&amp;resize=1024%2C684" width="1024"></p>
+<h3 id="14-attach-relevant-files-for-reference">14. Attach relevant files for reference<a aria-label="14. Attach relevant files for reference" class="heading-link pl-2 text-italic text-bold" href="#14-attach-relevant-files-for-reference"></a></h3>
+<p>In Visual Studio and VS Code, you can <a target="_blank" rel="external nofollow noopener noreferrer" href="https://github.blog/changelog/2024-01-30-code-faster-and-better-with-github-copilots-new-features-in-visual-studio/#context-variables">attach relevant files</a> for GitHub Copilot Chat to reference by using <code>#file</code>. This scopes GitHub Copilot to a particular context in your code base and provides you with a much better outcome.</p>
+<p>To reference a file, type <code>#</code> in the comment box, choose <code>#file</code> and you will see a popup where you can choose your file. You can also type <code>#file_name.py</code> in the comment box. See below for an example:</p>
+<div class="wp-video" style="width: 1736px;"><video class="wp-video-shortcode" controls="controls" height="1080" id="video-77119-8" preload="metadata" width="1736"><source src="https://github.blog/wp-content/uploads/2024/03/14_attach_filename.mp4?_=8" type="video/mp4"><a target="_blank" rel="external nofollow noopener noreferrer" href="https://github.blog/wp-content/uploads/2024/03/14_attach_filename.mp4">https://github.blog/wp-content/uploads/2024/03/14_attach_filename.mp4</a></video></div>
+<h3 id="15-start-with-github-copilot-chat-for-faster-debugging">15. Start with GitHub Copilot Chat for faster debugging<a aria-label="15. Start with GitHub Copilot Chat for faster debugging" class="heading-link pl-2 text-italic text-bold" href="#15-start-with-github-copilot-chat-for-faster-debugging"></a></h3>
+<p>These days whenever I need to debug some code, I turn to GitHub Copilot Chat first. Most recently, I was implementing a decision tree and performed a k-fold cross-validation. I kept getting the incorrect accuracy scores and couldn’t figure out why. I turned to GitHub Copilot Chat for some assistance and it turns out I wasn’t using my training data set (X_train, y_train), even though I thought I was:</p>
+<blockquote class="twitter-tweet tw-align-center">
+<p dir="ltr" lang="en">I'm catching up on my AI/ML studies today. I had to implement a DecisionTree and use the cross_val_score method to evaluate the model's accuracy score.</p>
+<p>I couldn't figure out why the incorrect values for the accuracy scores were being returned, so I turned to Chat for some help <a target="_blank" rel="external nofollow noopener noreferrer" href="https://t.co/xn2ctMjAnr">pic.twitter.com/xn2ctMjAnr</a></p>
+<p>— Kedasha is learning about AI + ML ✨ (@itsthatladydev) <a target="_blank" rel="external nofollow noopener noreferrer" href="https://twitter.com/itsthatladydev/status/1771583989247098890?ref_src=twsrc%5Etfw">March 23, 2024</a></p></blockquote>
+<p><script async charset="utf-8" src="https://platform.twitter.com/widgets.js"></script></p>
+<p>I figured this out a lot faster than I would’ve with external resources. I want to encourage you to start with GitHub Copilot Chat in your editor to get debugging help faster instead of going to external resources first. Follow my example above by explaining the problem, pasting the problematic code, and asking for help. You can also highlight the problematic code in your editor and use the <code>/fix</code> command in the chat interface.</p>
+<h2 id="be-on-the-lookout-for-sparkles">Be on the lookout for sparkles!<a aria-label="Be on the lookout for sparkles!" class="heading-link pl-2 text-italic text-bold" href="#be-on-the-lookout-for-sparkles"></a></h2>
+<p>In VS Code, you can quickly get help from GitHub Copilot by looking out for “<em>magic sparkles.</em>” For example, in the commit comment section, clicking the magic sparkles will help you generate a commit message with the help of AI. You can also find magic sparkles inline in your editor as you’re working for a quick way to access GitHub Copilot inline chat.</p>
+<div class="wp-video" style="width: 1784px;"><video class="wp-video-shortcode" controls="controls" height="1080" id="video-77119-9" preload="metadata" width="1784"><source src="https://github.blog/wp-content/uploads/2024/03/15_magic_sparkles.mp4?_=9" type="video/mp4"><a target="_blank" rel="external nofollow noopener noreferrer" href="https://github.blog/wp-content/uploads/2024/03/15_magic_sparkles.mp4">https://github.blog/wp-content/uploads/2024/03/15_magic_sparkles.mp4</a></video></div>
+<p>Pressing them will use AI to help you fill out the data and more magic sparkles are being added where we find other places for GitHub Copilot to help in your day-to-day coding experience.</p>
+<h2 id="know-where-your-ai-assistant-shines">Know where your AI assistant shines<a aria-label="Know where your AI assistant shines" class="heading-link pl-2 text-italic text-bold" href="#know-where-your-ai-assistant-shines"></a></h2>
+<p>To get the best and most out of the tool, remember that context and prompt crafting is essential to keep in mind. Understanding where the tool shines best is also important. Some of the things GitHub Copilot is very good at include boilerplate code and scaffolding, writing unit tests, writing documentation, pattern matching, explaining uncommon or confusing syntax, cron jobs, and regex, and helping you remember things you’ve forgotten and debugging.</p>
+<p>But never forget that you are in control, and GitHub Copilot is here as just that, your copilot. It is a tool that can help you write code faster, and it’s up to you to decide how to best use it.</p>
+<p>It is not here to do your work for you or to write everything for you. It will guide you and nudge you in the right direction just as a coworker would if you asked them questions or for guidance on a particular issue.</p>
+<p>I hope these tips and best practices were helpful. You can significantly improve your coding efficiency and output by properly leveraging GitHub Copilot. Learn more about how GitHub Copilot works by reading <a target="_blank" rel="external nofollow noopener noreferrer" href="https://github.blog/2023-05-17-inside-github-working-with-the-llms-behind-github-copilot/">Inside GitHub: Working with the LLMs behind GitHub Copilot</a> and <a target="_blank" rel="external nofollow noopener noreferrer" href="https://github.blog/2024-02-28-customizing-and-fine-tuning-llms-what-you-need-to-know/">Customizing and fine-tuning LLMs: What you need to know</a>.</p>
+<div class="post-content-cta"><p>Harness the power of GitHub Copilot. <a target="_blank" rel="external nofollow noopener noreferrer" href="https://docs.github.com/copilot/overview-of-github-copilot/about-github-copilot-for-individuals">Learn more</a> or <a target="_blank" rel="external nofollow noopener noreferrer" href="https://github.com/features/copilot">get started now</a>.</p>
+</div>
+</body></html>
+<p>The post <a target="_blank" rel="external nofollow noopener noreferrer" href="https://github.blog/2024-03-25-how-to-use-github-copilot-in-your-ide-tips-tricks-and-best-practices/">Using GitHub Copilot in your IDE: Tips, tricks and best practices</a> appeared first on <a target="_blank" rel="external nofollow noopener noreferrer" href="https://github.blog">The GitHub Blog</a>.</p>
+
+</div>
+
+<div>
+<div class="tag-plugin link dis-select"><a class="link-card plain" title="Using GitHub Copilot in your IDE: Tips, tricks and best practices" href="https://github.blog/2024-03-25-how-to-use-github-copilot-in-your-ide-tips-tricks-and-best-practices/" target="_blank" rel="external nofollow noopener noreferrer" cardlink autofill="icon"><div class="left"><span class="title">Using GitHub Copilot in your IDE: Tips, tricks and best practices</span><span class="cap link fs12">https://github.blog/2024-03-25-how-to-use-github-copilot-in-your-ide-tips-tricks-and-best-practices/</span></div><div class="right"><div class="lazy img" data-bg="https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.4/link/8f277b4ee0ecd.svg"></div></div></a></div>
+</div>
+
+
+
+
+<div class="article-footer reveal fs14"><section id="license"><div class="header"><span>许可协议</span></div><div class="body"><p>本文采用 <a target="_blank" rel="external nofollow noopener noreferrer" href="https://github.com/me-shaon/GLWTPL/blob/master/translations/LICENSE_zh-CN">GLWT（Good Luck With That，祝你好运）公共许可证</a> 许可协议，转载请注明出处。</p>
+</div></section><section id="share"><div class="header"><span>分享文章</span></div><div class="body"><div class="link"><input class="copy-area" readonly="true" id="copy-link" value="https://blog.imc.re/RSSBOX/rss/504bef32.html"></div><div class="social-wrap dis-select"><a class="social share-item wechat" onclick="util.toggle(&quot;qrcode-wechat&quot)"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.4/social/b32ef3da1162a.svg"></a><a class="social share-item weibo" target="_blank" rel="external nofollow noopener noreferrer" href="https://service.weibo.com/share/share.php?url=https://blog.imc.re/RSSBOX/rss/504bef32.html&title=Using GitHub Copilot in Your IDE: Tips, Tricks and Best Practices - RSSBOX&pics=https://github.blog/wp-content/uploads/2024/03/02_top_level_comment.png?w=1024&resize=1024%2C374&summary=
+
+
+AI has become an integral part of my workflow these days, and with the assistance of GitHub Copilot, I move a lot ..."><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.4/social/80c07e4dbb303.svg"></a><a class="social share-item email" href="mailto:?subject=Using GitHub Copilot in Your IDE: Tips, Tricks and Best Practices - RSSBOX&amp;body=https://blog.imc.re/RSSBOX/rss/504bef32.html"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.4/social/a1b00e20f425d.svg"></a><a class="social share-item link" onclick="util.copy(&quot;copy-link&quot;, &quot;复制成功&quot;)"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.4/social/8411ed322ced6.svg"></a></div><div class="qrcode" id="qrcode-wechat" style="visibility:hidden;height:0"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://api.qrserver.com/v1/create-qr-code/?size=256x256&data=https://blog.imc.re/RSSBOX/rss/504bef32.html"></div></div></section></div>
+
+</article>
+
+<div class="related-wrap reveal" id="read-next"><section class="body"><div class="item" id="prev"><div class="note">较新文章</div><a href="/RSSBOX/rss/af30535d.html">RocketMQ 流数据库解析：如何实现一体化流处理？</a></div><div class="item" id="next"><div class="note">较早文章</div><a href="/RSSBOX/rss/1cd11fcd.html">Mob Talker Cupa</a></div></section></div>
+
+
+<div class="related-wrap reveal" id="related-posts">
+    <section class="header">
+      <div class="title cap theme">您可能感兴趣的文章</div>
+    </section>
+    <section class="body">
+    <div class="related-posts"><a class="item" href="/RSSBOX/rss/a88c45ca.html" title="Exploring an Increase in Circumvention Claims in Our Transparency Data"><span class="title">Exploring an Increase in Circumvention Claims in Our Transparency Data</span></a><a class="item" href="/RSSBOX/rss/225e90f2.html" title="Found Means Fixed: Introducing Code Scanning Autofix, Powered by GitHub Copilot and CodeQL"><span class="title">Found Means Fixed: Introducing Code Scanning Autofix, Powered by GitHub Copilot and CodeQL</span></a><a class="item" href="/RSSBOX/rss/988cb3e2.html" title="Gaining Kernel Code Execution on an MTE-Enabled Pixel 8"><span class="title">Gaining Kernel Code Execution on an MTE-Enabled Pixel 8</span></a><a class="item" href="/RSSBOX/rss/60c49cb2.html" title="GitHub Availability Report: February 2024"><span class="title">GitHub Availability Report: February 2024</span></a><a class="item" href="/RSSBOX/rss/f24f0065.html" title="Game Bytes · March 2024"><span class="title">Game Bytes · March 2024</span></a></div></section></div>
+
+
+
+
+
+      
+<footer class="page-footer reveal fs12"><hr><div class="sitemap"><div class="sitemap-group"><span class="fs14">文章</span><a href="/RSSBOX/categories">分类</a><a href="/RSSBOX/tags">标签</a><a href="/RSSBOX/archives">归档</a></div><div class="sitemap-group"><span class="fs14">更多</span><a href="https://blog.imc.re/">博客</a><a target="_blank" rel="noopener" href="https://imc.re/">IMC.RE</a></div></div><div class="text"><p><a href="/">@RSSBOX</a> 2023 author by <a target="_blank" rel="external nofollow noopener noreferrer" href="https://github.com/MHG-LAB/RSSBOX">MHuiG</a> powered by SummerGoro。<br><br>本博客所有文章除特别声明外，均采用 <a target="_blank" rel="external nofollow noopener noreferrer" href="https://github.com/me-shaon/GLWTPL/blob/master/translations/LICENSE_zh-CN">GLWT（Good Luck With That，祝你好运）公共许可证</a> 许可协议，转载请注明出处。</p>
+</div></footer>
+
+      <div class="float-panel mobile-only blur" style="display:none">
+  <button type="button" class="sidebar-toggle mobile" onclick="sidebar.toggle()">
+    <svg class="icon" style="width: 1em; height: 1em;vertical-align: middle;fill: currentColor;overflow: hidden;" viewbox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="15301"><path d="M566.407 808.3c26.9-0.1 49.3-20.8 51.6-47.6-1.9-27.7-23.9-49.7-51.6-51.6h-412.6c-28.2-1.4-52.6 19.5-55.5 47.6 2.3 26.8 24.6 47.5 51.6 47.6h416.5v4z m309.3-249.9c26.9-0.1 49.3-20.8 51.6-47.6-2.2-26.8-24.6-47.5-51.6-47.6h-721.9c-27.7-2.8-52.5 17.4-55.3 45.1-0.1 0.8-0.1 1.7-0.2 2.5 0.9 27.2 23.6 48.5 50.7 47.6H875.707z m-103.1-245.9c26.9-0.1 49.3-20.8 51.6-47.6-0.4-28.3-23.2-51.1-51.5-51.6h-618.9c-29.5-1.1-54.3 21.9-55.5 51.4v0.2c1.4 27.8 25.2 49.2 53 47.8 0.8 0 1.7-0.1 2.5-0.2h618.8z" p-id="15302"/><path d="M566.407 808.3c26.9-0.1 49.3-20.8 51.6-47.6-1.9-27.7-23.9-49.7-51.6-51.6h-412.6c-28.2-1.4-52.6 19.5-55.5 47.6 1.9 27.7 23.9 49.7 51.6 51.6h416.5z m309.3-249.9c26.9-0.1 49.3-20.8 51.6-47.6-2.2-26.8-24.6-47.5-51.6-47.6h-721.9c-27.7-2.8-52.5 17.4-55.3 45.1-0.1 0.8-0.1 1.7-0.2 2.5 0.9 27.2 23.6 48.5 50.7 47.6H875.707z m-103.1-245.9c26.9-0.1 49.3-20.8 51.6-47.6-0.4-28.3-23.2-51.1-51.5-51.6h-618.9c-29.5-1.1-54.3 21.9-55.5 51.4v0.2c1.4 27.8 25.2 49.2 53 47.8 0.8 0 1.7-0.1 2.5-0.2h618.8z" p-id="15303"/></svg>
+  </button>
+</div>
+
+    </div>
+  </div>
+  <div class="scripts">
+    <script type="text/javascript">
+  const stellar = {
+    // 懒加载 css https://github.com/filamentgroup/loadCSS
+    loadCSS: (href, before, media, attributes) => {
+      var doc = window.document;
+      var ss = doc.createElement("link");
+      var ref;
+      if (before) {
+        ref = before;
+      } else {
+        var refs = (doc.body || doc.getElementsByTagName("head")[0]).childNodes;
+        ref = refs[refs.length - 1];
+      }
+      var sheets = doc.styleSheets;
+      if (attributes) {
+        for (var attributeName in attributes) {
+          if (attributes.hasOwnProperty(attributeName)) {
+            ss.setAttribute(attributeName, attributes[attributeName]);
+          }
+        }
+      }
+      ss.rel = "stylesheet";
+      ss.href = href;
+      ss.media = "only x";
+      function ready(cb) {
+        if (doc.body) {
+          return cb();
+        }
+        setTimeout(function () {
+          ready(cb);
+        });
+      }
+      ready(function () {
+        ref.parentNode.insertBefore(ss, before ? ref : ref.nextSibling);
+      });
+      var onloadcssdefined = function (cb) {
+        var resolvedHref = ss.href;
+        var i = sheets.length;
+        while (i--) {
+          if (sheets[i].href === resolvedHref) {
+            return cb();
+          }
+        }
+        setTimeout(function () {
+          onloadcssdefined(cb);
+        });
+      };
+      function loadCB() {
+        if (ss.addEventListener) {
+          ss.removeEventListener("load", loadCB);
+        }
+        ss.media = media || "all";
+      }
+      if (ss.addEventListener) {
+        ss.addEventListener("load", loadCB);
+      }
+      ss.onloadcssdefined = onloadcssdefined;
+      onloadcssdefined(loadCB);
+      return ss;
+    },
+
+    // 从 butterfly 和 volantis 获得灵感
+    loadScript: (src, opt) => new Promise((resolve, reject) => {
+      var script = document.createElement('script');
+      if (src.startsWith('/')){
+        src = stellar.config.root + src.substring(1);
+      }
+      script.src = src;
+      if (opt) {
+        for (let key of Object.keys(opt)) {
+          script[key] = opt[key]
+        }
+      } else {
+        // 默认异步，如果需要同步，第二个参数传入 {} 即可
+        script.async = true
+      }
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    }),
+
+    // https://github.com/jerryc127/hexo-theme-butterfly
+    jQuery: (fn) => {
+      if (typeof jQuery === 'undefined') {
+        stellar.loadScript(stellar.plugins.jQuery).then(fn)
+      } else {
+        fn()
+      }
+    }
+  };
+  stellar.version = '1.19.0';
+  stellar.github = 'https://github.com/xaoxuu/hexo-theme-stellar/tree/1.19.0';
+  stellar.config = {
+    date_suffix: {
+      just: '刚刚',
+      min: '分钟前',
+      hour: '小时前',
+      day: '天前',
+      month: '个月前',
+    },
+    root : '/RSSBOX/',
+  };
+
+  // required plugins (only load if needs)
+  stellar.plugins = {
+    jQuery: 'https://gcore.jsdelivr.net/npm/jquery@3.6.2/dist/jquery.min.js'
+  };
+
+  if ('local_search') {
+    stellar.search = {};
+    stellar.search.service = 'local_search';
+    if (stellar.search.service == 'local_search') {
+      let service_obj = Object.assign({}, {"field":"all","path":"/search.json","content":true,"codeblock":true,"sort":"-date"});
+      stellar.search[stellar.search.service] = service_obj;
+    }
+  }
+
+  // stellar js
+  stellar.plugins.stellar = Object.assign({"sites":"/js/plugins/sites.js","friends":"/js/plugins/friends.js","ghinfo":"/js/plugins/ghinfo.js","timeline":"/js/plugins/timeline.js","linkcard":"/js/plugins/linkcard.js","fcircle":"/js/plugins/fcircle.js","weibo":"/js/plugins/weibo.js"});
+
+  stellar.plugins.marked = Object.assign("https://cdn.bootcdn.net/ajax/libs/marked/4.0.18/marked.min.js");
+  // optional plugins
+  if ('true' == 'true') {
+    stellar.plugins.lazyload = Object.assign({"enable":true,"js":"https://gcore.jsdelivr.net/npm/vanilla-lazyload@17.8.3/dist/lazyload.min.js","transition":"blur"});
+  }
+  if ('true' == 'true') {
+    stellar.plugins.swiper = Object.assign({"enable":true,"css":"https://unpkg.com/swiper@8.4.5/swiper-bundle.min.css","js":"https://unpkg.com/swiper@8.4.5/swiper-bundle.min.js"});
+  }
+  if ('' == 'true') {
+    stellar.plugins.scrollreveal = Object.assign({"enable":null,"js":"https://gcore.jsdelivr.net/npm/scrollreveal@4.0.9/dist/scrollreveal.min.js","distance":"8px","duration":500,"interval":100,"scale":1});
+  }
+  if ('true' == 'true') {
+    stellar.plugins.preload = Object.assign({"enable":true,"service":"flying_pages","instant_page":"https://gcore.jsdelivr.net/gh/volantis-x/cdn-volantis@4.1.2/js/instant_page.js","flying_pages":"https://gcore.jsdelivr.net/gh/gijo-varghese/flying-pages@2.1.2/flying-pages.min.js"});
+  }
+  if ('true' == 'true') {
+    stellar.plugins.fancybox = Object.assign({"enable":true,"js":"https://gcore.jsdelivr.net/npm/@fancyapps/ui@4.0/dist/fancybox.umd.js","css":"https://gcore.jsdelivr.net/npm/@fancyapps/ui@4.0/dist/fancybox.css","selector":".swiper-slide img"});
+  }
+  if ('false' == 'true') {
+    stellar.plugins.heti = Object.assign({"enable":false,"css":"https://unpkg.com/heti@0.9.2/umd/heti.min.css","js":"https://unpkg.com/heti@0.9.2/umd/heti-addon.min.js"});
+  }
+  if ('true' == 'true') {
+    stellar.plugins.copycode = Object.assign({"enable":true,"js":"/js/plugins/copycode.js","default_text":"Copy","success_text":"Copied"});
+  }
+</script>
+
+<!-- required -->
+
+  
+<script src="/RSSBOX/js/main.js" async></script>
+
+
+
+<!-- optional -->
+
+  <script>
+  function loadJS() {
+    const els = document.querySelectorAll("#comments #giscus");
+    if (els.length === 0) return;
+    els.forEach((el, i) => {
+      try {
+        el.innerHTML = '';
+      } catch (error) {
+        console.log(error);
+      }
+      var script = document.createElement('script');
+      script.src = 'https://giscus.app/client.js';
+      script.async = true;
+      for (let key of Object.keys(el.attributes)) {
+        let attr = el.attributes[key];
+        if (['class', 'id'].includes(attr.name) === false) {
+          script.setAttribute(attr.name, attr.value);
+        }
+      }
+      el.appendChild(script);
+    });
+  }
+  window.addEventListener('DOMContentLoaded', (event) => {
+    loadJS();
+  });
+</script>
+
+
+
+
+<!-- inject -->
+
+
+  </div>
+</body>
+</html>

@@ -1,0 +1,555 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+  <meta name="generator" content="Hexo 6.3.0">
+  <meta name="hexo-theme" content="https://github.com/xaoxuu/hexo-theme-stellar/tree/1.19.0">
+  <meta charset="utf-8">
+  
+
+  <meta http-equiv="x-dns-prefetch-control" content="on">
+  <link rel="dns-prefetch" href="https://gcore.jsdelivr.net">
+  <link rel="preconnect" href="https://gcore.jsdelivr.net" crossorigin>
+  <link rel="dns-prefetch" href="//unpkg.com">
+
+  <meta name="renderer" content="webkit">
+  <meta name="force-rendering" content="webkit">
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+  <meta name="HandheldFriendly" content="True">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="theme-color" content="#f8f8f8">
+  
+  <title>What's New in PikiwiDB (Pika) v3.5.3 (正式版) - RSSBOX</title>
+
+  
+    <meta name="description" content="随着 Redis 宣布采用双协议以维护其商业利益，PikiwiDB(Pika) 社区非常荣幸地宣布之际，我们的最新 v3.5.3 正式生产可用版本现已发布。 v3.5.3 版本不仅修复了长期存在的 Bug，还引入了一系列新特性。这些新特性包括 Pika 对 ACL 的支持、移除了 Sharing 模式的残留 Slot 代码、命令执行的快慢分离、Redis Stream 支持、大 key 分析工">
+<meta property="og:type" content="article">
+<meta property="og:title" content="What&#39;s New in PikiwiDB (Pika) v3.5.3 (正式版)">
+<meta property="og:url" content="https://blog.imc.re/RSSBOX/rss/b3998d1b.html">
+<meta property="og:site_name" content="RSSBOX">
+<meta property="og:description" content="随着 Redis 宣布采用双协议以维护其商业利益，PikiwiDB(Pika) 社区非常荣幸地宣布之际，我们的最新 v3.5.3 正式生产可用版本现已发布。 v3.5.3 版本不仅修复了长期存在的 Bug，还引入了一系列新特性。这些新特性包括 Pika 对 ACL 的支持、移除了 Sharing 模式的残留 Slot 代码、命令执行的快慢分离、Redis Stream 支持、大 key 分析工">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://oscimg.oschina.net/oscnet/up-878340b2bbee45597dcbc2f812c6d923d9a.png">
+<meta property="og:image" content="https://oscimg.oschina.net/oscnet/up-20fac9f5a0390f6fe6263cc1bf19ab51a55.png">
+<meta property="article:published_time" content="2024-03-28T03:13:00.000Z">
+<meta property="article:modified_time" content="2024-03-28T03:13:00.000Z">
+<meta property="article:author" content="SMGoro">
+<meta property="article:tag" content="媒体">
+<meta property="article:tag" content="开源中国">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://oscimg.oschina.net/oscnet/up-878340b2bbee45597dcbc2f812c6d923d9a.png">
+  
+  
+  
+  <meta name="keywords" content="媒体,开源中国">
+
+  <!-- feed -->
+  
+    <link rel="alternate" href="/RSSBOX/atom.xml" title="RSSBOX" type="application/atom+xml">
+  
+
+  
+    
+<link rel="stylesheet" href="/RSSBOX/css/main.css">
+
+  
+
+  
+
+  
+
+  
+    <link rel="stylesheet" href="https://gcore.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.css" integrity="sha384-vKruj+a13U8yHIkAyGgK1J3ArTLzrFGBbBc0tDp4ad/EyewESeXE/Iv67Aj8gKZ0" crossorigin="anonymous">
+    <script defer src="https://gcore.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.js" integrity="sha384-PwRUT/YqbnEjkZO0zZxNqcxACrXe+j766U2amXcgMg5457rve2Y7I6ZJSm2A0mS4" crossorigin="anonymous"></script>
+    <script defer src="https://gcore.jsdelivr.net/npm/katex@0.16.4/dist/contrib/auto-render.min.js" integrity="sha384-+VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4+/RRE05" crossorigin="anonymous" onload="renderMathInElement(document.body);"></script>
+  
+
+
+  
+
+<!--百度统计-->
+<script>
+  var _hmt = _hmt || [];
+  (function() {
+    var hm = document.createElement("script");
+    hm.src = "https://hm.baidu.com/hm.js?f42afe3e5b76d22c8b1a8060171c7184";
+    var s = document.getElementsByTagName("script")[0]; 
+    s.parentNode.insertBefore(hm, s);
+  })();
+</script>  
+  <!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-V2NSKYGXNG"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-V2NSKYGXNG');
+</script>
+<!--Google Adsense-->
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4773172018528901" crossorigin="anonymous"></script>
+</head>
+
+<body>
+  
+
+
+
+
+  <div class="l_body" id="start">
+    <aside class="l_left" layout="post">
+    
+
+  
+
+<header class="header"><div class="logo-wrap"><a class="avatar" href="/RSSBOX/archives"><div class="bg" style="opacity:0;background-image:url(https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.4/avatar/round/rainbow64@3x.webp);"></div><img no-lazy class="avatar" src="https://cdn.jsdelivr.net/gh/SMGCDN/photos/icon/rsshub.png" onerror="javascript:this.classList.add('error');this.src='https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.4/image/2659360.svg';"></a><a class="title" href="/RSSBOX/"><div class="main" ff="title">RSSBOX</div><div class="sub normal cap">SMGoroのRSS订阅</div><div class="sub hover cap" style="opacity:0"> 一些好康的东西</div></a></div>
+
+<nav class="menu dis-select"><a class="nav-item active" href="/RSSBOX/">订阅</a><a class="nav-item" href="https://blog.imc.re/">博客</a><a class="nav-item" href="https://blog.imc.re/contact">联系</a><a class="nav-item" href="https://blog.imc.re/more">更多</a></nav>
+</header>
+
+
+<div class="widgets">
+
+<widget class="widget-wrapper toc single" id="data-toc"><div class="widget-header cap dis-select"><span class="name">What's New in PikiwiDB (Pika) v3.5.3 (正式版)</span></div><div class="widget-body fs14"><div class="doc-tree active"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">1 主要更新</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-text">1.1 支持 ACL</span></a></li><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-text">1.2 混合存储模型支持 bitmap</span></a></li><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-text">1.3 快慢命令分离</span></a></li><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-text">1.4 Redis Stream 支持</span></a></li><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-text">1.5 云原生集群</span></a></li><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-text">1.6 Compaction 优化</span></a></li><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-text">1.7 自动 Failover</span></a></li><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-text">1.8 可观测性提升</span></a></li><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-text">1.9 数据一致性</span></a></li><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-text">1.10 测试集增加</span></a></li><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-text">1.11 工具集更新</span></a></li><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-text">1.12 文档更新</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">2 发版详情</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-text">新特性</span></a></li><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-text">Bug 修复</span></a></li><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-text">发版标签</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">社区</span></a></li></ol></div></div></widget>
+
+
+
+<widget class="widget-wrapper search"><div class="widget-body"><div class="search-wrapper" id="search"><form class="search-form"><input type="text" class="search-input" id="search-input" data-filter="/rss/" placeholder="文章搜索"><svg t="1670596976048" class="icon search-icon" viewbox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2676" width="200" height="200"><path d="M938.2 832.6L723.8 618.1c-2.5-2.5-5.3-4.4-7.9-6.4 36.2-55.6 57.3-121.8 57.3-193.1C773.3 222.8 614.6 64 418.7 64S64 222.8 64 418.6c0 195.9 158.8 354.6 354.6 354.6 71.3 0 137.5-21.2 193.2-57.4 2 2.7 3.9 5.4 6.3 7.8L832.5 938c14.6 14.6 33.7 21.9 52.8 21.9 19.1 0 38.2-7.3 52.8-21.8 29.2-29.1 29.2-76.4 0.1-105.5M418.7 661.3C284.9 661.3 176 552.4 176 418.6 176 284.9 284.9 176 418.7 176c133.8 0 242.6 108.9 242.6 242.7 0 133.7-108.9 242.6-242.6 242.6" p-id="2677"/></svg></form><div id="search-result"></div><div class="search-no-result">没有找到内容！</div></div></div></widget>
+
+
+
+<widget class="widget-wrapper recent"><div class="widget-header cap theme dis-select"><span class="name">最近更新</span><a class="cap-action" id="rss" title="Subscribe" href="/atom.xml"><svg class="icon" viewbox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="8938"><path d="M800.966 947.251c0-404.522-320.872-732.448-716.69-732.448V62.785c477.972 0 865.44 395.987 865.44 884.466h-148.75z m-162.273 0h-148.74c0-228.98-181.628-414.598-405.678-414.598v-152.01c306.205 0 554.418 253.68 554.418 566.608z m-446.24-221.12c59.748 0 108.189 49.503 108.189 110.557 0 61.063-48.44 110.563-108.188 110.563-59.747 0-108.18-49.5-108.18-110.563 0-61.054 48.433-110.556 108.18-110.556z" p-id="8939"/></svg></a></div><div class="widget-body related-posts fs14"><a class="item title" href="/RSSBOX/rss/b51353e8.html"><span class="title">第11集 到了30岁还是处男，似乎会变成魔法师</span></a><a class="item title" href="/RSSBOX/rss/399916dd.html"><span class="title">第11集 金属胭脂</span></a><a class="item title" href="/RSSBOX/rss/c71b60b.html"><span class="title">第12集 战国妖狐</span></a><a class="item title" href="/RSSBOX/rss/26505cd4.html"><span class="title">第12集 月光下的异世界之旅 第二季</span></a><a class="item title" href="/RSSBOX/rss/65bb4e47.html"><span class="title">第12集 通灵王 FLOWERS</span></a></div></widget>
+</div>
+<footer class="footer dis-select"><div class="social-wrap"><a class="social" href="https://github.com/SMGoro" target="_blank" rel="external nofollow noopener noreferrer"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cdn.jsdelivr.net/gh/SMGCDN/photos/icon/iconfont/social-github.svg"></a><a class="social" href="https://space.bilibili.com/359079394" target="_blank" rel="external nofollow noopener noreferrer"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cdn.jsdelivr.net/gh/SMGCDN/photos/icon/iconfont/bilibili.svg"></a><a class="social" href="https://l.imc.re/zhihu" target="_blank" rel="external nofollow noopener noreferrer"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cdn.jsdelivr.net/gh/SMGCDN/photos/icon/iconfont/zhihu.svg"></a><a class="social" href="https://l.imc.re/discord" target="_blank" rel="external nofollow noopener noreferrer"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cdn.jsdelivr.net/gh/SMGCDN/photos/icon/iconfont/discord.svg"></a><a class="social" href="https://blog.imc.re/contact" target="_blank" rel="external nofollow noopener noreferrer"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cdn.jsdelivr.net/gh/SMGCDN/photos/icon/iconfont/comments.svg"></a></div></footer>
+
+    </aside>
+    <div class="l_main">
+      
+
+      
+
+
+
+<div class="bread-nav fs12"><div id="breadcrumb"><a class="cap breadcrumb" href="/RSSBOX/">主页</a><span class="sep"></span><a class="cap breadcrumb" href="/RSSBOX/">文章</a><span class="sep"></span><a class="cap breadcrumb-link" href="/RSSBOX/categories/%E5%AA%92%E4%BD%93/">媒体</a> <span class="sep"></span> <a class="cap breadcrumb-link" href="/RSSBOX/categories/%E5%AA%92%E4%BD%93/%E5%BC%80%E6%BA%90%E4%B8%AD%E5%9B%BD/">开源中国</a></div><div id="post-meta">发布于&nbsp;<time datetime="2024-03-28T03:13:00.000Z">2024-03-28</time></div></div>
+
+<article class="md-text content post">
+<h1 class="article-title"><span>What's New in PikiwiDB (Pika) v3.5.3 (正式版)</span></h1>
+<div>
+<div class="content">
+<p>随着 Redis 宣布采用双协议以维护其商业利益，PikiwiDB(Pika) 社区非常荣幸地宣布之际，我们的最新 v3.5.3 正式生产可用版本现已发布。</p>
+<p>v3.5.3 版本不仅修复了长期存在的 Bug，还引入了一系列新特性。这些新特性包括 Pika 对 ACL 的支持、移除了 Sharing 模式的残留 Slot 代码、命令执行的快慢分离、Redis Stream 支持、大 key 分析工具、以及 Pika 分布式集群的全自动化 failover 等。此外，我们在 3.5.3 版本中增加了更多的自动化测试用例，以提高 Pika 服务的稳定性和健壮性，确保用户能够享受到更高效、更稳定的使用体验。本文将详细介绍本次更新的主要功能、Bug 修复和性能提升。</p>
+<p>在深入探讨 3.5.3 版本的更新内容之前，请注意以下几点声明：</p>
+<ol>
+<li>由于商标问题，Pika 项目已更名为 PikiwiDB。在本文中，我们将使用 PikiwiDB(Pika) 来指代项目，项目地址为：<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2FOpenAtomFoundation%2Fpika" target="_blank" rel="external nofollow noopener noreferrer">https://github.com/OpenAtomFoundation/pika</a></li>
+<li>我们创建了一个新项目 <a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2FOpenAtomFoundation%2Fpikiwidb%EF%BC%8C%E8%BF%99%E6%98%AF%E4%B8%80%E4%B8%AA%E5%9F%BA%E4%BA%8E" target="_blank" rel="external nofollow noopener noreferrer">https://github.com/OpenAtomFoundation/pikiwidb，这是一个基于</a> Raft 协议实现的兼容 Redis 协议的大容量 KV 数据库，主要面向强一致性数据场景，例如存储约 10TiB 规模的元数据。PikiwiDB 将专门用于指代此项目。</li>
+<li>我们为 PikiwiDB 设计了一个新的 logo，作为其商标，并已在相关政府机构注册。</li>
+</ol>
+<p><img class="lazy" alt referrerpolicy="no-referrer" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://oscimg.oschina.net/oscnet/up-878340b2bbee45597dcbc2f812c6d923d9a.png"></p>
+<h2>1 主要更新</h2>
+<h3>1.1 支持 ACL</h3>
+<p>PikiwiDB(Pika) 3.5.3 版本正式全面支持 Redis ACL，为未来在云原生 Pika 集群中支持多租户场景奠定了基础。在此之前，Pika 已经支持了 Redis 的用户认证方式，如 auth/userpass/requirepass，以及通过 pika.conf 中的 userblacklist 配置命令黑名单模式。本次更新保持了向后兼容，并支持这些已有的使用方式。</p>
+<p>我们还确保 PikiwiDB(Pika) 的 ACL 实现与 Redis ACL 完全兼容，通过将 Redis 的所有 ACL TCL 测试集纳入 PikiwiDB(Pika) 的测试集中。</p>
+<p>关键 PR 链接：</p>
+<ul>
+<li><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2FOpenAtomFoundation%2Fpika%2Fpull%2F2013" target="_blank" rel="external nofollow noopener noreferrer">PikiwiDB(Pika) 支持 ACL</a></li>
+<li><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2FOpenAtomFoundation%2Fpika%2Fpull%2F2449" target="_blank" rel="external nofollow noopener noreferrer">修正 ACL 用户认证错误问题</a></li>
+<li><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2FOpenAtomFoundation%2Fpika%2Fpull%2F2459" target="_blank" rel="external nofollow noopener noreferrer">ACL 向前兼容 userblacklist</a></li>
+<li><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2FOpenAtomFoundation%2Fpika%2Fpull%2F2495" target="_blank" rel="external nofollow noopener noreferrer">添加 Redis ACL 测试集</a></li>
+</ul>
+<h3>1.2 混合存储模型支持 bitmap</h3>
+<p>在单体环境下，同时优化 PikiwiDB(Pika) 的读/写/compaction 是一项挑战。在 v3.5.2 版本中，我们引入了由缓存 Redis 和 RocksDB 构成的混合存储模型，并支持了 string/list/set/zset/hashtable 五种数据结构。在 3.5.3 版本中，我们增加了对 bitmap 的支持。</p>
+<p>此外，我们在 3.5.3 版本中支持对 Redis 缓存进行动态参数调整。</p>
+<p>关键 PR 链接：</p>
+<ul>
+<li><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2FOpenAtomFoundation%2Fpika%2Fpull%2F2253" target="_blank" rel="external nofollow noopener noreferrer">PikiwiDB(Pika) 支持 bitmap</a></li>
+<li><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2FOpenAtomFoundation%2Fpika%2Fpull%2F2197" target="_blank" rel="external nofollow noopener noreferrer">支持对 Redis 缓存进行动态调参</a></li>
+</ul>
+<h3>1.3 快慢命令分离</h3>
+<p>为了避免慢命令阻塞快命令的执行，我们在 Codis-Proxy 和 PikiwiDB(Pika) 两个层面实现了快慢命令分离。</p>
+<p>关键 PR 链接：</p>
+<ul>
+<li><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2FOpenAtomFoundation%2Fpika%2Fpull%2F2162" target="_blank" rel="external nofollow noopener noreferrer">实现快慢命令分离</a></li>
+</ul>
+<h3>1.4 Redis Stream 支持</h3>
+<p>虽然 PikiwiDB(Pika) 之前支持了 Redis pubsub，但它只能进行在线消息传递。在 3.5.3 版本中，我们增加了对 Redis Stream 的有限支持，类似于消息队列（MQ），以便更安全地传递消息。为了确保数据的安全性，我们在底层引擎 BlackWidow 中特别添加了对 Stream 数据类型的支持。</p>
+<p>关键 PR 链接：</p>
+<ul>
+<li><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2FOpenAtomFoundation%2Fpika%2Fpull%2F1955" target="_blank" rel="external nofollow noopener noreferrer">Pika 支持 Redis Stream</a></li>
+</ul>
+<p>请注意，Pika Stream 目前还不支持消费组消费，这将在后续版本中实现。</p>
+<h3>1.5 云原生集群</h3>
+<p>在 PikiwiDB(Pika) 3.5.0 版本中，我们开源了 Pika-Operator，它支持在 K8s 上部署 Pika 主从对。在 3.5.2 版本中，我们基于 Kubeblocks 的 Pika-Operator 支持了在 K8s 上部署类似 Codis 的 Pika Cluster，但当时还不支持动态扩缩容。</p>
+<p>在 3.5.3 版本中，最新的 Pika-Operator 已经支持了 Codis Group 级别的节点扩缩容，并且支持数据的 Rebalance。</p>
+<p>关键 PR 链接：</p>
+<ul>
+<li><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2FOpenAtomFoundation%2Fpika%2Fpull%2F2121" target="_blank" rel="external nofollow noopener noreferrer">Pika-Operator 支持 Pika 集群自动扩容</a></li>
+<li><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2FOpenAtomFoundation%2Fpika%2Fpull%2F2486" target="_blank" rel="external nofollow noopener noreferrer">优化 codis slot 迁移速度，支持动态修改迁移线程和速度</a></li>
+<li><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2FOpenAtomFoundation%2Fpika%2Fpull%2F2480" target="_blank" rel="external nofollow noopener noreferrer">Pika-operator 支持 namespace，可在不同 namespace 下部署不同的集群</a></li>
+<li><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2FOpenAtomFoundation%2Fpika%2Fpull%2F2451" target="_blank" rel="external nofollow noopener noreferrer">Pika-operator 支持监控指标采集，自动拉起 pika-expoter</a></li>
+</ul>
+<h3>1.6 Compaction 优化</h3>
+<p>PikiwiDB(Pika) 的底层磁盘存储引擎 RocksDB 在进行 compaction 时会显著影响 PikiwiDB(Pika) 的读写性能。因此，控制好 compaction 是优化 Pika 读写性能的关键。</p>
+<p>关键 PR 链接：</p>
+<ul>
+<li><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2FOpenAtomFoundation%2Fpika%2Fpull%2F2163" target="_blank" rel="external nofollow noopener noreferrer">添加 CompactRange 命令，支持对一定范围内的 key 进行 compact</a></li>
+<li><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2FOpenAtomFoundation%2Fpika%2Fpull%2F2172" target="_blank" rel="external nofollow noopener noreferrer">提升 Compaction 速度，减少 Compaction 耗时</a></li>
+<li><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2FOpenAtomFoundation%2Fpika%2Fpull%2F2345" target="_blank" rel="external nofollow noopener noreferrer">执行 shutdown 命令时调用 disable compaction，提升进程退出速度</a></li>
+</ul>
+<h3>1.7 自动 Failover</h3>
+<p>PikiwiDB(Pika) 集群目前是基于 Codis 实现的。为了提高基于 Codis 的 PikiwiDB(Pika) Cluster 的易用性，我们对 Codis 进行了许多扩展。</p>
+<p>原始的 Codis 不支持 Group 内的 Failover，需要使用 Redis Sentinel，这会导致运维成本增加。我们在 Codis Dashboard 中加入了 sentinel 的功能，实现了对 Group 内主从的自动 failover。</p>
+<p>关键 PR 链接：</p>
+<ul>
+<li><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2FOpenAtomFoundation%2Fpika%2Fpull%2F2386" target="_blank" rel="external nofollow noopener noreferrer">PikiwiDB(Pika) 分布式集群支持自动 failover</a></li>
+</ul>
+<h3>1.8 可观测性提升</h3>
+<p>PikiwiDB(Pika) 的可观测性关键组件是 Pika-Exporter。在 3.5.2 版本中，我们虽然添加了 Redis Cache 缓存热数据，但缺少监控指标。在 3.5.3 版本中，我们增加了包括命中率、每秒命中次数、Redis Cache 内存使用量、Redis Cache 个数、Redis Cache DB 个数 等指标。</p>
+<p>关键 PR 链接：</p>
+<ul>
+<li><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2FOpenAtomFoundation%2Fpika%2Fpull%2F2318" target="_blank" rel="external nofollow noopener noreferrer">Pika exporter 暴露 cache 相关的数据采集指标</a></li>
+<li><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2FOpenAtomFoundation%2Fpika%2Fpull%2F2199" target="_blank" rel="external nofollow noopener noreferrer">PikiwiDB(Pika) 分布式集群 Codis proxy 新增可观测指标</a></li>
+<li><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2FOpenAtomFoundation%2Fpika%2Fpull%2F2494" target="_blank" rel="external nofollow noopener noreferrer">修复 dbsize 计算错误问题</a></li>
+<li><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2FOpenAtomFoundation%2Fpika%2Fpull%2F2234" target="_blank" rel="external nofollow noopener noreferrer">修复网络监控指标统计不准确的问题</a></li>
+</ul>
+<h3>1.9 数据一致性</h3>
+<p>3.5.3 版本修复了许多 PikiwiDB(Pika) 主从同步问题，确保数据的一致性。</p>
+<p>关键 PR 链接：</p>
+<ul>
+<li><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2FOpenAtomFoundation%2Fpika%2Fpull%2F2319" target="_blank" rel="external nofollow noopener noreferrer">修复主从复制过程中，slave 节点收到 master 异常回包后的处理逻辑</a></li>
+<li><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2FOpenAtomFoundation%2Fpika%2Fpull%2F2225" target="_blank" rel="external nofollow noopener noreferrer">修复 Pika cache 部分场景下 cache 和 DB 数据不一致的问题</a></li>
+<li><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2FOpenAtomFoundation%2Fpika%2Fpull%2F2439" target="_blank" rel="external nofollow noopener noreferrer">修复全量复制失败后，未做处理导致数据丢失问题</a></li>
+<li><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2FOpenAtomFoundation%2Fpika%2Fpull%2F2437" target="_blank" rel="external nofollow noopener noreferrer">修复主从复制过程中，主实例执行 bgsave 过程中，没有正确回应从的同步请求</a></li>
+<li><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2FOpenAtomFoundation%2Fpika%2Fpull%2F2430" target="_blank" rel="external nofollow noopener noreferrer">全量复制过程中，添加数据同步状态，明确数据同步进度</a></li>
+<li><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2FOpenAtomFoundation%2Fpika%2Fpull%2F2409" target="_blank" rel="external nofollow noopener noreferrer">修复从库在 Apply binlog 时，没有对操作的 key 加锁，导致数据不一致的问题</a></li>
+<li><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2FOpenAtomFoundation%2Fpika%2Fpull%2F2485" target="_blank" rel="external nofollow noopener noreferrer">修复迁移数据后数据不一致的问题</a></li>
+</ul>
+<h3>1.10 测试集增加</h3>
+<p>PikiwiDB(Pika) 的测试集由 gtest 单测、Redis TCL 测试集和 Go 测试集组成。在 3.5.3 版本中，我们增加了 Codis 集群 e2e 测试。</p>
+<p>关键 PR 链接：</p>
+<ul>
+<li><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2FOpenAtomFoundation%2Fpika%2Fpull%2F2497" target="_blank" rel="external nofollow noopener noreferrer">Pika TCL 测试集</a></li>
+<li><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2FOpenAtomFoundation%2Fpika%2Fpull%2F2502" target="_blank" rel="external nofollow noopener noreferrer">Pika Gotest 测试集</a></li>
+</ul>
+<h3>1.11 工具集更新</h3>
+<p>PikiwiDB(Pika) 一直重视工具集的建设，所有相关工具都可以在 <a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2FOpenAtomFoundation%2Fpika%2Ftree%2Funstable%2Ftools" target="_blank" rel="external nofollow noopener noreferrer">https://github.com/OpenAtomFoundation/pika/tree/unstable/tools</a> 中找到。在 3.5.3 版本中，我们新增了一个工具：</p>
+<ul>
+<li><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2FOpenAtomFoundation%2Fpika%2Fpull%2F2195" target="_blank" rel="external nofollow noopener noreferrer">PikiwiDB(Pika) 支持大 key 分析工具</a></li>
+</ul>
+<h3>1.12 文档更新</h3>
+<p>PikiwiDB(Pika) 的文档主要是 wiki 文档。在 3.5.3 版本中，我们更新了 Pika 支持的 Redis 命令文档。</p>
+<p>文档链接：<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2FOpenAtomFoundation%2Fpika%2Fwiki%2Fpika-%25E6%2594%25AF%25E6%258C%2581%25E7%259A%2584redis%25E6%258E%25A5%25E5%258F%25A3%25E5%258F%258A%25E5%2585%25BC%25E5%25AE%25B9%25E6%2583%2585%25E5%2586%25B5" target="_blank" rel="external nofollow noopener noreferrer">https://github.com/OpenAtomFoundation/pika/wiki/pika-%E6%94%AF%E6%8C%81%E7%9A%84redis%E6%8E%A5%E5%8F%A3%E5%8F%8A%E5%85%BC%E5%AE%B9%E6%83%85%E5%86%B5</a></p>
+<h2>2 发版详情</h2>
+<p>在第一章节中，我们概述了 3.5.3 版本的主要功能升级和改进。下面详细列出了本次发版的相关 PR。</p>
+<h3>新特性</h3>
+<ul>
+<li><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2FOpenAtomFoundation%2Fpika%2Fpull%2F2013" target="_blank" rel="external nofollow noopener noreferrer">Pika 支持 ACL</a></li>
+<li><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2FOpenAtomFoundation%2Fpika%2Fpull%2F2197" target="_blank" rel="external nofollow noopener noreferrer">在全量复制过程中，pika 服务的从节点不接收读请求</a></li>
+<li><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2FOpenAtomFoundation%2Fpika%2Fpull%2F2251" target="_blank" rel="external nofollow noopener noreferrer">删除 Sharing 模式残留的 Slot 代码，回归 3.0，以后一个 Pika 下有多个 DB，每个 DB 只有一个 Blackwidow</a></li>
+<li><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2FOpenAtomFoundation%2Fpika%2Fpull%2F2349" target="_blank" rel="external nofollow noopener noreferrer">在 Codis dashboard 协程 panic 时自动恢复服务</a></li>
+<li><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2FOpenAtomFoundation%2Fpika%2Fpull%2F2253" target="_blank" rel="external nofollow noopener noreferrer">Pika cache 新增 bimap数据类型</a></li>
+<li><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2FOpenAtomFoundation%2Fpika%2Fpull%2F2162" target="_blank" rel="external nofollow noopener noreferrer">Pika 支持快慢命令分离</a></li>
+<li><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2FOpenAtomFoundation%2Fpika%2Fpull%2F2318" target="_blank" rel="external nofollow noopener noreferrer">Pika exporter 暴露 cache 相关的数据采集指标</a></li>
+<li><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2FOpenAtomFoundation%2Fpika%2Fpull%2F2167" target="_blank" rel="external nofollow noopener noreferrer">Pika 执行完成 Bgsave 后, 保留 unix timepoint</a></li>
+<li><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2FOpenAtomFoundation%2Fpika%2Fpull%2F2257" target="_blank" rel="external nofollow noopener noreferrer">Pika 支持动态配置 disable_auto_compations 参数</a></li>
+<li><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2FOpenAtomFoundation%2Fpika%2Fpull%2F1955" target="_blank" rel="external nofollow noopener noreferrer">Pika 支持 Redis Stream</a></li>
+<li><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2FOpenAtomFoundation%2Fpika%2Fpull%2F2195" target="_blank" rel="external nofollow noopener noreferrer">Pika 支持大 key 分析工具</a></li>
+<li><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2FOpenAtomFoundation%2Fpika%2Fpull%2F2197" target="_blank" rel="external nofollow noopener noreferrer">Pika 支持动态调整 Pika cache 参数</a></li>
+<li><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2FOpenAtomFoundation%2Fpika%2Fpull%2F2222" target="_blank" rel="external nofollow noopener noreferrer">更新 Pika benchmark 工具支持更多的接口压测</a></li>
+<li><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2FOpenAtomFoundation%2Fpika%2Fpull%2F2121" target="_blank" rel="external nofollow noopener noreferrer">Pika Operator 支持 Pika 集群自动扩容</a></li>
+<li><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2FOpenAtomFoundation%2Fpika%2Fpull%2F2163" target="_blank" rel="external nofollow noopener noreferrer">添加 CompactRange 命令支持对一定范围内的 key 进行 compact</a></li>
+<li><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2FOpenAtomFoundation%2Fpika%2Fpull%2F2172" target="_blank" rel="external nofollow noopener noreferrer">提升 Compaction 速度减少 Compaction 耗时</a></li>
+<li><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2FOpenAtomFoundation%2Fpika%2Fpull%2F2157" target="_blank" rel="external nofollow noopener noreferrer">升级 RocksDB 版本到 v8.7.3</a></li>
+<li><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2FOpenAtomFoundation%2Fpika%2Fpull%2F2199" target="_blank" rel="external nofollow noopener noreferrer">Pika 分布式集群 Codis proxy 新增可观测指标</a></li>
+<li><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2FOpenAtomFoundation%2Fpika%2Fpull%2F2386" target="_blank" rel="external nofollow noopener noreferrer">Pika 分布式集群支持自动 failover</a></li>
+<li><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2FOpenAtomFoundation%2Fpika%2Fpull%2F2455" target="_blank" rel="external nofollow noopener noreferrer">Pika 支持 redis rename-command 功能</a></li>
+<li><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2FOpenAtomFoundation%2Fpika%2Fpull%2F2486" target="_blank" rel="external nofollow noopener noreferrer">优化 codis slot 迁移速度，支持动态修改迁移线程和速度</a></li>
+<li><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2FOpenAtomFoundation%2Fpika%2Fpull%2F2434" target="_blank" rel="external nofollow noopener noreferrer">Pika 支持动态调整 max-conn-rbuf-size 参数</a></li>
+<li><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2FOpenAtomFoundation%2Fpika%2Fpull%2F2480" target="_blank" rel="external nofollow noopener noreferrer">Pika-operator 支持 namespace，可以在不同的 namespace 下部署不同的集群</a></li>
+<li><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2FOpenAtomFoundation%2Fpika%2Fpull%2F2451" target="_blank" rel="external nofollow noopener noreferrer">Pika-operator 支持监控指标采集，自动拉起 pika-expoter</a></li>
+<li><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2FOpenAtomFoundation%2Fpika%2Fpull%2F2459" target="_blank" rel="external nofollow noopener noreferrer">ACL 向前兼容 userblacklist</a></li>
+<li><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2FOpenAtomFoundation%2Fpika%2Fpull%2F2497" target="_blank" rel="external nofollow noopener noreferrer">丰富了 Pika TCL 测试集</a></li>
+<li><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2FOpenAtomFoundation%2Fpika%2Fpull%2F2502" target="_blank" rel="external nofollow noopener noreferrer">丰富了 Pika Gotest 测试集</a></li>
+</ul>
+<h3>Bug 修复</h3>
+<ul>
+<li><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2FOpenAtomFoundation%2Fpika%2Fpull%2F2377" target="_blank" rel="external nofollow noopener noreferrer">修复 Pika 有从节点进行全量复制期间会误删除 dump 文件的问题</a></li>
+<li><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2FOpenAtomFoundation%2Fpika%2Fpull%2F2319" target="_blank" rel="external nofollow noopener noreferrer">修复主从复制过程中, slave 节点收到 master 异常回包后的处理逻辑</a></li>
+<li><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2FOpenAtomFoundation%2Fpika%2Fpull%2F2345" target="_blank" rel="external nofollow noopener noreferrer">在 Pika 执行 shutdown 命令时调用 disable compaction, 提升进程退出速度</a></li>
+<li><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2FOpenAtomFoundation%2Fpika%2Fpull%2F2337" target="_blank" rel="external nofollow noopener noreferrer">修复 Codis-dashboard Redis Memory 值不准确的问题</a></li>
+<li><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2FOpenAtomFoundation%2Fpika%2Fpull%2F2197" target="_blank" rel="external nofollow noopener noreferrer">INFO 命令耗时优化，降低查磁盘使用量的频率</a></li>
+<li><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2FOpenAtomFoundation%2Fpika%2Fpull%2F2186" target="_blank" rel="external nofollow noopener noreferrer">修复 Rsync 删除临时文件路径不对，删除失败，导致rocksdb打开失败的问题</a></li>
+<li><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2FOpenAtomFoundation%2Fpika%2Fpull%2F2194" target="_blank" rel="external nofollow noopener noreferrer">修复 Compact, Bgsave, Info keyspace 命令未指定db名称，导致部分命令 coredump 的问题</a></li>
+<li><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2FOpenAtomFoundation%2Fpika%2Fpull%2F2198" target="_blank" rel="external nofollow noopener noreferrer">Codis dashboard 用 info replication 替代 info 命令查寻 master ip 降低对 Pika 的性能影响</a></li>
+<li><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2FOpenAtomFoundation%2Fpika%2Fpull%2F2225" target="_blank" rel="external nofollow noopener noreferrer">修复 Pika cache 使用边缘case，解决部分场景下 cache 和 DB 数据不一致的问题</a></li>
+<li><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2FOpenAtomFoundation%2Fpika%2Fpull%2F2265" target="_blank" rel="external nofollow noopener noreferrer">修复当 dump 文件夹为空时，会启动报错 Segmentation fault 的问题</a></li>
+<li><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2FOpenAtomFoundation%2Fpika%2Fpull%2F2217" target="_blank" rel="external nofollow noopener noreferrer">修复因为 flag 计算错误，导致的部分命令缓存没有生效问题</a></li>
+<li><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2FOpenAtomFoundation%2Fpika%2Fpull%2F2249" target="_blank" rel="external nofollow noopener noreferrer">修复主从复制模式下，主实例 flushdb 后，从实例因为死锁导致的不能访问的问题</a></li>
+<li><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2FOpenAtomFoundation%2Fpika%2Fpull%2F2187" target="_blank" rel="external nofollow noopener noreferrer">修复部分命令未对 RocksDB 的返回值进行判断的问题</a></li>
+<li><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2FOpenAtomFoundation%2Fpika%2Fpull%2F2176" target="_blank" rel="external nofollow noopener noreferrer">规范函数的返回值及初始值</a></li>
+<li><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2FOpenAtomFoundation%2Fpika%2Fpull%2F2234" target="_blank" rel="external nofollow noopener noreferrer">修复网络监控指标统计不准确的问题</a></li>
+<li><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2FOpenAtomFoundation%2Fpika%2Fpull%2F2218" target="_blank" rel="external nofollow noopener noreferrer">修复配置文件加载部分参数异常的问题</a></li>
+<li><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2FOpenAtomFoundation%2Fpika%2Fpull%2F2393" target="_blank" rel="external nofollow noopener noreferrer">修复 Codis dashboard cpu 100% 的问题</a></li>
+<li><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2FOpenAtomFoundation%2Fpika%2Fpull%2F2387" target="_blank" rel="external nofollow noopener noreferrer">修复 Codis fe pika 主从角色显示异常的问题</a></li>
+<li><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2FOpenAtomFoundation%2Fpika%2Fpull%2F2485" target="_blank" rel="external nofollow noopener noreferrer">修复迁移数据后数据不一致的问题</a></li>
+<li><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2FOpenAtomFoundation%2Fpika%2Fpull%2F2494" target="_blank" rel="external nofollow noopener noreferrer">修复 dbsize 计算错误问题</a></li>
+<li><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2FOpenAtomFoundation%2Fpika%2Fpull%2F2475" target="_blank" rel="external nofollow noopener noreferrer">修复扩缩容或者 pod 起停后，Codis-dashboard 界面显示不准确的问题</a></li>
+<li><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2FOpenAtomFoundation%2Fpika%2Fpull%2F2372" target="_blank" rel="external nofollow noopener noreferrer">修复 DB 层重复上锁的问题</a></li>
+<li><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2FOpenAtomFoundation%2Fpika%2Fpull%2F2439" target="_blank" rel="external nofollow noopener noreferrer">修复全量复制失败后，未做处理导致数据丢失问题</a></li>
+<li><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2FOpenAtomFoundation%2Fpika%2Fpull%2F2437" target="_blank" rel="external nofollow noopener noreferrer">修复主从复制过程中，主实例执行 bgsave 过程中，没有正确回应从的同步请求</a></li>
+<li><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2FOpenAtomFoundation%2Fpika%2Fpull%2F2430" target="_blank" rel="external nofollow noopener noreferrer">全量复制过程中，添加数据同步状态，明确数据同步进度</a></li>
+<li><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2FOpenAtomFoundation%2Fpika%2Fpull%2F2409" target="_blank" rel="external nofollow noopener noreferrer">修复从库在 Apply binlog 时，没有对操作的 key 加锁，导致数据不一致的问题</a></li>
+<li><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2FOpenAtomFoundation%2Fpika%2Fpull%2F2415" target="_blank" rel="external nofollow noopener noreferrer">修复 codis slot 迁移过程中 master 实例 coredump 的问题</a></li>
+<li><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2FOpenAtomFoundation%2Fpika%2Fpull%2F2377" target="_blank" rel="external nofollow noopener noreferrer">修复在主从复制过程中，删除正在使用的 dump 文件的问题</a></li>
+<li><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2FOpenAtomFoundation%2Fpika%2Fpull%2F2319" target="_blank" rel="external nofollow noopener noreferrer">修复主从复制过程中从实例 rsync 响应错误的问题</a></li>
+</ul>
+<h3>发版标签</h3>
+<p><a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2FOpenAtomFoundation%2Fpika%2Freleases%2Ftag%2Fv3.5.3" target="_blank" rel="external nofollow noopener noreferrer">https://github.com/OpenAtomFoundation/pika/releases/tag/v3.5.3</a></p>
+<h2>社区</h2>
+<p>PikiwiDB(Pika) 开源社区感谢您的支持，如果您有任何疑问或建议，欢迎加入我们的社区交流群：</p>
+<ul>
+<li>telegram 群 <a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Ft.me%2F%2BgMlTzNacOF1iMTM1" target="_blank" rel="external nofollow noopener noreferrer">https://t.me/+gMlTzNacOF1iMTM1</a></li>
+<li>微信助手【请在微信中搜索 PikiwiDB】</li>
+</ul>
+<p><img class="lazy" alt referrerpolicy="no-referrer" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://oscimg.oschina.net/oscnet/up-20fac9f5a0390f6fe6263cc1bf19ab51a55.png"></p>
+</div>
+
+</div>
+
+<div>
+<div class="tag-plugin link dis-select"><a class="link-card plain" title="What's new in PikiwiDB (Pika) v3.5.3 (正式版)" href="https://my.oschina.net/dubbogo/blog/11049364" target="_blank" rel="external nofollow noopener noreferrer" cardlink autofill="icon"><div class="left"><span class="title">What's new in PikiwiDB (Pika) v3.5.3 (正式版)</span><span class="cap link fs12">https://my.oschina.net/dubbogo/blog/11049364</span></div><div class="right"><div class="lazy img" data-bg="https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.4/link/8f277b4ee0ecd.svg"></div></div></a></div>
+</div>
+
+
+
+
+<div class="article-footer reveal fs14"><section id="license"><div class="header"><span>许可协议</span></div><div class="body"><p>本文采用 <a target="_blank" rel="external nofollow noopener noreferrer" href="https://github.com/me-shaon/GLWTPL/blob/master/translations/LICENSE_zh-CN">GLWT（Good Luck With That，祝你好运）公共许可证</a> 许可协议，转载请注明出处。</p>
+</div></section><section id="share"><div class="header"><span>分享文章</span></div><div class="body"><div class="link"><input class="copy-area" readonly="true" id="copy-link" value="https://blog.imc.re/RSSBOX/rss/b3998d1b.html"></div><div class="social-wrap dis-select"><a class="social share-item wechat" onclick="util.toggle(&quot;qrcode-wechat&quot)"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.4/social/b32ef3da1162a.svg"></a><a class="social share-item weibo" target="_blank" rel="external nofollow noopener noreferrer" href="https://service.weibo.com/share/share.php?url=https://blog.imc.re/RSSBOX/rss/b3998d1b.html&title=What's New in PikiwiDB (Pika) v3.5.3 (正式版) - RSSBOX&pics=https://oscimg.oschina.net/oscnet/up-878340b2bbee45597dcbc2f812c6d923d9a.png&summary=
+
+随着 Redis 宣布采用双协议以维护其商业利益，PikiwiDB(Pika) 社区非常荣幸地宣布之际，我们的最新 v3.5.3 正式生产可用版本现已发布。
+v3.5.3 版本不仅修复了长期存在的 Bug，还引入了一系列新特性。这..."><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.4/social/80c07e4dbb303.svg"></a><a class="social share-item email" href="mailto:?subject=What's New in PikiwiDB (Pika) v3.5.3 (正式版) - RSSBOX&amp;body=https://blog.imc.re/RSSBOX/rss/b3998d1b.html"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.4/social/a1b00e20f425d.svg"></a><a class="social share-item link" onclick="util.copy(&quot;copy-link&quot;, &quot;复制成功&quot;)"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.4/social/8411ed322ced6.svg"></a></div><div class="qrcode" id="qrcode-wechat" style="visibility:hidden;height:0"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://api.qrserver.com/v1/create-qr-code/?size=256x256&data=https://blog.imc.re/RSSBOX/rss/b3998d1b.html"></div></div></section></div>
+
+</article>
+
+<div class="related-wrap reveal" id="read-next"><section class="body"><div class="item" id="prev"><div class="note">较新文章</div><a href="/RSSBOX/rss/668eeb7f.html">幸福不搞末位淘汰制</a></div><div class="item" id="next"><div class="note">较早文章</div><a href="/RSSBOX/rss/a18b7542.html">Databricks 推出开源大模型 DBRX：参数规模达 1320 亿、声称全球最强</a></div></section></div>
+
+
+<div class="related-wrap reveal" id="related-posts">
+    <section class="header">
+      <div class="title cap theme">您可能感兴趣的文章</div>
+    </section>
+    <section class="body">
+    <div class="related-posts"><a class="item" href="/RSSBOX/rss/a18b7542.html" title="Databricks 推出开源大模型 DBRX：参数规模达 1320 亿、声称全球最强"><span class="title">Databricks 推出开源大模型 DBRX：参数规模达 1320 亿、声称全球最强</span></a><a class="item" href="/RSSBOX/rss/15229fa2.html" title="Gitee 推荐 | 轻量化的开源 Bug 管理系统 Cat2Bug-Platform"><span class="title">Gitee 推荐 | 轻量化的开源 Bug 管理系统 Cat2Bug-Platform</span></a><a class="item" href="/RSSBOX/rss/f59296ed.html" title="PostgreSQL 主要贡献者 Simon Riggs 因坠机去世"><span class="title">PostgreSQL 主要贡献者 Simon Riggs 因坠机去世</span></a><a class="item" href="/RSSBOX/rss/a99bb5af.html" title="TypeChat —— 基于 LLM 的自然语言构建 UI 库"><span class="title">TypeChat —— 基于 LLM 的自然语言构建 UI 库</span></a><a class="item" href="/RSSBOX/rss/9208937d.html" title="iOS 版 Firefox 充斥着大量“屎山代码”"><span class="title">iOS 版 Firefox 充斥着大量“屎山代码”</span></a></div></section></div>
+
+
+
+
+
+      
+<footer class="page-footer reveal fs12"><hr><div class="sitemap"><div class="sitemap-group"><span class="fs14">文章</span><a href="/RSSBOX/categories">分类</a><a href="/RSSBOX/tags">标签</a><a href="/RSSBOX/archives">归档</a></div><div class="sitemap-group"><span class="fs14">更多</span><a href="https://blog.imc.re/">博客</a><a target="_blank" rel="noopener" href="https://imc.re/">IMC.RE</a></div></div><div class="text"><p><a href="/">@RSSBOX</a> 2023 author by <a target="_blank" rel="external nofollow noopener noreferrer" href="https://github.com/MHG-LAB/RSSBOX">MHuiG</a> powered by SummerGoro。<br><br>本博客所有文章除特别声明外，均采用 <a target="_blank" rel="external nofollow noopener noreferrer" href="https://github.com/me-shaon/GLWTPL/blob/master/translations/LICENSE_zh-CN">GLWT（Good Luck With That，祝你好运）公共许可证</a> 许可协议，转载请注明出处。</p>
+</div></footer>
+
+      <div class="float-panel mobile-only blur" style="display:none">
+  <button type="button" class="sidebar-toggle mobile" onclick="sidebar.toggle()">
+    <svg class="icon" style="width: 1em; height: 1em;vertical-align: middle;fill: currentColor;overflow: hidden;" viewbox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="15301"><path d="M566.407 808.3c26.9-0.1 49.3-20.8 51.6-47.6-1.9-27.7-23.9-49.7-51.6-51.6h-412.6c-28.2-1.4-52.6 19.5-55.5 47.6 2.3 26.8 24.6 47.5 51.6 47.6h416.5v4z m309.3-249.9c26.9-0.1 49.3-20.8 51.6-47.6-2.2-26.8-24.6-47.5-51.6-47.6h-721.9c-27.7-2.8-52.5 17.4-55.3 45.1-0.1 0.8-0.1 1.7-0.2 2.5 0.9 27.2 23.6 48.5 50.7 47.6H875.707z m-103.1-245.9c26.9-0.1 49.3-20.8 51.6-47.6-0.4-28.3-23.2-51.1-51.5-51.6h-618.9c-29.5-1.1-54.3 21.9-55.5 51.4v0.2c1.4 27.8 25.2 49.2 53 47.8 0.8 0 1.7-0.1 2.5-0.2h618.8z" p-id="15302"/><path d="M566.407 808.3c26.9-0.1 49.3-20.8 51.6-47.6-1.9-27.7-23.9-49.7-51.6-51.6h-412.6c-28.2-1.4-52.6 19.5-55.5 47.6 1.9 27.7 23.9 49.7 51.6 51.6h416.5z m309.3-249.9c26.9-0.1 49.3-20.8 51.6-47.6-2.2-26.8-24.6-47.5-51.6-47.6h-721.9c-27.7-2.8-52.5 17.4-55.3 45.1-0.1 0.8-0.1 1.7-0.2 2.5 0.9 27.2 23.6 48.5 50.7 47.6H875.707z m-103.1-245.9c26.9-0.1 49.3-20.8 51.6-47.6-0.4-28.3-23.2-51.1-51.5-51.6h-618.9c-29.5-1.1-54.3 21.9-55.5 51.4v0.2c1.4 27.8 25.2 49.2 53 47.8 0.8 0 1.7-0.1 2.5-0.2h618.8z" p-id="15303"/></svg>
+  </button>
+</div>
+
+    </div>
+  </div>
+  <div class="scripts">
+    <script type="text/javascript">
+  const stellar = {
+    // 懒加载 css https://github.com/filamentgroup/loadCSS
+    loadCSS: (href, before, media, attributes) => {
+      var doc = window.document;
+      var ss = doc.createElement("link");
+      var ref;
+      if (before) {
+        ref = before;
+      } else {
+        var refs = (doc.body || doc.getElementsByTagName("head")[0]).childNodes;
+        ref = refs[refs.length - 1];
+      }
+      var sheets = doc.styleSheets;
+      if (attributes) {
+        for (var attributeName in attributes) {
+          if (attributes.hasOwnProperty(attributeName)) {
+            ss.setAttribute(attributeName, attributes[attributeName]);
+          }
+        }
+      }
+      ss.rel = "stylesheet";
+      ss.href = href;
+      ss.media = "only x";
+      function ready(cb) {
+        if (doc.body) {
+          return cb();
+        }
+        setTimeout(function () {
+          ready(cb);
+        });
+      }
+      ready(function () {
+        ref.parentNode.insertBefore(ss, before ? ref : ref.nextSibling);
+      });
+      var onloadcssdefined = function (cb) {
+        var resolvedHref = ss.href;
+        var i = sheets.length;
+        while (i--) {
+          if (sheets[i].href === resolvedHref) {
+            return cb();
+          }
+        }
+        setTimeout(function () {
+          onloadcssdefined(cb);
+        });
+      };
+      function loadCB() {
+        if (ss.addEventListener) {
+          ss.removeEventListener("load", loadCB);
+        }
+        ss.media = media || "all";
+      }
+      if (ss.addEventListener) {
+        ss.addEventListener("load", loadCB);
+      }
+      ss.onloadcssdefined = onloadcssdefined;
+      onloadcssdefined(loadCB);
+      return ss;
+    },
+
+    // 从 butterfly 和 volantis 获得灵感
+    loadScript: (src, opt) => new Promise((resolve, reject) => {
+      var script = document.createElement('script');
+      if (src.startsWith('/')){
+        src = stellar.config.root + src.substring(1);
+      }
+      script.src = src;
+      if (opt) {
+        for (let key of Object.keys(opt)) {
+          script[key] = opt[key]
+        }
+      } else {
+        // 默认异步，如果需要同步，第二个参数传入 {} 即可
+        script.async = true
+      }
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    }),
+
+    // https://github.com/jerryc127/hexo-theme-butterfly
+    jQuery: (fn) => {
+      if (typeof jQuery === 'undefined') {
+        stellar.loadScript(stellar.plugins.jQuery).then(fn)
+      } else {
+        fn()
+      }
+    }
+  };
+  stellar.version = '1.19.0';
+  stellar.github = 'https://github.com/xaoxuu/hexo-theme-stellar/tree/1.19.0';
+  stellar.config = {
+    date_suffix: {
+      just: '刚刚',
+      min: '分钟前',
+      hour: '小时前',
+      day: '天前',
+      month: '个月前',
+    },
+    root : '/RSSBOX/',
+  };
+
+  // required plugins (only load if needs)
+  stellar.plugins = {
+    jQuery: 'https://gcore.jsdelivr.net/npm/jquery@3.6.2/dist/jquery.min.js'
+  };
+
+  if ('local_search') {
+    stellar.search = {};
+    stellar.search.service = 'local_search';
+    if (stellar.search.service == 'local_search') {
+      let service_obj = Object.assign({}, {"field":"all","path":"/search.json","content":true,"codeblock":true,"sort":"-date"});
+      stellar.search[stellar.search.service] = service_obj;
+    }
+  }
+
+  // stellar js
+  stellar.plugins.stellar = Object.assign({"sites":"/js/plugins/sites.js","friends":"/js/plugins/friends.js","ghinfo":"/js/plugins/ghinfo.js","timeline":"/js/plugins/timeline.js","linkcard":"/js/plugins/linkcard.js","fcircle":"/js/plugins/fcircle.js","weibo":"/js/plugins/weibo.js"});
+
+  stellar.plugins.marked = Object.assign("https://cdn.bootcdn.net/ajax/libs/marked/4.0.18/marked.min.js");
+  // optional plugins
+  if ('true' == 'true') {
+    stellar.plugins.lazyload = Object.assign({"enable":true,"js":"https://gcore.jsdelivr.net/npm/vanilla-lazyload@17.8.3/dist/lazyload.min.js","transition":"blur"});
+  }
+  if ('true' == 'true') {
+    stellar.plugins.swiper = Object.assign({"enable":true,"css":"https://unpkg.com/swiper@8.4.5/swiper-bundle.min.css","js":"https://unpkg.com/swiper@8.4.5/swiper-bundle.min.js"});
+  }
+  if ('' == 'true') {
+    stellar.plugins.scrollreveal = Object.assign({"enable":null,"js":"https://gcore.jsdelivr.net/npm/scrollreveal@4.0.9/dist/scrollreveal.min.js","distance":"8px","duration":500,"interval":100,"scale":1});
+  }
+  if ('true' == 'true') {
+    stellar.plugins.preload = Object.assign({"enable":true,"service":"flying_pages","instant_page":"https://gcore.jsdelivr.net/gh/volantis-x/cdn-volantis@4.1.2/js/instant_page.js","flying_pages":"https://gcore.jsdelivr.net/gh/gijo-varghese/flying-pages@2.1.2/flying-pages.min.js"});
+  }
+  if ('true' == 'true') {
+    stellar.plugins.fancybox = Object.assign({"enable":true,"js":"https://gcore.jsdelivr.net/npm/@fancyapps/ui@4.0/dist/fancybox.umd.js","css":"https://gcore.jsdelivr.net/npm/@fancyapps/ui@4.0/dist/fancybox.css","selector":".swiper-slide img"});
+  }
+  if ('false' == 'true') {
+    stellar.plugins.heti = Object.assign({"enable":false,"css":"https://unpkg.com/heti@0.9.2/umd/heti.min.css","js":"https://unpkg.com/heti@0.9.2/umd/heti-addon.min.js"});
+  }
+  if ('true' == 'true') {
+    stellar.plugins.copycode = Object.assign({"enable":true,"js":"/js/plugins/copycode.js","default_text":"Copy","success_text":"Copied"});
+  }
+</script>
+
+<!-- required -->
+
+  
+<script src="/RSSBOX/js/main.js" async></script>
+
+
+
+<!-- optional -->
+
+  <script>
+  function loadJS() {
+    const els = document.querySelectorAll("#comments #giscus");
+    if (els.length === 0) return;
+    els.forEach((el, i) => {
+      try {
+        el.innerHTML = '';
+      } catch (error) {
+        console.log(error);
+      }
+      var script = document.createElement('script');
+      script.src = 'https://giscus.app/client.js';
+      script.async = true;
+      for (let key of Object.keys(el.attributes)) {
+        let attr = el.attributes[key];
+        if (['class', 'id'].includes(attr.name) === false) {
+          script.setAttribute(attr.name, attr.value);
+        }
+      }
+      el.appendChild(script);
+    });
+  }
+  window.addEventListener('DOMContentLoaded', (event) => {
+    loadJS();
+  });
+</script>
+
+
+
+
+<!-- inject -->
+
+
+  </div>
+</body>
+</html>

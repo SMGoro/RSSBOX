@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+  <meta name="generator" content="Hexo 6.3.0">
+  <meta name="hexo-theme" content="https://github.com/xaoxuu/hexo-theme-stellar/tree/1.19.0">
+  <meta charset="utf-8">
+  
+
+  <meta http-equiv="x-dns-prefetch-control" content="on">
+  <link rel="dns-prefetch" href="https://gcore.jsdelivr.net">
+  <link rel="preconnect" href="https://gcore.jsdelivr.net" crossorigin>
+  <link rel="dns-prefetch" href="//unpkg.com">
+
+  <meta name="renderer" content="webkit">
+  <meta name="force-rendering" content="webkit">
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+  <meta name="HandheldFriendly" content="True">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="theme-color" content="#f8f8f8">
+  
+  <title>Introducing WARP Connector: Paving the Path to Any-to-Any Connectivity - RSSBOX</title>
+
+  
+    <meta name="description" content="In the ever-evolving domain of enterprise security, CISOs and CIOs have to tirelessly build new enterprise networks and maintain old ones to achieve performant any-to-any connectivity. For their tea">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Introducing WARP Connector: Paving the Path to Any-to-Any Connectivity">
+<meta property="og:url" content="https://blog.imc.re/RSSBOX/rss/cc36653f.html">
+<meta property="og:site_name" content="RSSBOX">
+<meta property="og:description" content="In the ever-evolving domain of enterprise security, CISOs and CIOs have to tirelessly build new enterprise networks and maintain old ones to achieve performant any-to-any connectivity. For their tea">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://blog.cloudflare.com/content/images/2024/03/image3-30.png">
+<meta property="og:image" content="http://blog.cloudflare.com/content/images/2024/03/image6-10.png">
+<meta property="og:image" content="http://blog.cloudflare.com/content/images/2024/03/image2-31.png">
+<meta property="og:image" content="http://blog.cloudflare.com/content/images/2024/03/image5-18.png">
+<meta property="og:image" content="http://blog.cloudflare.com/content/images/2024/03/image4-29.png">
+<meta property="og:image" content="http://blog.cloudflare.com/content/images/2024/03/image1-32.png">
+<meta property="article:published_time" content="2024-03-20T13:00:05.000Z">
+<meta property="article:modified_time" content="2024-03-20T13:00:05.000Z">
+<meta property="article:author" content="SMGoro">
+<meta property="article:tag" content="Blogs">
+<meta property="article:tag" content="Cloudflare">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="http://blog.cloudflare.com/content/images/2024/03/image3-30.png">
+  
+  
+  
+  <meta name="keywords" content="Blogs,Cloudflare">
+
+  <!-- feed -->
+  
+    <link rel="alternate" href="/RSSBOX/atom.xml" title="RSSBOX" type="application/atom+xml">
+  
+
+  
+    
+<link rel="stylesheet" href="/RSSBOX/css/main.css">
+
+  
+
+  
+
+  
+
+  
+    <link rel="stylesheet" href="https://gcore.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.css" integrity="sha384-vKruj+a13U8yHIkAyGgK1J3ArTLzrFGBbBc0tDp4ad/EyewESeXE/Iv67Aj8gKZ0" crossorigin="anonymous">
+    <script defer src="https://gcore.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.js" integrity="sha384-PwRUT/YqbnEjkZO0zZxNqcxACrXe+j766U2amXcgMg5457rve2Y7I6ZJSm2A0mS4" crossorigin="anonymous"></script>
+    <script defer src="https://gcore.jsdelivr.net/npm/katex@0.16.4/dist/contrib/auto-render.min.js" integrity="sha384-+VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4+/RRE05" crossorigin="anonymous" onload="renderMathInElement(document.body);"></script>
+  
+
+
+  
+
+<!--百度统计-->
+<script>
+  var _hmt = _hmt || [];
+  (function() {
+    var hm = document.createElement("script");
+    hm.src = "https://hm.baidu.com/hm.js?f42afe3e5b76d22c8b1a8060171c7184";
+    var s = document.getElementsByTagName("script")[0]; 
+    s.parentNode.insertBefore(hm, s);
+  })();
+</script>  
+  <!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-V2NSKYGXNG"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-V2NSKYGXNG');
+</script>
+<!--Google Adsense-->
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4773172018528901" crossorigin="anonymous"></script>
+</head>
+
+<body>
+  
+
+
+
+
+  <div class="l_body" id="start">
+    <aside class="l_left" layout="post">
+    
+
+  
+
+<header class="header"><div class="logo-wrap"><a class="avatar" href="/RSSBOX/archives"><div class="bg" style="opacity:0;background-image:url(https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.4/avatar/round/rainbow64@3x.webp);"></div><img no-lazy class="avatar" src="https://cdn.jsdelivr.net/gh/SMGCDN/photos/icon/rsshub.png" onerror="javascript:this.classList.add('error');this.src='https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.4/image/2659360.svg';"></a><a class="title" href="/RSSBOX/"><div class="main" ff="title">RSSBOX</div><div class="sub normal cap">SMGoroのRSS订阅</div><div class="sub hover cap" style="opacity:0"> 一些好康的东西</div></a></div>
+
+<nav class="menu dis-select"><a class="nav-item active" href="/RSSBOX/">订阅</a><a class="nav-item" href="https://blog.imc.re/">博客</a><a class="nav-item" href="https://blog.imc.re/contact">联系</a><a class="nav-item" href="https://blog.imc.re/more">更多</a></nav>
+</header>
+
+
+<div class="widgets">
+
+<widget class="widget-wrapper toc single" id="data-toc"><div class="widget-header cap dis-select"><span class="name">Introducing WARP Connector: Paving the Path to Any-to-Any Connectivity</span></div><div class="widget-body fs14"><div class="doc-tree active"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">Bridging a gap in Cloudflare&#39;s Zero Trust story</span></a></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">Build or borrow</span></a></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">Introducing WARP Connector</span></a></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">Private network use cases</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-text">Softphone and VOIP servers</span></a></li><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-text">Securing access to CI&#x2F;CD pipeline</span></a></li><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-text">True source IP address preservation</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">Getting started with WARP Connector</span></a></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">What’s next?</span></a></li></ol></div></div></widget>
+
+
+
+<widget class="widget-wrapper search"><div class="widget-body"><div class="search-wrapper" id="search"><form class="search-form"><input type="text" class="search-input" id="search-input" data-filter="/rss/" placeholder="文章搜索"><svg t="1670596976048" class="icon search-icon" viewbox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2676" width="200" height="200"><path d="M938.2 832.6L723.8 618.1c-2.5-2.5-5.3-4.4-7.9-6.4 36.2-55.6 57.3-121.8 57.3-193.1C773.3 222.8 614.6 64 418.7 64S64 222.8 64 418.6c0 195.9 158.8 354.6 354.6 354.6 71.3 0 137.5-21.2 193.2-57.4 2 2.7 3.9 5.4 6.3 7.8L832.5 938c14.6 14.6 33.7 21.9 52.8 21.9 19.1 0 38.2-7.3 52.8-21.8 29.2-29.1 29.2-76.4 0.1-105.5M418.7 661.3C284.9 661.3 176 552.4 176 418.6 176 284.9 284.9 176 418.7 176c133.8 0 242.6 108.9 242.6 242.7 0 133.7-108.9 242.6-242.6 242.6" p-id="2677"/></svg></form><div id="search-result"></div><div class="search-no-result">没有找到内容！</div></div></div></widget>
+
+
+
+<widget class="widget-wrapper recent"><div class="widget-header cap theme dis-select"><span class="name">最近更新</span><a class="cap-action" id="rss" title="Subscribe" href="/atom.xml"><svg class="icon" viewbox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="8938"><path d="M800.966 947.251c0-404.522-320.872-732.448-716.69-732.448V62.785c477.972 0 865.44 395.987 865.44 884.466h-148.75z m-162.273 0h-148.74c0-228.98-181.628-414.598-405.678-414.598v-152.01c306.205 0 554.418 253.68 554.418 566.608z m-446.24-221.12c59.748 0 108.189 49.503 108.189 110.557 0 61.063-48.44 110.563-108.188 110.563-59.747 0-108.18-49.5-108.18-110.563 0-61.054 48.433-110.556 108.18-110.556z" p-id="8939"/></svg></a></div><div class="widget-body related-posts fs14"><a class="item title" href="/RSSBOX/rss/b51353e8.html"><span class="title">第11集 到了30岁还是处男，似乎会变成魔法师</span></a><a class="item title" href="/RSSBOX/rss/399916dd.html"><span class="title">第11集 金属胭脂</span></a><a class="item title" href="/RSSBOX/rss/c71b60b.html"><span class="title">第12集 战国妖狐</span></a><a class="item title" href="/RSSBOX/rss/26505cd4.html"><span class="title">第12集 月光下的异世界之旅 第二季</span></a><a class="item title" href="/RSSBOX/rss/65bb4e47.html"><span class="title">第12集 通灵王 FLOWERS</span></a></div></widget>
+</div>
+<footer class="footer dis-select"><div class="social-wrap"><a class="social" href="https://github.com/SMGoro" target="_blank" rel="external nofollow noopener noreferrer"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cdn.jsdelivr.net/gh/SMGCDN/photos/icon/iconfont/social-github.svg"></a><a class="social" href="https://space.bilibili.com/359079394" target="_blank" rel="external nofollow noopener noreferrer"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cdn.jsdelivr.net/gh/SMGCDN/photos/icon/iconfont/bilibili.svg"></a><a class="social" href="https://l.imc.re/zhihu" target="_blank" rel="external nofollow noopener noreferrer"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cdn.jsdelivr.net/gh/SMGCDN/photos/icon/iconfont/zhihu.svg"></a><a class="social" href="https://l.imc.re/discord" target="_blank" rel="external nofollow noopener noreferrer"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cdn.jsdelivr.net/gh/SMGCDN/photos/icon/iconfont/discord.svg"></a><a class="social" href="https://blog.imc.re/contact" target="_blank" rel="external nofollow noopener noreferrer"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cdn.jsdelivr.net/gh/SMGCDN/photos/icon/iconfont/comments.svg"></a></div></footer>
+
+    </aside>
+    <div class="l_main">
+      
+
+      
+
+
+
+<div class="bread-nav fs12"><div id="breadcrumb"><a class="cap breadcrumb" href="/RSSBOX/">主页</a><span class="sep"></span><a class="cap breadcrumb" href="/RSSBOX/">文章</a><span class="sep"></span><a class="cap breadcrumb-link" href="/RSSBOX/categories/blogs/">Blogs</a> <span class="sep"></span> <a class="cap breadcrumb-link" href="/RSSBOX/categories/blogs/cloudflare/">Cloudflare</a></div><div id="post-meta">发布于&nbsp;<time datetime="2024-03-20T13:00:05.000Z">2024-03-20</time></div></div>
+
+<article class="md-text content post">
+<h1 class="article-title"><span>Introducing WARP Connector: Paving the Path to Any-to-Any Connectivity</span></h1>
+<div>
+ <figure><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="http://blog.cloudflare.com/content/images/2024/03/image3-30.png"></figure><p>In the ever-evolving domain of enterprise security, <a>CISOs</a> and CIOs have to tirelessly build new enterprise networks and maintain old ones to achieve performant any-to-any connectivity. For their team of network architects, surveying their own environment to keep up with changing needs is half the job. The other is often unearthing new, innovative solutions which integrate seamlessly into the existing landscape. This continuous cycle of construction and fortification in the pursuit of secure, flexible infrastructure is exactly what Cloudflare’s SASE offering, Cloudflare One, was built for. </p><p>Cloudflare One has progressively evolved based on feedback from customers and analysts.,  Today, we are thrilled to introduce the public availability of the Cloudflare WARP Connector, a new tool that makes bidirectional, site-to-site, and mesh-like connectivity even easier to secure without the need to make any disruptive changes to existing network infrastructure.</p><h2>Bridging a gap in Cloudflare's Zero Trust story</h2><p>Cloudflare's approach has always been focused on offering a breadth of products, acknowledging that there is no one-size-fits-all solution for network connectivity. Our vision is simple: any-to-any connectivity, any way you want it.</p><p>Prior to the WARP Connector, one of the easiest ways to connect your infrastructure to Cloudflare, whether that be a local HTTP server, web services served by a Kubernetes cluster, or a private network segment, was through the <a>Cloudflare Tunnel</a> app connector, <a><em>cloudflared</em></a>. In many cases this works great, but over time customers began to surface a long tail of use cases which could not be supported based on the underlying architecture of cloudflared. This includes situations where customers utilize VOIP phones, necessitating a SIP server to establish outgoing connections to user’s softphones, or a CI/CD server sending notifications to relevant stakeholders for each stage of the CI/CD pipelines. Later in this blog post, we explore these use cases in detail.</p><p>As <em>clouflared </em>proxies at Layer 4 of the <a>OSI model</a>, its design was optimized specifically to proxy requests to origin services — it was not designed to be an active listener to handle requests from origin services. This design trade-off means that cloudflared needs to source NAT all requests it proxies to the application server. This setup is convenient for scenarios where customers don't need to update routing tables to deploy cloudflared in front of their original services. However, it also means that customers can’t see the true source IP of the client sending the requests. This matters in scenarios where a network firewall is logging all the network traffic, as the source IP of all the requests will be <em>cloudflared’s </em>IP address, causing the customer to lose visibility into the true client source.</p><figure><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="http://blog.cloudflare.com/content/images/2024/03/image6-10.png"></figure><h2>Build or borrow</h2><p>To solve this problem, we identified two potential solutions: start from scratch by building a new connector, or borrow from an existing connector, likely in either cloudflared or WARP.</p><p>The following table provides an overview of the tradeoffs of the two approaches:</p><table><colgroup><col><col><col></colgroup><tbody><tr><td><p><span>Features</span></p></td><td><p><span>Build in </span><span>cloudflared</span></p></td><td><p><span>Borrow from WARP </span></p></td></tr><tr><td><p><span>Bidirectional traffic flows</span></p></td><td><p><span>As described in the earlier section, limitations of Layer 4 proxying.</span></p></td><td><p><span>This does proxying at </span></p><p><span>Layer 3, because of which it can act as default gateway for that subnet, enabling it to support traffic flows from both directions.</span></p></td></tr><tr><td><p><span>User experience</span></p></td><td><p><span>For Cloudflare One customers, they have to work with two distinct products (cloudflared and WARP) to connect their services and users.</span></p></td><td><p><span>For Cloudflare One customers, they just have to get familiar with a single product to connect their users as well as their networks.</span></p></td></tr><tr><td><p><span>Site-to-site connectivity between branches, data centers (on-premise and cloud) and headquarters.</span></p></td><td><p><span>Not recommended</span></p></td><td><p><span>For sites where running  agents on each device is not feasible, this could easily connect the sites to users running WARP clients in other sites/branches/data centers. This would work seamlessly where the underlying tunnels are all the same.</span></p></td></tr><tr><td><p><span>Visibility into true source IP</span></p></td><td><p><span>It does source NATting.</span></p></td><td><p><span>Since it acts as the default gateway, it preserves the true source IP address for any traffic flow.</span></p></td></tr><tr><td><p><span>High availability</span></p></td><td><p><span>Inherently reliable by </span><a><span>design </span></a><span>and supports replicas for failover scenarios.</span></p></td><td><p><span>Reliability specifications are very different for a default gateway use case vs endpoint device agent. Hence, there is opportunity to innovate here. </span></p></td></tr></tbody></table><h2>Introducing WARP Connector</h2><p>Starting today, the introduction of WARP Connector opens up new <a>possibilities</a>: server initiated (SIP/VOIP) flows; site-to-site connectivity, connecting branches, headquarters, and cloud platforms; and even mesh-like networking with WARP-to-WARP. Under the hood, this new connector is an extension of warp-client that can act as a virtual router for any subnet within the network to on/off-ramp traffic through Cloudflare.</p><p>By building on WARP, we were able to take advantage of its design, where it creates a virtual network interface on the host to logically subdivide the physical interface (NIC) for the purpose of routing IP traffic. This enables us to send bidirectional traffic through the WireGuard/<a>MASQUE</a> tunnel that’s maintained between the host and Cloudflare edge. By virtue of this architecture, customers also get the added benefit of visibility into the true source IP of the client.</p><p>WARP Connector can be easily deployed on the default gateway without any additional routing changes. Alternatively, static routes can be configured for specific CIDRs that need to be routed via WARP Connector, and the static routes can be configured on the default gateway or on every host in that subnet.</p><figure><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="http://blog.cloudflare.com/content/images/2024/03/image2-31.png"></figure><h2>Private network use cases</h2><p>Here we’ll walk through a couple of key reasons why you may want to deploy our new connector, but remember that this solution can support numerous services, such as Microsoft’s System Center Configuration Manager (SCCM), Active Directory server updates, VOIP and SIP traffic, and developer workflows with complex CI/CD pipeline interaction. It’s also important to note this connector can either be run alongside cloudflared and Magic WAN, or can be a standalone remote access and site-to-site connector to the Cloudflare Global network.</p><h3>Softphone and VOIP servers</h3><figure><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="http://blog.cloudflare.com/content/images/2024/03/image5-18.png"></figure><p>For users to establish a voice or video call over a VOIP software service, typically a SIP server within the private network brokers the connection using the last known IP address of the end-user. However, if traffic is proxied anywhere along the path, this often results in participants only receiving partial voice or data signals. With the WARP Connector, customers can now apply granular policies to these services for secure access, fortifying VOIP infrastructure within their <a>Zero Trust framework</a>.</p><h3>Securing access to CI/CD pipeline</h3><figure><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="http://blog.cloudflare.com/content/images/2024/03/image4-29.png"></figure><p>An organization’s DevOps ecosystem is generally built out of many parts, but a CI/CD server such as Jenkins or Teamcity is the epicenter of all development activities. Hence, securing that CI/CD server is critical. With the WARP Connector and WARP Client, organizations can secure the entire CI/CD pipeline and also streamline it easily. </p><p>Let's look at a typical CI/CD pipeline for a Kubernetes application. The environment is set up as depicted in the diagram above, with WARP clients on the developer and QA laptops and a WARP Connector securely connecting the CI/CD server and staging servers on different networks:</p><ol><li>Typically, the CI/CD pipeline is triggered when a developer commits their code change, invoking a webhook on the CI/CD server.</li><li>Once the images are built, it's time to deploy the code, which is typically done in stages: test, staging and production.</li><li>Notifications are sent to the developer and QA engineer to notify them when the images are ready in the test/staging environments.</li><li>QA engineers receive the notifications via webhook from the CI/CD servers to kick-start their monitoring and troubleshooting workflow.</li></ol><p>With WARP Connector, customers can easily connect their developers to the tools in the DevOps ecosystem by keeping the ecosystem private and not exposing it to the public. Once the DevOps ecosystem is securely connected to Cloudflare, granular security policies can be easily applied to secure access to the CI/CD pipeline.</p><h3>True source IP address preservation</h3><p>Organizations running Microsoft AD Servers or non-web application servers often need to identify the true source IP address for auditing or policy application. If these requirements exist, WARP Connector simplifies this, offering solutions without adding NAT boundaries. This can be useful to <a>rate-limit</a> unhealthy source IP addresses, for ACL-based policies within the perimeter, or to collect additional diagnostics from end-users.</p><h2>Getting started with WARP Connector</h2><p>As part of this launch, we’re making some changes to the Cloudflare One Dashboard to better highlight our different network on/off ramp options. As of today, a new “Network” tab will appear on your dashboard. This will be the new home for the Cloudflare Tunnel UI.</p><p>We are also introducing the new “Routes” tab next to “Tunnels”. This page will present an organizational view of customer’s virtual networks, Cloudflare Tunnels, and routes associated with them. This new page helps answer a customer’s questions pertaining to their network configurations, such as: “Which Cloudflare Tunnel has the route to my host 192.168.1.2 ” or “If a route for CIDR 192.168.2.1/28 exists, how can it be accessed” or “What are the overlapping CIDRs in my environment and which VNETs do they belong to?”. This is extremely useful for customers who have very complex enterprise networks that use the Cloudflare dashboard for troubleshooting connectivity issues.</p><figure><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="http://blog.cloudflare.com/content/images/2024/03/image1-32.png"></figure><p>Embarking on your WARP Connector journey is straightforward. Currently deployable on Linux hosts, users can select “create a Tunnel” and pick from either cloudflared or WARP to deploy straight from the dashboard. Follow our <a>developer documentation</a> to get started in a few easy steps. In the near future we will be adding support for more platforms where WARP Connectors can be deployed.</p><h2>What’s next?</h2><p>Thank you to all of our private beta customers for their invaluable feedback. Moving forward, our immediate focus in the coming quarters is on simplifying deployment, mirroring that of cloudflared, and enhancing high availability through redundancy and failover mechanisms.</p><p>Stay tuned for more updates as we continue our journey in innovating and enhancing the Cloudflare One platform. We're excited to see how our customers leverage WARP Connector to transform their connectivity and security landscape.</p> 
+</div>
+
+<div>
+<div class="tag-plugin link dis-select"><a class="link-card plain" title="Introducing WARP Connector: paving the path to any-to-any connectivity" href="https://blog.cloudflare.com/introducing-warp-connector-paving-the-path-to-any-to-any-connectivity-2" target="_blank" rel="external nofollow noopener noreferrer" cardlink autofill="icon"><div class="left"><span class="title">Introducing WARP Connector: paving the path to any-to-any connectivity</span><span class="cap link fs12">https://blog.cloudflare.com/introducing-warp-connector-paving-the-path-to-any-to-any-connectivity-2</span></div><div class="right"><div class="lazy img" data-bg="https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.4/link/8f277b4ee0ecd.svg"></div></div></a></div>
+</div>
+
+
+
+
+<div class="article-footer reveal fs14"><section id="license"><div class="header"><span>许可协议</span></div><div class="body"><p>本文采用 <a target="_blank" rel="external nofollow noopener noreferrer" href="https://github.com/me-shaon/GLWTPL/blob/master/translations/LICENSE_zh-CN">GLWT（Good Luck With That，祝你好运）公共许可证</a> 许可协议，转载请注明出处。</p>
+</div></section><section id="share"><div class="header"><span>分享文章</span></div><div class="body"><div class="link"><input class="copy-area" readonly="true" id="copy-link" value="https://blog.imc.re/RSSBOX/rss/cc36653f.html"></div><div class="social-wrap dis-select"><a class="social share-item wechat" onclick="util.toggle(&quot;qrcode-wechat&quot)"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.4/social/b32ef3da1162a.svg"></a><a class="social share-item weibo" target="_blank" rel="external nofollow noopener noreferrer" href="https://service.weibo.com/share/share.php?url=https://blog.imc.re/RSSBOX/rss/cc36653f.html&title=Introducing WARP Connector: Paving the Path to Any-to-Any Connectivity - RSSBOX&pics=http://blog.cloudflare.com/content/images/2024/03/image3-30.png&summary=
+ In the ever-evolving domain of enterprise security, CISOs and CIOs have to tirelessly build new enterprise networks..."><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.4/social/80c07e4dbb303.svg"></a><a class="social share-item email" href="mailto:?subject=Introducing WARP Connector: Paving the Path to Any-to-Any Connectivity - RSSBOX&amp;body=https://blog.imc.re/RSSBOX/rss/cc36653f.html"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.4/social/a1b00e20f425d.svg"></a><a class="social share-item link" onclick="util.copy(&quot;copy-link&quot;, &quot;复制成功&quot;)"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.4/social/8411ed322ced6.svg"></a></div><div class="qrcode" id="qrcode-wechat" style="visibility:hidden;height:0"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://api.qrserver.com/v1/create-qr-code/?size=256x256&data=https://blog.imc.re/RSSBOX/rss/cc36653f.html"></div></div></section></div>
+
+</article>
+
+<div class="related-wrap reveal" id="read-next"><section class="body"><div class="item" id="prev"><div class="note">较新文章</div><a href="/RSSBOX/rss/15f62b8.html">24w12a 快照更新</a></div><div class="item" id="next"><div class="note">较早文章</div><a href="/RSSBOX/rss/777c0b41.html">The Eyes in Markarians Galaxy Chain</a></div></section></div>
+
+
+<div class="related-wrap reveal" id="related-posts">
+    <section class="header">
+      <div class="title cap theme">您可能感兴趣的文章</div>
+    </section>
+    <section class="body">
+    <div class="related-posts"><a class="item" href="/RSSBOX/rss/ec23a5f5.html" title="Autonomous Hardware Diagnostics and Recovery at Scale"><span class="title">Autonomous Hardware Diagnostics and Recovery at Scale</span></a><a class="item" href="/RSSBOX/rss/1f1fc7ad.html" title="From .Com to .Beauty: The Evolving Threat Landscape of Unwanted Email"><span class="title">From .Com to .Beauty: The Evolving Threat Landscape of Unwanted Email</span></a><a class="item" href="/RSSBOX/rss/f0e12129.html" title="Harnessing Chaos in Cloudflare Offices"><span class="title">Harnessing Chaos in Cloudflare Offices</span></a><a class="item" href="/RSSBOX/rss/7b42455f.html" title="Improved Cloudflare Workers Testing via Vitest and Workerd"><span class="title">Improved Cloudflare Workers Testing via Vitest and Workerd</span></a><a class="item" href="/RSSBOX/rss/19285338.html" title="Introducing Requests for Information (RFIs) and Priority Intelligence Requirements (PIRs) for Threat Intelligence Teams"><span class="title">Introducing Requests for Information (RFIs) and Priority Intelligence Requirements (PIRs) for Threat Intelligence Teams</span></a></div></section></div>
+
+
+
+
+
+      
+<footer class="page-footer reveal fs12"><hr><div class="sitemap"><div class="sitemap-group"><span class="fs14">文章</span><a href="/RSSBOX/categories">分类</a><a href="/RSSBOX/tags">标签</a><a href="/RSSBOX/archives">归档</a></div><div class="sitemap-group"><span class="fs14">更多</span><a href="https://blog.imc.re/">博客</a><a target="_blank" rel="noopener" href="https://imc.re/">IMC.RE</a></div></div><div class="text"><p><a href="/">@RSSBOX</a> 2023 author by <a target="_blank" rel="external nofollow noopener noreferrer" href="https://github.com/MHG-LAB/RSSBOX">MHuiG</a> powered by SummerGoro。<br><br>本博客所有文章除特别声明外，均采用 <a target="_blank" rel="external nofollow noopener noreferrer" href="https://github.com/me-shaon/GLWTPL/blob/master/translations/LICENSE_zh-CN">GLWT（Good Luck With That，祝你好运）公共许可证</a> 许可协议，转载请注明出处。</p>
+</div></footer>
+
+      <div class="float-panel mobile-only blur" style="display:none">
+  <button type="button" class="sidebar-toggle mobile" onclick="sidebar.toggle()">
+    <svg class="icon" style="width: 1em; height: 1em;vertical-align: middle;fill: currentColor;overflow: hidden;" viewbox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="15301"><path d="M566.407 808.3c26.9-0.1 49.3-20.8 51.6-47.6-1.9-27.7-23.9-49.7-51.6-51.6h-412.6c-28.2-1.4-52.6 19.5-55.5 47.6 2.3 26.8 24.6 47.5 51.6 47.6h416.5v4z m309.3-249.9c26.9-0.1 49.3-20.8 51.6-47.6-2.2-26.8-24.6-47.5-51.6-47.6h-721.9c-27.7-2.8-52.5 17.4-55.3 45.1-0.1 0.8-0.1 1.7-0.2 2.5 0.9 27.2 23.6 48.5 50.7 47.6H875.707z m-103.1-245.9c26.9-0.1 49.3-20.8 51.6-47.6-0.4-28.3-23.2-51.1-51.5-51.6h-618.9c-29.5-1.1-54.3 21.9-55.5 51.4v0.2c1.4 27.8 25.2 49.2 53 47.8 0.8 0 1.7-0.1 2.5-0.2h618.8z" p-id="15302"/><path d="M566.407 808.3c26.9-0.1 49.3-20.8 51.6-47.6-1.9-27.7-23.9-49.7-51.6-51.6h-412.6c-28.2-1.4-52.6 19.5-55.5 47.6 1.9 27.7 23.9 49.7 51.6 51.6h416.5z m309.3-249.9c26.9-0.1 49.3-20.8 51.6-47.6-2.2-26.8-24.6-47.5-51.6-47.6h-721.9c-27.7-2.8-52.5 17.4-55.3 45.1-0.1 0.8-0.1 1.7-0.2 2.5 0.9 27.2 23.6 48.5 50.7 47.6H875.707z m-103.1-245.9c26.9-0.1 49.3-20.8 51.6-47.6-0.4-28.3-23.2-51.1-51.5-51.6h-618.9c-29.5-1.1-54.3 21.9-55.5 51.4v0.2c1.4 27.8 25.2 49.2 53 47.8 0.8 0 1.7-0.1 2.5-0.2h618.8z" p-id="15303"/></svg>
+  </button>
+</div>
+
+    </div>
+  </div>
+  <div class="scripts">
+    <script type="text/javascript">
+  const stellar = {
+    // 懒加载 css https://github.com/filamentgroup/loadCSS
+    loadCSS: (href, before, media, attributes) => {
+      var doc = window.document;
+      var ss = doc.createElement("link");
+      var ref;
+      if (before) {
+        ref = before;
+      } else {
+        var refs = (doc.body || doc.getElementsByTagName("head")[0]).childNodes;
+        ref = refs[refs.length - 1];
+      }
+      var sheets = doc.styleSheets;
+      if (attributes) {
+        for (var attributeName in attributes) {
+          if (attributes.hasOwnProperty(attributeName)) {
+            ss.setAttribute(attributeName, attributes[attributeName]);
+          }
+        }
+      }
+      ss.rel = "stylesheet";
+      ss.href = href;
+      ss.media = "only x";
+      function ready(cb) {
+        if (doc.body) {
+          return cb();
+        }
+        setTimeout(function () {
+          ready(cb);
+        });
+      }
+      ready(function () {
+        ref.parentNode.insertBefore(ss, before ? ref : ref.nextSibling);
+      });
+      var onloadcssdefined = function (cb) {
+        var resolvedHref = ss.href;
+        var i = sheets.length;
+        while (i--) {
+          if (sheets[i].href === resolvedHref) {
+            return cb();
+          }
+        }
+        setTimeout(function () {
+          onloadcssdefined(cb);
+        });
+      };
+      function loadCB() {
+        if (ss.addEventListener) {
+          ss.removeEventListener("load", loadCB);
+        }
+        ss.media = media || "all";
+      }
+      if (ss.addEventListener) {
+        ss.addEventListener("load", loadCB);
+      }
+      ss.onloadcssdefined = onloadcssdefined;
+      onloadcssdefined(loadCB);
+      return ss;
+    },
+
+    // 从 butterfly 和 volantis 获得灵感
+    loadScript: (src, opt) => new Promise((resolve, reject) => {
+      var script = document.createElement('script');
+      if (src.startsWith('/')){
+        src = stellar.config.root + src.substring(1);
+      }
+      script.src = src;
+      if (opt) {
+        for (let key of Object.keys(opt)) {
+          script[key] = opt[key]
+        }
+      } else {
+        // 默认异步，如果需要同步，第二个参数传入 {} 即可
+        script.async = true
+      }
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    }),
+
+    // https://github.com/jerryc127/hexo-theme-butterfly
+    jQuery: (fn) => {
+      if (typeof jQuery === 'undefined') {
+        stellar.loadScript(stellar.plugins.jQuery).then(fn)
+      } else {
+        fn()
+      }
+    }
+  };
+  stellar.version = '1.19.0';
+  stellar.github = 'https://github.com/xaoxuu/hexo-theme-stellar/tree/1.19.0';
+  stellar.config = {
+    date_suffix: {
+      just: '刚刚',
+      min: '分钟前',
+      hour: '小时前',
+      day: '天前',
+      month: '个月前',
+    },
+    root : '/RSSBOX/',
+  };
+
+  // required plugins (only load if needs)
+  stellar.plugins = {
+    jQuery: 'https://gcore.jsdelivr.net/npm/jquery@3.6.2/dist/jquery.min.js'
+  };
+
+  if ('local_search') {
+    stellar.search = {};
+    stellar.search.service = 'local_search';
+    if (stellar.search.service == 'local_search') {
+      let service_obj = Object.assign({}, {"field":"all","path":"/search.json","content":true,"codeblock":true,"sort":"-date"});
+      stellar.search[stellar.search.service] = service_obj;
+    }
+  }
+
+  // stellar js
+  stellar.plugins.stellar = Object.assign({"sites":"/js/plugins/sites.js","friends":"/js/plugins/friends.js","ghinfo":"/js/plugins/ghinfo.js","timeline":"/js/plugins/timeline.js","linkcard":"/js/plugins/linkcard.js","fcircle":"/js/plugins/fcircle.js","weibo":"/js/plugins/weibo.js"});
+
+  stellar.plugins.marked = Object.assign("https://cdn.bootcdn.net/ajax/libs/marked/4.0.18/marked.min.js");
+  // optional plugins
+  if ('true' == 'true') {
+    stellar.plugins.lazyload = Object.assign({"enable":true,"js":"https://gcore.jsdelivr.net/npm/vanilla-lazyload@17.8.3/dist/lazyload.min.js","transition":"blur"});
+  }
+  if ('true' == 'true') {
+    stellar.plugins.swiper = Object.assign({"enable":true,"css":"https://unpkg.com/swiper@8.4.5/swiper-bundle.min.css","js":"https://unpkg.com/swiper@8.4.5/swiper-bundle.min.js"});
+  }
+  if ('' == 'true') {
+    stellar.plugins.scrollreveal = Object.assign({"enable":null,"js":"https://gcore.jsdelivr.net/npm/scrollreveal@4.0.9/dist/scrollreveal.min.js","distance":"8px","duration":500,"interval":100,"scale":1});
+  }
+  if ('true' == 'true') {
+    stellar.plugins.preload = Object.assign({"enable":true,"service":"flying_pages","instant_page":"https://gcore.jsdelivr.net/gh/volantis-x/cdn-volantis@4.1.2/js/instant_page.js","flying_pages":"https://gcore.jsdelivr.net/gh/gijo-varghese/flying-pages@2.1.2/flying-pages.min.js"});
+  }
+  if ('true' == 'true') {
+    stellar.plugins.fancybox = Object.assign({"enable":true,"js":"https://gcore.jsdelivr.net/npm/@fancyapps/ui@4.0/dist/fancybox.umd.js","css":"https://gcore.jsdelivr.net/npm/@fancyapps/ui@4.0/dist/fancybox.css","selector":".swiper-slide img"});
+  }
+  if ('false' == 'true') {
+    stellar.plugins.heti = Object.assign({"enable":false,"css":"https://unpkg.com/heti@0.9.2/umd/heti.min.css","js":"https://unpkg.com/heti@0.9.2/umd/heti-addon.min.js"});
+  }
+  if ('true' == 'true') {
+    stellar.plugins.copycode = Object.assign({"enable":true,"js":"/js/plugins/copycode.js","default_text":"Copy","success_text":"Copied"});
+  }
+</script>
+
+<!-- required -->
+
+  
+<script src="/RSSBOX/js/main.js" async></script>
+
+
+
+<!-- optional -->
+
+  <script>
+  function loadJS() {
+    const els = document.querySelectorAll("#comments #giscus");
+    if (els.length === 0) return;
+    els.forEach((el, i) => {
+      try {
+        el.innerHTML = '';
+      } catch (error) {
+        console.log(error);
+      }
+      var script = document.createElement('script');
+      script.src = 'https://giscus.app/client.js';
+      script.async = true;
+      for (let key of Object.keys(el.attributes)) {
+        let attr = el.attributes[key];
+        if (['class', 'id'].includes(attr.name) === false) {
+          script.setAttribute(attr.name, attr.value);
+        }
+      }
+      el.appendChild(script);
+    });
+  }
+  window.addEventListener('DOMContentLoaded', (event) => {
+    loadJS();
+  });
+</script>
+
+
+
+
+<!-- inject -->
+
+
+  </div>
+</body>
+</html>

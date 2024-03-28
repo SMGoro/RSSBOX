@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+  <meta name="generator" content="Hexo 6.3.0">
+  <meta name="hexo-theme" content="https://github.com/xaoxuu/hexo-theme-stellar/tree/1.19.0">
+  <meta charset="utf-8">
+  
+
+  <meta http-equiv="x-dns-prefetch-control" content="on">
+  <link rel="dns-prefetch" href="https://gcore.jsdelivr.net">
+  <link rel="preconnect" href="https://gcore.jsdelivr.net" crossorigin>
+  <link rel="dns-prefetch" href="//unpkg.com">
+
+  <meta name="renderer" content="webkit">
+  <meta name="force-rendering" content="webkit">
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+  <meta name="HandheldFriendly" content="True">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="theme-color" content="#f8f8f8">
+  
+  <title>Autonomous Hardware Diagnostics and Recovery at Scale - RSSBOX</title>
+
+  
+    <meta name="description" content="Cloudflare’s global network spans more than 310 cities in over 120 countries. That means thousands of servers geographically spread across different data centers, running services that protect and a">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Autonomous Hardware Diagnostics and Recovery at Scale">
+<meta property="og:url" content="https://blog.imc.re/RSSBOX/rss/ec23a5f5.html">
+<meta property="og:site_name" content="RSSBOX">
+<meta property="og:description" content="Cloudflare’s global network spans more than 310 cities in over 120 countries. That means thousands of servers geographically spread across different data centers, running services that protect and a">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://blog.cloudflare.com/content/images/2024/03/image3-32.png">
+<meta property="og:image" content="http://blog.cloudflare.com/content/images/2024/03/image1-34.png">
+<meta property="og:image" content="http://blog.cloudflare.com/content/images/2024/03/image2-32.png">
+<meta property="article:published_time" content="2024-03-25T13:00:33.000Z">
+<meta property="article:modified_time" content="2024-03-25T13:00:33.000Z">
+<meta property="article:author" content="SMGoro">
+<meta property="article:tag" content="Blogs">
+<meta property="article:tag" content="Cloudflare">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="http://blog.cloudflare.com/content/images/2024/03/image3-32.png">
+  
+  
+  
+  <meta name="keywords" content="Blogs,Cloudflare">
+
+  <!-- feed -->
+  
+    <link rel="alternate" href="/RSSBOX/atom.xml" title="RSSBOX" type="application/atom+xml">
+  
+
+  
+    
+<link rel="stylesheet" href="/RSSBOX/css/main.css">
+
+  
+
+  
+
+  
+
+  
+    <link rel="stylesheet" href="https://gcore.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.css" integrity="sha384-vKruj+a13U8yHIkAyGgK1J3ArTLzrFGBbBc0tDp4ad/EyewESeXE/Iv67Aj8gKZ0" crossorigin="anonymous">
+    <script defer src="https://gcore.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.js" integrity="sha384-PwRUT/YqbnEjkZO0zZxNqcxACrXe+j766U2amXcgMg5457rve2Y7I6ZJSm2A0mS4" crossorigin="anonymous"></script>
+    <script defer src="https://gcore.jsdelivr.net/npm/katex@0.16.4/dist/contrib/auto-render.min.js" integrity="sha384-+VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4+/RRE05" crossorigin="anonymous" onload="renderMathInElement(document.body);"></script>
+  
+
+
+  
+
+<!--百度统计-->
+<script>
+  var _hmt = _hmt || [];
+  (function() {
+    var hm = document.createElement("script");
+    hm.src = "https://hm.baidu.com/hm.js?f42afe3e5b76d22c8b1a8060171c7184";
+    var s = document.getElementsByTagName("script")[0]; 
+    s.parentNode.insertBefore(hm, s);
+  })();
+</script>  
+  <!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-V2NSKYGXNG"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-V2NSKYGXNG');
+</script>
+<!--Google Adsense-->
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4773172018528901" crossorigin="anonymous"></script>
+</head>
+
+<body>
+  
+
+
+
+
+  <div class="l_body" id="start">
+    <aside class="l_left" layout="post">
+    
+
+  
+
+<header class="header"><div class="logo-wrap"><a class="avatar" href="/RSSBOX/archives"><div class="bg" style="opacity:0;background-image:url(https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.4/avatar/round/rainbow64@3x.webp);"></div><img no-lazy class="avatar" src="https://cdn.jsdelivr.net/gh/SMGCDN/photos/icon/rsshub.png" onerror="javascript:this.classList.add('error');this.src='https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.4/image/2659360.svg';"></a><a class="title" href="/RSSBOX/"><div class="main" ff="title">RSSBOX</div><div class="sub normal cap">SMGoroのRSS订阅</div><div class="sub hover cap" style="opacity:0"> 一些好康的东西</div></a></div>
+
+<nav class="menu dis-select"><a class="nav-item active" href="/RSSBOX/">订阅</a><a class="nav-item" href="https://blog.imc.re/">博客</a><a class="nav-item" href="https://blog.imc.re/contact">联系</a><a class="nav-item" href="https://blog.imc.re/more">更多</a></nav>
+</header>
+
+
+<div class="widgets">
+
+<widget class="widget-wrapper toc single" id="data-toc"><div class="widget-header cap dis-select"><span class="name">Autonomous Hardware Diagnostics and Recovery at Scale</span></div><div class="widget-body fs14"><div class="doc-tree active"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">Challenges dealing with broken servers</span></a></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">Using automation as an autonomous system</span></a></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">Introducing Phoenix</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-text">Discovery</span></a></li><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-text">Diagnostics</span></a></li><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-text">Recovery</span></a></li><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-text">Visibility</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">Balancing automation and empathy: Error Budgets</span></a></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">Where we go from here</span></a></li></ol></div></div></widget>
+
+
+
+<widget class="widget-wrapper search"><div class="widget-body"><div class="search-wrapper" id="search"><form class="search-form"><input type="text" class="search-input" id="search-input" data-filter="/rss/" placeholder="文章搜索"><svg t="1670596976048" class="icon search-icon" viewbox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2676" width="200" height="200"><path d="M938.2 832.6L723.8 618.1c-2.5-2.5-5.3-4.4-7.9-6.4 36.2-55.6 57.3-121.8 57.3-193.1C773.3 222.8 614.6 64 418.7 64S64 222.8 64 418.6c0 195.9 158.8 354.6 354.6 354.6 71.3 0 137.5-21.2 193.2-57.4 2 2.7 3.9 5.4 6.3 7.8L832.5 938c14.6 14.6 33.7 21.9 52.8 21.9 19.1 0 38.2-7.3 52.8-21.8 29.2-29.1 29.2-76.4 0.1-105.5M418.7 661.3C284.9 661.3 176 552.4 176 418.6 176 284.9 284.9 176 418.7 176c133.8 0 242.6 108.9 242.6 242.7 0 133.7-108.9 242.6-242.6 242.6" p-id="2677"/></svg></form><div id="search-result"></div><div class="search-no-result">没有找到内容！</div></div></div></widget>
+
+
+
+<widget class="widget-wrapper recent"><div class="widget-header cap theme dis-select"><span class="name">最近更新</span><a class="cap-action" id="rss" title="Subscribe" href="/atom.xml"><svg class="icon" viewbox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="8938"><path d="M800.966 947.251c0-404.522-320.872-732.448-716.69-732.448V62.785c477.972 0 865.44 395.987 865.44 884.466h-148.75z m-162.273 0h-148.74c0-228.98-181.628-414.598-405.678-414.598v-152.01c306.205 0 554.418 253.68 554.418 566.608z m-446.24-221.12c59.748 0 108.189 49.503 108.189 110.557 0 61.063-48.44 110.563-108.188 110.563-59.747 0-108.18-49.5-108.18-110.563 0-61.054 48.433-110.556 108.18-110.556z" p-id="8939"/></svg></a></div><div class="widget-body related-posts fs14"><a class="item title" href="/RSSBOX/rss/b51353e8.html"><span class="title">第11集 到了30岁还是处男，似乎会变成魔法师</span></a><a class="item title" href="/RSSBOX/rss/399916dd.html"><span class="title">第11集 金属胭脂</span></a><a class="item title" href="/RSSBOX/rss/c71b60b.html"><span class="title">第12集 战国妖狐</span></a><a class="item title" href="/RSSBOX/rss/26505cd4.html"><span class="title">第12集 月光下的异世界之旅 第二季</span></a><a class="item title" href="/RSSBOX/rss/65bb4e47.html"><span class="title">第12集 通灵王 FLOWERS</span></a></div></widget>
+</div>
+<footer class="footer dis-select"><div class="social-wrap"><a class="social" href="https://github.com/SMGoro" target="_blank" rel="external nofollow noopener noreferrer"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cdn.jsdelivr.net/gh/SMGCDN/photos/icon/iconfont/social-github.svg"></a><a class="social" href="https://space.bilibili.com/359079394" target="_blank" rel="external nofollow noopener noreferrer"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cdn.jsdelivr.net/gh/SMGCDN/photos/icon/iconfont/bilibili.svg"></a><a class="social" href="https://l.imc.re/zhihu" target="_blank" rel="external nofollow noopener noreferrer"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cdn.jsdelivr.net/gh/SMGCDN/photos/icon/iconfont/zhihu.svg"></a><a class="social" href="https://l.imc.re/discord" target="_blank" rel="external nofollow noopener noreferrer"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cdn.jsdelivr.net/gh/SMGCDN/photos/icon/iconfont/discord.svg"></a><a class="social" href="https://blog.imc.re/contact" target="_blank" rel="external nofollow noopener noreferrer"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cdn.jsdelivr.net/gh/SMGCDN/photos/icon/iconfont/comments.svg"></a></div></footer>
+
+    </aside>
+    <div class="l_main">
+      
+
+      
+
+
+
+<div class="bread-nav fs12"><div id="breadcrumb"><a class="cap breadcrumb" href="/RSSBOX/">主页</a><span class="sep"></span><a class="cap breadcrumb" href="/RSSBOX/">文章</a><span class="sep"></span><a class="cap breadcrumb-link" href="/RSSBOX/categories/blogs/">Blogs</a> <span class="sep"></span> <a class="cap breadcrumb-link" href="/RSSBOX/categories/blogs/cloudflare/">Cloudflare</a></div><div id="post-meta">发布于&nbsp;<time datetime="2024-03-25T13:00:33.000Z">2024-03-25</time></div></div>
+
+<article class="md-text content post">
+<h1 class="article-title"><span>Autonomous Hardware Diagnostics and Recovery at Scale</span></h1>
+<div>
+ <figure><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="http://blog.cloudflare.com/content/images/2024/03/image3-32.png"></figure><p>Cloudflare’s global network spans more than 310 cities in over 120 countries. That means thousands of servers geographically spread across different data centers, running services that protect and accelerate our customer’s Internet applications. Operating hardware at such a scale means that hardware can break anywhere and at any time. In such cases, our systems are engineered such that these failures cause little to no impact. However, detecting and managing server failure at scale requires automation. This blog aims to provide insights into the difficulties involved in handling broken servers and how we were able to simplify the process through automation.</p><h2>Challenges dealing with broken servers</h2><p>When a server is found to have faulty hardware and needs to be removed from production, it is  considered broken and its state is set to Repair in the internal database where server status is tracked. In the past, our Data Center Operations team were essentially left to troubleshoot and diagnose broken servers on their own. They had to go through laborious tasks like performing queries to locate and repair servers, conducting diagnostics, reviewing results, evaluating if a server can be restored to production, and creating the necessary tickets for re-enabling servers and executing operations to put them back in production. Such effort can take hours for a single server alone, and can easily consume an engineer’s entire day.</p><p>As you can see, addressing server repairs was a labor-intensive process performed manually, Additionally, a lot of these servers remained powered on within the racks, wasting energy. With our fleet expanding rapidly, the attention of Data Center Operations is primarily devoted to supporting this growth, leaving less time to handle servers in need of repair.</p><p>It was clear that our infrastructure was growing too fast for us to be able to handle repairs and recovery, so we had to find a better way to handle these sorts of inefficiencies in our operations. This would allow our engineers to focus on the growth of our footprint while not abandoning repair and recovery – after all, these are still huge CapEx investments and wasted capacity that otherwise would have been fully utilized.</p><h2>Using automation as an autonomous system</h2><p>As members of the Infrastructure Software Systems and Automation team at Cloudflare, we primarily work on building tools and automation that help reduce excess work in order to ease the pressure on our operations teams, increase productivity, and enable people to execute operations with the highest efficiency. </p><p>Our team continuously strives to challenge our existing processes and systems, finding ways we can evolve them and make significant improvements – one of which is to build not just a typical automated system but an <strong>autonomous</strong> one. Building autonomous automations means creating systems that can operate independently, without the need for constant human intervention or oversight – a perfect example of this is <strong>Phoenix</strong>.</p><h2>Introducing Phoenix</h2><p>Phoenix is an autonomous diagnostics and recovery automation that runs at regular intervals to discover Cloudflare data centers with servers that are broken, performing diagnostics on detection, recovering those that pass diagnostics by re-provisioning, and ultimately re-enabling  those that have successfully been re-provisioned in the safest and most unobtrusive way possible – <strong>all without requiring any human intervention! </strong>Should a server fail at any point in the process, Phoenix will take care of updating relevant tickets, even pinpointing the cause of the failure, and reverting the state of the server accordingly when needed – again, all without any human intervention!</p><p>The image below illustrates the whole process:</p><figure><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="http://blog.cloudflare.com/content/images/2024/03/image1-34.png"></figure><p>To better understand exactly how Phoenix works, let’s dive into some details about its core functionality.</p><h3>Discovery</h3><p>Discovery runs at a regular interval of 30 minutes, selecting a maximum of two Cloudflare data centers that have broken or repair state servers in its fleet, which are all configurable depending on business and operational needs, against which it can immediately execute diagnostics. At this rate, Phoenix is able to discover and operate on all broken servers in the fleet in about 3 days. On each run, it also detects data centers that may have broken servers already queued for recovery, and takes care of ensuring that the Recovery phase is executed immediately.</p><h3>Diagnostics</h3><p>Diagnostics takes care of running various tests across the broken servers of a selected data center in a single run, verifying viability of the hardware components, and identifying the candidates for recovery. </p><p>A diagnostic operation includes running the following:</p><ul><li><strong>Out-of-Band connectivity check</strong><br>This check determines the reachability of a device via out-of-band network. We employ IPMI (Intelligent Platform Management Interface) to ensure proper physical connectivity and accessibility of devices. This allows for effective monitoring and management of hardware components, enhancing overall system reliability and performance. Only devices that pass this check can progress to the Node Acceptance Testing phase.<br></li><li><strong>Node Acceptance Tests</strong><br>We leverage an existing internally-built tool called <a>INAT</a> (Integrated Node Acceptance Testing) that runs various tests suites/cases (Hardware Validation, Performance, etc.).<br><br>For every server that needs to be diagnosed, Phoenix will send relevant system instructions to have it boot into a custom Linux boot image, internally called INAT-image. Built into this image are the various tests that need to run when the server boots up, publishing the results to an internal resource in both human-readable (HTML) and machine-readable (JSON) formats, with the latter consumed and interpreted by Phoenix. Upon completion of the boot diagnostics, the server is powered off again to ensure it is not wasting energy. </li></ul><p>Our node acceptance tests encompass a range of evaluations, including but not limited to benchmark testing, CPU/Memory/Storage checks, drive wiping, and various other assessments.  <em>Look out for an upcoming in-depth blog post covering INAT.</em></p><p>A summarized diagnostics result is immediately added to the tracking ticket, including pinpointing the exact cause of a failure.</p><h3>Recovery</h3><p>Recovery executes what we call an expansion operation, which in its first phase will provision the servers that pass diagnostics. The second phase is to re-enable the successfully provisioned servers back to production, where only those that have been re-enabled successfully will start receiving production traffic again.</p><p>Once the diagnostics are passed and the broken servers move on towards the first phase of recovery, we change their statuses from Repair to Pending Provision. If the servers don't fully recover, for example, because there are server configuration errors or issues enabling services, Phoenix assesses the situation. In such cases, it returns those servers to the Repair state for additional evaluation. Additionally, if the diagnostics indicate that the servers need any faulty components replaced, then Phoenix notifies our Data Center operation team for manual repairs as required, ensuring that the server is not repeatedly selected until the required part replacement is completed. This ensures any necessary human intervention can be applied promptly, making the server ready for Phoenix to rediscover in its next iteration.</p><p>An autonomous recovery operation requires infusing intelligence into the automated system so that we can fully trust that it’s able to execute an expansion operation in the safest way possible and handle situations on its own without any human interventions. To do this, we’ve made sure Phoenix is automation-aware – this means that it knows when there are other automations executing certain operations such as expansions, and will only execute an expansion when there are no ongoing provisioning operations in the target data center. This ability to execute only when it’s safe to do so is to ensure that the recovery operation will not interfere with any other ongoing operations in the data center. We’ve also adjusted its tolerance with faulty hardware – this means it’s able to gracefully deal with misbehaving servers by letting these quickly drop out of the recovery candidate list upon misbehavior that prevents blocking the operation.</p><h3>Visibility</h3><p>While our autonomous system, Phoenix, seamlessly handles operations without human intervention, it doesn't mean we sacrifice visibility. Transparency is a key feature of Phoenix. It meticulously logs every operation, from executing tasks to providing progress updates, and shares this information in communication channels like chat rooms and Jira tickets. This ensures a clear understanding of what Phoenix is doing at all times.</p><p>Tracking of actions taken by automation as well as the state transitions of a server keeps us in the loop and gives us a better understanding of what these actions were and when they were executed, essentially giving us valuable insights that will help us improve not only the system but our processes as well. Having this operational data allows us to generate dashboards that let various teams monitor automation activities and measure their success. We are able to generate dashboards to guide business decisions and even answer common operational questions related to repair and recovery.</p><h2>Balancing automation and empathy: Error Budgets</h2><p>When we launched Phoenix, we were well aware that not every broken server can be re-enabled and successfully returned to production, and more importantly, there's no 100% guarantee that a recovered server will be as stable as the ones with no repair history – there's a risk that these servers could fail and end up back in Repair status again.</p><p>Although there's no guarantee that these recovered servers won't fail again, causing additional work for SRE’s due to the monitoring alerts that get triggered, what we can guarantee is that Phoenix immediately stops recoveries without any human intervention if a certain number of failures for a server are reached in a given time window – this is where we applied the concept of an Error Budget.</p><p>The Error Budget is the amount of error that automation can accumulate over a certain period of time before our SRE’s start being unhappy due to the excessive server failures or unreliability of the system. It is empathy embedded in automation.</p><figure><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="http://blog.cloudflare.com/content/images/2024/03/image2-32.png"></figure><p>In the figure above, the y-axis represents the error budget. In this context, the error budget applies to the number of recovered servers that failed and were moved back to Repair state again. The x-axis represents the time unit allocated to the error budget – in this case, 24 hours. To ensure that Phoenix is strict enough in mitigating possible issues, we divide the time unit into three consecutive buckets of the same duration – representing the three “follow the sun” SRE shifts in a day. With this, Phoenix can only execute recoveries if the number of server failures is no more than 2. Additionally, Phoenix will also have to compensate succeeding time buckets by deducting the error budget of any excess failures in a given time bucket.</p><p>Phoenix will immediately stop recoveries if it exhausts its error budget prematurely. In this context, prematurely means before the end of the time unit for which the error budget was granted. Regardless of the error budget depletion rate within a time unit, the error budget is fully replenished at the beginning of each time unit, meaning the budget resets every day.</p><p>The Error Budget has helped us define and manage our tolerance for hardware failures without causing significant harm to the system or too much noise for SREs, and gave us opportunities to improve our diagnostics system. It provides a common incentive that allows both the Infrastructure Engineering and SRE teams to focus on finding the right balance between innovation and reliability.</p><h2>Where we go from here</h2><p>With Phoenix, we’ve not only witnessed the significant and far-reaching potential of having an autonomous automated system in our infrastructure, we’re actually reaping its benefits as well. It provides a win-win situation by successfully recovering hardware and ensuring that broken devices are powered off, thus preventing them from consuming unnecessary power while being idle in our racks. This not only reduces energy wastage but also contributes to sustainability efforts and cost savings. Automated processes that operate independently have not only freed our colleagues on various Infrastructure teams from doing mundane and repetitive tasks, allowing them to focus more on areas where they can use their skill sets for more interesting and productive work, but have also led us to evolving our old processes for handling hardware failures and repairs, making us much more efficient than ever.</p><p>Autonomous automation is a reality that is now beginning to shape the future of how we are building better and smarter systems here at Cloudflare, and we will continue to invest engineering time for these initiatives.</p><p><em>A huge thank you to Elvin Tan for his awesome work on INAT, and to Graeme, Darrel and David for INAT’s continuous improvements.</em></p> 
+</div>
+
+<div>
+<div class="tag-plugin link dis-select"><a class="link-card plain" title="Autonomous hardware diagnostics and recovery at scale" href="https://blog.cloudflare.com/autonomous-hardware-diagnostics-and-recovery-at-scale" target="_blank" rel="external nofollow noopener noreferrer" cardlink autofill="icon"><div class="left"><span class="title">Autonomous hardware diagnostics and recovery at scale</span><span class="cap link fs12">https://blog.cloudflare.com/autonomous-hardware-diagnostics-and-recovery-at-scale</span></div><div class="right"><div class="lazy img" data-bg="https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.4/link/8f277b4ee0ecd.svg"></div></div></a></div>
+</div>
+
+
+
+
+<div class="article-footer reveal fs14"><section id="license"><div class="header"><span>许可协议</span></div><div class="body"><p>本文采用 <a target="_blank" rel="external nofollow noopener noreferrer" href="https://github.com/me-shaon/GLWTPL/blob/master/translations/LICENSE_zh-CN">GLWT（Good Luck With That，祝你好运）公共许可证</a> 许可协议，转载请注明出处。</p>
+</div></section><section id="share"><div class="header"><span>分享文章</span></div><div class="body"><div class="link"><input class="copy-area" readonly="true" id="copy-link" value="https://blog.imc.re/RSSBOX/rss/ec23a5f5.html"></div><div class="social-wrap dis-select"><a class="social share-item wechat" onclick="util.toggle(&quot;qrcode-wechat&quot)"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.4/social/b32ef3da1162a.svg"></a><a class="social share-item weibo" target="_blank" rel="external nofollow noopener noreferrer" href="https://service.weibo.com/share/share.php?url=https://blog.imc.re/RSSBOX/rss/ec23a5f5.html&title=Autonomous Hardware Diagnostics and Recovery at Scale - RSSBOX&pics=http://blog.cloudflare.com/content/images/2024/03/image3-32.png&summary=
+ Cloudflare’s global network spans more than 310 cities in over 120 countries. That means thousands of servers geogr..."><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.4/social/80c07e4dbb303.svg"></a><a class="social share-item email" href="mailto:?subject=Autonomous Hardware Diagnostics and Recovery at Scale - RSSBOX&amp;body=https://blog.imc.re/RSSBOX/rss/ec23a5f5.html"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.4/social/a1b00e20f425d.svg"></a><a class="social share-item link" onclick="util.copy(&quot;copy-link&quot;, &quot;复制成功&quot;)"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.4/social/8411ed322ced6.svg"></a></div><div class="qrcode" id="qrcode-wechat" style="visibility:hidden;height:0"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://api.qrserver.com/v1/create-qr-code/?size=256x256&data=https://blog.imc.re/RSSBOX/rss/ec23a5f5.html"></div></div></section></div>
+
+</article>
+
+<div class="related-wrap reveal" id="read-next"><section class="body"><div class="item" id="prev"><div class="note">较新文章</div><a href="/RSSBOX/rss/adb2d13b.html">(COM) Ghostly Blimps</a></div><div class="item" id="next"><div class="note">较早文章</div><a href="/RSSBOX/rss/e715bd1f.html">Sonified: The Jellyfish Nebula Supernova Remnant</a></div></section></div>
+
+
+<div class="related-wrap reveal" id="related-posts">
+    <section class="header">
+      <div class="title cap theme">您可能感兴趣的文章</div>
+    </section>
+    <section class="body">
+    <div class="related-posts"><a class="item" href="/RSSBOX/rss/1f1fc7ad.html" title="From .Com to .Beauty: The Evolving Threat Landscape of Unwanted Email"><span class="title">From .Com to .Beauty: The Evolving Threat Landscape of Unwanted Email</span></a><a class="item" href="/RSSBOX/rss/f0e12129.html" title="Harnessing Chaos in Cloudflare Offices"><span class="title">Harnessing Chaos in Cloudflare Offices</span></a><a class="item" href="/RSSBOX/rss/7b42455f.html" title="Improved Cloudflare Workers Testing via Vitest and Workerd"><span class="title">Improved Cloudflare Workers Testing via Vitest and Workerd</span></a><a class="item" href="/RSSBOX/rss/19285338.html" title="Introducing Requests for Information (RFIs) and Priority Intelligence Requirements (PIRs) for Threat Intelligence Teams"><span class="title">Introducing Requests for Information (RFIs) and Priority Intelligence Requirements (PIRs) for Threat Intelligence Teams</span></a><a class="item" href="/RSSBOX/rss/cc36653f.html" title="Introducing WARP Connector: Paving the Path to Any-to-Any Connectivity"><span class="title">Introducing WARP Connector: Paving the Path to Any-to-Any Connectivity</span></a></div></section></div>
+
+
+
+
+
+      
+<footer class="page-footer reveal fs12"><hr><div class="sitemap"><div class="sitemap-group"><span class="fs14">文章</span><a href="/RSSBOX/categories">分类</a><a href="/RSSBOX/tags">标签</a><a href="/RSSBOX/archives">归档</a></div><div class="sitemap-group"><span class="fs14">更多</span><a href="https://blog.imc.re/">博客</a><a target="_blank" rel="noopener" href="https://imc.re/">IMC.RE</a></div></div><div class="text"><p><a href="/">@RSSBOX</a> 2023 author by <a target="_blank" rel="external nofollow noopener noreferrer" href="https://github.com/MHG-LAB/RSSBOX">MHuiG</a> powered by SummerGoro。<br><br>本博客所有文章除特别声明外，均采用 <a target="_blank" rel="external nofollow noopener noreferrer" href="https://github.com/me-shaon/GLWTPL/blob/master/translations/LICENSE_zh-CN">GLWT（Good Luck With That，祝你好运）公共许可证</a> 许可协议，转载请注明出处。</p>
+</div></footer>
+
+      <div class="float-panel mobile-only blur" style="display:none">
+  <button type="button" class="sidebar-toggle mobile" onclick="sidebar.toggle()">
+    <svg class="icon" style="width: 1em; height: 1em;vertical-align: middle;fill: currentColor;overflow: hidden;" viewbox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="15301"><path d="M566.407 808.3c26.9-0.1 49.3-20.8 51.6-47.6-1.9-27.7-23.9-49.7-51.6-51.6h-412.6c-28.2-1.4-52.6 19.5-55.5 47.6 2.3 26.8 24.6 47.5 51.6 47.6h416.5v4z m309.3-249.9c26.9-0.1 49.3-20.8 51.6-47.6-2.2-26.8-24.6-47.5-51.6-47.6h-721.9c-27.7-2.8-52.5 17.4-55.3 45.1-0.1 0.8-0.1 1.7-0.2 2.5 0.9 27.2 23.6 48.5 50.7 47.6H875.707z m-103.1-245.9c26.9-0.1 49.3-20.8 51.6-47.6-0.4-28.3-23.2-51.1-51.5-51.6h-618.9c-29.5-1.1-54.3 21.9-55.5 51.4v0.2c1.4 27.8 25.2 49.2 53 47.8 0.8 0 1.7-0.1 2.5-0.2h618.8z" p-id="15302"/><path d="M566.407 808.3c26.9-0.1 49.3-20.8 51.6-47.6-1.9-27.7-23.9-49.7-51.6-51.6h-412.6c-28.2-1.4-52.6 19.5-55.5 47.6 1.9 27.7 23.9 49.7 51.6 51.6h416.5z m309.3-249.9c26.9-0.1 49.3-20.8 51.6-47.6-2.2-26.8-24.6-47.5-51.6-47.6h-721.9c-27.7-2.8-52.5 17.4-55.3 45.1-0.1 0.8-0.1 1.7-0.2 2.5 0.9 27.2 23.6 48.5 50.7 47.6H875.707z m-103.1-245.9c26.9-0.1 49.3-20.8 51.6-47.6-0.4-28.3-23.2-51.1-51.5-51.6h-618.9c-29.5-1.1-54.3 21.9-55.5 51.4v0.2c1.4 27.8 25.2 49.2 53 47.8 0.8 0 1.7-0.1 2.5-0.2h618.8z" p-id="15303"/></svg>
+  </button>
+</div>
+
+    </div>
+  </div>
+  <div class="scripts">
+    <script type="text/javascript">
+  const stellar = {
+    // 懒加载 css https://github.com/filamentgroup/loadCSS
+    loadCSS: (href, before, media, attributes) => {
+      var doc = window.document;
+      var ss = doc.createElement("link");
+      var ref;
+      if (before) {
+        ref = before;
+      } else {
+        var refs = (doc.body || doc.getElementsByTagName("head")[0]).childNodes;
+        ref = refs[refs.length - 1];
+      }
+      var sheets = doc.styleSheets;
+      if (attributes) {
+        for (var attributeName in attributes) {
+          if (attributes.hasOwnProperty(attributeName)) {
+            ss.setAttribute(attributeName, attributes[attributeName]);
+          }
+        }
+      }
+      ss.rel = "stylesheet";
+      ss.href = href;
+      ss.media = "only x";
+      function ready(cb) {
+        if (doc.body) {
+          return cb();
+        }
+        setTimeout(function () {
+          ready(cb);
+        });
+      }
+      ready(function () {
+        ref.parentNode.insertBefore(ss, before ? ref : ref.nextSibling);
+      });
+      var onloadcssdefined = function (cb) {
+        var resolvedHref = ss.href;
+        var i = sheets.length;
+        while (i--) {
+          if (sheets[i].href === resolvedHref) {
+            return cb();
+          }
+        }
+        setTimeout(function () {
+          onloadcssdefined(cb);
+        });
+      };
+      function loadCB() {
+        if (ss.addEventListener) {
+          ss.removeEventListener("load", loadCB);
+        }
+        ss.media = media || "all";
+      }
+      if (ss.addEventListener) {
+        ss.addEventListener("load", loadCB);
+      }
+      ss.onloadcssdefined = onloadcssdefined;
+      onloadcssdefined(loadCB);
+      return ss;
+    },
+
+    // 从 butterfly 和 volantis 获得灵感
+    loadScript: (src, opt) => new Promise((resolve, reject) => {
+      var script = document.createElement('script');
+      if (src.startsWith('/')){
+        src = stellar.config.root + src.substring(1);
+      }
+      script.src = src;
+      if (opt) {
+        for (let key of Object.keys(opt)) {
+          script[key] = opt[key]
+        }
+      } else {
+        // 默认异步，如果需要同步，第二个参数传入 {} 即可
+        script.async = true
+      }
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    }),
+
+    // https://github.com/jerryc127/hexo-theme-butterfly
+    jQuery: (fn) => {
+      if (typeof jQuery === 'undefined') {
+        stellar.loadScript(stellar.plugins.jQuery).then(fn)
+      } else {
+        fn()
+      }
+    }
+  };
+  stellar.version = '1.19.0';
+  stellar.github = 'https://github.com/xaoxuu/hexo-theme-stellar/tree/1.19.0';
+  stellar.config = {
+    date_suffix: {
+      just: '刚刚',
+      min: '分钟前',
+      hour: '小时前',
+      day: '天前',
+      month: '个月前',
+    },
+    root : '/RSSBOX/',
+  };
+
+  // required plugins (only load if needs)
+  stellar.plugins = {
+    jQuery: 'https://gcore.jsdelivr.net/npm/jquery@3.6.2/dist/jquery.min.js'
+  };
+
+  if ('local_search') {
+    stellar.search = {};
+    stellar.search.service = 'local_search';
+    if (stellar.search.service == 'local_search') {
+      let service_obj = Object.assign({}, {"field":"all","path":"/search.json","content":true,"codeblock":true,"sort":"-date"});
+      stellar.search[stellar.search.service] = service_obj;
+    }
+  }
+
+  // stellar js
+  stellar.plugins.stellar = Object.assign({"sites":"/js/plugins/sites.js","friends":"/js/plugins/friends.js","ghinfo":"/js/plugins/ghinfo.js","timeline":"/js/plugins/timeline.js","linkcard":"/js/plugins/linkcard.js","fcircle":"/js/plugins/fcircle.js","weibo":"/js/plugins/weibo.js"});
+
+  stellar.plugins.marked = Object.assign("https://cdn.bootcdn.net/ajax/libs/marked/4.0.18/marked.min.js");
+  // optional plugins
+  if ('true' == 'true') {
+    stellar.plugins.lazyload = Object.assign({"enable":true,"js":"https://gcore.jsdelivr.net/npm/vanilla-lazyload@17.8.3/dist/lazyload.min.js","transition":"blur"});
+  }
+  if ('true' == 'true') {
+    stellar.plugins.swiper = Object.assign({"enable":true,"css":"https://unpkg.com/swiper@8.4.5/swiper-bundle.min.css","js":"https://unpkg.com/swiper@8.4.5/swiper-bundle.min.js"});
+  }
+  if ('' == 'true') {
+    stellar.plugins.scrollreveal = Object.assign({"enable":null,"js":"https://gcore.jsdelivr.net/npm/scrollreveal@4.0.9/dist/scrollreveal.min.js","distance":"8px","duration":500,"interval":100,"scale":1});
+  }
+  if ('true' == 'true') {
+    stellar.plugins.preload = Object.assign({"enable":true,"service":"flying_pages","instant_page":"https://gcore.jsdelivr.net/gh/volantis-x/cdn-volantis@4.1.2/js/instant_page.js","flying_pages":"https://gcore.jsdelivr.net/gh/gijo-varghese/flying-pages@2.1.2/flying-pages.min.js"});
+  }
+  if ('true' == 'true') {
+    stellar.plugins.fancybox = Object.assign({"enable":true,"js":"https://gcore.jsdelivr.net/npm/@fancyapps/ui@4.0/dist/fancybox.umd.js","css":"https://gcore.jsdelivr.net/npm/@fancyapps/ui@4.0/dist/fancybox.css","selector":".swiper-slide img"});
+  }
+  if ('false' == 'true') {
+    stellar.plugins.heti = Object.assign({"enable":false,"css":"https://unpkg.com/heti@0.9.2/umd/heti.min.css","js":"https://unpkg.com/heti@0.9.2/umd/heti-addon.min.js"});
+  }
+  if ('true' == 'true') {
+    stellar.plugins.copycode = Object.assign({"enable":true,"js":"/js/plugins/copycode.js","default_text":"Copy","success_text":"Copied"});
+  }
+</script>
+
+<!-- required -->
+
+  
+<script src="/RSSBOX/js/main.js" async></script>
+
+
+
+<!-- optional -->
+
+  <script>
+  function loadJS() {
+    const els = document.querySelectorAll("#comments #giscus");
+    if (els.length === 0) return;
+    els.forEach((el, i) => {
+      try {
+        el.innerHTML = '';
+      } catch (error) {
+        console.log(error);
+      }
+      var script = document.createElement('script');
+      script.src = 'https://giscus.app/client.js';
+      script.async = true;
+      for (let key of Object.keys(el.attributes)) {
+        let attr = el.attributes[key];
+        if (['class', 'id'].includes(attr.name) === false) {
+          script.setAttribute(attr.name, attr.value);
+        }
+      }
+      el.appendChild(script);
+    });
+  }
+  window.addEventListener('DOMContentLoaded', (event) => {
+    loadJS();
+  });
+</script>
+
+
+
+
+<!-- inject -->
+
+
+  </div>
+</body>
+</html>

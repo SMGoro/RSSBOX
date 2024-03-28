@@ -1,0 +1,571 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+  <meta name="generator" content="Hexo 6.3.0">
+  <meta name="hexo-theme" content="https://github.com/xaoxuu/hexo-theme-stellar/tree/1.19.0">
+  <meta charset="utf-8">
+  
+
+  <meta http-equiv="x-dns-prefetch-control" content="on">
+  <link rel="dns-prefetch" href="https://gcore.jsdelivr.net">
+  <link rel="preconnect" href="https://gcore.jsdelivr.net" crossorigin>
+  <link rel="dns-prefetch" href="//unpkg.com">
+
+  <meta name="renderer" content="webkit">
+  <meta name="force-rendering" content="webkit">
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+  <meta name="HandheldFriendly" content="True">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="theme-color" content="#f8f8f8">
+  
+  <title>无忧微服务：如何实现大流量下新版本的发布自由 - RSSBOX</title>
+
+  
+    <meta name="description" content="作者：项良、十眠 微服务上云门槛降低，用好微服务才是关键 据调研数据显示，约 70% 的生产故障是由变更引起的。在阿里云上的企业应用如茶百道、极氪汽车和来电等，他们是如何解决变更引起的稳定性风险，实现了在白天高流量情况下应用发布平滑无损。今天我们将揭开阿里云微服务全链路无损发布解决方案的面纱， 快来一起参与探讨，并动手实践吧。 随着微服务开源以及生态的成熟，大大地推进了微服务技术的标准化。下图是">
+<meta property="og:type" content="article">
+<meta property="og:title" content="无忧微服务：如何实现大流量下新版本的发布自由">
+<meta property="og:url" content="https://blog.imc.re/RSSBOX/rss/13fadbba.html">
+<meta property="og:site_name" content="RSSBOX">
+<meta property="og:description" content="作者：项良、十眠 微服务上云门槛降低，用好微服务才是关键 据调研数据显示，约 70% 的生产故障是由变更引起的。在阿里云上的企业应用如茶百道、极氪汽车和来电等，他们是如何解决变更引起的稳定性风险，实现了在白天高流量情况下应用发布平滑无损。今天我们将揭开阿里云微服务全链路无损发布解决方案的面纱， 快来一起参与探讨，并动手实践吧。 随着微服务开源以及生态的成熟，大大地推进了微服务技术的标准化。下图是">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/ce102a3de17b44aa8cc48373bb841b04~tplv-k3u1fbpfcp-jj-mark:0:0:0:0:q75.image#?w=1080&amp;h=431&amp;s=33668&amp;e=webp&amp;a=1&amp;b=e6f2fc">
+<meta property="og:image" content="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/da56e673602f46f9b20b37b50f87a886~tplv-k3u1fbpfcp-jj-mark:0:0:0:0:q75.image#?w=1080&amp;h=609&amp;s=53372&amp;e=webp&amp;a=1&amp;b=fdfaf9">
+<meta property="og:image" content="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/bc9f5b830cb24120bf6d638f01d6defe~tplv-k3u1fbpfcp-jj-mark:0:0:0:0:q75.image#?w=1080&amp;h=502&amp;s=62074&amp;e=webp&amp;a=1&amp;b=070707">
+<meta property="og:image" content="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/70f2d25905bb43b181d7af267c7d9577~tplv-k3u1fbpfcp-jj-mark:0:0:0:0:q75.image#?w=1080&amp;h=470&amp;s=47808&amp;e=webp&amp;a=1&amp;b=1d1d1d">
+<meta property="og:image" content="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/b203cd80918c46259a70803528a16f37~tplv-k3u1fbpfcp-jj-mark:0:0:0:0:q75.image#?w=1080&amp;h=517&amp;s=26678&amp;e=webp&amp;a=1&amp;b=fefefe">
+<meta property="og:image" content="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/0a2716447d1f44b8b7c336700d05f4a7~tplv-k3u1fbpfcp-jj-mark:0:0:0:0:q75.image#?w=1080&amp;h=579&amp;s=76272&amp;e=webp&amp;a=1&amp;b=f9f7f7">
+<meta property="og:image" content="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/e67f66c76d5a4613968fa6f12378b98e~tplv-k3u1fbpfcp-jj-mark:0:0:0:0:q75.image#?w=1080&amp;h=583&amp;s=39338&amp;e=webp&amp;a=1&amp;b=fdfcfc">
+<meta property="og:image" content="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/e6829c19fac7489592cf6e7147de2795~tplv-k3u1fbpfcp-jj-mark:0:0:0:0:q75.image#?w=1080&amp;h=606&amp;s=37124&amp;e=webp&amp;a=1&amp;b=fcfbfb">
+<meta property="og:image" content="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/0c93ff1d791a4412be7ac6c29c681cce~tplv-k3u1fbpfcp-jj-mark:0:0:0:0:q75.image#?w=951&amp;h=559&amp;s=15682&amp;e=webp&amp;b=ffffff">
+<meta property="og:image" content="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/bea85e3600924c2b99d369fd57ec990c~tplv-k3u1fbpfcp-jj-mark:0:0:0:0:q75.image#?w=1080&amp;h=540&amp;s=40156&amp;e=webp&amp;a=1&amp;b=fdfdfd">
+<meta property="og:image" content="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/73447167724e4e5ca2adfbf59532a0c1~tplv-k3u1fbpfcp-jj-mark:0:0:0:0:q75.image#?w=1080&amp;h=520&amp;s=63244&amp;e=webp&amp;a=1&amp;b=03588a">
+<meta property="og:image" content="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/5de7622d1acc4ffd91483bfe8d8650ab~tplv-k3u1fbpfcp-jj-mark:0:0:0:0:q75.image#?w=1080&amp;h=613&amp;s=34872&amp;e=webp&amp;a=1&amp;b=fcfbfb">
+<meta property="og:image" content="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/41a6e224aa224e0aa74337d6360eb3e0~tplv-k3u1fbpfcp-jj-mark:0:0:0:0:q75.image#?w=1080&amp;h=567&amp;s=69122&amp;e=webp&amp;a=1&amp;b=fbfafa">
+<meta property="og:image" content="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/879324991de24b7882325beeffe4e1dd~tplv-k3u1fbpfcp-jj-mark:0:0:0:0:q75.image#?w=1080&amp;h=638&amp;s=28970&amp;e=webp&amp;a=1&amp;b=fdfdfd">
+<meta property="og:image" content="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/01349b361b7b407b9a2a172b31cdf0ce~tplv-k3u1fbpfcp-jj-mark:0:0:0:0:q75.image#?w=1080&amp;h=495&amp;s=51684&amp;e=webp&amp;a=1&amp;b=fdfbfb">
+<meta property="article:published_time" content="2024-03-28T07:11:02.000Z">
+<meta property="article:modified_time" content="2024-03-28T07:11:02.000Z">
+<meta property="article:author" content="SMGoro">
+<meta property="article:tag" content="媒体">
+<meta property="article:tag" content="掘金">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/ce102a3de17b44aa8cc48373bb841b04~tplv-k3u1fbpfcp-jj-mark:0:0:0:0:q75.image#?w=1080&amp;h=431&amp;s=33668&amp;e=webp&amp;a=1&amp;b=e6f2fc">
+  
+  
+  
+  <meta name="keywords" content="媒体,掘金">
+
+  <!-- feed -->
+  
+    <link rel="alternate" href="/RSSBOX/atom.xml" title="RSSBOX" type="application/atom+xml">
+  
+
+  
+    
+<link rel="stylesheet" href="/RSSBOX/css/main.css">
+
+  
+
+  
+
+  
+
+  
+    <link rel="stylesheet" href="https://gcore.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.css" integrity="sha384-vKruj+a13U8yHIkAyGgK1J3ArTLzrFGBbBc0tDp4ad/EyewESeXE/Iv67Aj8gKZ0" crossorigin="anonymous">
+    <script defer src="https://gcore.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.js" integrity="sha384-PwRUT/YqbnEjkZO0zZxNqcxACrXe+j766U2amXcgMg5457rve2Y7I6ZJSm2A0mS4" crossorigin="anonymous"></script>
+    <script defer src="https://gcore.jsdelivr.net/npm/katex@0.16.4/dist/contrib/auto-render.min.js" integrity="sha384-+VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4+/RRE05" crossorigin="anonymous" onload="renderMathInElement(document.body);"></script>
+  
+
+
+  
+
+<!--百度统计-->
+<script>
+  var _hmt = _hmt || [];
+  (function() {
+    var hm = document.createElement("script");
+    hm.src = "https://hm.baidu.com/hm.js?f42afe3e5b76d22c8b1a8060171c7184";
+    var s = document.getElementsByTagName("script")[0]; 
+    s.parentNode.insertBefore(hm, s);
+  })();
+</script>  
+  <!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-V2NSKYGXNG"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-V2NSKYGXNG');
+</script>
+<!--Google Adsense-->
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4773172018528901" crossorigin="anonymous"></script>
+</head>
+
+<body>
+  
+
+
+
+
+  <div class="l_body" id="start">
+    <aside class="l_left" layout="post">
+    
+
+  
+
+<header class="header"><div class="logo-wrap"><a class="avatar" href="/RSSBOX/archives"><div class="bg" style="opacity:0;background-image:url(https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.4/avatar/round/rainbow64@3x.webp);"></div><img no-lazy class="avatar" src="https://cdn.jsdelivr.net/gh/SMGCDN/photos/icon/rsshub.png" onerror="javascript:this.classList.add('error');this.src='https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.4/image/2659360.svg';"></a><a class="title" href="/RSSBOX/"><div class="main" ff="title">RSSBOX</div><div class="sub normal cap">SMGoroのRSS订阅</div><div class="sub hover cap" style="opacity:0"> 一些好康的东西</div></a></div>
+
+<nav class="menu dis-select"><a class="nav-item active" href="/RSSBOX/">订阅</a><a class="nav-item" href="https://blog.imc.re/">博客</a><a class="nav-item" href="https://blog.imc.re/contact">联系</a><a class="nav-item" href="https://blog.imc.re/more">更多</a></nav>
+</header>
+
+
+<div class="widgets">
+
+<widget class="widget-wrapper toc single" id="data-toc"><div class="widget-header cap dis-select"><span class="name">无忧微服务：如何实现大流量下新版本的发布自由</span></div><div class="widget-body fs14"><div class="doc-tree active"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">微服务上云门槛降低，用好微服务才是关键</span></a></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">微服务变更风险大，发布被迫选择半夜</span></a></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">MSE 微服务全链路无损发布方案，消除变更风险</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-text">如何解决微服务上下线过程流量有损问题</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link"><span class="toc-text">原理分析：无损下线</span></a></li><li class="toc-item toc-level-4"><a class="toc-link"><span class="toc-text">实战演练：缩容过程中无损下线的表现</span></a></li><li class="toc-item toc-level-4"><a class="toc-link"><span class="toc-text">原理分析：无损上线</span></a></li><li class="toc-item toc-level-4"><a class="toc-link"><span class="toc-text">实战演练：无损上线效果演示</span></a></li><li class="toc-item toc-level-4"><a class="toc-link"><span class="toc-text">实战演练：压测态下的无损上下线表现</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-text">如何控制微服务变更过程中的风险</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link"><span class="toc-text">MSE 全链路灰度方案</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">谁都在用 MSE 全链路无损发布方案？</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-text">极氪汽车</span></a></li><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-text">来电科技</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">总结</span></a></li></ol></div></div></widget>
+
+
+
+<widget class="widget-wrapper search"><div class="widget-body"><div class="search-wrapper" id="search"><form class="search-form"><input type="text" class="search-input" id="search-input" data-filter="/rss/" placeholder="文章搜索"><svg t="1670596976048" class="icon search-icon" viewbox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2676" width="200" height="200"><path d="M938.2 832.6L723.8 618.1c-2.5-2.5-5.3-4.4-7.9-6.4 36.2-55.6 57.3-121.8 57.3-193.1C773.3 222.8 614.6 64 418.7 64S64 222.8 64 418.6c0 195.9 158.8 354.6 354.6 354.6 71.3 0 137.5-21.2 193.2-57.4 2 2.7 3.9 5.4 6.3 7.8L832.5 938c14.6 14.6 33.7 21.9 52.8 21.9 19.1 0 38.2-7.3 52.8-21.8 29.2-29.1 29.2-76.4 0.1-105.5M418.7 661.3C284.9 661.3 176 552.4 176 418.6 176 284.9 284.9 176 418.7 176c133.8 0 242.6 108.9 242.6 242.7 0 133.7-108.9 242.6-242.6 242.6" p-id="2677"/></svg></form><div id="search-result"></div><div class="search-no-result">没有找到内容！</div></div></div></widget>
+
+
+
+<widget class="widget-wrapper recent"><div class="widget-header cap theme dis-select"><span class="name">最近更新</span><a class="cap-action" id="rss" title="Subscribe" href="/atom.xml"><svg class="icon" viewbox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="8938"><path d="M800.966 947.251c0-404.522-320.872-732.448-716.69-732.448V62.785c477.972 0 865.44 395.987 865.44 884.466h-148.75z m-162.273 0h-148.74c0-228.98-181.628-414.598-405.678-414.598v-152.01c306.205 0 554.418 253.68 554.418 566.608z m-446.24-221.12c59.748 0 108.189 49.503 108.189 110.557 0 61.063-48.44 110.563-108.188 110.563-59.747 0-108.18-49.5-108.18-110.563 0-61.054 48.433-110.556 108.18-110.556z" p-id="8939"/></svg></a></div><div class="widget-body related-posts fs14"><a class="item title" href="/RSSBOX/rss/b51353e8.html"><span class="title">第11集 到了30岁还是处男，似乎会变成魔法师</span></a><a class="item title" href="/RSSBOX/rss/399916dd.html"><span class="title">第11集 金属胭脂</span></a><a class="item title" href="/RSSBOX/rss/c71b60b.html"><span class="title">第12集 战国妖狐</span></a><a class="item title" href="/RSSBOX/rss/26505cd4.html"><span class="title">第12集 月光下的异世界之旅 第二季</span></a><a class="item title" href="/RSSBOX/rss/65bb4e47.html"><span class="title">第12集 通灵王 FLOWERS</span></a></div></widget>
+</div>
+<footer class="footer dis-select"><div class="social-wrap"><a class="social" href="https://github.com/SMGoro" target="_blank" rel="external nofollow noopener noreferrer"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cdn.jsdelivr.net/gh/SMGCDN/photos/icon/iconfont/social-github.svg"></a><a class="social" href="https://space.bilibili.com/359079394" target="_blank" rel="external nofollow noopener noreferrer"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cdn.jsdelivr.net/gh/SMGCDN/photos/icon/iconfont/bilibili.svg"></a><a class="social" href="https://l.imc.re/zhihu" target="_blank" rel="external nofollow noopener noreferrer"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cdn.jsdelivr.net/gh/SMGCDN/photos/icon/iconfont/zhihu.svg"></a><a class="social" href="https://l.imc.re/discord" target="_blank" rel="external nofollow noopener noreferrer"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cdn.jsdelivr.net/gh/SMGCDN/photos/icon/iconfont/discord.svg"></a><a class="social" href="https://blog.imc.re/contact" target="_blank" rel="external nofollow noopener noreferrer"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cdn.jsdelivr.net/gh/SMGCDN/photos/icon/iconfont/comments.svg"></a></div></footer>
+
+    </aside>
+    <div class="l_main">
+      
+
+      
+
+
+
+<div class="bread-nav fs12"><div id="breadcrumb"><a class="cap breadcrumb" href="/RSSBOX/">主页</a><span class="sep"></span><a class="cap breadcrumb" href="/RSSBOX/">文章</a><span class="sep"></span><a class="cap breadcrumb-link" href="/RSSBOX/categories/%E5%AA%92%E4%BD%93/">媒体</a> <span class="sep"></span> <a class="cap breadcrumb-link" href="/RSSBOX/categories/%E5%AA%92%E4%BD%93/%E6%8E%98%E9%87%91/">掘金</a></div><div id="post-meta">发布于&nbsp;<time datetime="2024-03-28T07:11:02.000Z">2024-03-28</time></div></div>
+
+<article class="md-text content post">
+<h1 class="article-title"><span>无忧微服务：如何实现大流量下新版本的发布自由</span></h1>
+<div>
+<p>作者：项良、十眠</p>
+<h2>微服务上云门槛降低，用好微服务才是关键</h2>
+<p>据调研数据显示，约 70% 的生产故障是由变更引起的。在阿里云上的企业应用如茶百道、极氪汽车和来电等，他们是如何解决变更引起的稳定性风险，实现了在白天高流量情况下应用发布平滑无损。<strong>今天我们将揭开阿里云微服务全链路无损发布解决方案的面纱，</strong> 快来一起参与探讨，并动手实践吧。</p>
+<p>随着微服务开源以及生态的成熟，大大地推进了微服务技术的标准化。下图是展示单体和微服务架构选型的图，其中横坐标代表的是系统复杂度，纵坐标代表着效率，绿色曲线代表着单体架构，蓝色曲线代表微服务架构。我们可以看到随着系统复杂度的升高，单体架构跟微服务之间选型存在着一个拐点，拐点向右更适合选型微服务架构。随着微服务技术的标准化，意味着微服务上云的门槛也大幅度降低，他们之间选型的拐点也在持续地左移，采用微服务架构的企业日益增多。当企业开始大规模推广使用微服务时，如何用好、用稳微服务成为了大家关注的点，用好微服务的关键就是稳定性跟效率。</p>
+<p><img class="lazy" alt="图片" referrerpolicy="no-referrer" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/ce102a3de17b44aa8cc48373bb841b04~tplv-k3u1fbpfcp-jj-mark:0:0:0:0:q75.image#?w=1080&amp;h=431&amp;s=33668&amp;e=webp&amp;a=1&amp;b=e6f2fc"></p>
+<h2>微服务变更风险大，发布被迫选择半夜</h2>
+<p>我们来一起看下一些客户真实的诉求，<strong>某茶饮企业</strong>变更引起事故占比一度超过 60%，每次发版都要避开高峰，在凌晨发版；<strong>某新能源企业</strong>业务连续性要求非常高，核心服务需要 7*24 小时持续在线，但是业务快速发展又需要保证迭代的效率，为了保证业务的稳定性，只能在业务低峰期即凌晨进行发布；同样，<strong>某科技公司</strong>因为缺少线上灰度能力，每次发布全量发布会导致影响面不可控，存在一定风险。</p>
+<p>据调研数据称，70% 的生产故障都是由于变更导致的，除应用本身问题外，运行时风险概括为：不确定流量、不稳定调用、不稳定基础设施。今天，我们聊的解决方案就是为了<strong>全面消除变更态风险，解决用户生产变更态的稳定性风险。</strong></p>
+<p><img class="lazy" alt="图片" referrerpolicy="no-referrer" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/da56e673602f46f9b20b37b50f87a886~tplv-k3u1fbpfcp-jj-mark:0:0:0:0:q75.image#?w=1080&amp;h=609&amp;s=53372&amp;e=webp&amp;a=1&amp;b=fdfaf9"></p>
+<p>我们先来分析一下，为什么微服务应用不能白天发布？因为相比于单体应用来说，微服务架构本身就是复杂的拓扑网络状的调用跟依赖结构。那么就意味着如果我们的微服务应用没有处理好上下线有损的问题，那么我们的任一微服务在发布的过程中都会存在短暂的服务不可用的情况，短时间内会出现大量的异常，导致业务受损。</p>
+<p>最直观的感受就是我们一不小心点击了某个应用的重新部署，然后报警群里就会收到大量订单成功率下跌的告警，想想就很吓人。其次，发布时整个功能上线到线上的最后一个环节，一些在设计、研发、测试过程中累计下来的问题，在最后发布的环节才会触发。如果发布涉及到多个应用，如何进行合理发布，并且不会因为版本的问题而导致流量损失？我们总不希望看到，同一个用户在下单页面时候访问到新的版本，到支付阶段又碰到了老版本。</p>
+<p><img class="lazy" alt="图片" referrerpolicy="no-referrer" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/bc9f5b830cb24120bf6d638f01d6defe~tplv-k3u1fbpfcp-jj-mark:0:0:0:0:q75.image#?w=1080&amp;h=502&amp;s=62074&amp;e=webp&amp;a=1&amp;b=070707"></p>
+<p>左下图是我拿开源 Spring Cloud 应用进行压测，并且在压测过程中重启应用后，整体压测请求的表现，我们可以看到有大量的异常。再进一步想一下，如果此时是生产系统，并且在白天大流量的场景下，极小的问题都会由于大流量的因素被快速放大，影响面难以控制。所以很多企业跟业务团队，宁愿选择在凌晨进行发布。</p>
+<h2>MSE 微服务全链路无损发布方案，消除变更风险</h2>
+<p>如何彻底解决变更稳定性问题？那就介绍今天的主角，MSE 微服务全链路无损发布方案。</p>
+<p><img class="lazy" alt="图片" referrerpolicy="no-referrer" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/70f2d25905bb43b181d7af267c7d9577~tplv-k3u1fbpfcp-jj-mark:0:0:0:0:q75.image#?w=1080&amp;h=470&amp;s=47808&amp;e=webp&amp;a=1&amp;b=1d1d1d"></p>
+<p>我们分别从两个角度来分析问题：</p>
+<ol>
+<li>
+<p>如果我们新版本的代码没任何问题，服务上下线过程还是会有损，应该怎么解决？</p>
+</li>
+<li>
+<p>如果我们新版本的代码有问题，那么我们如何控制问题的影响面？</p>
+</li>
+</ol>
+<p>首先，代码没问题，为什么上下线的环节中流量会有损失。当我们的微服务提供者下线后，服务的消费者无法实时感知节点下线，持续调用已经下线的节点地址，那么流量就会出现持续的报错；如果服务提供者在下线的过程中，请求执行到一半时，应用节点就直接停止了，那么就会导致在途请求以及处理中的请求失败，严重时还会导致线上的数据不一致；同样，在应用上线环节中也会有许多问题，比如新启动的节点如果没有完成预热，就直接承受打流量，那么就会导致新启动的节点直接被打垮，更有严重情况下，大流量场景下服务扩容都扩不出来。同样，微服务体系的生命周期没有跟 K8s 维度的 Readiness/Liveness 生命周期没有对齐，那么在发布的过程中会出现没对齐而导致的请求异常。</p>
+<p>如果新版本的代码存在问题，那我们希望在发布新版本的过程中尽可能地控制影响面，阿里巴巴安全生产最佳实践告诉我们，在发布变更的过程中需要做到安全生产三板斧，即<strong>可灰度、可观测、可回滚</strong>。可灰度就是通过灰度的方式控制问题的影响面，如果我们业务代码新版本存在 bug，大多数情况下我们只能选择在业务低峰期（凌晨）进行发布；在微服务架构下，灰度发布需要做到全链路灰度的能力，目前开源自建很难实现全链路灰度的能力，如果出现流量丢标的情况，会导致灰度流量打到生产环境，引入了额外不可控的风险；可回滚，要求我们在出问题后，需要快速恢复止血，但如果没有一套完整的回滚方案与策略，回滚速度慢或者在回滚过程中引入更大的问题都是不可接受的。</p>
+<h3>如何解决微服务上下线过程流量有损问题</h3>
+<p>如果新版本代码没问题，如何解决服务上下线过程中流量有损的问题？</p>
+<p>减少不必要的 API 报错，是最好的用户体验，也是最好的微服务开发体验。如何解决这个在微服务领域内让人头疼的问题呢。在这之前我们先来了解一下为什么我们的微服务在下线的过程中会有可能出现流量损失的问题。</p>
+<h4>原理分析：无损下线</h4>
+<p><img class="lazy" alt="图片" referrerpolicy="no-referrer" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/b203cd80918c46259a70803528a16f37~tplv-k3u1fbpfcp-jj-mark:0:0:0:0:q75.image#?w=1080&amp;h=517&amp;s=26678&amp;e=webp&amp;a=1&amp;b=fefefe"></p>
+<p>如上图右侧所示，是一个微服务节点下线的正常流程。</p>
+<ol>
+<li>
+<p>下线前，消费者根据负载均衡规则调用服务提供者，业务正常。</p>
+</li>
+<li>
+<p>服务提供者节点 A 准备下线，先对其中的一个节点进行操作，首先是触发停止 Java 进程信号。</p>
+</li>
+<li>
+<p>节点停止过程中，服务提供者节点会向注册中心发送服务节点注销的动作。</p>
+</li>
+<li>
+<p>服务注册中心接收到服务提供者节点列表变更的信号后会，通知消费者服务提供者列表中的节点已下线。</p>
+</li>
+<li>
+<p>服务消费者收到新的服务提供者节点列表后，会刷新客户端的地址列表缓存，然后基于新的地址列表重新计算路由与负载均衡。</p>
+</li>
+<li>
+<p>最终，服务消费者不再调用已经下线的节点。</p>
+</li>
+</ol>
+<p>微服务下线的流程虽然比较复杂，但整个流程还是非常符合逻辑的，微服务架构是通过服务注册与发现实现的节点感知，自然也是通过这条路子实现节点下线变化的感知。</p>
+<p>参考我们这边给出的一些简单的实践数据，我想你的看法可能就会变得不同。从第 2 步到第 6 步的过程中，Eureka 在最差的情况下需要耗时 2 分钟，即使是 Nacos 在最差的情况下需要耗时 50 秒；在第 3 步中，Dubbo 3.0 之前的所有版本都是使用的是服务级别的注册与发现模型，意味着当业务量过大时，会引起注册中心压力大，假设每次注册/注销动作需要花费 20～30ms，五六百个服务则需要注册/注销花费掉近 15s 的时间；在第 5 步中， Spring Cloud 使用的 Ribbon 负载均衡默认的地址缓存刷新时间是 30 秒一次，那么意味着及时客户端实时地从注册中心获取到下线节点的信号，依旧会有一段时间客户端会将请求负载均衡至老的节点中。</p>
+<p>如上图左侧所示，只有到客户端感知到服务端下线并且使用最新的地址列表进行路由与负载均衡时，请求才不会被负载均衡至下线的节点上。那么在节点开始下线的开始到请求不再被打到下线的节点上的这段时间内，业务请求都有可能出现问题，这段时间我们可以称之为服务调用报错期。</p>
+<p>通过对微服务下线的流程分析，我们理解了解决微服务下线问题的关键就是：保证每一次微服务下线过程中，尽可能缩短服务调用报错期，同时确保待下线节点处理完任何发往该节点的请求之后再下线。</p>
+<p>那么如何缩短服务调用报错期呢？我们想到了一些策略：</p>
+<ol>
+<li>
+<p>将步骤 3 即节点向注册中心执行服务下线的过程提前到步骤 2 之前，即让服务注销的通知行为在应用下线前执行，考虑到 K8s 提供了 Prestop 接口，那么我们就可以将该流程抽象出来，放到 K8s 的 Prestop 中进行触发。</p>
+</li>
+<li>
+<p>如果注册中心能力不行，那么我们是否有可能服务端在下线之前绕过注册中心直接告知客户端当前服务端节点下线的信号，该动作也可以放在 K8s 的 Prestop 接口中触发。</p>
+</li>
+<li>
+<p>客户端在收到服务端通知后，是否可以主动刷新客户端的地址列表缓存。</p>
+</li>
+</ol>
+<p>如何尽可能得保证服务端节点在处理完任何发往该节点的请求之后再下线？站在服务端视角考虑，在告知了客户端下线的信号后，可以提供一种等待机制，保证所有的在途请求以及服务端正在处理的请求被处理完成之后再进行下线流程。</p>
+<h4>实战演练：缩容过程中无损下线的表现</h4>
+<p>下面我们就通过一个实践来看看无损下线的效果与表现：</p>
+<p><img class="lazy" alt="图片" referrerpolicy="no-referrer" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/0a2716447d1f44b8b7c336700d05f4a7~tplv-k3u1fbpfcp-jj-mark:0:0:0:0:q75.image#?w=1080&amp;h=579&amp;s=76272&amp;e=webp&amp;a=1&amp;b=f9f7f7"></p>
+<p>该实践分为四个步骤，首先我们在 ACK 控制台配置定时伸缩任务，模拟应用扩缩容的场景，我们可以配置 5 分钟内第 2 分钟扩容，第 4 分钟缩容；第二步，应用接入 MSE 服务治理后默认会具备无损下线能力，我们需要将基线环境增加环境变量关闭无损下线能力，作为对照组；灰度环境接入 MSE 服务治理后，不做任何操作，即默认开启无损下线能力，作为实验组；第三步，我们同时发起基线跟灰度的流量，观察其表现；第四步，我们在 MSE 应用详情的 QPS 数据模块中可以看出，未打标环境（关闭无损下线的应用）在扩缩容过程中出现了 99 个异常，然而灰度环境则无任何错误数。</p>
+<p>📝 更多实验细节详见 MSE 文档，结果验证：无损下线功能 <strong>[</strong> <strong>1]</strong></p>
+<h4>原理分析：无损上线</h4>
+<p>为什么有了无损下线，还需要无损上线？应用启动的过程中也存在许多问题。我们将一个微服务应用的启动过程抽象总结成如下流程，在如下各个阶段我们都会遇到一些问题。</p>
+<p><img class="lazy" alt="图片" referrerpolicy="no-referrer" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/e67f66c76d5a4613968fa6f12378b98e~tplv-k3u1fbpfcp-jj-mark:0:0:0:0:q75.image#?w=1080&amp;h=583&amp;s=39338&amp;e=webp&amp;a=1&amp;b=fdfcfc"></p>
+<p>我们先看一下一个标准的微服务启动过程中分别要经过哪几个阶段：</p>
+<ol>
+<li>
+<p>首先是应用初始化阶段，在这段时间内会进行 Spring Bean 的加载与初始化逻辑；</p>
+</li>
+<li>
+<p>第二阶段就是连接池连接建立阶段，比如我们有用到 Redis 的话，就有涉及到 JedisPool 的连接池创建，默认情况下连接池创建后不会立即创建连接，只有等待请求进入后才会去建立连接，之前有个头部客户，在应用启动的过程中就因为连接还没建立完成，但是有大流量涌入，导致大量线程阻塞在连接创建阶段，导致大量的请求错误，因此在这个阶段我们需要提前将连接池的核心连接建立完成；</p>
+</li>
+<li>
+<p>第三阶段就是服务注册，我们知道一旦服务完成注册，那么就意味着 Consumer 应用可以发现当前服务，就会有微服务的流量进入当前应用，因此我们需要确保在服务注册之前应用初始化就绪；在某些场景下，比如大数据计算服务，服务在启动后需要异步加载一些准备资源，大数据服务需要提前从 OSS 拉取几百兆的数据，等就绪后才能提供服务，因此如果应用启动后直接注册服务，会导致在异步资源就绪前的流量都因为前置资源没就绪而导致报错；</p>
+</li>
+<li>
+<p>第四个阶段就是需要联动 K8s 生命周期，一旦 K8s 的就绪检查通过就认为当前 Pod 已经启动完成。在 K8s 滚动发布的过程中，Readiness 通过后说明 Pod 启动就绪，K8s 就会自动进行下一批 Pod 的滚动发布。如果 Readiness 仅仅关联端口启动，会出现这样的情况，老的 Pod 都已经停机了，但是最早新起的 Pod 依旧没进行完服务注册，从而在短时间内会存在注册中心中该服务没有地址的情况，客户端就会在发布过程中出现 service no provider 异常。</p>
+</li>
+<li>
+<p>第五个阶段就是应用跟 Pod 都就绪了，微服务应用在刚启动后由于 JIT 预热、框架资源懒加载等情况，会导致应用刚启动后容量会相比正常情况下小很多，Java 应用在这个场景下问题会显得更加明显。如果这时候不进行任何预处理，应用直接接收线上均分下来的大流量极易出现大量请求响应慢，资源阻塞，应用实例宕机的现象。因此在这阶段我们需要通过小流量预热的方式，合理分配少量的流量启到充分预热我们系统的作用。</p>
+</li>
+</ol>
+<p>只有妥善处理完上面的所有流程，我们的微服务应用在其启动后才可以从容地面对生产上的大流量。</p>
+<h4>实战演练：无损上线效果演示</h4>
+<p>下面我们来快速看一下无损上线的 Demo：</p>
+<p><img class="lazy" alt="图片" referrerpolicy="no-referrer" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/e6829c19fac7489592cf6e7147de2795~tplv-k3u1fbpfcp-jj-mark:0:0:0:0:q75.image#?w=1080&amp;h=606&amp;s=37124&amp;e=webp&amp;a=1&amp;b=fcfbfb"></p>
+<p>首先，我们需要在 MSE 无损上线页面开启无损上线开关，并配置预热时长；然后我们重启应用后，我们就可以看到上线 Pod 的流量曲线如上图所示，缓慢增长，符合小流量预热曲线。</p>
+<p>📝 更多实验细节详见 MSE 文档，结果验证：无损上线功能 <strong>[</strong> <strong>2]</strong></p>
+<h4>实战演练：压测态下的无损上下线表现</h4>
+<p>本次实践的 Demo 以开源 Spring Cloud 框架为例，我们准备了如下 demo。流量是阿里云性能测试服务 PTS 发起，通过开源的 Zuul 网关流入我们的系统。其中其服务调用链路如下图所示：</p>
+<p><img class="lazy" alt="图片" referrerpolicy="no-referrer" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/0c93ff1d791a4412be7ac6c29c681cce~tplv-k3u1fbpfcp-jj-mark:0:0:0:0:q75.image#?w=951&amp;h=559&amp;s=15682&amp;e=webp&amp;b=ffffff"></p>
+<p>图中流量从 Netflix Zuul 对应的 Ingress 进来，会调用 SC-A 应用对应的服务，SC-A 应用内部调用 SC-B 应用的服务，SC-B 应用内部调用 SC-C 应用的服务。</p>
+<p>我们看下真实压测（500qps 持续压测）场景下无损上下线的效果：</p>
+<p><img class="lazy" alt="图片" referrerpolicy="no-referrer" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/bea85e3600924c2b99d369fd57ec990c~tplv-k3u1fbpfcp-jj-mark:0:0:0:0:q75.image#?w=1080&amp;h=540&amp;s=40156&amp;e=webp&amp;a=1&amp;b=fdfdfd"></p>
+<p>左图是未接入 MSE 的开源 Spring Cloud 应用表现，我们观察到从 17:53:42 开始出错，17:54:24 停止报错，其中报错时长持续 42 秒，总共出现 1 万多个异常。相比实验组，接入 MSE 无损上下线的应用在这个过程中，应用发布对业务流量来说没任何损失，整个过程非常平滑。</p>
+<p>📝 更多实验细节详见 MSE 文档，揭秘大流量场景下发布如「丝般顺滑」背后的原因 <strong>[</strong> <strong>3]</strong></p>
+<p>一个简单的 Demo 应用表现都如此令人吃惊，那么在微服务架构下，生产系统面对每秒上万次请求的流量洪峰，在这个过程中即使服务调用报错期只有短短几秒，对于企业来说都是非常痛的影响。在一些更极端的情况下，服务调用报错期可能会恶化到数分钟，这导致许多企业不敢发布，最后不得不每次发版都安排在凌晨两三点。对于研发来说每次发版都是心惊胆颤，苦不堪言。无损上下线的能力就是为了解决这个问题，保证发布变更过程中流量无损。</p>
+<h3>如何控制微服务变更过程中的风险</h3>
+<p>如果我们新版本的代码有问题，那么我们如何可以有效地控制问题影响面？</p>
+<p><img class="lazy" alt="图片" referrerpolicy="no-referrer" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/73447167724e4e5ca2adfbf59532a0c1~tplv-k3u1fbpfcp-jj-mark:0:0:0:0:q75.image#?w=1080&amp;h=520&amp;s=63244&amp;e=webp&amp;a=1&amp;b=03588a"></p>
+<p>为了控制变更过程中的风险，我们都知道通过灰度发布的方式来控制问题的影响面；但是在微服务架构的场景下，传统的灰度发布模式往往不能满足微服务交付的复杂、多样化的需求。这是因为：</p>
+<ul>
+<li>微服务调用链路比较长，比较复杂。在微服务架构中，服务之间的调用链路比较复杂，一个服务的改动可能会影响到整个调用链路，从而影响整个应用的稳定性。</li>
+<li>一次灰度可能涉及多个模块，整个链路都要调用新版本。由于微服务架构中服务之间相互依赖，一个服务的修改可能需要其他服务的相应调整。这就导致了在进行灰度发布时，需要同时调用多个服务的新版本，增加了发布的复杂度和不确定性。</li>
+<li>多个项目并行，需要部署多套环境，环境构建不灵活、成本高。在微服务架构中，往往会有多个项目并行开发，需要部署多套环境来支持不同的项目。这就增加了环境构建的难度和成本，从而导致发布效率低下。</li>
+</ul>
+<p>为了解决这些问题，我们需要采用<strong>更加灵活、可控并且适用于微服务场景的发布方式，</strong> 全链路灰度发布的场景也就应运而生。通常每个微服务都会有灰度环境或分组来接受灰度流量。我们希望进入上游灰度环境的流量也能进入下游灰度的环境中，确保 1 个请求始终在灰度环境中传递，从而形成流量“泳道”。在“泳道”内的流量链路中，即使这个调用链路上有一些微服务应用不存在灰度环境，那么这些微服务应用在请求下游应用的时候依然能够回到下游应用的灰度环境中。</p>
+<p><img class="lazy" alt="图片" referrerpolicy="no-referrer" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/5de7622d1acc4ffd91483bfe8d8650ab~tplv-k3u1fbpfcp-jj-mark:0:0:0:0:q75.image#?w=1080&amp;h=613&amp;s=34872&amp;e=webp&amp;a=1&amp;b=fcfbfb"></p>
+<p>生产的流量是端到端的，实现全链路灰度“泳道”那么意味着我们需要控制流量在前端、网关、后端各个微服务等组件中闭环。不仅仅是 RPC/Http 的流量，对于异步调用比如 MQ 流量我们也需要符合全链路“泳道”调用的规则，这整个过程中涉及到的流量控制的复杂度也是非常高的。</p>
+<h4>MSE 全链路灰度方案</h4>
+<p><img class="lazy" alt="图片" referrerpolicy="no-referrer" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/41a6e224aa224e0aa74337d6360eb3e0~tplv-k3u1fbpfcp-jj-mark:0:0:0:0:q75.image#?w=1080&amp;h=567&amp;s=69122&amp;e=webp&amp;a=1&amp;b=fbfafa"></p>
+<p>MSE 通过简单的 UI 页面透出流量“泳道”的模型，我们可以通过创建泳道组与泳道，快速实现微服务架构下的全链路灰度发布能力。</p>
+<ol>
+<li>
+<p>MSE 支持在控制台动态配置流量匹配规则引入精细化流量</p>
+</li>
+<li>
+<ol>
+<li>支持数值比较、正则匹配、百分比条件等灵活的条件匹配规则，从而满足复杂的灰度发布诉求；</li>
+<li>关于 Http 流量支持 Header、param、cookie 等参数进行匹配；关于 Dubbo 流量可按照服务、方法、参数进行匹配；</li>
+</ol>
+</li>
+<li>
+<p>全链路隔离流量“泳道”</p>
+</li>
+<li>
+<ol>
+<li>通过设置流量规则对所需流量进行'染色'，'染色'流量会路由到灰度机器。</li>
+<li>灰度流量携带灰度标签自动传递，形成灰度专属环境流量泳道，对于无灰度环境应用灰度流量会默认选择未打标的基线环境；其中流量标签传递默认支持RPC、MQ 等流量。</li>
+</ol>
+</li>
+<li>
+<p>端到端的稳定基线环境</p>
+</li>
+<li>
+<ol>
+<li>未打标的应用属于基线稳定版本的应用，即稳定的线上环境。当我们将发布对应的灰度版本代码，然后可以配置规则定向引入特定的线上流量，控制灰度代码的风险。</li>
+<li>在每一跳请求路由的过程中，灰度流量优先走流量标签对应的机器，如果没有匹配则 fallback 到基线环境；</li>
+</ol>
+</li>
+<li>
+<p>流量一键动态切流，流量规则配置后，可根据需求进行一键停启，增删改查，实时生效。灰度引流更便捷。</p>
+</li>
+<li>
+<p>低成本接入，基于 Java Agent 技术实现无需修改一行业务代码；无缝支持市面上近 5 年的所有 Spring Cloud 和 Dubbo 的版本，用户不用改一行代码就可以使用，不需要改变业务的现有架构，随时可上可下，没有绑定。</p>
+</li>
+</ol>
+<p>同时 MSE 全链路灰度能力还提供了<strong>配套的可观测能力</strong>，我们通过全链路灰度观测可以实时看到灰度情况的流量曲线，无论是测试验证阶段、还是生产灰度发布过程中，对于灰没灰到的流量情况我们可以做到心中有数。</p>
+<p><img class="lazy" alt="图片" referrerpolicy="no-referrer" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/879324991de24b7882325beeffe4e1dd~tplv-k3u1fbpfcp-jj-mark:0:0:0:0:q75.image#?w=1080&amp;h=638&amp;s=28970&amp;e=webp&amp;a=1&amp;b=fdfdfd"></p>
+<h2>谁都在用 MSE 全链路无损发布方案？</h2>
+<p>在阿里云上的企业应用如茶百道、极氪汽车和来电等，他们是如何解决变更引起的稳定性风险，实现了在白天高流量情况下应用发布平滑无损。MSE 全链路无损发布方案助力云上微服务实现白天发布自由。</p>
+<p><img class="lazy" alt="图片" referrerpolicy="no-referrer" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/01349b361b7b407b9a2a172b31cdf0ce~tplv-k3u1fbpfcp-jj-mark:0:0:0:0:q75.image#?w=1080&amp;h=495&amp;s=51684&amp;e=webp&amp;a=1&amp;b=fdfbfb"></p>
+<h3>极氪汽车</h3>
+<p>随着极氪汽车销售越发火爆，其注册用户和每日活跃用户快速增长，需要支持的业务场景和新功能也越来越多，平均两三天一个小版本、半个月一个大版本的升级频率。为了不影响白天业务高峰，每次发版只能选择在凌晨业务低峰期进行，想象一下如果开发/运维/测试人员每次都集中在晚上发布，那么这些参与发布的同学第二天的工作效率将会受到影响；如果晚上选择较少的人参与发布，那么当出问题的时候止血措施很可能会来不及实施，故障责任也不好划分。</p>
+<p>极氪汽车针对核心业务链路上多个微服务同时需要发版的场景，基于 MSE 全链路无损发布解决方案实现了多业务的全链路灰度，通过这种方式让客户在不需要更改任何业务代码的情况下实现多业务白天发版，同时通过逐步流量放大进行验证，如出现问题可及时回切流量，<strong>降低了白天发布可能导致的稳定性风险。</strong> 同时通过改造云效流水线，帮助客户实现核心业务自动化发布，<strong>进一步提升了发布的效率。</strong></p>
+<h3>来电科技</h3>
+<p>来电科技在全面微服务化、容器化改造完成之后就面临了如何用好微服务的难题，他们核心架构师也是 Dubbo 社区的参与者，对比了自研微服务治理的成本后，他们决心使用 MSE 治理解决微服务化深入后面临的稳定性与效率的问题。<strong>来电科技通过 MSE 全链路无损发布解决方案有效解决变更过程中灰度的诉求，以及发布过程中流量抖动的问题，</strong> 这个过程中无需代码改动与架构调整，借助 MSE 服务治理以更经济的方式、更高效的路径在云上快速构建起完整微服务治理体系。</p>
+<h2>总结</h2>
+<p>如何稳定地使用微服务已成为大家关注的话题。本文详细介绍了阿里云微服务全链路无损发布最佳实践方案，相信这个方案可以帮助云上的企业更好地利用微服务。在过去几年许多企业客户的实践中，我们逐步完善了这个方案。我相信这些最佳实践就像大海中的明珠一样，在不断的实践和时间的磨砺中变得更加耀眼夺目。我们期待着将这些实践与经验分享给更多企业，让他们能够更好地应用微服务，取得更好的效果。</p>
+<p><strong>相关链接：</strong></p>
+<p>[1] 结果验证：无损下线功能</p>
+<p><em>https://help.aliyun.com/zh/mse/use-cases/implement-graceful-start-and-shutdown-of-microservice-applications-by-using-mse?spm=a2c4g.11186623.0.0.727b5fffObARTt#section-qvv-175-948</em></p>
+<p>[2] 结果验证：无损上线功能</p>
+<p><em>https://help.aliyun.com/zh/mse/use-cases/implement-graceful-start-and-shutdown-of-microservice-applications-by-using-mse?spm=a2c4g.11186623.0.0.727b5fffObARTt#section-6gd-9lg-6zk</em></p>
+<p>[3] 揭秘大流量场景下发布如「丝般顺滑」背后的原因</p>
+<p><em>https://developer.aliyun.com/article/780231</em></p>
+
+</div>
+
+<div>
+<div class="tag-plugin link dis-select"><a class="link-card plain" title="无忧微服务：如何实现大流量下新版本的发布自由" href="https://juejin.cn/post/7351300892572516388" target="_blank" rel="external nofollow noopener noreferrer" cardlink autofill="icon"><div class="left"><span class="title">无忧微服务：如何实现大流量下新版本的发布自由</span><span class="cap link fs12">https://juejin.cn/post/7351300892572516388</span></div><div class="right"><div class="lazy img" data-bg="https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.4/link/8f277b4ee0ecd.svg"></div></div></a></div>
+</div>
+
+
+
+
+<div class="article-footer reveal fs14"><section id="license"><div class="header"><span>许可协议</span></div><div class="body"><p>本文采用 <a target="_blank" rel="external nofollow noopener noreferrer" href="https://github.com/me-shaon/GLWTPL/blob/master/translations/LICENSE_zh-CN">GLWT（Good Luck With That，祝你好运）公共许可证</a> 许可协议，转载请注明出处。</p>
+</div></section><section id="share"><div class="header"><span>分享文章</span></div><div class="body"><div class="link"><input class="copy-area" readonly="true" id="copy-link" value="https://blog.imc.re/RSSBOX/rss/13fadbba.html"></div><div class="social-wrap dis-select"><a class="social share-item wechat" onclick="util.toggle(&quot;qrcode-wechat&quot)"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.4/social/b32ef3da1162a.svg"></a><a class="social share-item weibo" target="_blank" rel="external nofollow noopener noreferrer" href="https://service.weibo.com/share/share.php?url=https://blog.imc.re/RSSBOX/rss/13fadbba.html&title=无忧微服务：如何实现大流量下新版本的发布自由 - RSSBOX&pics=https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/ce102a3de17b44aa8cc48373bb841b04~tplv-k3u1fbpfcp-jj-mark:0:0:0:0:q75.image#?w=1080&h=431&s=33668&e=webp&a=1&b=e6f2fc&summary=
+作者：项良、十眠
+微服务上云门槛降低，用好微服务才是关键
+据调研数据显示，约 70% 的生产故障是由变更引起的。在阿里云上的企业应用如茶百道、极氪汽车和来电等，他们是如何解决变更引起的稳定性风险，实现了在白天高流量情况下应用发布平滑..."><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.4/social/80c07e4dbb303.svg"></a><a class="social share-item email" href="mailto:?subject=无忧微服务：如何实现大流量下新版本的发布自由 - RSSBOX&amp;body=https://blog.imc.re/RSSBOX/rss/13fadbba.html"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.4/social/a1b00e20f425d.svg"></a><a class="social share-item link" onclick="util.copy(&quot;copy-link&quot;, &quot;复制成功&quot;)"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.4/social/8411ed322ced6.svg"></a></div><div class="qrcode" id="qrcode-wechat" style="visibility:hidden;height:0"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://api.qrserver.com/v1/create-qr-code/?size=256x256&data=https://blog.imc.re/RSSBOX/rss/13fadbba.html"></div></div></section></div>
+
+</article>
+
+<div class="related-wrap reveal" id="read-next"><section class="body"><div class="item" id="prev"><div class="note">较新文章</div><a href="/RSSBOX/rss/d49c3093.html">理想汽车多模态认知大模型 Mind GPT 正式上线</a></div><div class="item" id="next"><div class="note">较早文章</div><a href="/RSSBOX/rss/f482ac41.html">openKylin 社区生态委员会第五次会议圆满召开</a></div></section></div>
+
+
+<div class="related-wrap reveal" id="related-posts">
+    <section class="header">
+      <div class="title cap theme">您可能感兴趣的文章</div>
+    </section>
+    <section class="body">
+    <div class="related-posts"><a class="item" href="/RSSBOX/rss/b0bbb2bb.html" title="AI、脑机接口、大数据，腾讯云携手行业领袖共探新一代数字化转型"><span class="title">AI、脑机接口、大数据，腾讯云携手行业领袖共探新一代数字化转型</span></a><a class="item" href="/RSSBOX/rss/af30535d.html" title="RocketMQ 流数据库解析：如何实现一体化流处理？"><span class="title">RocketMQ 流数据库解析：如何实现一体化流处理？</span></a><a class="item" href="/RSSBOX/rss/e9db65b.html" title="Unreal Engine API：颠覆游戏开发，数字内容创造轻松驾驭！"><span class="title">Unreal Engine API：颠覆游戏开发，数字内容创造轻松驾驭！</span></a><a class="item" href="/RSSBOX/rss/848e7c86.html" title="【专业课学习】「Windows API」疑难点汇编"><span class="title">【专业课学习】「Windows API」疑难点汇编</span></a><a class="item" href="/RSSBOX/rss/34555814.html" title="【京东云新品发布月刊】2024年3月产品动态"><span class="title">【京东云新品发布月刊】2024年3月产品动态</span></a></div></section></div>
+
+
+
+
+
+      
+<footer class="page-footer reveal fs12"><hr><div class="sitemap"><div class="sitemap-group"><span class="fs14">文章</span><a href="/RSSBOX/categories">分类</a><a href="/RSSBOX/tags">标签</a><a href="/RSSBOX/archives">归档</a></div><div class="sitemap-group"><span class="fs14">更多</span><a href="https://blog.imc.re/">博客</a><a target="_blank" rel="noopener" href="https://imc.re/">IMC.RE</a></div></div><div class="text"><p><a href="/">@RSSBOX</a> 2023 author by <a target="_blank" rel="external nofollow noopener noreferrer" href="https://github.com/MHG-LAB/RSSBOX">MHuiG</a> powered by SummerGoro。<br><br>本博客所有文章除特别声明外，均采用 <a target="_blank" rel="external nofollow noopener noreferrer" href="https://github.com/me-shaon/GLWTPL/blob/master/translations/LICENSE_zh-CN">GLWT（Good Luck With That，祝你好运）公共许可证</a> 许可协议，转载请注明出处。</p>
+</div></footer>
+
+      <div class="float-panel mobile-only blur" style="display:none">
+  <button type="button" class="sidebar-toggle mobile" onclick="sidebar.toggle()">
+    <svg class="icon" style="width: 1em; height: 1em;vertical-align: middle;fill: currentColor;overflow: hidden;" viewbox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="15301"><path d="M566.407 808.3c26.9-0.1 49.3-20.8 51.6-47.6-1.9-27.7-23.9-49.7-51.6-51.6h-412.6c-28.2-1.4-52.6 19.5-55.5 47.6 2.3 26.8 24.6 47.5 51.6 47.6h416.5v4z m309.3-249.9c26.9-0.1 49.3-20.8 51.6-47.6-2.2-26.8-24.6-47.5-51.6-47.6h-721.9c-27.7-2.8-52.5 17.4-55.3 45.1-0.1 0.8-0.1 1.7-0.2 2.5 0.9 27.2 23.6 48.5 50.7 47.6H875.707z m-103.1-245.9c26.9-0.1 49.3-20.8 51.6-47.6-0.4-28.3-23.2-51.1-51.5-51.6h-618.9c-29.5-1.1-54.3 21.9-55.5 51.4v0.2c1.4 27.8 25.2 49.2 53 47.8 0.8 0 1.7-0.1 2.5-0.2h618.8z" p-id="15302"/><path d="M566.407 808.3c26.9-0.1 49.3-20.8 51.6-47.6-1.9-27.7-23.9-49.7-51.6-51.6h-412.6c-28.2-1.4-52.6 19.5-55.5 47.6 1.9 27.7 23.9 49.7 51.6 51.6h416.5z m309.3-249.9c26.9-0.1 49.3-20.8 51.6-47.6-2.2-26.8-24.6-47.5-51.6-47.6h-721.9c-27.7-2.8-52.5 17.4-55.3 45.1-0.1 0.8-0.1 1.7-0.2 2.5 0.9 27.2 23.6 48.5 50.7 47.6H875.707z m-103.1-245.9c26.9-0.1 49.3-20.8 51.6-47.6-0.4-28.3-23.2-51.1-51.5-51.6h-618.9c-29.5-1.1-54.3 21.9-55.5 51.4v0.2c1.4 27.8 25.2 49.2 53 47.8 0.8 0 1.7-0.1 2.5-0.2h618.8z" p-id="15303"/></svg>
+  </button>
+</div>
+
+    </div>
+  </div>
+  <div class="scripts">
+    <script type="text/javascript">
+  const stellar = {
+    // 懒加载 css https://github.com/filamentgroup/loadCSS
+    loadCSS: (href, before, media, attributes) => {
+      var doc = window.document;
+      var ss = doc.createElement("link");
+      var ref;
+      if (before) {
+        ref = before;
+      } else {
+        var refs = (doc.body || doc.getElementsByTagName("head")[0]).childNodes;
+        ref = refs[refs.length - 1];
+      }
+      var sheets = doc.styleSheets;
+      if (attributes) {
+        for (var attributeName in attributes) {
+          if (attributes.hasOwnProperty(attributeName)) {
+            ss.setAttribute(attributeName, attributes[attributeName]);
+          }
+        }
+      }
+      ss.rel = "stylesheet";
+      ss.href = href;
+      ss.media = "only x";
+      function ready(cb) {
+        if (doc.body) {
+          return cb();
+        }
+        setTimeout(function () {
+          ready(cb);
+        });
+      }
+      ready(function () {
+        ref.parentNode.insertBefore(ss, before ? ref : ref.nextSibling);
+      });
+      var onloadcssdefined = function (cb) {
+        var resolvedHref = ss.href;
+        var i = sheets.length;
+        while (i--) {
+          if (sheets[i].href === resolvedHref) {
+            return cb();
+          }
+        }
+        setTimeout(function () {
+          onloadcssdefined(cb);
+        });
+      };
+      function loadCB() {
+        if (ss.addEventListener) {
+          ss.removeEventListener("load", loadCB);
+        }
+        ss.media = media || "all";
+      }
+      if (ss.addEventListener) {
+        ss.addEventListener("load", loadCB);
+      }
+      ss.onloadcssdefined = onloadcssdefined;
+      onloadcssdefined(loadCB);
+      return ss;
+    },
+
+    // 从 butterfly 和 volantis 获得灵感
+    loadScript: (src, opt) => new Promise((resolve, reject) => {
+      var script = document.createElement('script');
+      if (src.startsWith('/')){
+        src = stellar.config.root + src.substring(1);
+      }
+      script.src = src;
+      if (opt) {
+        for (let key of Object.keys(opt)) {
+          script[key] = opt[key]
+        }
+      } else {
+        // 默认异步，如果需要同步，第二个参数传入 {} 即可
+        script.async = true
+      }
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    }),
+
+    // https://github.com/jerryc127/hexo-theme-butterfly
+    jQuery: (fn) => {
+      if (typeof jQuery === 'undefined') {
+        stellar.loadScript(stellar.plugins.jQuery).then(fn)
+      } else {
+        fn()
+      }
+    }
+  };
+  stellar.version = '1.19.0';
+  stellar.github = 'https://github.com/xaoxuu/hexo-theme-stellar/tree/1.19.0';
+  stellar.config = {
+    date_suffix: {
+      just: '刚刚',
+      min: '分钟前',
+      hour: '小时前',
+      day: '天前',
+      month: '个月前',
+    },
+    root : '/RSSBOX/',
+  };
+
+  // required plugins (only load if needs)
+  stellar.plugins = {
+    jQuery: 'https://gcore.jsdelivr.net/npm/jquery@3.6.2/dist/jquery.min.js'
+  };
+
+  if ('local_search') {
+    stellar.search = {};
+    stellar.search.service = 'local_search';
+    if (stellar.search.service == 'local_search') {
+      let service_obj = Object.assign({}, {"field":"all","path":"/search.json","content":true,"codeblock":true,"sort":"-date"});
+      stellar.search[stellar.search.service] = service_obj;
+    }
+  }
+
+  // stellar js
+  stellar.plugins.stellar = Object.assign({"sites":"/js/plugins/sites.js","friends":"/js/plugins/friends.js","ghinfo":"/js/plugins/ghinfo.js","timeline":"/js/plugins/timeline.js","linkcard":"/js/plugins/linkcard.js","fcircle":"/js/plugins/fcircle.js","weibo":"/js/plugins/weibo.js"});
+
+  stellar.plugins.marked = Object.assign("https://cdn.bootcdn.net/ajax/libs/marked/4.0.18/marked.min.js");
+  // optional plugins
+  if ('true' == 'true') {
+    stellar.plugins.lazyload = Object.assign({"enable":true,"js":"https://gcore.jsdelivr.net/npm/vanilla-lazyload@17.8.3/dist/lazyload.min.js","transition":"blur"});
+  }
+  if ('true' == 'true') {
+    stellar.plugins.swiper = Object.assign({"enable":true,"css":"https://unpkg.com/swiper@8.4.5/swiper-bundle.min.css","js":"https://unpkg.com/swiper@8.4.5/swiper-bundle.min.js"});
+  }
+  if ('' == 'true') {
+    stellar.plugins.scrollreveal = Object.assign({"enable":null,"js":"https://gcore.jsdelivr.net/npm/scrollreveal@4.0.9/dist/scrollreveal.min.js","distance":"8px","duration":500,"interval":100,"scale":1});
+  }
+  if ('true' == 'true') {
+    stellar.plugins.preload = Object.assign({"enable":true,"service":"flying_pages","instant_page":"https://gcore.jsdelivr.net/gh/volantis-x/cdn-volantis@4.1.2/js/instant_page.js","flying_pages":"https://gcore.jsdelivr.net/gh/gijo-varghese/flying-pages@2.1.2/flying-pages.min.js"});
+  }
+  if ('true' == 'true') {
+    stellar.plugins.fancybox = Object.assign({"enable":true,"js":"https://gcore.jsdelivr.net/npm/@fancyapps/ui@4.0/dist/fancybox.umd.js","css":"https://gcore.jsdelivr.net/npm/@fancyapps/ui@4.0/dist/fancybox.css","selector":".swiper-slide img"});
+  }
+  if ('false' == 'true') {
+    stellar.plugins.heti = Object.assign({"enable":false,"css":"https://unpkg.com/heti@0.9.2/umd/heti.min.css","js":"https://unpkg.com/heti@0.9.2/umd/heti-addon.min.js"});
+  }
+  if ('true' == 'true') {
+    stellar.plugins.copycode = Object.assign({"enable":true,"js":"/js/plugins/copycode.js","default_text":"Copy","success_text":"Copied"});
+  }
+</script>
+
+<!-- required -->
+
+  
+<script src="/RSSBOX/js/main.js" async></script>
+
+
+
+<!-- optional -->
+
+  <script>
+  function loadJS() {
+    const els = document.querySelectorAll("#comments #giscus");
+    if (els.length === 0) return;
+    els.forEach((el, i) => {
+      try {
+        el.innerHTML = '';
+      } catch (error) {
+        console.log(error);
+      }
+      var script = document.createElement('script');
+      script.src = 'https://giscus.app/client.js';
+      script.async = true;
+      for (let key of Object.keys(el.attributes)) {
+        let attr = el.attributes[key];
+        if (['class', 'id'].includes(attr.name) === false) {
+          script.setAttribute(attr.name, attr.value);
+        }
+      }
+      el.appendChild(script);
+    });
+  }
+  window.addEventListener('DOMContentLoaded', (event) => {
+    loadJS();
+  });
+</script>
+
+
+
+
+<!-- inject -->
+
+
+  </div>
+</body>
+</html>

@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+  <meta name="generator" content="Hexo 6.3.0">
+  <meta name="hexo-theme" content="https://github.com/xaoxuu/hexo-theme-stellar/tree/1.19.0">
+  <meta charset="utf-8">
+  
+
+  <meta http-equiv="x-dns-prefetch-control" content="on">
+  <link rel="dns-prefetch" href="https://gcore.jsdelivr.net">
+  <link rel="preconnect" href="https://gcore.jsdelivr.net" crossorigin>
+  <link rel="dns-prefetch" href="//unpkg.com">
+
+  <meta name="renderer" content="webkit">
+  <meta name="force-rendering" content="webkit">
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+  <meta name="HandheldFriendly" content="True">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="theme-color" content="#f8f8f8">
+  
+  <title>每日一博 | eBPF 零侵扰分布式追踪的进展和探索 - RSSBOX</title>
+
+  
+    <meta name="description" content="本文为 DeepFlow 在第 23 期得物技术沙龙上的演讲实录。回看链接，PPT 下载。 感谢得物稳定生产团队的邀请，很高兴能有这样一个机会来给大家分享一下我们在 eBPF 可观测性方面做的一些工作。DeepFlow 是一个聚焦在 eBPF 技术上的可观测性产品，同时也是一个开源项目。今天我来分享一下 DeepFlow 使用 eBPF 实现分布式追踪的历史发展和未来探索。 如果我们用 eBP">
+<meta property="og:type" content="article">
+<meta property="og:title" content="每日一博 | eBPF 零侵扰分布式追踪的进展和探索">
+<meta property="og:url" content="https://blog.imc.re/RSSBOX/rss/b8204d7c.html">
+<meta property="og:site_name" content="RSSBOX">
+<meta property="og:description" content="本文为 DeepFlow 在第 23 期得物技术沙龙上的演讲实录。回看链接，PPT 下载。 感谢得物稳定生产团队的邀请，很高兴能有这样一个机会来给大家分享一下我们在 eBPF 可观测性方面做的一些工作。DeepFlow 是一个聚焦在 eBPF 技术上的可观测性产品，同时也是一个开源项目。今天我来分享一下 DeepFlow 使用 eBPF 实现分布式追踪的历史发展和未来探索。 如果我们用 eBP">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/2024031965f98845e26ff.png">
+<meta property="og:image" content="https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/2024031965f98833b0122.png">
+<meta property="og:image" content="https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/2024031965f9883c6b3a8.png">
+<meta property="og:image" content="https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/2024031965f988353807c.png">
+<meta property="og:image" content="https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/2024031965f9882a37a10.png">
+<meta property="og:image" content="https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/2024031965f988398114e.png">
+<meta property="og:image" content="https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/2024031965f9884681963.png">
+<meta property="og:image" content="https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/2024031965f9882b0adc1.png">
+<meta property="og:image" content="https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/2024031965f9883b08269.png">
+<meta property="og:image" content="https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/2024031965f9883b9a2b9.png">
+<meta property="og:image" content="https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/2024031965f98837afff6.png">
+<meta property="og:image" content="https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/2024031965f98838c89c9.png">
+<meta property="og:image" content="https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/2024031965f9883680bef.png">
+<meta property="og:image" content="https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/2024031965f98844c88ba.png">
+<meta property="og:image" content="https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/2024031965f98836ca6f2.png">
+<meta property="og:image" content="https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/2024031965f98832ca2a7.png">
+<meta property="article:published_time" content="2024-03-28T01:54:04.000Z">
+<meta property="article:modified_time" content="2024-03-28T01:54:04.000Z">
+<meta property="article:author" content="SMGoro">
+<meta property="article:tag" content="媒体">
+<meta property="article:tag" content="开源中国">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/2024031965f98845e26ff.png">
+  
+  
+  
+  <meta name="keywords" content="媒体,开源中国">
+
+  <!-- feed -->
+  
+    <link rel="alternate" href="/RSSBOX/atom.xml" title="RSSBOX" type="application/atom+xml">
+  
+
+  
+    
+<link rel="stylesheet" href="/RSSBOX/css/main.css">
+
+  
+
+  
+
+  
+
+  
+    <link rel="stylesheet" href="https://gcore.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.css" integrity="sha384-vKruj+a13U8yHIkAyGgK1J3ArTLzrFGBbBc0tDp4ad/EyewESeXE/Iv67Aj8gKZ0" crossorigin="anonymous">
+    <script defer src="https://gcore.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.js" integrity="sha384-PwRUT/YqbnEjkZO0zZxNqcxACrXe+j766U2amXcgMg5457rve2Y7I6ZJSm2A0mS4" crossorigin="anonymous"></script>
+    <script defer src="https://gcore.jsdelivr.net/npm/katex@0.16.4/dist/contrib/auto-render.min.js" integrity="sha384-+VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4+/RRE05" crossorigin="anonymous" onload="renderMathInElement(document.body);"></script>
+  
+
+
+  
+
+<!--百度统计-->
+<script>
+  var _hmt = _hmt || [];
+  (function() {
+    var hm = document.createElement("script");
+    hm.src = "https://hm.baidu.com/hm.js?f42afe3e5b76d22c8b1a8060171c7184";
+    var s = document.getElementsByTagName("script")[0]; 
+    s.parentNode.insertBefore(hm, s);
+  })();
+</script>  
+  <!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-V2NSKYGXNG"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-V2NSKYGXNG');
+</script>
+<!--Google Adsense-->
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4773172018528901" crossorigin="anonymous"></script>
+</head>
+
+<body>
+  
+
+
+
+
+  <div class="l_body" id="start">
+    <aside class="l_left" layout="post">
+    
+
+  
+
+<header class="header"><div class="logo-wrap"><a class="avatar" href="/RSSBOX/archives"><div class="bg" style="opacity:0;background-image:url(https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.4/avatar/round/rainbow64@3x.webp);"></div><img no-lazy class="avatar" src="https://cdn.jsdelivr.net/gh/SMGCDN/photos/icon/rsshub.png" onerror="javascript:this.classList.add('error');this.src='https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.4/image/2659360.svg';"></a><a class="title" href="/RSSBOX/"><div class="main" ff="title">RSSBOX</div><div class="sub normal cap">SMGoroのRSS订阅</div><div class="sub hover cap" style="opacity:0"> 一些好康的东西</div></a></div>
+
+<nav class="menu dis-select"><a class="nav-item active" href="/RSSBOX/">订阅</a><a class="nav-item" href="https://blog.imc.re/">博客</a><a class="nav-item" href="https://blog.imc.re/contact">联系</a><a class="nav-item" href="https://blog.imc.re/more">更多</a></nav>
+</header>
+
+
+<div class="widgets">
+
+<widget class="widget-wrapper toc single" id="data-toc"><div class="widget-header cap dis-select"><span class="name">每日一博 | eBPF 零侵扰分布式追踪的进展和探索</span></div><div class="widget-body fs14"><div class="doc-tree active"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-text">01</span></a></li><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-text">分布式追踪在云环境下的痛点</span></a></li><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-text">02</span></a></li><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-text">eBPF 零侵扰分布式追踪的进展</span></a></li><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-text">03</span></a></li><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-text">DeepFlow 用户的典型落地案例</span></a></li><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-text">04</span></a></li><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-text">探索 eBPF 可观测性能力的边界</span></a></li><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-text">05</span></a></li><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-text">什么是 DeepFlow</span></a></li></ol></div></div></widget>
+
+
+
+<widget class="widget-wrapper search"><div class="widget-body"><div class="search-wrapper" id="search"><form class="search-form"><input type="text" class="search-input" id="search-input" data-filter="/rss/" placeholder="文章搜索"><svg t="1670596976048" class="icon search-icon" viewbox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2676" width="200" height="200"><path d="M938.2 832.6L723.8 618.1c-2.5-2.5-5.3-4.4-7.9-6.4 36.2-55.6 57.3-121.8 57.3-193.1C773.3 222.8 614.6 64 418.7 64S64 222.8 64 418.6c0 195.9 158.8 354.6 354.6 354.6 71.3 0 137.5-21.2 193.2-57.4 2 2.7 3.9 5.4 6.3 7.8L832.5 938c14.6 14.6 33.7 21.9 52.8 21.9 19.1 0 38.2-7.3 52.8-21.8 29.2-29.1 29.2-76.4 0.1-105.5M418.7 661.3C284.9 661.3 176 552.4 176 418.6 176 284.9 284.9 176 418.7 176c133.8 0 242.6 108.9 242.6 242.7 0 133.7-108.9 242.6-242.6 242.6" p-id="2677"/></svg></form><div id="search-result"></div><div class="search-no-result">没有找到内容！</div></div></div></widget>
+
+
+
+<widget class="widget-wrapper recent"><div class="widget-header cap theme dis-select"><span class="name">最近更新</span><a class="cap-action" id="rss" title="Subscribe" href="/atom.xml"><svg class="icon" viewbox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="8938"><path d="M800.966 947.251c0-404.522-320.872-732.448-716.69-732.448V62.785c477.972 0 865.44 395.987 865.44 884.466h-148.75z m-162.273 0h-148.74c0-228.98-181.628-414.598-405.678-414.598v-152.01c306.205 0 554.418 253.68 554.418 566.608z m-446.24-221.12c59.748 0 108.189 49.503 108.189 110.557 0 61.063-48.44 110.563-108.188 110.563-59.747 0-108.18-49.5-108.18-110.563 0-61.054 48.433-110.556 108.18-110.556z" p-id="8939"/></svg></a></div><div class="widget-body related-posts fs14"><a class="item title" href="/RSSBOX/rss/b51353e8.html"><span class="title">第11集 到了30岁还是处男，似乎会变成魔法师</span></a><a class="item title" href="/RSSBOX/rss/399916dd.html"><span class="title">第11集 金属胭脂</span></a><a class="item title" href="/RSSBOX/rss/c71b60b.html"><span class="title">第12集 战国妖狐</span></a><a class="item title" href="/RSSBOX/rss/26505cd4.html"><span class="title">第12集 月光下的异世界之旅 第二季</span></a><a class="item title" href="/RSSBOX/rss/65bb4e47.html"><span class="title">第12集 通灵王 FLOWERS</span></a></div></widget>
+</div>
+<footer class="footer dis-select"><div class="social-wrap"><a class="social" href="https://github.com/SMGoro" target="_blank" rel="external nofollow noopener noreferrer"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cdn.jsdelivr.net/gh/SMGCDN/photos/icon/iconfont/social-github.svg"></a><a class="social" href="https://space.bilibili.com/359079394" target="_blank" rel="external nofollow noopener noreferrer"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cdn.jsdelivr.net/gh/SMGCDN/photos/icon/iconfont/bilibili.svg"></a><a class="social" href="https://l.imc.re/zhihu" target="_blank" rel="external nofollow noopener noreferrer"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cdn.jsdelivr.net/gh/SMGCDN/photos/icon/iconfont/zhihu.svg"></a><a class="social" href="https://l.imc.re/discord" target="_blank" rel="external nofollow noopener noreferrer"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cdn.jsdelivr.net/gh/SMGCDN/photos/icon/iconfont/discord.svg"></a><a class="social" href="https://blog.imc.re/contact" target="_blank" rel="external nofollow noopener noreferrer"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cdn.jsdelivr.net/gh/SMGCDN/photos/icon/iconfont/comments.svg"></a></div></footer>
+
+    </aside>
+    <div class="l_main">
+      
+
+      
+
+
+
+<div class="bread-nav fs12"><div id="breadcrumb"><a class="cap breadcrumb" href="/RSSBOX/">主页</a><span class="sep"></span><a class="cap breadcrumb" href="/RSSBOX/">文章</a><span class="sep"></span><a class="cap breadcrumb-link" href="/RSSBOX/categories/%E5%AA%92%E4%BD%93/">媒体</a> <span class="sep"></span> <a class="cap breadcrumb-link" href="/RSSBOX/categories/%E5%AA%92%E4%BD%93/%E5%BC%80%E6%BA%90%E4%B8%AD%E5%9B%BD/">开源中国</a></div><div id="post-meta">发布于&nbsp;<time datetime="2024-03-28T01:54:04.000Z">2024-03-28</time></div></div>
+
+<article class="md-text content post">
+<h1 class="article-title"><span>每日一博 | eBPF 零侵扰分布式追踪的进展和探索</span></h1>
+<div>
+<div class="content">
+<p>本文为 DeepFlow 在第 23 期得物技术沙龙上的演讲实录。<a target="_blank" rel="external nofollow noopener noreferrer" href="https://my.oschina.net/u/3681970/blog/11048275#" title="回看链接">回看链接</a>，<a href="https://www.oschina.net/action/GoToLink?url=http%3A%2F%2Fyunshan-guangzhou.oss-cn-beijing.aliyuncs.com%2Fyunshan-ticket%2Fpdf%2F8235df3c607756c86950684f5d054378_20240311180744.pdf" target="_blank" title="PPT 下载" rel="external nofollow noopener noreferrer">PPT 下载</a>。</p>
+<p>感谢得物稳定生产团队的邀请，很高兴能有这样一个机会来给大家分享一下我们在 eBPF 可观测性方面做的一些工作。DeepFlow 是一个聚焦在 eBPF 技术上的可观测性产品，同时也是一个开源项目。今天我来分享一下 <strong>DeepFlow 使用 eBPF 实现分布式追踪的历史发展和未来探索</strong>。</p>
+<p>如果我们用 eBPF Tracing 去搜索，在 Google 上可能几十万的结果。但是用 eBPF Distributed Tracing 搜索的话，你能找到的真正有用信息很可能只有 DeepFlow。基于我们过去几年在这个方向上的积累，今天我将从<strong>背景、进展、案例和展望</strong>四个方面来进行分享。</p>
+<h1>01</h1>
+<h1>分布式追踪在云环境下的痛点</h1>
+<p>首先，这幅图展示了对于分布式追踪我们看到的一个痛点，特别是在云原生环境下。APM 的分布式追踪解决方案依靠 Code Instrumentation（代码插桩），比如利用 Java Agent 或引入插桩的 SDK 等。插桩之后，APM 能够回答一次调用的响应时间（Response Time，RT），比如图中客户端 RT 为 500ms，服务端的 RT 是 10ms。真实环境中，有可能服务端不是一个 Java 应用，插桩困难导致无法得知它的响应时间；也有可能服务端是 MySQL 等数据库、Redis 或 Kafka 等中间件，这种情况下一般是无法插桩的。</p>
+<p><img class="lazy" alt="APM 插桩难、定界难的痛点" referrerpolicy="no-referrer" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/2024031965f98845e26ff.png"></p>
+<p>即使在最理想的情况下，APM 能回答客户端和服务端的响应时间，也通常会发现类似上图中的情况：客户端看到的响应时间和服务端差距太大。那到底图中的小哥哥、小姐姐谁能说服谁呢？这中间其实有很多交互过程，除了业务逻辑以外，还有 DNS Lookup（K8s 环境下一次 DNS 查询可能涉及到七八次递归查询）、TCP 三次握手、TLS 四次握手，因此我们可以发现<strong>在云原生环境下 APM 的分布式追踪其实会有很多观测盲点存在</strong>。实际上即使没有上面这些复杂的非业务流程，仅仅是 RPC 调用过程本身，也会因为经过中间繁多的系统调用、容器网络、K8s 网络、网关等环节而一步步引入或大或小的时延，最终导致客户端和服务端观测到的调用时延差距越来越大。</p>
+<p><strong>应用插桩困难、基础设施无法插桩所引发的问题，实际上正是 eBPF 技术可以大展拳脚之地。</strong></p>
+<p><img class="lazy" alt="DeepFlow 中的零侵扰分布式追踪能力" referrerpolicy="no-referrer" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/2024031965f98833b0122.png"></p>
+<p>上图左侧是一个简单的应用拓扑，它的入口是一个 Nginx 网关，接下来是 Spring Cloud Gateway 作为微服务网关，然后进入到 K8s Pod 中的 Envoy Sidecar 中，进而到达一个 Java 业务进程；这个 Java 服务继续请求上游 Golang 服务之前会先做 DNS 解析，上游 Golang 服务继续依赖于 Redis 缓存和 MySQL 数据库，而后者在提供服务时可能会进行一些文件读写。通常来说，如果说我们只用 Java Agent 这种最便利的 APM 插桩方式的话，看到的分布式追踪可能只有图中黄色部分这么两三个 Span，就是说只能把 Java 应用入口、内部、出口的调用链展现出来。</p>
+<p>而 eBPF 在理想的情况下能做到什么样程度呢？实际上只要在每个主机上部署一个独立的 eBPF Agent，不需要对任何业务进程和基础设施进程做修改或重启，就能得到图右侧的完整调用链，它包含了所有业务进程的调用，也包括了与 DNS、缓存、数据库、文件系统之间的调用链。图中除了彩色部分的 eBPF Span 以外，DeepFlow 还通过 cBPF 获取到了每个网卡上的 Span（容器网卡、主机网卡等），并将他们关联到整个 Trace 中，呈现出一个全栈的分布式追踪火焰图。</p>
+<p>我今天分享的内容主要就聚焦在这个问题上：DeepFlow 的 <strong>AutoTracing</strong> 如何通过零侵扰的方式来去将这样的分布式追踪火焰图画出来。我们对这个问题以及 DeepFlow 的解决方案进行阐述的论文也发表在了去年的 ACM SIGCOMM 会议上，论文在我们的官网 <a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fdeepflow.io" target="_blank" title="https://deepflow.io" rel="external nofollow noopener noreferrer">https://deepflow.io</a> 上可以下载。在真实的业务场景中，调用行为实际上是复杂多样的，可能有<strong>异步</strong>调用，也可能出现进程内部的调用链<strong>跨线程</strong>的情况，如果不对他们做处理会导致零插桩调用链断开，那 DeepFlow 是如何一步步解决其中的问题，得到越来越完美的答案的呢？</p>
+<h1>02</h1>
+<h1>eBPF 零侵扰分布式追踪的进展</h1>
+<p>我们先介绍一下做这件事的一个最初的洞察，实际上我们是用到了 eBPF 的一个很好的感知能力。这样的感知能力其实一直依赖都是存在的，比如通过 Linux 内核模块。但是 eBPF 的颠覆之处在于它给了一种非常安全的方式。你不止不需要修改或重启进程，还不用担心不同版本 Linux 内核之间的差异，也不用担心会引发内核的内存泄漏或崩溃。eBPF 通过自身的 Verifier 机制保证了代码的内存安全性以及不会进入到死循环中。</p>
+<p><img class="lazy" alt="使用 eBPF 实现分布式追踪的关键洞察" referrerpolicy="no-referrer" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/2024031965f9883c6b3a8.png"></p>
+<p>那我们为什么能够去用 eBPF 来实现分布式追踪呢？其实最初的一个洞察就是，<strong>eBPF 能轻松获知每一个调用在系统中各个位置的 Thread ID 和 TCP SEQ</strong>。例如，我们可以使用 eBPF uprobe 获取用户态函数的这两个信息，用 kprobe/tracepoint 获取内核系统调用的这两个信息，用 AF_PACKET 获取网卡收发流量时的 TCP SEQ。在这些信息中，DeepFlow 利用 Thread ID 将一个进程入向和出向的调用关联到一个 Trace 中（我们称之为 System Span），同时利用 TCP SEQ 将两个服务之间的调用关联到一个 Trace 中（我们称之为 Network Span）。除此之外，DeepFlow 也会利用 eBPF Hook 文件读写的系统调用，将文件 IO 事件与应用调用之间进行关联，从而构建更加全栈的调用链。</p>
+<p><img class="lazy" alt="如何解决 NIO 带来的追踪挑战" referrerpolicy="no-referrer" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/2024031965f988353807c.png"></p>
+<p>想要获取到完整的分布式调用链，仅仅依靠 eBPF 是有很多挑战的，我们遇到的<strong>第一个挑战是 NIO</strong>（Non-blocking IO，非阻塞 IO）机制下的追踪。上图右侧是 DeepFlow SIGCOMM 论文中的一张示意图。图中 (a) 是比较简单的情况，从 Service A 接收调用到向 Service B 发起调用，全部在一个线程内完成，所以我们使用 eBPF 获取调用的 Thread ID 就能关联这个调用链。图中 (b) 展示了更为复杂但更接近真实的情况，Service A 中的线程在被持续复用，此时我们必须将 Trace 的边界识别出来，使得追踪结果中不要包含多余的调用，很显然我们可以根据时间特征和调用的闭环序列来进行分割，实现对 Trace 的切分。而图中 (c) 又更复杂了一些，同时也更贴近真实场景，我们看到 Service A 的线程使用了 NIO 机制，这是一种常见的高性能网络 IO 机制，在 NIO 机制下 Service A 可能会交错的处理多个 Trace 中的调用。那么 eBPF 能解决 NIO 的场景吗？答案是肯定的，DeepFlow 在 eBPF 程序利用了<strong>同一个 Trace 的相邻两次系统调用之间几乎不会有其他 Trace 的调用打断进来</strong>的观察，为每个调用生成了一个无需注入到消息内容中的 <code>syscall_trace_id</code>，利用一系列 <code>syscall_trace_id</code> 我们就可以将图中紫、蓝、粉三个颜色的 Trace 区分开。这张图片只是整个追踪逻辑的一个简化示意图，大家可以阅读我们的论文或者 GitHub 代码来了解更多的细节。</p>
+<p><img class="lazy" alt="eBPF 分布式追踪面临的跨线程挑战" referrerpolicy="no-referrer" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/2024031965f9882a37a10.png"></p>
+<p>今天我想着重分享的，其实是 DeepFlow 在面临<strong>第二个挑战 —— 业务逻辑跨线程处理</strong>下的持续探索和巨大的进展。跨线程的场景很多，例如：1）<strong>应用程序内部跨线程</strong>，应用接收和应答调用与处理业务逻辑的线程不一样；2）<strong>中间件内部跨线程</strong>，网关和消息队列等中间件与客户端（下游）通信的线程和与服务端（上游）通信的线程不一样；3）<strong>访问缓存和数据库时跨线程</strong>，应用访问 Redis 缓存、数据库，以及分布式数据库进程内部处理一个 SQL 命令时跨线程。</p>
+<p>下面我依次来介绍 DeepFlow 解决跨线程追踪问题用到了哪些思路。</p>
+<p><img class="lazy" alt="利用「生命周期」解决跨线程追踪问题" referrerpolicy="no-referrer" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/2024031965f988398114e.png"></p>
+<p>我们用到的<strong>第一个思路是利用协程、Socket 的「生命周期」来进行追踪</strong>。比如对于 Golang 语言的应用而言，由于 Golang 是一个原生的协程语言，我们不可能通过 Thread ID 来进行调用链追踪。但我们知道一个 Golang 应用为了处理它所提供的 API，会将所有阻塞调用使用 Goroutine 运行，稍加分析我们就会发现，这种<strong>在协程 A 内接收 API 请求、在协程 B/C/D/... 内继续请求上游依赖服务</strong>的场景，我们可以使用 eBPF uprobe 观测协程的生命周期，例如当关注到协程 B/C/D/... 是由协程 A 创建的，此时我们可以将 A/B/C/D/... 等协程标记上同样的 <code>Pseudo Thread ID</code>，从而将这个问题转化为一个线程语言的调用链追踪问题，而后者我们已经有了很好的基于 <code>syscall_trace_id</code> 的解决方案。</p>
+<p>再比如对于一些网关服务而言，我们可以跟踪 Socket 的生命周期来实现跨线程追踪。例如在 Nginx 中，一个与 upstream 之间建立的 Socket 通常是在线程 A 中创建的、在另一个线程 B 中使用的，我们会在 eBPF 程序中跟踪这个 Socket 的创建和读写，从而利用 Socket 的生命周期关联在一段时间内有业务联系的两个线程中的 Socket。</p>
+<p>第三个比如说 Tomcat，它的 Acceptor Thread 是接收请求的，除此之外还有个 Poller Thread 是去监听请求的读写就绪事件，监听对应的 FD 上是不是读写就绪了。但是它见听到可读或可写时，不会直接进行读写，而是将事件发送给 Worker Thread 进行处理。也就是说，实际上 Socket 的读写动作已经在同一个线程中了。Dubbo 也是类似的，当它使用 DirectDispather 时 IO 线程也会承担业务处理的职责，因此在 IO 线程中可以直接将调用链追踪出来。</p>
+<p><img class="lazy" alt="利用「事实标准」解决跨线程追踪问题" referrerpolicy="no-referrer" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/2024031965f9884681963.png"></p>
+<p>我们用到的<strong>第二个思路是利用网关、消息队列的一些「事实标准」进行追踪</strong>。同样不需要应用做任何的改造，只需要对基础设施或中间件做一些配置调整，即可将中间件前后的调用链自动串联起来。比如几乎对于所有应用层<strong>网关</strong>而言，Nginx、HAProxy、BFE、Envoy、各家云网关等，都支持向 HTTP 消息中自动注入 <code>X-Request-ID</code> 头字段。当网关接收到一个请求时，它会生成一个随机的 UUID，即 X-Request-ID 并注入到发往 upstream 的请求头中；待接到 upstream 的响应以后，网关会查询为对应的请求生成的 X-Request-ID 并将它注入到对客户端的响应头中。所以，我们通过解析 HTTP Header 中用于表达 X-Request-ID 含义的头字段，就能将网关前后的 HTTP 调用关联起来。实际上不论流量经过了几级网关，只要其中有一级网关开启了 X-Request-ID，整个调用链就都能依靠它完整的追踪出来。</p>
+<p>同样我们也来看看<strong>消息队列</strong>，虽然纯异步的消息通信缺少追踪信息可以利用，但如果应用使用消息队列来实现 Request-Response 模式的通信时，一定会有额外特征可提供追踪信息。例如 Kafka 和 ActiveMQ 的协议中就会要求存在一个用于请求、响应关联的 <code>Correlation ID</code> 字段。实际上业务方也是强依赖这个 ID 的，只有客户端能从响应消息中获取到这个 Correlation ID，才能将它和对应的请求关联匹配上来。因为有了这样的关联信息，DeepFlow 能自动将跨越消息队列的调用追踪出来，同样不需要应用做任何改造。</p>
+<p><img class="lazy" alt="利用「行业规范」解决跨线程追踪问题" referrerpolicy="no-referrer" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/2024031965f9882b0adc1.png"></p>
+<p>我们用到的<strong>第三个思路是利用「行业规范」来进行追踪</strong>。在具体的业务场景中，通常有一些用于跟踪业务流程的唯一标识字段，例如金融行业的<strong>交易流水号</strong>。DeepFlow Agent 上支持编写 Wasm Plugin，因此即使对于这些业务相关的信息，我们也可以非常便捷的通过编写一个 Golang 等语言的 Plugin 来实现业务追踪 ID 的提取。除了提取业务追踪 ID 以外，实际上 Wasm Plugin 的能力会更加丰富，例如提取 Json、XML、Protobuf 的消息体中的 User ID、Order ID 等业务字段，以及扩展 DeepFlow Agent 内置的协议解析能力（目前 Agent 已经内置了将近 20 种协议的解析能力）。</p>
+<p>至此我们已经有三种方法来解决跨线程的问题了，但仍然还不能覆盖所有的情况。实际上在这个问题上 DeepFlow 的用户也在进行着积极的创新。我们知道实现一个全功能的 APM Instrumentation 可能涉及到很多工作，包括上下文的传递、数据的采集、数据的上报等，由于 APM Agent 实现的能力很多，会面临更多的性能消耗的担忧和频繁升级的挑战。我们的一些用户看到这种情况，开始实现一些<strong>轻量级的 In-Process Agent/SDK</strong>，这些 Agent/SDK 只会传播 Trace 信息并将其注入到协议头中，<strong>代码量非常小、升级频率非常低，因此性能和稳定性隐患也非常低</strong>。由于 DeepFlow Agent 支持解析众多应用协议中的 TraceID 和 SpanID，同时支持自定义 Header 字段名，二者相结合我们能得到一个非常好的方案，可以完美解决进程内部跨线程、异步调用的问题，实现无限接近零侵扰的分布式追踪。</p>
+<p><img class="lazy" alt="使用轻量级 In-Process Agent/SDK 辅助跨线程追踪" referrerpolicy="no-referrer" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/2024031965f9883b08269.png"></p>
+<p>基于这类轻量级 In-Process Agent/SDK 的能力，我们还能玩出很多花样。上图右侧是利用 SQL 语句的注释能力，我们将 TraceID 注入到注释中，并通过 DeepFlow Agent 提取出来，从而实现了对于应用侧使用 SQL 线程池时的跨线程调用链追踪。</p>
+<p>实际上 DeepFlow 中 <strong>AutoTracing</strong> 除了能够追踪分布式调用以外，还有很多其他关联能力，例如关联网络流日志、文件 IO 事件等。下面这种图展示了对 <strong>IO 事件</strong>的关联效果。</p>
+<p><img class="lazy" alt="调用链追踪与 IO 事件关联" referrerpolicy="no-referrer" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/2024031965f9883b9a2b9.png"></p>
+<p>当我们在火焰图中看到 MySQL 进程的一个 SQL 调用、Redis 进程的一次命令执行时，依靠 DeepFlow 的文件 IO 事件关联能力，这个调用生命周期内执行的所有慢 IO 事件都能呈现出来。因此我们得以更精细的观测 SQL 调用、Redis 命令的高时延毛刺，分析文件 IO —— 特别是使用共享磁盘的场景 —— 对调用性能的影响。上图展示了一次 SQL 调用关联的多个 binlog 文件写入操作的数据量和时延。</p>
+<p>默认情况下 DeepFlow 仅采集<strong>应用调用生命周期内、处理应用调用的同一线程上</strong>发生的文件 IO 事件，并且仅会采集其中的<strong>慢 IO 事件</strong>。当然我们也可以很方便的调整 DeepFlow Agent 的配置，切换为采集「所有线程中的文件 IO」事件，同时也可调低慢 IO 的判断标准。</p>
+<p>在进展层面，另一个值得分享的事情是我们对低版本内核的适配。在春节前发布的 6.4 版本中，<strong>DeepFlow 基于 eBPF 的能力已经支持了 CentOS 7.9 / RedHat 7.6 的 3.10 内核</strong>！</p>
+<h1>03</h1>
+<h1>DeepFlow 用户的典型落地案例</h1>
+<p>讲完了进展，下面我分享一点 DeepFlow 典型用户的落地案例，这些案例在我们的 Meetup 和公众号中已经有很多了，今天我主要结合腾讯 IEG 对 DeepFlow 的使用，谈一谈零侵扰可观测性可以如何提升研发效能。</p>
+<p><img class="lazy" alt="腾讯 IEG 的使用案例" referrerpolicy="no-referrer" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/2024031965f98837afff6.png"></p>
+<p>上图左侧是 DeepFlow 社区版最近发布的一个<strong>开箱即用 Dashboard</strong>。社区版仅支持 Grafana GUI，在此之前我们已经内置了丰富的 Dashboard，但对于新上手的用户会感到无所适从，而且不同的 Panel 之间无法联动，分析能力较弱。这个开箱即用的 Dashboard 将接口的性能指标、调用日志、分布式追踪在一个 Grafana 面板上展现出来，并且 Panel 之间支持点击联动。我们希望它成为你安装 DeepFlow 社区版之后快速体验零侵扰可观测性的第一个窗口，无需对应用做任何调整，你就能看到所有接口的性能数据，并层层下钻到一个特定调用的分布式追踪结果。同时我们也希望它成为日常工作的伴侣，能非常轻便的融入到发版、扩容、缩容、配置变更等工作流中，提升研发和运维团队的效能。</p>
+<p>那么作为一个游戏业务的运维人员，因为有了零侵扰可观测性能力，它不用再去驱动开发者修改代码进行插桩。以腾讯 IEG 为例，除了有自研游戏以外，他们还有很多代理游戏，难以推动这些第三方开发的游戏进行 APM 插桩。即使是自研游戏，通常也是使用 C++ 等编译型语言实现，一方面必须使用 SDK 插桩，另一方面也要求运维团队能构建 C++ 技术栈从而长期维护 SDK。总结来讲就是<strong>推动插桩难、维护插桩 SDK 难</strong>，eBPF 能很好的解决这两个痛点。</p>
+<p>在腾讯 IEG，DeepFlow 已经覆盖了很多游戏业务，而且已经不仅用于事后的故障排查，已经融入了<strong>业务变更之前的依赖确认、扩缩容过程中的性能监测、业务发版之后的性能对比、基础设施的性能优化</strong>等工作，显著提高了研发和运维团队的工作效率。</p>
+<h1>04</h1>
+<h1>探索 eBPF 可观测性能力的边界</h1>
+<p>最后这部分分享一下我们对未来的一些展望。在分布式追踪方面，我们一直在思考的一个问题是，<strong>如何彻底解决跨线程的调用链串联问题</strong>。除了有之前我介绍的各种方法以外，最近我们也在实验一些统计推理的方法。像这张图里面展示的那样，我们是否可以通过大量数据的统计，来智能的推理出一个应用的 Ingress 调用和 Egress 调用之间的关联关系？目前我们已经做了一些实验，发现推理结果随数据量的增长可以得到非常可观的改善，再结合 eBPF USDT 能力，预期可以得到非常准确的分布式调用链。这个探索能将我们在跨线程场景下的零侵扰追踪能力前进一大步，期待我们在下个大版本 v6.6 中能发布这个能力。</p>
+<p><img class="lazy" alt="如何利用统计推理的方式解决 Java 应用跨线程追踪问题" referrerpolicy="no-referrer" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/2024031965f98838c89c9.png"></p>
+<p>除了对跨线程追踪的思考以外，我们还在探索<strong>如何基于 eBPF 的调用日志生成 API 拓扑</strong>。这里面的主要挑战在于，直接使用调用日志数据只能生成服务拓扑，这类拓扑会在网关、消息队列处连接上一大片服务，打破业务的边界，不易于业务方使用；而直接使用 Trace 数据时，由于 Span 中缺乏 TraceID（在没有 APM 插桩的情况下），难以将一个 Trace 的所有 Span 发往一台机器上聚合。</p>
+<p>在这个问题上我们正在进行两方面的探索：首先通过网关的 X-Request-ID 和消息队列的 Topic 信息，计算这些中间件前后的服务的关联关系，避免服务拓扑的爆炸，提供一个「有业务边界」的服务拓扑；其次我们也在利用 Linux 5.10 内核中的 eBPF 新能力，尝试将 DeepFlow 的 syscall_trace_id 注入到 TCP Option 中，从而为一个 Trace 中的每条调用日志标记上唯一的 Trace ID，便于将调用日志聚合为 API 拓扑。</p>
+<p><img class="lazy" alt="如何基于 eBPF 数据生成 API 拓扑" referrerpolicy="no-referrer" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/2024031965f9883680bef.png"></p>
+<p>第三个方面，我们也在探索 eBPF 在第三大可观测性信号 —— <strong>日志</strong> —— 的创新。我们看到一方面 eBPF 的采集方式无需日志落盘，能够降低日志读写的资源开销；另外 eBPF 采集到的数据可以利用 Thread ID 和追踪数据天然关联起来，天然消除了数据孤岛。</p>
+<p><img class="lazy" alt="eBPF 采集应用日志的创新点" referrerpolicy="no-referrer" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/2024031965f98844c88ba.png"></p>
+<p>最后，我们也在关注 eBPF <strong>uprobe 性能优化</strong>方面的工作。我们看到 bpftime 是很好的解决方案，期待它能走向生产。。</p>
+<p><img class="lazy" alt="eBPF uprobe 性能优化探索 —— bpftime" referrerpolicy="no-referrer" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/2024031965f98836ca6f2.png"></p>
+<p>最后，展示一张 DALL.E 的大作，<strong>通向零侵扰的可观测性之路</strong>。我们期待 eBPF 可以分摊越来越多的开发工作，期待生产环境中的内核升级更快，让零侵扰的可观测性能力提升整个 DevOps 流程的效率。</p>
+<p><img class="lazy" alt="通向零侵扰的可观测性之路" referrerpolicy="no-referrer" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/2024031965f98832ca2a7.png"></p>
+<h1>05</h1>
+<h1>什么是 DeepFlow</h1>
+<p>DeepFlow 是云杉网络开发的一款可观测性产品，旨在为复杂的云基础设施及云原生应用提供深度可观测性。DeepFlow 基于 eBPF 实现了应用性能指标、分布式追踪、持续性能剖析等观测信号的零侵扰（Zero Code）采集，并结合智能标签（SmartEncoding）技术实现了所有观测信号的全栈（Full Stack）关联和高效存取。使用 DeepFlow，可以让云原生应用自动具有深度可观测性，从而消除开发者不断插桩的沉重负担，并为 DevOps/SRE 团队提供从代码到基础设施的监控及诊断能力。</p>
+<p>GitHub 地址：<a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fgithub.com%2Fdeepflowio%2Fdeepflow" target="_blank" rel="external nofollow noopener noreferrer">https://github.com/deepflowio/deepflow</a></p>
+<p>访问 <a href="https://www.oschina.net/action/GoToLink?url=https%3A%2F%2Fdeepflow.io%2Fdocs%2Fzh%2Fce-install%2Foverview%2F" target="_blank" title="DeepFlow Demo" rel="external nofollow noopener noreferrer">DeepFlow Demo</a>，体验零插桩、全覆盖、全关联的可观测性。</p>
+</div>
+
+</div>
+
+<div>
+<div class="tag-plugin link dis-select"><a class="link-card plain" title="每日一博 | eBPF 零侵扰分布式追踪的进展和探索" href="https://my.oschina.net/u/3681970/blog/11048275" target="_blank" rel="external nofollow noopener noreferrer" cardlink autofill="icon"><div class="left"><span class="title">每日一博 | eBPF 零侵扰分布式追踪的进展和探索</span><span class="cap link fs12">https://my.oschina.net/u/3681970/blog/11048275</span></div><div class="right"><div class="lazy img" data-bg="https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.4/link/8f277b4ee0ecd.svg"></div></div></a></div>
+</div>
+
+
+
+
+<div class="article-footer reveal fs14"><section id="license"><div class="header"><span>许可协议</span></div><div class="body"><p>本文采用 <a target="_blank" rel="external nofollow noopener noreferrer" href="https://github.com/me-shaon/GLWTPL/blob/master/translations/LICENSE_zh-CN">GLWT（Good Luck With That，祝你好运）公共许可证</a> 许可协议，转载请注明出处。</p>
+</div></section><section id="share"><div class="header"><span>分享文章</span></div><div class="body"><div class="link"><input class="copy-area" readonly="true" id="copy-link" value="https://blog.imc.re/RSSBOX/rss/b8204d7c.html"></div><div class="social-wrap dis-select"><a class="social share-item wechat" onclick="util.toggle(&quot;qrcode-wechat&quot)"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.4/social/b32ef3da1162a.svg"></a><a class="social share-item weibo" target="_blank" rel="external nofollow noopener noreferrer" href="https://service.weibo.com/share/share.php?url=https://blog.imc.re/RSSBOX/rss/b8204d7c.html&title=每日一博 | eBPF 零侵扰分布式追踪的进展和探索 - RSSBOX&pics=https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/2024031965f98845e26ff.png&summary=
+
+本文为 DeepFlow 在第 23 期得物技术沙龙上的演讲实录。回看链接，PPT 下载。
+感谢得物稳定生产团队的邀请，很高兴能有这样一个机会来给大家分享一下我们在 eBPF 可观测性方面做的一些工作。DeepFlow 是一个聚焦..."><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.4/social/80c07e4dbb303.svg"></a><a class="social share-item email" href="mailto:?subject=每日一博 | eBPF 零侵扰分布式追踪的进展和探索 - RSSBOX&amp;body=https://blog.imc.re/RSSBOX/rss/b8204d7c.html"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.4/social/a1b00e20f425d.svg"></a><a class="social share-item link" onclick="util.copy(&quot;copy-link&quot;, &quot;复制成功&quot;)"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.4/social/8411ed322ced6.svg"></a></div><div class="qrcode" id="qrcode-wechat" style="visibility:hidden;height:0"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://api.qrserver.com/v1/create-qr-code/?size=256x256&data=https://blog.imc.re/RSSBOX/rss/b8204d7c.html"></div></div></section></div>
+
+</article>
+
+<div class="related-wrap reveal" id="read-next"><section class="body"><div class="item" id="prev"><div class="note">较新文章</div><a href="/RSSBOX/rss/f59296ed.html">PostgreSQL 主要贡献者 Simon Riggs 因坠机去世</a></div><div class="item" id="next"><div class="note">较早文章</div><a href="/RSSBOX/rss/c2310608.html">【配布】洩矢諏訪子のマインクラフトスキン</a></div></section></div>
+
+
+<div class="related-wrap reveal" id="related-posts">
+    <section class="header">
+      <div class="title cap theme">您可能感兴趣的文章</div>
+    </section>
+    <section class="body">
+    <div class="related-posts"><a class="item" href="/RSSBOX/rss/a18b7542.html" title="Databricks 推出开源大模型 DBRX：参数规模达 1320 亿、声称全球最强"><span class="title">Databricks 推出开源大模型 DBRX：参数规模达 1320 亿、声称全球最强</span></a><a class="item" href="/RSSBOX/rss/15229fa2.html" title="Gitee 推荐 | 轻量化的开源 Bug 管理系统 Cat2Bug-Platform"><span class="title">Gitee 推荐 | 轻量化的开源 Bug 管理系统 Cat2Bug-Platform</span></a><a class="item" href="/RSSBOX/rss/f59296ed.html" title="PostgreSQL 主要贡献者 Simon Riggs 因坠机去世"><span class="title">PostgreSQL 主要贡献者 Simon Riggs 因坠机去世</span></a><a class="item" href="/RSSBOX/rss/a99bb5af.html" title="TypeChat —— 基于 LLM 的自然语言构建 UI 库"><span class="title">TypeChat —— 基于 LLM 的自然语言构建 UI 库</span></a><a class="item" href="/RSSBOX/rss/b3998d1b.html" title="What's New in PikiwiDB (Pika) v3.5.3 (正式版)"><span class="title">What's New in PikiwiDB (Pika) v3.5.3 (正式版)</span></a></div></section></div>
+
+
+
+
+
+      
+<footer class="page-footer reveal fs12"><hr><div class="sitemap"><div class="sitemap-group"><span class="fs14">文章</span><a href="/RSSBOX/categories">分类</a><a href="/RSSBOX/tags">标签</a><a href="/RSSBOX/archives">归档</a></div><div class="sitemap-group"><span class="fs14">更多</span><a href="https://blog.imc.re/">博客</a><a target="_blank" rel="noopener" href="https://imc.re/">IMC.RE</a></div></div><div class="text"><p><a href="/">@RSSBOX</a> 2023 author by <a target="_blank" rel="external nofollow noopener noreferrer" href="https://github.com/MHG-LAB/RSSBOX">MHuiG</a> powered by SummerGoro。<br><br>本博客所有文章除特别声明外，均采用 <a target="_blank" rel="external nofollow noopener noreferrer" href="https://github.com/me-shaon/GLWTPL/blob/master/translations/LICENSE_zh-CN">GLWT（Good Luck With That，祝你好运）公共许可证</a> 许可协议，转载请注明出处。</p>
+</div></footer>
+
+      <div class="float-panel mobile-only blur" style="display:none">
+  <button type="button" class="sidebar-toggle mobile" onclick="sidebar.toggle()">
+    <svg class="icon" style="width: 1em; height: 1em;vertical-align: middle;fill: currentColor;overflow: hidden;" viewbox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="15301"><path d="M566.407 808.3c26.9-0.1 49.3-20.8 51.6-47.6-1.9-27.7-23.9-49.7-51.6-51.6h-412.6c-28.2-1.4-52.6 19.5-55.5 47.6 2.3 26.8 24.6 47.5 51.6 47.6h416.5v4z m309.3-249.9c26.9-0.1 49.3-20.8 51.6-47.6-2.2-26.8-24.6-47.5-51.6-47.6h-721.9c-27.7-2.8-52.5 17.4-55.3 45.1-0.1 0.8-0.1 1.7-0.2 2.5 0.9 27.2 23.6 48.5 50.7 47.6H875.707z m-103.1-245.9c26.9-0.1 49.3-20.8 51.6-47.6-0.4-28.3-23.2-51.1-51.5-51.6h-618.9c-29.5-1.1-54.3 21.9-55.5 51.4v0.2c1.4 27.8 25.2 49.2 53 47.8 0.8 0 1.7-0.1 2.5-0.2h618.8z" p-id="15302"/><path d="M566.407 808.3c26.9-0.1 49.3-20.8 51.6-47.6-1.9-27.7-23.9-49.7-51.6-51.6h-412.6c-28.2-1.4-52.6 19.5-55.5 47.6 1.9 27.7 23.9 49.7 51.6 51.6h416.5z m309.3-249.9c26.9-0.1 49.3-20.8 51.6-47.6-2.2-26.8-24.6-47.5-51.6-47.6h-721.9c-27.7-2.8-52.5 17.4-55.3 45.1-0.1 0.8-0.1 1.7-0.2 2.5 0.9 27.2 23.6 48.5 50.7 47.6H875.707z m-103.1-245.9c26.9-0.1 49.3-20.8 51.6-47.6-0.4-28.3-23.2-51.1-51.5-51.6h-618.9c-29.5-1.1-54.3 21.9-55.5 51.4v0.2c1.4 27.8 25.2 49.2 53 47.8 0.8 0 1.7-0.1 2.5-0.2h618.8z" p-id="15303"/></svg>
+  </button>
+</div>
+
+    </div>
+  </div>
+  <div class="scripts">
+    <script type="text/javascript">
+  const stellar = {
+    // 懒加载 css https://github.com/filamentgroup/loadCSS
+    loadCSS: (href, before, media, attributes) => {
+      var doc = window.document;
+      var ss = doc.createElement("link");
+      var ref;
+      if (before) {
+        ref = before;
+      } else {
+        var refs = (doc.body || doc.getElementsByTagName("head")[0]).childNodes;
+        ref = refs[refs.length - 1];
+      }
+      var sheets = doc.styleSheets;
+      if (attributes) {
+        for (var attributeName in attributes) {
+          if (attributes.hasOwnProperty(attributeName)) {
+            ss.setAttribute(attributeName, attributes[attributeName]);
+          }
+        }
+      }
+      ss.rel = "stylesheet";
+      ss.href = href;
+      ss.media = "only x";
+      function ready(cb) {
+        if (doc.body) {
+          return cb();
+        }
+        setTimeout(function () {
+          ready(cb);
+        });
+      }
+      ready(function () {
+        ref.parentNode.insertBefore(ss, before ? ref : ref.nextSibling);
+      });
+      var onloadcssdefined = function (cb) {
+        var resolvedHref = ss.href;
+        var i = sheets.length;
+        while (i--) {
+          if (sheets[i].href === resolvedHref) {
+            return cb();
+          }
+        }
+        setTimeout(function () {
+          onloadcssdefined(cb);
+        });
+      };
+      function loadCB() {
+        if (ss.addEventListener) {
+          ss.removeEventListener("load", loadCB);
+        }
+        ss.media = media || "all";
+      }
+      if (ss.addEventListener) {
+        ss.addEventListener("load", loadCB);
+      }
+      ss.onloadcssdefined = onloadcssdefined;
+      onloadcssdefined(loadCB);
+      return ss;
+    },
+
+    // 从 butterfly 和 volantis 获得灵感
+    loadScript: (src, opt) => new Promise((resolve, reject) => {
+      var script = document.createElement('script');
+      if (src.startsWith('/')){
+        src = stellar.config.root + src.substring(1);
+      }
+      script.src = src;
+      if (opt) {
+        for (let key of Object.keys(opt)) {
+          script[key] = opt[key]
+        }
+      } else {
+        // 默认异步，如果需要同步，第二个参数传入 {} 即可
+        script.async = true
+      }
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    }),
+
+    // https://github.com/jerryc127/hexo-theme-butterfly
+    jQuery: (fn) => {
+      if (typeof jQuery === 'undefined') {
+        stellar.loadScript(stellar.plugins.jQuery).then(fn)
+      } else {
+        fn()
+      }
+    }
+  };
+  stellar.version = '1.19.0';
+  stellar.github = 'https://github.com/xaoxuu/hexo-theme-stellar/tree/1.19.0';
+  stellar.config = {
+    date_suffix: {
+      just: '刚刚',
+      min: '分钟前',
+      hour: '小时前',
+      day: '天前',
+      month: '个月前',
+    },
+    root : '/RSSBOX/',
+  };
+
+  // required plugins (only load if needs)
+  stellar.plugins = {
+    jQuery: 'https://gcore.jsdelivr.net/npm/jquery@3.6.2/dist/jquery.min.js'
+  };
+
+  if ('local_search') {
+    stellar.search = {};
+    stellar.search.service = 'local_search';
+    if (stellar.search.service == 'local_search') {
+      let service_obj = Object.assign({}, {"field":"all","path":"/search.json","content":true,"codeblock":true,"sort":"-date"});
+      stellar.search[stellar.search.service] = service_obj;
+    }
+  }
+
+  // stellar js
+  stellar.plugins.stellar = Object.assign({"sites":"/js/plugins/sites.js","friends":"/js/plugins/friends.js","ghinfo":"/js/plugins/ghinfo.js","timeline":"/js/plugins/timeline.js","linkcard":"/js/plugins/linkcard.js","fcircle":"/js/plugins/fcircle.js","weibo":"/js/plugins/weibo.js"});
+
+  stellar.plugins.marked = Object.assign("https://cdn.bootcdn.net/ajax/libs/marked/4.0.18/marked.min.js");
+  // optional plugins
+  if ('true' == 'true') {
+    stellar.plugins.lazyload = Object.assign({"enable":true,"js":"https://gcore.jsdelivr.net/npm/vanilla-lazyload@17.8.3/dist/lazyload.min.js","transition":"blur"});
+  }
+  if ('true' == 'true') {
+    stellar.plugins.swiper = Object.assign({"enable":true,"css":"https://unpkg.com/swiper@8.4.5/swiper-bundle.min.css","js":"https://unpkg.com/swiper@8.4.5/swiper-bundle.min.js"});
+  }
+  if ('' == 'true') {
+    stellar.plugins.scrollreveal = Object.assign({"enable":null,"js":"https://gcore.jsdelivr.net/npm/scrollreveal@4.0.9/dist/scrollreveal.min.js","distance":"8px","duration":500,"interval":100,"scale":1});
+  }
+  if ('true' == 'true') {
+    stellar.plugins.preload = Object.assign({"enable":true,"service":"flying_pages","instant_page":"https://gcore.jsdelivr.net/gh/volantis-x/cdn-volantis@4.1.2/js/instant_page.js","flying_pages":"https://gcore.jsdelivr.net/gh/gijo-varghese/flying-pages@2.1.2/flying-pages.min.js"});
+  }
+  if ('true' == 'true') {
+    stellar.plugins.fancybox = Object.assign({"enable":true,"js":"https://gcore.jsdelivr.net/npm/@fancyapps/ui@4.0/dist/fancybox.umd.js","css":"https://gcore.jsdelivr.net/npm/@fancyapps/ui@4.0/dist/fancybox.css","selector":".swiper-slide img"});
+  }
+  if ('false' == 'true') {
+    stellar.plugins.heti = Object.assign({"enable":false,"css":"https://unpkg.com/heti@0.9.2/umd/heti.min.css","js":"https://unpkg.com/heti@0.9.2/umd/heti-addon.min.js"});
+  }
+  if ('true' == 'true') {
+    stellar.plugins.copycode = Object.assign({"enable":true,"js":"/js/plugins/copycode.js","default_text":"Copy","success_text":"Copied"});
+  }
+</script>
+
+<!-- required -->
+
+  
+<script src="/RSSBOX/js/main.js" async></script>
+
+
+
+<!-- optional -->
+
+  <script>
+  function loadJS() {
+    const els = document.querySelectorAll("#comments #giscus");
+    if (els.length === 0) return;
+    els.forEach((el, i) => {
+      try {
+        el.innerHTML = '';
+      } catch (error) {
+        console.log(error);
+      }
+      var script = document.createElement('script');
+      script.src = 'https://giscus.app/client.js';
+      script.async = true;
+      for (let key of Object.keys(el.attributes)) {
+        let attr = el.attributes[key];
+        if (['class', 'id'].includes(attr.name) === false) {
+          script.setAttribute(attr.name, attr.value);
+        }
+      }
+      el.appendChild(script);
+    });
+  }
+  window.addEventListener('DOMContentLoaded', (event) => {
+    loadJS();
+  });
+</script>
+
+
+
+
+<!-- inject -->
+
+
+  </div>
+</body>
+</html>
