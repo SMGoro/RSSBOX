@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+  <meta name="generator" content="Hexo 6.3.0">
+  <meta name="hexo-theme" content="https://github.com/xaoxuu/hexo-theme-stellar/tree/1.19.0">
+  <meta charset="utf-8">
+  
+
+  <meta http-equiv="x-dns-prefetch-control" content="on">
+  <link rel="dns-prefetch" href="https://gcore.jsdelivr.net">
+  <link rel="preconnect" href="https://gcore.jsdelivr.net" crossorigin>
+  <link rel="dns-prefetch" href="//unpkg.com">
+
+  <meta name="renderer" content="webkit">
+  <meta name="force-rendering" content="webkit">
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+  <meta name="HandheldFriendly" content="True">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="theme-color" content="#f8f8f8">
+  
+  <title>Training a Million Models per Day to Save Customers of All Sizes From DDoS Attacks - RSSBOX</title>
+
+  
+    <meta name="description" content="Our always-on DDoS protection runs inside every server across our global network.  It constantly analyzes incoming traffic, looking for signals associated with previously identified DDoS attacks. We">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Training a Million Models per Day to Save Customers of All Sizes From DDoS Attacks">
+<meta property="og:url" content="https://blog.imc.re/RSSBOX/rss/53d87c14.html">
+<meta property="og:site_name" content="RSSBOX">
+<meta property="og:description" content="Our always-on DDoS protection runs inside every server across our global network.  It constantly analyzes incoming traffic, looking for signals associated with previously identified DDoS attacks. We">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://cf-assets.www.cloudflare.com/zkvhlag99gkb/6j97IMawigCOtQEIKLzQ4n/8ab1e487a5dc8faaecc732b8fbb7d8d4/image3.png">
+<meta property="og:image" content="https://cf-assets.www.cloudflare.com/zkvhlag99gkb/1Ys3wf2GY6e5K4rEBUTDBN/5cff86a1f90ee5e0eae9ec394f2322b3/image6.png">
+<meta property="og:image" content="https://cf-assets.www.cloudflare.com/zkvhlag99gkb/4X5WaA5QssNRlWWaz4UUYL/05b88c9cfe52f6ba05cef7cab033d53d/image1.png">
+<meta property="og:image" content="https://cf-assets.www.cloudflare.com/zkvhlag99gkb/6Pk6sFmz8lqjUJrdTev8Xw/194436196eddbbb11576b74f1515d6c6/image2.png">
+<meta property="og:image" content="https://cf-assets.www.cloudflare.com/zkvhlag99gkb/5idkNYYgL0IhY8d2HapYud/f3696ec7fb91f8641a04ba261d0cf673/image4.png">
+<meta property="og:image" content="https://cf-assets.www.cloudflare.com/zkvhlag99gkb/1OcPc7zoehsizwzPEkD1Fc/094bd59ca6d6aba3c301fd74f12d580a/image5.png">
+<meta property="article:published_time" content="2024-10-23T13:00:00.000Z">
+<meta property="article:modified_time" content="2024-10-23T13:00:00.000Z">
+<meta property="article:author" content="SMGoro">
+<meta property="article:tag" content="Blogs">
+<meta property="article:tag" content="Cloudflare">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://cf-assets.www.cloudflare.com/zkvhlag99gkb/6j97IMawigCOtQEIKLzQ4n/8ab1e487a5dc8faaecc732b8fbb7d8d4/image3.png">
+  
+  
+  
+  <meta name="keywords" content="Blogs,Cloudflare">
+
+  <!-- feed -->
+  
+    <link rel="alternate" href="/RSSBOX/atom.xml" title="RSSBOX" type="application/atom+xml">
+  
+
+  
+    
+<link rel="stylesheet" href="/RSSBOX/css/main.css">
+
+  
+
+  
+
+  
+
+  
+    <link rel="stylesheet" href="https://gcore.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.css" integrity="sha384-vKruj+a13U8yHIkAyGgK1J3ArTLzrFGBbBc0tDp4ad/EyewESeXE/Iv67Aj8gKZ0" crossorigin="anonymous">
+    <script defer src="https://gcore.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.js" integrity="sha384-PwRUT/YqbnEjkZO0zZxNqcxACrXe+j766U2amXcgMg5457rve2Y7I6ZJSm2A0mS4" crossorigin="anonymous"></script>
+    <script defer src="https://gcore.jsdelivr.net/npm/katex@0.16.4/dist/contrib/auto-render.min.js" integrity="sha384-+VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4+/RRE05" crossorigin="anonymous" onload="renderMathInElement(document.body);"></script>
+  
+
+
+  
+
+<!--百度统计-->
+<script>
+  var _hmt = _hmt || [];
+  (function() {
+    var hm = document.createElement("script");
+    hm.src = "https://hm.baidu.com/hm.js?f42afe3e5b76d22c8b1a8060171c7184";
+    var s = document.getElementsByTagName("script")[0]; 
+    s.parentNode.insertBefore(hm, s);
+  })();
+</script>  
+  <!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-V2NSKYGXNG"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-V2NSKYGXNG');
+</script>
+<!--Google Adsense-->
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4773172018528901" crossorigin="anonymous"></script>
+</head>
+
+<body>
+  
+
+
+
+
+  <div class="l_body" id="start">
+    <aside class="l_left" layout="post">
+    
+
+  
+
+<header class="header"><div class="logo-wrap"><a class="avatar" href="/RSSBOX/archives"><div class="bg" style="opacity:0;background-image:url(https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.4/avatar/round/rainbow64@3x.webp);"></div><img no-lazy class="avatar" src="https://cdn.jsdelivr.net/gh/SMGCDN/photos/icon/rsshub.png" onerror="javascript:this.classList.add('error');this.src='https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.4/image/2659360.svg';"></a><a class="title" href="/RSSBOX/"><div class="main" ff="title">RSSBOX</div><div class="sub normal cap">SMGoroのRSS订阅</div><div class="sub hover cap" style="opacity:0"> 一些好康的东西</div></a></div>
+
+<nav class="menu dis-select"><a class="nav-item active" href="/RSSBOX/">订阅</a><a class="nav-item" href="https://blog.imc.re/">博客</a><a class="nav-item" href="https://blog.imc.re/contact">联系</a><a class="nav-item" href="https://blog.imc.re/more">更多</a></nav>
+</header>
+
+
+<div class="widgets">
+
+<widget class="widget-wrapper toc single" id="data-toc"><div class="widget-header cap dis-select"><span class="name">Training a Million Models per Day to Save Customers of All Sizes From DDoS Attacks</span></div><div class="widget-body fs14"><div class="doc-tree active"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">A naive volumetric model</span></a></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">Time series forecasting</span></a></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">A better way?</span></a></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">How we train ~1 million models daily to keep customers safe</span></a></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">Join us!</span></a></li></ol></div></div></widget>
+
+
+
+<widget class="widget-wrapper search"><div class="widget-body"><div class="search-wrapper" id="search"><form class="search-form"><input type="text" class="search-input" id="search-input" data-filter="/rss/" placeholder="文章搜索"><svg t="1670596976048" class="icon search-icon" viewbox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2676" width="200" height="200"><path d="M938.2 832.6L723.8 618.1c-2.5-2.5-5.3-4.4-7.9-6.4 36.2-55.6 57.3-121.8 57.3-193.1C773.3 222.8 614.6 64 418.7 64S64 222.8 64 418.6c0 195.9 158.8 354.6 354.6 354.6 71.3 0 137.5-21.2 193.2-57.4 2 2.7 3.9 5.4 6.3 7.8L832.5 938c14.6 14.6 33.7 21.9 52.8 21.9 19.1 0 38.2-7.3 52.8-21.8 29.2-29.1 29.2-76.4 0.1-105.5M418.7 661.3C284.9 661.3 176 552.4 176 418.6 176 284.9 284.9 176 418.7 176c133.8 0 242.6 108.9 242.6 242.7 0 133.7-108.9 242.6-242.6 242.6" p-id="2677"/></svg></form><div id="search-result"></div><div class="search-no-result">没有找到内容！</div></div></div></widget>
+
+
+
+<widget class="widget-wrapper recent"><div class="widget-header cap theme dis-select"><span class="name">最近更新</span><a class="cap-action" id="rss" title="Subscribe" href="/atom.xml"><svg class="icon" viewbox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="8938"><path d="M800.966 947.251c0-404.522-320.872-732.448-716.69-732.448V62.785c477.972 0 865.44 395.987 865.44 884.466h-148.75z m-162.273 0h-148.74c0-228.98-181.628-414.598-405.678-414.598v-152.01c306.205 0 554.418 253.68 554.418 566.608z m-446.24-221.12c59.748 0 108.189 49.503 108.189 110.557 0 61.063-48.44 110.563-108.188 110.563-59.747 0-108.18-49.5-108.18-110.563 0-61.054 48.433-110.556 108.18-110.556z" p-id="8939"/></svg></a></div><div class="widget-body related-posts fs14"><a class="item title" href="/RSSBOX/rss/9478a4fa.html"><span class="title">I Got My Wish and Reincarnated as the Villainess (Last Boss)! 001-024 as V01-03 (Digital-Compilation) (Oan) [Oak]</span></a><a class="item title" href="/RSSBOX/rss/81997030.html"><span class="title">Keiken Zumi Na Kimi To, Keiken Zero Na Ore Ga, Otsukiai Suru Hanashi / You Were Experienced, I Was Not: Our Dating Story V01-05 [J-Novel Club] [Antithetical]</span></a><a class="item title" href="/RSSBOX/rss/2e17acd3.html"><span class="title">Trillion Game - 05 「乙女の眼差し」 (TBS 1920x1080 X264 AAC).mkv</span></a><a class="item title" href="/RSSBOX/rss/7bd92795.html"><span class="title">Sayonara Ryuusei, Konnichiwa Jinsei - 03 「女剣士」 (TBS 1920x1080 X264 AAC).mkv</span></a><a class="item title" href="/RSSBOX/rss/da1442de.html"><span class="title">Aldnoah.Zero (2024) - 16 「熱砂の進撃 -Soldiers' Pay-」 (BS11 1920x1080 X264 AAC).mp4</span></a></div></widget>
+</div>
+<footer class="footer dis-select"><div class="social-wrap"><a class="social" href="https://github.com/SMGoro" target="_blank" rel="external nofollow noopener noreferrer"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cdn.jsdelivr.net/gh/SMGCDN/photos/icon/iconfont/social-github.svg"></a><a class="social" href="https://space.bilibili.com/359079394" target="_blank" rel="external nofollow noopener noreferrer"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cdn.jsdelivr.net/gh/SMGCDN/photos/icon/iconfont/bilibili.svg"></a><a class="social" href="https://l.imc.re/zhihu" target="_blank" rel="external nofollow noopener noreferrer"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cdn.jsdelivr.net/gh/SMGCDN/photos/icon/iconfont/zhihu.svg"></a><a class="social" href="https://l.imc.re/discord" target="_blank" rel="external nofollow noopener noreferrer"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cdn.jsdelivr.net/gh/SMGCDN/photos/icon/iconfont/discord.svg"></a><a class="social" href="https://blog.imc.re/contact" target="_blank" rel="external nofollow noopener noreferrer"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cdn.jsdelivr.net/gh/SMGCDN/photos/icon/iconfont/comments.svg"></a></div></footer>
+
+    </aside>
+    <div class="l_main">
+      
+
+      
+
+
+
+<div class="bread-nav fs12"><div id="breadcrumb"><a class="cap breadcrumb" href="/RSSBOX/">主页</a><span class="sep"></span><a class="cap breadcrumb" href="/RSSBOX/">文章</a><span class="sep"></span><a class="cap breadcrumb-link" href="/RSSBOX/categories/blogs/">Blogs</a> <span class="sep"></span> <a class="cap breadcrumb-link" href="/RSSBOX/categories/blogs/cloudflare/">Cloudflare</a></div><div id="post-meta">发布于&nbsp;<time datetime="2024-10-23T13:00:00.000Z">2024-10-23</time></div></div>
+
+<article class="md-text content post">
+<h1 class="article-title"><span>Training a Million Models per Day to Save Customers of All Sizes From DDoS Attacks</span></h1>
+<div>
+ <p></p><p>Our always-on DDoS protection runs inside every server across our global network.  It constantly analyzes incoming traffic, looking for signals associated with previously identified DDoS attacks. We dynamically create <a target="_blank" rel="external nofollow noopener noreferrer" href="https://developers.cloudflare.com/ddos-protection/about/how-ddos-protection-works/"><u>fingerprints</u></a> to flag malicious traffic, which is dropped when detected in high enough volume — so it never reaches its destination — keeping customer websites online.</p><p>In many cases, flagging bad traffic can be straightforward. For example, if we see too many requests to a destination with the same protocol violation, we can be fairly sure this is an automated script, rather than a surge of requests from a legitimate web browser.</p><p>Our DDoS systems are great at detecting attacks, but there’s a minor catch. Much like the human immune system, they are great at spotting attacks similar to things they have seen before. But for new and novel threats, they need a little help knowing what to look for, which is an expensive and time-consuming human endeavor.</p><p>Cloudflare protects millions of Internet properties, and we serve over 60 million HTTP requests per second on average, so trying to find unmitigated attacks in such a huge volume of traffic is a daunting task. In order to protect the smallest of companies, we need a way to find unmitigated attacks that may only be a few thousand requests per second, as even these can be enough to take smaller sites offline.</p><p>To better protect our customers, we also have a system to automatically identify unmitigated, or partially mitigated DDoS attacks, so we can better shore up our defenses against emerging threats. In this post we will introduce this anomaly detection pipeline, we’ll provide an overview of how it builds statistical models which flag unusual traffic and keep our customers safe. Let’s jump in!</p>
+<div>
+<h2>A naive volumetric model</h2>
+<a href="#a-naive-volumetric-model">
+</a>
+</div>
+<p>A DDoS attack, by definition, is characterized by a higher than normal volume of traffic destined for a particular destination. We can use this fact to loosely sketch out a potential approach. Let’s look at an example website, and look at the request volume over the course of a day, broken down into 1 minute intervals.</p>
+<figure>
+<img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cf-assets.www.cloudflare.com/zkvhlag99gkb/6j97IMawigCOtQEIKLzQ4n/8ab1e487a5dc8faaecc732b8fbb7d8d4/image3.png">
+</figure><p>We can plot this same data as a histogram:</p>
+<figure>
+<img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cf-assets.www.cloudflare.com/zkvhlag99gkb/1Ys3wf2GY6e5K4rEBUTDBN/5cff86a1f90ee5e0eae9ec394f2322b3/image6.png">
+</figure><p>The data follows a bell-shaped curve, also known as a normal distribution. We can use this fact to flag observations which appear outside the usual range. By first calculating the mean and standard deviation of our dataset, we can then use these values to rate new observations by calculating how many standard deviations (or sigma) the data is from the mean.</p><p>This value is also called the z-score — a z-score of 3 is the same as 3-sigma, which corresponds to 3 standard deviations from the mean. A data point with a high enough z-score is sufficiently unusual that it might signal an attack. Since the mean and standard deviation are stationary, we can calculate a request volume threshold for each z-score value, and use traffic volumes above these thresholds to signal an ongoing attack.</p>
+<figure>
+<img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cf-assets.www.cloudflare.com/zkvhlag99gkb/4X5WaA5QssNRlWWaz4UUYL/05b88c9cfe52f6ba05cef7cab033d53d/image1.png">
+</figure><p><sup><i>Trigger thresholds for z-score of 3, 4 and 5</i></sup></p><p>Unfortunately, it’s incredibly rare to see traffic that is this uniform in practice, as user load will naturally vary over a day. Here I’ve simulated some traffic for a website which runs a meal delivery service, and as you might expect it has big peaks around meal times, and low traffic overnight since it only operates in a single country.</p>
+<figure>
+<img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cf-assets.www.cloudflare.com/zkvhlag99gkb/6Pk6sFmz8lqjUJrdTev8Xw/194436196eddbbb11576b74f1515d6c6/image2.png">
+</figure><p>Our volume data no longer follows a normal distribution and our 3-sigma threshold is now much further away, so smaller attacks could pass undetected.</p><p>Many websites elastically scale their underlying hardware based upon anticipated load to save on costs. In the example above the website operator would run far fewer servers overnight, when the anticipated load is low, to save on running costs. This makes the website more vulnerable to attacks during off-peak hours as there would be less hardware to absorb them. An attack as low as a few hundred requests per minute may be enough to overwhelm the site early in the morning, even though the peak-time infrastructure could easily absorb this volume.</p><p>This approach relies on traffic volume being stable over time, meaning it’s roughly flat throughout the day, but this is rarely true in practice. Even when it is true, benign increases in traffic are common, such as an e-commerce site running a Black Friday sale. In this situation, a website would expect a surge in traffic that our model wouldn’t anticipate, and we may incorrectly flag real shoppers as attackers.</p><p>It turns out this approach makes too many naive assumptions about what traffic should look like, so it’s impossible to choose an appropriate sigma threshold which works well for all customers.</p>
+<div>
+<h2>Time series forecasting</h2>
+<a href="#time-series-forecasting">
+</a>
+</div>
+<p>Let’s continue with trying to determine a volumetric baseline for our meal delivery example. A reasonable assumption we could add is that yesterday’s traffic shape should approximate the expected shape of traffic today. This idea is called “seasonality”. Weekly seasonality is also pretty common, i.e. websites see more or less traffic on certain weekdays or on weekends.</p><p>There are many methods designed to analyze a dataset, unpick the varying horizons of seasonality within it, and then build an appropriate predictive model. We won’t go into them here but reading about <a target="_blank" rel="external nofollow noopener noreferrer" href="https://en.wikipedia.org/wiki/Autoregressive_integrated_moving_average"><u>Seasonal ARIMA (SARIMA)</u></a> is a good place to start if you are looking for further information.</p><p>There are three main challenges that make SARIMA methods unsuitable for our purposes. First is that in order to get a good idea of seasonality, you need a lot of data. To predict weekly seasonality, you need at least a few weeks worth of data. We’d require a massive dataset to predict monthly, or even annual, patterns (such as Black Friday). This means new customers wouldn’t be protected until they’d been with us for multiple years, so this isn’t a particularly practical approach.</p><p>The second issue is the cost of training models. In order to maintain good accuracy, time series models need to be frequently retrained. The exact frequency varies between methods, but in the worst cases, a model is only good for 2–3 inferences, meaning we’d need to retrain all our models every 10–20 minutes. This is feasible, but it’s incredibly wasteful.</p><p>The third hurdle is the hardest to work around, and is the reason why a purely volumetric model doesn’t work. Most websites experience completely benign spikes in traffic that lie outside prior norms. Flash sales are one such example, or 1,000,000 visitors driven to a site from Reddit, or a Super Bowl commercial.</p>
+<div>
+<h2>A better way?</h2>
+<a href="#a-better-way">
+</a>
+</div>
+<p>So if volumetric modeling won’t work, what can we do instead? Fortunately, volume isn’t the only axis we can use to measure traffic. Consider the end users’ browsers for example. It would be reasonable to assume that over a given time interval, the proportion of users across the top 5 browsers would remain reasonably stationary, or at least within a predictable range. More importantly, this proportion is unlikely to change too much during benign traffic surges.</p><p>Through careful analysis we were able to discover about a dozen such variables with the following features for a given zone: </p><ul><li><p>They follow a normal distribution</p></li><li><p>They aren’t correlated, or are only loosely correlated with volume</p></li><li><p>They deviate from the underlying normal distribution during “under attack” events</p></li></ul><p>Recall our initial volume model, where we used z-score to define a cutoff. We can expand this same idea to multiple dimensions. We have a dozen different time series (each feature is a single time series), which we can imagine as a cloud of points in 12 dimensions. Here is a sample showing 3 such features, with each point representing the traffic readings at a different point in time. Note that both graphs show the same cloud of points from two different angles.</p>
+<figure>
+<img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cf-assets.www.cloudflare.com/zkvhlag99gkb/5idkNYYgL0IhY8d2HapYud/f3696ec7fb91f8641a04ba261d0cf673/image4.png">
+</figure><p>To use our z-score analogy from before, we’d want our points to be spherical, since our multidimensional- z-score is then just the distance from the centre of the cloud. We could then use this distance to define a cutoff threshold for attacks.</p><p>For several reasons, a perfect sphere is unlikely in practice. Our various features measure different things, so they have very different scales of ‘normal’. One property might vary between 100-300 whereas another property might usually occupy the interval 0-1. A change of 3 in this latter property would be a significant anomaly, whereas in the first this would just be within the normal range.</p><p>More subtly, two or more axes may be correlated, so an increase in one is usually mirrored with a proportional increase/decrease in another dimension. This turns our sphere into an off-axis disc shape, as pictured above.</p><p>Fortunately, we have a couple of mathematical tricks up our sleeve. The first is scale normalization. In each of our n dimensions, we subtract the mean, and divide by the standard deviation. This makes all our dimensions the same size and centres them around zero. This gives a multidimensional analogue of z-score, but it won’t fix the disc shape.</p><p>What we can do is figure out the orientation and dimensions of the disc, and for this we use a tool called <a target="_blank" rel="external nofollow noopener noreferrer" href="https://en.wikipedia.org/wiki/Principal_component_analysis"><u>Principal Component Analysis (PCA)</u></a>. This lets us reorient our disc, and rescale the axes according to their size, to make them all the same.</p><p>Imagine grabbing the disc out of the air, then drawing new X and Y axes on the top surface, with the origin at the center of the disc. Our new Z-axis is the thickness of the disc. We can compare the thickness to the diameter of the disc, to give us a scaling factor for the Z direction. Imagine stretching the disc along the z-axis until it’s as tall as the length across the diameter.</p><p>In reality there’s nothing to say that X &amp; Y have to be the same size either, but hopefully you get the general idea. PCA lets us draw new axes along these lines of correlation in an arbitrary number of dimensions, and convert our n-dimensional disc into a nicely behaved sphere of points (technically an n-dimensional sphere).</p><p>Having done all this work, we can uniquely define a coordinate transformation which takes any measurement from our raw features, and tells us where it should lie in the sphere, and since all our dimensions are the same size we can generate an anomaly score purely based on its distance from the centre of the cloud.</p><p>As a final trick, we can also use a final scaling operation to ensure the sphere for dataset A is the same size as the sphere generated from dataset B, meaning we can do this same process for any traffic data and define a cutoff distance λ which is the same across all our models. Rather than fine-tuning models for each individual customer zone, we can tune this to a value which applies globally.</p><p>Another name for this measurement is <a target="_blank" rel="external nofollow noopener noreferrer" href="https://en.wikipedia.org/wiki/Mahalanobis_distance"><u>Mahalanobis distance</u></a>. (Inclined readers can understand this equivalence by considering the role of the covariance matrix in PCA and Mahalanobis distance. Further discussion can be found on <a target="_blank" rel="external nofollow noopener noreferrer" href="https://stats.stackexchange.com/questions/166525/is-mahalanobis-distance-equivalent-to-the-euclidean-one-on-the-pca-rotated-data"><u>this</u></a> StackExchange post.) We further tune the process to discard dimensions with little variance — if our disc is too thin we discard the thickness dimension.  In practice, such dimensions were too sensitive to be useful.</p>
+<figure>
+<img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cf-assets.www.cloudflare.com/zkvhlag99gkb/1OcPc7zoehsizwzPEkD1Fc/094bd59ca6d6aba3c301fd74f12d580a/image5.png">
+</figure><p>We’re left with a multidimensional analogue of the z-score we started with, but this time our variables aren’t correlated with peacetime traffic volume. Above we show 2 output dimensions, with coloured circles which show Mahalanobis distances of 4, 5 and 6. Anything outside the green circle will be classified as an attack.</p>
+<div>
+<h2>How we train ~1 million models daily to keep customers safe</h2>
+<a href="#how-we-train-1-million-models-daily-to-keep-customers-safe">
+</a>
+</div>
+<p>The approach we’ve outlined is incredibly parallelizable: a single model requires only the traffic data for that one website, and the datasets needed can be quite small. We use 4 weeks of training data chunked into 5 minute intervals which is only ~8k rows/website.</p><p>We run all our training and inference in an Apache Airflow deployment in Kubernetes. Due to the parallelizability, we can scale horizontally as needed. On average, we can train about 3 models/second/thread. We currently retrain models every day, but we’ve observed very little intraday model drift (i.e. yesterday’s model is the same as today’s), so training frequency may be reduced in the future.</p><p>We don’t consider it necessary to build models for all our customers, instead we train models for a large sample of representative customers, including a large number on the Free plan. The goal is to identify attacks for further study which we then use to tune our existing DDoS systems for all customers.</p>
+<div>
+<h2>Join us!</h2>
+<a href="#join-us">
+</a>
+</div>
+<p>If you’ve read this far you may have questions, like “how do you filter attacks from your training data?” or you may have spotted a handful of other technical details which I’ve elided to keep this post accessible to a general audience. If so, you would fit in well here at Cloudflare. We’re helping to build a better Internet, and we’re <a target="_blank" rel="external nofollow noopener noreferrer" href="https://www.cloudflare.com/careers/jobs/?title=data+scientist"><u>hiring</u></a>.</p> 
+</div>
+
+<div>
+<div class="tag-plugin link dis-select"><a class="link-card plain" title="Training a million models per day to save customers of all sizes from DDoS attacks" href="https://blog.cloudflare.com/training-a-million-models-per-day-to-save-customers-of-all-sizes-from-ddos" target="_blank" rel="external nofollow noopener noreferrer" cardlink autofill="icon"><div class="left"><span class="title">Training a million models per day to save customers of all sizes from DDoS attacks</span><span class="cap link fs12">https://blog.cloudflare.com/training-a-million-models-per-day-to-save-customers-of-all-sizes-from-ddos</span></div><div class="right"><div class="lazy img" data-bg="https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.4/link/8f277b4ee0ecd.svg"></div></div></a></div>
+</div>
+
+
+
+
+<div class="article-footer reveal fs14"><section id="license"><div class="header"><span>许可协议</span></div><div class="body"><p>本文采用 <a target="_blank" rel="external nofollow noopener noreferrer" href="https://github.com/me-shaon/GLWTPL/blob/master/translations/LICENSE_zh-CN">GLWT（Good Luck With That，祝你好运）公共许可证</a> 许可协议，转载请注明出处。</p>
+</div></section><section id="share"><div class="header"><span>分享文章</span></div><div class="body"><div class="link"><input class="copy-area" readonly="true" id="copy-link" value="https://blog.imc.re/RSSBOX/rss/53d87c14.html"></div><div class="social-wrap dis-select"><a class="social share-item wechat" onclick="util.toggle(&quot;qrcode-wechat&quot)"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.4/social/b32ef3da1162a.svg"></a><a class="social share-item weibo" target="_blank" rel="external nofollow noopener noreferrer" href="https://service.weibo.com/share/share.php?url=https://blog.imc.re/RSSBOX/rss/53d87c14.html&title=Training a Million Models per Day to Save Customers of All Sizes From DDoS Attacks - RSSBOX&pics=https://cf-assets.www.cloudflare.com/zkvhlag99gkb/6j97IMawigCOtQEIKLzQ4n/8ab1e487a5dc8faaecc732b8fbb7d8d4/image3.png&summary=
+ Our always-on DDoS protection runs inside every server across our global network.  It constantly analyzes incoming ..."><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.4/social/80c07e4dbb303.svg"></a><a class="social share-item email" href="mailto:?subject=Training a Million Models per Day to Save Customers of All Sizes From DDoS Attacks - RSSBOX&amp;body=https://blog.imc.re/RSSBOX/rss/53d87c14.html"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.4/social/a1b00e20f425d.svg"></a><a class="social share-item link" onclick="util.copy(&quot;copy-link&quot;, &quot;复制成功&quot;)"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.4/social/8411ed322ced6.svg"></a></div><div class="qrcode" id="qrcode-wechat" style="visibility:hidden;height:0"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://api.qrserver.com/v1/create-qr-code/?size=256x256&data=https://blog.imc.re/RSSBOX/rss/53d87c14.html"></div></div></section></div>
+
+</article>
+
+<div class="related-wrap reveal" id="read-next"><section class="body"><div class="item" id="prev"><div class="note">较新文章</div><a href="/RSSBOX/rss/8d1eb49f.html">Fearless SSH: Short-Lived Certificates Bring Zero Trust to Infrastructure</a></div><div class="item" id="next"><div class="note">较早文章</div><a href="/RSSBOX/rss/c64fd829.html">1.21.3 正式版更新</a></div></section></div>
+
+
+<div class="related-wrap reveal" id="related-posts">
+    <section class="header">
+      <div class="title cap theme">您可能感兴趣的文章</div>
+    </section>
+    <section class="body">
+    <div class="related-posts"><a class="item" href="/RSSBOX/rss/5f05f99d.html" title="4.2 Tbps of Bad Packets and a Whole Lot More: Cloudflare's Q3 DDoS Report"><span class="title">4.2 Tbps of Bad Packets and a Whole Lot More: Cloudflare's Q3 DDoS Report</span></a><a class="item" href="/RSSBOX/rss/383d68c3.html" title="Analysis of the EPYC 145% Performance Gain in Cloudflare Gen 12 Servers"><span class="title">Analysis of the EPYC 145% Performance Gain in Cloudflare Gen 12 Servers</span></a><a class="item" href="/RSSBOX/rss/cdf1362d.html" title="Billions and Billions (Of Logs): Scaling AI Gateway With the Cloudflare Developer Platform"><span class="title">Billions and Billions (Of Logs): Scaling AI Gateway With the Cloudflare Developer Platform</span></a><a class="item" href="/RSSBOX/rss/d8304cc8.html" title="Build Durable Applications on Cloudflare Workers: You Write the Workflows, We Take Care of the Rest"><span class="title">Build Durable Applications on Cloudflare Workers: You Write the Workflows, We Take Care of the Rest</span></a><a class="item" href="/RSSBOX/rss/96b5015b.html" title="CJ Desai: Why I Joined Cloudflare as President of Product and Engineering"><span class="title">CJ Desai: Why I Joined Cloudflare as President of Product and Engineering</span></a></div></section></div>
+
+
+
+
+
+      
+<footer class="page-footer reveal fs12"><hr><div class="sitemap"><div class="sitemap-group"><span class="fs14">文章</span><a href="/RSSBOX/categories">分类</a><a href="/RSSBOX/tags">标签</a><a href="/RSSBOX/archives">归档</a></div><div class="sitemap-group"><span class="fs14">更多</span><a href="https://blog.imc.re/">博客</a><a target="_blank" rel="noopener" href="https://imc.re/">IMC.RE</a></div></div><div class="text"><p><a href="/">@RSSBOX</a> 2023 author by <a target="_blank" rel="external nofollow noopener noreferrer" href="https://github.com/MHG-LAB/RSSBOX">MHuiG</a> powered by SummerGoro。<br><br>本博客所有文章除特别声明外，均采用 <a target="_blank" rel="external nofollow noopener noreferrer" href="https://github.com/me-shaon/GLWTPL/blob/master/translations/LICENSE_zh-CN">GLWT（Good Luck With That，祝你好运）公共许可证</a> 许可协议，转载请注明出处。</p>
+</div></footer>
+
+      <div class="float-panel mobile-only blur" style="display:none">
+  <button type="button" class="sidebar-toggle mobile" onclick="sidebar.toggle()">
+    <svg class="icon" style="width: 1em; height: 1em;vertical-align: middle;fill: currentColor;overflow: hidden;" viewbox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="15301"><path d="M566.407 808.3c26.9-0.1 49.3-20.8 51.6-47.6-1.9-27.7-23.9-49.7-51.6-51.6h-412.6c-28.2-1.4-52.6 19.5-55.5 47.6 2.3 26.8 24.6 47.5 51.6 47.6h416.5v4z m309.3-249.9c26.9-0.1 49.3-20.8 51.6-47.6-2.2-26.8-24.6-47.5-51.6-47.6h-721.9c-27.7-2.8-52.5 17.4-55.3 45.1-0.1 0.8-0.1 1.7-0.2 2.5 0.9 27.2 23.6 48.5 50.7 47.6H875.707z m-103.1-245.9c26.9-0.1 49.3-20.8 51.6-47.6-0.4-28.3-23.2-51.1-51.5-51.6h-618.9c-29.5-1.1-54.3 21.9-55.5 51.4v0.2c1.4 27.8 25.2 49.2 53 47.8 0.8 0 1.7-0.1 2.5-0.2h618.8z" p-id="15302"/><path d="M566.407 808.3c26.9-0.1 49.3-20.8 51.6-47.6-1.9-27.7-23.9-49.7-51.6-51.6h-412.6c-28.2-1.4-52.6 19.5-55.5 47.6 1.9 27.7 23.9 49.7 51.6 51.6h416.5z m309.3-249.9c26.9-0.1 49.3-20.8 51.6-47.6-2.2-26.8-24.6-47.5-51.6-47.6h-721.9c-27.7-2.8-52.5 17.4-55.3 45.1-0.1 0.8-0.1 1.7-0.2 2.5 0.9 27.2 23.6 48.5 50.7 47.6H875.707z m-103.1-245.9c26.9-0.1 49.3-20.8 51.6-47.6-0.4-28.3-23.2-51.1-51.5-51.6h-618.9c-29.5-1.1-54.3 21.9-55.5 51.4v0.2c1.4 27.8 25.2 49.2 53 47.8 0.8 0 1.7-0.1 2.5-0.2h618.8z" p-id="15303"/></svg>
+  </button>
+</div>
+
+    </div>
+  </div>
+  <div class="scripts">
+    <script type="text/javascript">
+  const stellar = {
+    // 懒加载 css https://github.com/filamentgroup/loadCSS
+    loadCSS: (href, before, media, attributes) => {
+      var doc = window.document;
+      var ss = doc.createElement("link");
+      var ref;
+      if (before) {
+        ref = before;
+      } else {
+        var refs = (doc.body || doc.getElementsByTagName("head")[0]).childNodes;
+        ref = refs[refs.length - 1];
+      }
+      var sheets = doc.styleSheets;
+      if (attributes) {
+        for (var attributeName in attributes) {
+          if (attributes.hasOwnProperty(attributeName)) {
+            ss.setAttribute(attributeName, attributes[attributeName]);
+          }
+        }
+      }
+      ss.rel = "stylesheet";
+      ss.href = href;
+      ss.media = "only x";
+      function ready(cb) {
+        if (doc.body) {
+          return cb();
+        }
+        setTimeout(function () {
+          ready(cb);
+        });
+      }
+      ready(function () {
+        ref.parentNode.insertBefore(ss, before ? ref : ref.nextSibling);
+      });
+      var onloadcssdefined = function (cb) {
+        var resolvedHref = ss.href;
+        var i = sheets.length;
+        while (i--) {
+          if (sheets[i].href === resolvedHref) {
+            return cb();
+          }
+        }
+        setTimeout(function () {
+          onloadcssdefined(cb);
+        });
+      };
+      function loadCB() {
+        if (ss.addEventListener) {
+          ss.removeEventListener("load", loadCB);
+        }
+        ss.media = media || "all";
+      }
+      if (ss.addEventListener) {
+        ss.addEventListener("load", loadCB);
+      }
+      ss.onloadcssdefined = onloadcssdefined;
+      onloadcssdefined(loadCB);
+      return ss;
+    },
+
+    // 从 butterfly 和 volantis 获得灵感
+    loadScript: (src, opt) => new Promise((resolve, reject) => {
+      var script = document.createElement('script');
+      if (src.startsWith('/')){
+        src = stellar.config.root + src.substring(1);
+      }
+      script.src = src;
+      if (opt) {
+        for (let key of Object.keys(opt)) {
+          script[key] = opt[key]
+        }
+      } else {
+        // 默认异步，如果需要同步，第二个参数传入 {} 即可
+        script.async = true
+      }
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    }),
+
+    // https://github.com/jerryc127/hexo-theme-butterfly
+    jQuery: (fn) => {
+      if (typeof jQuery === 'undefined') {
+        stellar.loadScript(stellar.plugins.jQuery).then(fn)
+      } else {
+        fn()
+      }
+    }
+  };
+  stellar.version = '1.19.0';
+  stellar.github = 'https://github.com/xaoxuu/hexo-theme-stellar/tree/1.19.0';
+  stellar.config = {
+    date_suffix: {
+      just: '刚刚',
+      min: '分钟前',
+      hour: '小时前',
+      day: '天前',
+      month: '个月前',
+    },
+    root : '/RSSBOX/',
+  };
+
+  // required plugins (only load if needs)
+  stellar.plugins = {
+    jQuery: 'https://gcore.jsdelivr.net/npm/jquery@3.6.2/dist/jquery.min.js'
+  };
+
+  if ('local_search') {
+    stellar.search = {};
+    stellar.search.service = 'local_search';
+    if (stellar.search.service == 'local_search') {
+      let service_obj = Object.assign({}, {"field":"all","path":"/search.json","content":true,"codeblock":true,"sort":"-date"});
+      stellar.search[stellar.search.service] = service_obj;
+    }
+  }
+
+  // stellar js
+  stellar.plugins.stellar = Object.assign({"sites":"/js/plugins/sites.js","friends":"/js/plugins/friends.js","ghinfo":"/js/plugins/ghinfo.js","timeline":"/js/plugins/timeline.js","linkcard":"/js/plugins/linkcard.js","fcircle":"/js/plugins/fcircle.js","weibo":"/js/plugins/weibo.js"});
+
+  stellar.plugins.marked = Object.assign("https://cdn.bootcdn.net/ajax/libs/marked/4.0.18/marked.min.js");
+  // optional plugins
+  if ('true' == 'true') {
+    stellar.plugins.lazyload = Object.assign({"enable":true,"js":"https://gcore.jsdelivr.net/npm/vanilla-lazyload@17.8.3/dist/lazyload.min.js","transition":"blur"});
+  }
+  if ('true' == 'true') {
+    stellar.plugins.swiper = Object.assign({"enable":true,"css":"https://unpkg.com/swiper@8.4.5/swiper-bundle.min.css","js":"https://unpkg.com/swiper@8.4.5/swiper-bundle.min.js"});
+  }
+  if ('' == 'true') {
+    stellar.plugins.scrollreveal = Object.assign({"enable":null,"js":"https://gcore.jsdelivr.net/npm/scrollreveal@4.0.9/dist/scrollreveal.min.js","distance":"8px","duration":500,"interval":100,"scale":1});
+  }
+  if ('true' == 'true') {
+    stellar.plugins.preload = Object.assign({"enable":true,"service":"flying_pages","instant_page":"https://gcore.jsdelivr.net/gh/volantis-x/cdn-volantis@4.1.2/js/instant_page.js","flying_pages":"https://gcore.jsdelivr.net/gh/gijo-varghese/flying-pages@2.1.2/flying-pages.min.js"});
+  }
+  if ('true' == 'true') {
+    stellar.plugins.fancybox = Object.assign({"enable":true,"js":"https://gcore.jsdelivr.net/npm/@fancyapps/ui@4.0/dist/fancybox.umd.js","css":"https://gcore.jsdelivr.net/npm/@fancyapps/ui@4.0/dist/fancybox.css","selector":".swiper-slide img"});
+  }
+  if ('false' == 'true') {
+    stellar.plugins.heti = Object.assign({"enable":false,"css":"https://unpkg.com/heti@0.9.2/umd/heti.min.css","js":"https://unpkg.com/heti@0.9.2/umd/heti-addon.min.js"});
+  }
+  if ('true' == 'true') {
+    stellar.plugins.copycode = Object.assign({"enable":true,"js":"/js/plugins/copycode.js","default_text":"Copy","success_text":"Copied"});
+  }
+</script>
+
+<!-- required -->
+
+  
+<script src="/RSSBOX/js/main.js" async></script>
+
+
+
+<!-- optional -->
+
+  <script>
+  function loadJS() {
+    const els = document.querySelectorAll("#comments #giscus");
+    if (els.length === 0) return;
+    els.forEach((el, i) => {
+      try {
+        el.innerHTML = '';
+      } catch (error) {
+        console.log(error);
+      }
+      var script = document.createElement('script');
+      script.src = 'https://giscus.app/client.js';
+      script.async = true;
+      for (let key of Object.keys(el.attributes)) {
+        let attr = el.attributes[key];
+        if (['class', 'id'].includes(attr.name) === false) {
+          script.setAttribute(attr.name, attr.value);
+        }
+      }
+      el.appendChild(script);
+    });
+  }
+  window.addEventListener('DOMContentLoaded', (event) => {
+    loadJS();
+  });
+</script>
+
+
+
+
+<!-- inject -->
+
+
+  </div>
+</body>
+</html>

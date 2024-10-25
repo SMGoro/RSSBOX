@@ -1,0 +1,593 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+  <meta name="generator" content="Hexo 6.3.0">
+  <meta name="hexo-theme" content="https://github.com/xaoxuu/hexo-theme-stellar/tree/1.19.0">
+  <meta charset="utf-8">
+  
+
+  <meta http-equiv="x-dns-prefetch-control" content="on">
+  <link rel="dns-prefetch" href="https://gcore.jsdelivr.net">
+  <link rel="preconnect" href="https://gcore.jsdelivr.net" crossorigin>
+  <link rel="dns-prefetch" href="//unpkg.com">
+
+  <meta name="renderer" content="webkit">
+  <meta name="force-rendering" content="webkit">
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+  <meta name="HandheldFriendly" content="True">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="theme-color" content="#f8f8f8">
+  
+  <title>The Story of Web Framework Hono, From the Creator of Hono - RSSBOX</title>
+
+  
+    <meta name="description" content="Hono is a fast, lightweight web framework that runs anywhere JavaScript does, built with Web Standards. Of course, it runs on Cloudflare Workers.It was three years ago, in December 2021. At that tim">
+<meta property="og:type" content="article">
+<meta property="og:title" content="The Story of Web Framework Hono, From the Creator of Hono">
+<meta property="og:url" content="https://blog.imc.re/RSSBOX/rss/431bf226.html">
+<meta property="og:site_name" content="RSSBOX">
+<meta property="og:description" content="Hono is a fast, lightweight web framework that runs anywhere JavaScript does, built with Web Standards. Of course, it runs on Cloudflare Workers.It was three years ago, in December 2021. At that tim">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://cf-assets.www.cloudflare.com/zkvhlag99gkb/6eWlTEPSJmX4grfpKi795b/d6596a29931dc0e24602683742916009/image7.png">
+<meta property="og:image" content="https://cf-assets.www.cloudflare.com/zkvhlag99gkb/3Av7EyqZPKagcswI0xgwd1/713fccc1608b7eeb97d2e63b18765737/image1.png">
+<meta property="og:image" content="https://cf-assets.www.cloudflare.com/zkvhlag99gkb/6GniuL8WPyoXpvbULJbqDc/c8308c5eb6255ddaacda4b197ed424be/image2.png">
+<meta property="og:image" content="https://cf-assets.www.cloudflare.com/zkvhlag99gkb/2EKltkDZeAvWzxVtnewOH6/995bceacd2ad37c59885e732e51bae87/image3.jpg">
+<meta property="article:published_time" content="2024-10-17T13:00:00.000Z">
+<meta property="article:modified_time" content="2024-10-17T13:00:00.000Z">
+<meta property="article:author" content="SMGoro">
+<meta property="article:tag" content="Blogs">
+<meta property="article:tag" content="Cloudflare">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://cf-assets.www.cloudflare.com/zkvhlag99gkb/6eWlTEPSJmX4grfpKi795b/d6596a29931dc0e24602683742916009/image7.png">
+  
+  
+  
+  <meta name="keywords" content="Blogs,Cloudflare">
+
+  <!-- feed -->
+  
+    <link rel="alternate" href="/RSSBOX/atom.xml" title="RSSBOX" type="application/atom+xml">
+  
+
+  
+    
+<link rel="stylesheet" href="/RSSBOX/css/main.css">
+
+  
+
+  
+
+  
+
+  
+    <link rel="stylesheet" href="https://gcore.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.css" integrity="sha384-vKruj+a13U8yHIkAyGgK1J3ArTLzrFGBbBc0tDp4ad/EyewESeXE/Iv67Aj8gKZ0" crossorigin="anonymous">
+    <script defer src="https://gcore.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.js" integrity="sha384-PwRUT/YqbnEjkZO0zZxNqcxACrXe+j766U2amXcgMg5457rve2Y7I6ZJSm2A0mS4" crossorigin="anonymous"></script>
+    <script defer src="https://gcore.jsdelivr.net/npm/katex@0.16.4/dist/contrib/auto-render.min.js" integrity="sha384-+VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4+/RRE05" crossorigin="anonymous" onload="renderMathInElement(document.body);"></script>
+  
+
+
+  
+
+<!--百度统计-->
+<script>
+  var _hmt = _hmt || [];
+  (function() {
+    var hm = document.createElement("script");
+    hm.src = "https://hm.baidu.com/hm.js?f42afe3e5b76d22c8b1a8060171c7184";
+    var s = document.getElementsByTagName("script")[0]; 
+    s.parentNode.insertBefore(hm, s);
+  })();
+</script>  
+  <!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-V2NSKYGXNG"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-V2NSKYGXNG');
+</script>
+<!--Google Adsense-->
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4773172018528901" crossorigin="anonymous"></script>
+</head>
+
+<body>
+  
+
+
+
+
+  <div class="l_body" id="start">
+    <aside class="l_left" layout="post">
+    
+
+  
+
+<header class="header"><div class="logo-wrap"><a class="avatar" href="/RSSBOX/archives"><div class="bg" style="opacity:0;background-image:url(https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.4/avatar/round/rainbow64@3x.webp);"></div><img no-lazy class="avatar" src="https://cdn.jsdelivr.net/gh/SMGCDN/photos/icon/rsshub.png" onerror="javascript:this.classList.add('error');this.src='https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.4/image/2659360.svg';"></a><a class="title" href="/RSSBOX/"><div class="main" ff="title">RSSBOX</div><div class="sub normal cap">SMGoroのRSS订阅</div><div class="sub hover cap" style="opacity:0"> 一些好康的东西</div></a></div>
+
+<nav class="menu dis-select"><a class="nav-item active" href="/RSSBOX/">订阅</a><a class="nav-item" href="https://blog.imc.re/">博客</a><a class="nav-item" href="https://blog.imc.re/contact">联系</a><a class="nav-item" href="https://blog.imc.re/more">更多</a></nav>
+</header>
+
+
+<div class="widgets">
+
+<widget class="widget-wrapper toc single" id="data-toc"><div class="widget-header cap dis-select"><span class="name">The Story of Web Framework Hono, From the Creator of Hono</span></div><div class="widget-body fs14"><div class="doc-tree active"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">Write once, run anywhere</span></a></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">Who is using Hono?</span></a></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">Why are you making a “multi-runtime” framework?</span></a></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">Hono and Cloudflare are a perfect combo</span></a></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">Add it when you want to use it</span></a></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">Onion structure</span></a></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">The RPC is like magic</span></a></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">Server-side JSX is fun</span></a></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">Testing is important</span></a></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">Going to full-stack</span></a></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">Hono Conference</span></a></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">Hono is 炎</span></a></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">Just try it</span></a></li></ol></div></div></widget>
+
+
+
+<widget class="widget-wrapper search"><div class="widget-body"><div class="search-wrapper" id="search"><form class="search-form"><input type="text" class="search-input" id="search-input" data-filter="/rss/" placeholder="文章搜索"><svg t="1670596976048" class="icon search-icon" viewbox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2676" width="200" height="200"><path d="M938.2 832.6L723.8 618.1c-2.5-2.5-5.3-4.4-7.9-6.4 36.2-55.6 57.3-121.8 57.3-193.1C773.3 222.8 614.6 64 418.7 64S64 222.8 64 418.6c0 195.9 158.8 354.6 354.6 354.6 71.3 0 137.5-21.2 193.2-57.4 2 2.7 3.9 5.4 6.3 7.8L832.5 938c14.6 14.6 33.7 21.9 52.8 21.9 19.1 0 38.2-7.3 52.8-21.8 29.2-29.1 29.2-76.4 0.1-105.5M418.7 661.3C284.9 661.3 176 552.4 176 418.6 176 284.9 284.9 176 418.7 176c133.8 0 242.6 108.9 242.6 242.7 0 133.7-108.9 242.6-242.6 242.6" p-id="2677"/></svg></form><div id="search-result"></div><div class="search-no-result">没有找到内容！</div></div></div></widget>
+
+
+
+<widget class="widget-wrapper recent"><div class="widget-header cap theme dis-select"><span class="name">最近更新</span><a class="cap-action" id="rss" title="Subscribe" href="/atom.xml"><svg class="icon" viewbox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="8938"><path d="M800.966 947.251c0-404.522-320.872-732.448-716.69-732.448V62.785c477.972 0 865.44 395.987 865.44 884.466h-148.75z m-162.273 0h-148.74c0-228.98-181.628-414.598-405.678-414.598v-152.01c306.205 0 554.418 253.68 554.418 566.608z m-446.24-221.12c59.748 0 108.189 49.503 108.189 110.557 0 61.063-48.44 110.563-108.188 110.563-59.747 0-108.18-49.5-108.18-110.563 0-61.054 48.433-110.556 108.18-110.556z" p-id="8939"/></svg></a></div><div class="widget-body related-posts fs14"><a class="item title" href="/RSSBOX/rss/9478a4fa.html"><span class="title">I Got My Wish and Reincarnated as the Villainess (Last Boss)! 001-024 as V01-03 (Digital-Compilation) (Oan) [Oak]</span></a><a class="item title" href="/RSSBOX/rss/81997030.html"><span class="title">Keiken Zumi Na Kimi To, Keiken Zero Na Ore Ga, Otsukiai Suru Hanashi / You Were Experienced, I Was Not: Our Dating Story V01-05 [J-Novel Club] [Antithetical]</span></a><a class="item title" href="/RSSBOX/rss/2e17acd3.html"><span class="title">Trillion Game - 05 「乙女の眼差し」 (TBS 1920x1080 X264 AAC).mkv</span></a><a class="item title" href="/RSSBOX/rss/7bd92795.html"><span class="title">Sayonara Ryuusei, Konnichiwa Jinsei - 03 「女剣士」 (TBS 1920x1080 X264 AAC).mkv</span></a><a class="item title" href="/RSSBOX/rss/da1442de.html"><span class="title">Aldnoah.Zero (2024) - 16 「熱砂の進撃 -Soldiers' Pay-」 (BS11 1920x1080 X264 AAC).mp4</span></a></div></widget>
+</div>
+<footer class="footer dis-select"><div class="social-wrap"><a class="social" href="https://github.com/SMGoro" target="_blank" rel="external nofollow noopener noreferrer"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cdn.jsdelivr.net/gh/SMGCDN/photos/icon/iconfont/social-github.svg"></a><a class="social" href="https://space.bilibili.com/359079394" target="_blank" rel="external nofollow noopener noreferrer"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cdn.jsdelivr.net/gh/SMGCDN/photos/icon/iconfont/bilibili.svg"></a><a class="social" href="https://l.imc.re/zhihu" target="_blank" rel="external nofollow noopener noreferrer"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cdn.jsdelivr.net/gh/SMGCDN/photos/icon/iconfont/zhihu.svg"></a><a class="social" href="https://l.imc.re/discord" target="_blank" rel="external nofollow noopener noreferrer"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cdn.jsdelivr.net/gh/SMGCDN/photos/icon/iconfont/discord.svg"></a><a class="social" href="https://blog.imc.re/contact" target="_blank" rel="external nofollow noopener noreferrer"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cdn.jsdelivr.net/gh/SMGCDN/photos/icon/iconfont/comments.svg"></a></div></footer>
+
+    </aside>
+    <div class="l_main">
+      
+
+      
+
+
+
+<div class="bread-nav fs12"><div id="breadcrumb"><a class="cap breadcrumb" href="/RSSBOX/">主页</a><span class="sep"></span><a class="cap breadcrumb" href="/RSSBOX/">文章</a><span class="sep"></span><a class="cap breadcrumb-link" href="/RSSBOX/categories/blogs/">Blogs</a> <span class="sep"></span> <a class="cap breadcrumb-link" href="/RSSBOX/categories/blogs/cloudflare/">Cloudflare</a></div><div id="post-meta">发布于&nbsp;<time datetime="2024-10-17T13:00:00.000Z">2024-10-17</time></div></div>
+
+<article class="md-text content post">
+<h1 class="article-title"><span>The Story of Web Framework Hono, From the Creator of Hono</span></h1>
+<div>
+ <p><a target="_blank" rel="external nofollow noopener noreferrer" href="https://hono.dev/"><u>Hono</u></a> is a fast, lightweight web framework that runs anywhere JavaScript does, built with Web Standards. Of course, it runs on Cloudflare Workers.</p><p>It was three years ago, in December 2021. At that time, I wanted to create applications for Cloudflare Workers, but the code became verbose without using a framework, and couldn't find a framework that suited my needs. <a target="_blank" rel="external nofollow noopener noreferrer" href="https://itty.dev/itty-router/"><u>Itty-router</u></a> was very nice but too simple. <a target="_blank" rel="external nofollow noopener noreferrer" href="https://github.com/lukeed/worktop"><u>Worktop</u></a> and <a target="_blank" rel="external nofollow noopener noreferrer" href="https://sunderjs.com/"><u>Sunder</u></a> did the same things I wanted to do, but their APIs weren't quite to my liking. I was also interested in creating a router — a program that determines which action is executed based on the HTTP method and URL path of the Request — made of a <a target="_blank" rel="external nofollow noopener noreferrer" href="https://en.wikipedia.org/wiki/Trie"><u>Trie tree</u></a> structure because it’s fast. So, I started building a web framework with a Trie tree-based router.</p>
+<figure>
+<img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cf-assets.www.cloudflare.com/zkvhlag99gkb/6eWlTEPSJmX4grfpKi795b/d6596a29931dc0e24602683742916009/image7.png">
+</figure><p> “<i>While trying to create my applications, I ended up creating my framework for them.”</i> — a classic example of <a target="_blank" rel="external nofollow noopener noreferrer" href="https://en.wiktionary.org/wiki/yak_shaving"><u>yak shaving</u></a>. However, Hono is now used by many developers, including Cloudflare, which uses Hono in core products. So, this journey into the depths of yak shaving was ultimately meaningful.</p>
+<div>
+<h2>Write once, run anywhere</h2>
+<a href="#write-once-run-anywhere">
+</a>
+</div>
+<p>Hono truly runs anywhere — not just on Cloudflare Workers. I’ll discuss why later in the post, but Hono also runs on Deno, Bun, and Node.js. This is because Hono does not depend on external libraries, but uses only the Web Standards API, and each runtime supports Web Standards.</p><p>It's a delight for developers to know that the same code can run across different runtimes. For instance, the following src/index.ts code will run on Cloudflare Workers, Deno, and Bun.</p>
+<pre><code>import &#123; Hono &#125; from 'hono'
+
+<p>const app &#x3D; new Hono()<br>app.get(‘&#x2F;hello’, (c) &#x3D;&gt; c.text(‘Hello Hono!’))</p>
+<p>export default app</p></code></pre><p></p>
+<p>To run it on Cloudflare Workers, you execute the Wrangler command:</p>
+<pre><code>wrangler dev src/index.ts</code></pre>
+<p>The same code works on Deno:</p>
+<pre><code>deno serve src/index.ts</code></pre>
+<p>And it works on Bun too:</p>
+<pre><code>bun run src/index.ts</code></pre>
+<p>This is only a simple "Hello World" example, but more complex applications with middleware and helpers that are discussed below can be run on Cloudflare Workers or the other runtimes. As proof of this, almost all our test code for Hono itself can run the same way on these runtimes. This is a genuine "<i>write once, run anywhere</i>" experience.</p>
+<div>
+<h2>Who is using Hono?</h2>
+<a href="#who-is-using-hono">
+</a>
+</div>
+<p>Hono is now used by many developers and companies. For example, <a target="_blank" rel="external nofollow noopener noreferrer" href="https://unkey.dev/"><u>Unkey</u></a> deploys their application built with <a target="_blank" rel="external nofollow noopener noreferrer" href="https://hono.dev/examples/zod-openapi"><u>Hono's OpenAPI feature</u></a> to Cloudflare Workers. The following is a list of companies using Hono, based on my survey "<a target="_blank" rel="external nofollow noopener noreferrer" href="https://github.com/orgs/honojs/discussions/1510"><u>Who is using Hono in production?</u></a>”.</p><ul><li><p>Cloudflare</p></li><li><p><a target="_blank" rel="external nofollow noopener noreferrer" href="https://nodecraft.com/"><u>Nodecraft</u></a></p></li><li><p><a target="_blank" rel="external nofollow noopener noreferrer" href="https://www.openstatus.dev/"><u>OpenStatus</u></a></p></li><li><p><a target="_blank" rel="external nofollow noopener noreferrer" href="https://www.unkey.com/"><u>Unkey</u></a></p></li><li><p><a target="_blank" rel="external nofollow noopener noreferrer" href="https://about.goen-s.com/"><u>Goens</u></a></p></li><li><p><a target="_blank" rel="external nofollow noopener noreferrer" href="https://notahotel.com"><u>NOT A HOTEL</u></a></p></li><li><p><a target="_blank" rel="external nofollow noopener noreferrer" href="https://www.cyberagent.co.jp/"><u>CyberAgent</u></a></p></li><li><p><a target="_blank" rel="external nofollow noopener noreferrer" href="https://www.ai-shift.co.jp/"><u>AI shift</u></a></p></li><li><p><a target="_blank" rel="external nofollow noopener noreferrer" href="http://hanabi.rest/"><u>Hanabi.rest</u></a></p></li><li><p><a target="_blank" rel="external nofollow noopener noreferrer" href="https://baseai.dev/"><u>BaseAI</u></a>
+</p></li></ul><p>There are many, many more companies not listed here. And major web services or libraries, such as <a target="_blank" rel="external nofollow noopener noreferrer" href="https://www.prisma.io/"><u>Prisma</u></a>, <a target="_blank" rel="external nofollow noopener noreferrer" href="https://resend.com/"><u>Resend</u></a>, <a target="_blank" rel="external nofollow noopener noreferrer" href="https://sdk.vercel.ai/"><u>Vercel AI SDK</u></a>, <a target="_blank" rel="external nofollow noopener noreferrer" href="https://supabase.com/"><u>Supabase</u></a>, and <a target="_blank" rel="external nofollow noopener noreferrer" href="https://upstash.com/"><u>Upstash</u></a>, use Hono in their examples. There are also several influencers who like Hono and use it as an alternative to <a target="_blank" rel="external nofollow noopener noreferrer" href="https://expressjs.com/"><u>Express</u></a>.</p><p>Of course, at Cloudflare, we also use Hono. D1 uses Hono for the internal Web API running on Workers. Workers Logs is based on code from <a target="_blank" rel="external nofollow noopener noreferrer" href="https://blog.cloudflare.com/cloudflare-acquires-baselime-expands-observability-capabilities/"><u>Baselime (acquired by Cloudflare)</u></a> and uses Hono to migrate the applications from their original infrastructure to Cloudflare Workers. All Workers Logs internal or customer-facing APIs are run on Workers using Hono. We also use Hono as part of the internals of many other products, such as KV and Queues.</p>
+<div>
+<h2>Why are you making a “multi-runtime” framework?</h2>
+<a href="#why-are-you-making-a-multi-runtime-framework">
+</a>
+</div>
+<p>You might wonder “<i>Why is an employee of Cloudflare creating a framework that runs everywhere?</i>” Initially, Hono was designed to work exclusively with Cloudflare Workers. However, starting with <a target="_blank" rel="external nofollow noopener noreferrer" href="https://github.com/honojs/hono/releases/tag/v2.0.0"><u>version 2</u></a>, I added support for Deno and Bun. This was a very wise decision. If Hono had been targeted only at Cloudflare Workers, it might not have attracted as many users. By running on more runtimes, it gains more users, leading to the discovery of bugs and receiving more feedback, which ultimately leads to higher quality software.</p>
+<div>
+<h2>Hono and Cloudflare are a perfect combo</h2>
+<a href="#hono-and-cloudflare-are-a-perfect-combo">
+</a>
+</div>
+<p>The combination of Hono and Cloudflare offers a delightful developer experience.</p><p>Many websites, including <a target="_blank" rel="external nofollow noopener noreferrer" href="https://developers.cloudflare.com/"><u>our Cloudflare Docs</u></a>, introduce the following "vanilla" JavaScript as a "Hello World" for Cloudflare Workers:</p>
+<pre><code>export default &#123;
+  fetch: () =&gt; &#123;
+    return new Response('Hello World!')
+  &#125;
+&#125;
+</code></pre>
+<p>This is primitive and good for understanding the Workers principle. However, if you want to create an endpoint that "returns a JSON response for GET requests that come to <code>/books</code>", you need to write something like this:</p>
+<pre><code>export default &#123;
+  fetch: (req) =&gt; &#123;
+    const url = new URL(req.url)
+    if (req.method === 'GET' &amp;&amp; url.pathname === '/books') &#123;
+      return Response.json(&#123;
+        ok: true
+      &#125;)
+    &#125;
+    return Response.json(
+      &#123;
+        ok: false
+      &#125;,
+      &#123;
+        status: 404
+      &#125;
+    )
+  &#125;
+&#125;
+</code></pre>
+<p>If you use Hono, you can write it like the following:</p>
+<pre><code>import &#123; Hono &#125; from 'hono'
+
+<p>const app &#x3D; new Hono()</p>
+<p>app.get(‘&#x2F;books’, (c) &#x3D;&gt; &amp;#123;<br>  return c.json(&amp;#123;<br>    ok: true<br>  &amp;#125;)<br>&amp;#125;)</p>
+<p>export default app</p></code></pre><p></p>
+<p>It is short. And you can understand that “it handles <code>GET</code> accesses to <code>/books</code>” intuitively.</p><p>If you want to handle <code>GET</code> requests to <code>/authors/yusuke</code> and get "yusuke" from the path —  "yusuke" is variable, you have to add something more complicated. The below is "vanilla" JavaScript example:</p>
+<pre><code>if (req.method === 'GET') &#123;
+  const match = url.pathname.match(/^\/authors\/([^\/]+)/)
+  if (match) &#123;
+    const author = match[1]
+    return Response.json(&#123;
+      Author: author
+    &#125;)
+  &#125;
+&#125;
+</code></pre>
+<p>If you use Hono, you don't need <code>if</code> statements. Just add the endpoint definition to the <code>app</code>. Also, you don't need to write a regular expression to get "yusuke". You can get it with the function <code>c.req.param()</code>:</p>
+<pre><code>app.get('/authors/:name', (c) =&gt; &#123;
+  const author = c.req.param('name')
+  return c.json(&#123;
+    Author: author
+  &#125;)
+&#125;)
+</code></pre>
+<p>One or two routes may be fine, but any more than that and maintenance becomes tricky. Code becomes more complex and bugs are harder to find. Using Hono, the code is very neat.</p><p>It is also easy to handle bindings to Cloudflare products, such as <a target="_blank" rel="external nofollow noopener noreferrer" href="https://developers.cloudflare.com/kv/"><u>KV</u></a>, <a target="_blank" rel="external nofollow noopener noreferrer" href="https://developers.cloudflare.com/r2/"><u>R2</u></a>, <a target="_blank" rel="external nofollow noopener noreferrer" href="https://developers.cloudflare.com/d1/"><u>D1</u></a>, etc. as Hono uses a "context model". A context is a container that holds the application's state until a request is received, and a response is returned. You can use a context to retrieve a request object, set response headers, and create custom variables. It also holds Cloudflare bindings. For example, if you set up a Cloudflare KV namespace with the name <code>MY_KV</code>, you can access it as follows, with TypeScript type completion.</p>
+<pre><code>import &#123; Hono &#125; from 'hono'
+
+<p>type Env &#x3D; &amp;#123;<br>  Bindings: &amp;#123;<br>    MY_KV: KVNamespace<br>  &amp;#125;<br>&amp;#125;</p>
+<p>const app &#x3D; new Hono&lt;Env&gt;()</p>
+<p>app.post(‘&#x2F;message’, async (c) &#x3D;&gt; &amp;#123;<br>  const message &#x3D; c.req.query(‘message’) ?? ‘Hi’<br>  await c.env.MY_KV.put(‘message’, message)<br>  return c.text(<code>message is set</code>, 201)<br>&amp;#125;)</p></code></pre><p></p>
+<p>Hono lets you write code in a simple and intuitive way, but that doesn't mean there are limitations. You can do everything possible with Cloudflare Workers using Hono.</p>
+<div>
+<h2>Add it when you want to use it</h2>
+<a href="#add-it-when-you-want-to-use-it">
+</a>
+</div>
+<p>Hono is tiny. With the smallest preset, <code>hono/tiny</code>, you can write a "Hello World" application in just 12 KB. This is because it uses only the Web Standards API built into the runtime and has minimal functions. In comparison, the bundle size of Express is <a target="_blank" rel="external nofollow noopener noreferrer" href="https://bundlephobia.com/package/express@4.21.0"><u>579 KB</u></a>.</p>
+<figure>
+<img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cf-assets.www.cloudflare.com/zkvhlag99gkb/3Av7EyqZPKagcswI0xgwd1/713fccc1608b7eeb97d2e63b18765737/image1.png">
+</figure><p>However, there is much that you can do.</p><p>You can easily add functions using middleware. For example, it is a bit tedious to implement Basic Authentication from scratch, but with the built-in <a target="_blank" rel="external nofollow noopener noreferrer" href="https://hono.dev/docs/middleware/builtin/basic-auth"><u>Basic Auth middleware</u></a>, you can apply Basic Authentication to the path <code>/auth/page</code> with just this:</p>
+<pre><code>import &#123; Hono &#125; from 'hono'
+import &#123; basicAuth &#125; from 'hono/basic-auth'
+
+<p>const app &#x3D; new Hono()</p>
+<p>app.use(<br>  ‘&#x2F;auth&#x2F;*’,<br>  basicAuth(&amp;#123;<br>    username: ‘hono’,<br>    password: ‘acoolproject’,<br>  &amp;#125;)<br>)</p>
+<p>app.get(‘&#x2F;auth&#x2F;page’, (c) &#x3D;&gt; &amp;#123;<br>  return c.text(‘You are authorized’)<br>&amp;#125;)<br></p></code></pre><p></p>
+<p>Hono's package also includes built-in middleware that allows Bearer and JWT authentication, and easy configuration of CORS, etc. These built-in middleware components do not depend on external libraries, but there is also many 3rd-party middleware that allow the use of external libraries, such as authentication middleware using <a target="_blank" rel="external nofollow noopener noreferrer" href="https://clerk.com/"><u>Clerk</u></a> and <a target="_blank" rel="external nofollow noopener noreferrer" href="https://authjs.dev/"><u>Auth.js</u></a>, and validators using <a target="_blank" rel="external nofollow noopener noreferrer" href="https://zod.dev/"><u>Zod</u></a> and <a target="_blank" rel="external nofollow noopener noreferrer" href="https://valibot.dev/"><u>Valibot</u></a>.</p><p>There are also a number of built-in helpers, including the <a target="_blank" rel="external nofollow noopener noreferrer" href="https://hono.dev/docs/helpers/streaming"><u>Streaming helper</u></a>, which is useful for implementing AI. These can be added when you want to use them, and the file size increases only when they are added.</p><p>In Cloudflare Workers, <a target="_blank" rel="external nofollow noopener noreferrer" href="https://developers.cloudflare.com/workers/platform/limits/#account-plan-limits"><u>there is a limit to a file size of a Worker</u></a>. Keeping the core small and extending functions with middleware and helpers makes a lot of sense.</p>
+<div>
+<h2>Onion structure</h2>
+<a href="#onion-structure">
+</a>
+</div>
+<p>The important concepts of Hono are ”handler” and "middleware”.</p><p>A handler is a place to write a function that receives a request and returns a response, as specified by the user. For example, you can write a handler that gets a value of a query parameter, retrieves data from a database, and returns the result in JSON. Middleware can handle the requests that come to the handler and the responses that the handler returns. You can combine middleware with other middleware to build more large and complex applications. It is structured like an onion.</p>
+<figure>
+<img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cf-assets.www.cloudflare.com/zkvhlag99gkb/6GniuL8WPyoXpvbULJbqDc/c8308c5eb6255ddaacda4b197ed424be/image2.png">
+</figure><p>In a remarkably simple way, you can create middleware. For example, a custom logger that logs the request can be written as follows:</p>
+<pre><code>app.use(async (c, next) =&gt; &#123;
+  console.log(`[$&#123;c.req.method&#125;] $&#123;c.req.path&#125;`)
+  await next()
+&#125;)
+</code></pre>
+<p>If you want to add a custom header to the response, write the following:</p>
+<pre><code>app.use(async (c, next) =&gt; &#123;
+  await next()
+  c.header('X-Message', 'Hi, this is Hono!')
+&#125;)
+</code></pre>
+<p>It would be interesting to combine this with <a target="_blank" rel="external nofollow noopener noreferrer" href="https://developers.cloudflare.com/workers/runtime-apis/html-rewriter/"><u>HTMLRewriter</u></a>. If an endpoint returns HTML, the middleware that modifies the HTML tags in it can be written as follows:</p>
+<pre><code>app.get('/pages/*', async (c, next) =&gt; &#123;
+  await next()
+
+<p>  class AttributeRewriter &amp;#123;<br>    constructor(attributeName) &amp;#123;<br>      this.attributeName &#x3D; attributeName<br>    &amp;#125;<br>    element(element) &amp;#123;<br>      const attribute &#x3D; element.getAttribute(this.attributeName)<br>      if (attribute) &amp;#123;<br>        element.setAttribute(this.attributeName, attribute.replace(‘oldhost’, ‘newhost’))<br>      &amp;#125;<br>    &amp;#125;<br>  &amp;#125;<br>  const rewriter &#x3D; new HTMLRewriter().on(‘a’, new AttributeRewriter(‘href’))</p>
+<p>  const contentType &#x3D; c.res.headers.get(‘Content-Type’)</p>
+<p>  if (contentType!.startsWith(‘text&#x2F;html’)) &amp;#123;<br>    c.res &#x3D; rewriter.transform(c.res)<br>  &amp;#125;<br>&amp;#125;)<br></p></code></pre><p></p>
+<p>There is very little to remember to create middleware. All you have to do is to work with the context, which you should already know.</p>
+<div>
+<h2>The RPC is like magic</h2>
+<a href="#the-rpc-is-like-magic">
+</a>
+</div>
+<p>Hono has a strong type system. One feature that uses this is RPC (Remote Procedure Call). With RPC, you can express server-side API specifications as TypeScript types. When these types are loaded as generics in a client, the paths, arguments, and return types of each API endpoint are inferred. It's like magic.</p><p>For example, imagine an endpoint for creating a blog post. This endpoint takes a <code>number</code> type <code>id</code> and a <code>string</code> type <code>title</code>. Using <a target="_blank" rel="external nofollow noopener noreferrer" href="https://zod.dev/"><u>Zod</u></a>, one of the validator libraries that support TypeScript inference, you can define the schema like this:</p>
+<pre><code>import &#123; z &#125; from 'zod'
+
+<p>const schema &#x3D; z.object(&amp;#123;<br>  id: z.number(),<br>  title: z.string()<br>&amp;#125;)<br></p></code></pre><p></p>
+<p>You create a handler that receives this object in JSON format via a POST request to the path <code>/posts</code>. Using <a target="_blank" rel="external nofollow noopener noreferrer" href="https://github.com/honojs/middleware/tree/main/packages/zod-validator"><u>Zod Validator</u></a>, you check if it matches the schema. The response will have a property called message of type string.</p>
+<pre><code>import &#123; zValidator &#125; from '@hono/zod-validator'
+
+<p>const app &#x3D; new Hono().basePath(‘&#x2F;v1’)</p>
+<p>&#x2F;&#x2F; …</p>
+<p>const routes &#x3D; app.post(‘&#x2F;posts’, zValidator(‘json’, schema), (c) &#x3D;&gt; &amp;#123;<br>  const data &#x3D; c.req.valid(‘json’)<br>  return c.json(&amp;#123;<br>    message: <code>$&amp;#123;data.id.toString()&amp;#125; is $&amp;#123;data.title&amp;#125;</code><br>  &amp;#125;)<br>&amp;#125;)<br></p></code></pre><p></p>
+<p>This is a “typical” Hono handler. However, the TypeScript type you can get from the <code>typeof</code> for the <code>routes</code> will contain the information about its Web API specification. In this case, it includes the endpoint for creating blog posts — sending a POST request to the path <code>/posts</code> returns a JSON object.</p>
+<pre><code>export type AppType = typeof routes</code></pre>
+<p>Now, let's create a client. You pass the earlier <code>AppType</code> as generics to a Hono client object.</p>
+<pre><code>import &#123; hc &#125; from 'hono/client'
+import &#123; AppType &#125; from '.'
+
+<p>const client &#x3D; hc&lt;AppType&gt;(‘<a href="http://localhost:8787&#39;" rel="external nofollow noopener noreferrer" target="_blank">http://localhost:8787&#39;</a>)</p></code></pre><p></p>
+<p>With this setup, you're ready. It's magic time.</p><div>
+</div><p>Code completion works perfectly. When you write client-side code, you no longer need to know the API specifications completely, which also helps eliminate mistakes.</p>
+<div>
+<h2>Server-side JSX is fun</h2>
+<a href="#server-side-jsx-is-fun">
+</a>
+</div>
+<p>Hono provides built-in JSX, a syntax that allows you to write code in JavaScript that looks like HTML tags. When you hear the term JSX, you may think of React, a front-end UI library. However, Hono's JSX was initially developed to run only on the server side. When we first started developing Hono, we were looking for template engines to render HTML. Most template engines, such as <a target="_blank" rel="external nofollow noopener noreferrer" href="https://handlebarsjs.com/"><u>Handlebars</u></a> and <a target="_blank" rel="external nofollow noopener noreferrer" href="https://ejs.co/"><u>EJS</u></a>, use <code>eval</code> internally and are incompatible with Cloudflare Workers, which does not support it. Then we came up with the idea of using JSX.</p><p>Hono's JSX is unique in that it treats the tags as a string. So the following strange code actually works.</p>
+<pre><code>console.log((&lt;h1&gt;Hello!&lt;/h1&gt;).toString())</code></pre>
+<p>There is no need to do <code>renderToString()</code> as in React. If you want to render HTML, just return this as is.</p>
+<pre><code>app.get('/', (c) =&gt; c.html(&lt;h1&gt;Hello&lt;/h1&gt;))</code></pre>
+<p>Very interesting is the creation of <code>Suspense</code> — a feature in React that allows you to display a fallback UI while waiting for an asynchronous component to load — without any client implementation. The asynchronous components are running in a server-only implementation.</p><div>
+</div><p></p><p>Server-side JSX is a better developer experience than you might imagine. You can use the toolchains for React's JSX in the same way for Hono's JSX, including the ability to complete tags in the editor. They bring mature front-end technology to the server side.</p>
+<div>
+<h2>Testing is important</h2>
+<a href="#testing-is-important">
+</a>
+</div>
+<p>Testing is important. Fortunately, you can write tests easily when using Hono.</p><p>For example, let's write a test for an endpoint. To test for a 200 response status of a request coming to <code>/</code> with the GET method, you can write the following:</p>
+<pre><code>it('should return 200 response', async () =&gt; &#123;
+  const res = await app.request('/')
+  expect(res.status).toBe(200)
+&#125;)
+</code></pre>
+<p>Simple, right? The beauty of this test is that you don't have to bring up the server. The Web Standard API black boxes the server layer. The internal tests of Hono have 20,000 lines of code, but most of them are written in the same style as above, without the server up and running. </p>
+<div>
+<h2>Going to full-stack</h2>
+<a href="#going-to-full-stack">
+</a>
+</div>
+<p>We released a new major <a target="_blank" rel="external nofollow noopener noreferrer" href="https://github.com/honojs/hono/releases/tag/v4.0.0"><u>version 4</u></a> in February 2024. There are three main features that stand out:</p><ol><li><p>Static site generation</p></li><li><p>Client components</p></li><li><p>File-based routing</p></li></ol><p>With these features, you can create full-stack applications with a user interface in Hono.</p><p>The introduction of client components allows JSX to work in the client. Now you can add interactions to your pages. Static site generation allows you to create blogs, etc. without having to bundle them into a single JavaScript file. We have also started an experimental project called <a target="_blank" rel="external nofollow noopener noreferrer" href="https://github.com/honojs/honox"><u>HonoX</u></a>. This is a meta-framework using Hono and Vite that provides file-based routing and a mechanism to hydrate client-side components to server-side generated HTML. It is easier to create larger applications that are a great match for Cloudflare Pages or Workers.</p><p>In addition to that, plans are underway to run it as a base server for existing full-stack frameworks such as <a target="_blank" rel="external nofollow noopener noreferrer" href="https://remix.run/"><u>Remix</u></a> and <a target="_blank" rel="external nofollow noopener noreferrer" href="https://qwik.dev/"><u>Qwik</u></a>.</p><p>In contrast to the <a target="_blank" rel="external nofollow noopener noreferrer" href="https://nextjs.org/"><u>Next.js</u></a> framework, which started from the client-side with React, Hono is trying to become a full-stack framework starting from the server-side.</p>
+<div>
+<h2>Hono Conference</h2>
+<a href="#hono-conference">
+</a>
+</div>
+<p>On June 22, 2024, I held the <a target="_blank" rel="external nofollow noopener noreferrer" href="https://blog.yusu.ke/hono-conference-2024/"><u>"Hono Conference" in Tokyo</u></a>, the first event to consist entirely of Hono-focused talks. One hundred people attended, and the event was a great success.</p><p>It was my dream to do this event. Now, there are 200 contributors to the <a target="_blank" rel="external nofollow noopener noreferrer" href="https://github.com/honojs/hono"><code><u>honojs/hono</u></code></a> repository on GitHub. If you include other Hono related repositories, there are many more. Creating "the most invincible framework we could think of" is a lot of fun for contributors and users.</p><p>Below is a group photo taken at the end of the event. This is my treasure. I want to make the 2nd event a global event.</p>
+<figure>
+<img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cf-assets.www.cloudflare.com/zkvhlag99gkb/2EKltkDZeAvWzxVtnewOH6/995bceacd2ad37c59885e732e51bae87/image3.jpg">
+</figure>
+<div>
+<h2>Hono is 炎</h2>
+<a href="#hono-is-yan">
+</a>
+</div>
+<p>I haven't mentioned the origin of the name Hono yet. The name Hono is from the Japanese word for "<i>炎</i>". It is similar to the word "<i>flare</i>". Hono now runs on a variety of runtimes, but I said that it was first created to create Cloud"<i>flare</i>" Workers applications. It is an honor for Cloudflare that it has remained in its name.</p><p>That is all that the creator of Hono has to say about Hono.</p>
+<div>
+<h2>Just try it</h2>
+<a href="#just-try-it">
+</a>
+</div>
+<p>Everyone who has experienced application development with Hono and Cloudflare Workers says "<i>the developer experience is a great experience</i>". If you haven't experienced it yet, just try it.</p><p>See <a target="_blank" rel="external nofollow noopener noreferrer" href="https://hono.dev/"><u>the Hono website</u></a> for how to get started. If you are interested in reporting issues or contributing, please see <a target="_blank" rel="external nofollow noopener noreferrer" href="https://github.com/honojs"><u>the GitHub project</u></a>. Plus, you can watch <a target="_blank" rel="external nofollow noopener noreferrer" href="https://www.youtube.com/watch?v=yoqtk85HITM"><u>my interview about Hono</u></a> on the YouTube <a target="_blank" rel="external nofollow noopener noreferrer" href="https://www.youtube.com/@CloudflareDevelopers"><u>Cloudflare Developers channel</u></a>.</p> 
+</div>
+
+<div>
+<div class="tag-plugin link dis-select"><a class="link-card plain" title="The story of web framework Hono, from the creator of Hono" href="https://blog.cloudflare.com/the-story-of-web-framework-hono-from-the-creator-of-hono" target="_blank" rel="external nofollow noopener noreferrer" cardlink autofill="icon"><div class="left"><span class="title">The story of web framework Hono, from the creator of Hono</span><span class="cap link fs12">https://blog.cloudflare.com/the-story-of-web-framework-hono-from-the-creator-of-hono</span></div><div class="right"><div class="lazy img" data-bg="https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.4/link/8f277b4ee0ecd.svg"></div></div></a></div>
+</div>
+
+
+
+
+<div class="article-footer reveal fs14"><section id="license"><div class="header"><span>许可协议</span></div><div class="body"><p>本文采用 <a target="_blank" rel="external nofollow noopener noreferrer" href="https://github.com/me-shaon/GLWTPL/blob/master/translations/LICENSE_zh-CN">GLWT（Good Luck With That，祝你好运）公共许可证</a> 许可协议，转载请注明出处。</p>
+</div></section><section id="share"><div class="header"><span>分享文章</span></div><div class="body"><div class="link"><input class="copy-area" readonly="true" id="copy-link" value="https://blog.imc.re/RSSBOX/rss/431bf226.html"></div><div class="social-wrap dis-select"><a class="social share-item wechat" onclick="util.toggle(&quot;qrcode-wechat&quot)"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.4/social/b32ef3da1162a.svg"></a><a class="social share-item weibo" target="_blank" rel="external nofollow noopener noreferrer" href="https://service.weibo.com/share/share.php?url=https://blog.imc.re/RSSBOX/rss/431bf226.html&title=The Story of Web Framework Hono, From the Creator of Hono - RSSBOX&pics=https://cf-assets.www.cloudflare.com/zkvhlag99gkb/6eWlTEPSJmX4grfpKi795b/d6596a29931dc0e24602683742916009/image7.png&summary=
+ Hono is a fast, lightweight web framework that runs anywhere JavaScript does, built with Web Standards. Of course, ..."><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.4/social/80c07e4dbb303.svg"></a><a class="social share-item email" href="mailto:?subject=The Story of Web Framework Hono, From the Creator of Hono - RSSBOX&amp;body=https://blog.imc.re/RSSBOX/rss/431bf226.html"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.4/social/a1b00e20f425d.svg"></a><a class="social share-item link" onclick="util.copy(&quot;copy-link&quot;, &quot;复制成功&quot;)"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.4/social/8411ed322ced6.svg"></a></div><div class="qrcode" id="qrcode-wechat" style="visibility:hidden;height:0"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://api.qrserver.com/v1/create-qr-code/?size=256x256&data=https://blog.imc.re/RSSBOX/rss/431bf226.html"></div></div></section></div>
+
+</article>
+
+<div class="related-wrap reveal" id="read-next"><section class="body"><div class="item" id="prev"><div class="note">较新文章</div><a href="/RSSBOX/rss/ba466e3c.html">WHICH POTION DO YOU GET?</a></div><div class="item" id="next"><div class="note">较早文章</div><a href="/RSSBOX/rss/50a78efb.html">1.21.2-Rc1 快照更新</a></div></section></div>
+
+
+<div class="related-wrap reveal" id="related-posts">
+    <section class="header">
+      <div class="title cap theme">您可能感兴趣的文章</div>
+    </section>
+    <section class="body">
+    <div class="related-posts"><a class="item" href="/RSSBOX/rss/5f05f99d.html" title="4.2 Tbps of Bad Packets and a Whole Lot More: Cloudflare's Q3 DDoS Report"><span class="title">4.2 Tbps of Bad Packets and a Whole Lot More: Cloudflare's Q3 DDoS Report</span></a><a class="item" href="/RSSBOX/rss/383d68c3.html" title="Analysis of the EPYC 145% Performance Gain in Cloudflare Gen 12 Servers"><span class="title">Analysis of the EPYC 145% Performance Gain in Cloudflare Gen 12 Servers</span></a><a class="item" href="/RSSBOX/rss/cdf1362d.html" title="Billions and Billions (Of Logs): Scaling AI Gateway With the Cloudflare Developer Platform"><span class="title">Billions and Billions (Of Logs): Scaling AI Gateway With the Cloudflare Developer Platform</span></a><a class="item" href="/RSSBOX/rss/d8304cc8.html" title="Build Durable Applications on Cloudflare Workers: You Write the Workflows, We Take Care of the Rest"><span class="title">Build Durable Applications on Cloudflare Workers: You Write the Workflows, We Take Care of the Rest</span></a><a class="item" href="/RSSBOX/rss/96b5015b.html" title="CJ Desai: Why I Joined Cloudflare as President of Product and Engineering"><span class="title">CJ Desai: Why I Joined Cloudflare as President of Product and Engineering</span></a></div></section></div>
+
+
+
+
+
+      
+<footer class="page-footer reveal fs12"><hr><div class="sitemap"><div class="sitemap-group"><span class="fs14">文章</span><a href="/RSSBOX/categories">分类</a><a href="/RSSBOX/tags">标签</a><a href="/RSSBOX/archives">归档</a></div><div class="sitemap-group"><span class="fs14">更多</span><a href="https://blog.imc.re/">博客</a><a target="_blank" rel="noopener" href="https://imc.re/">IMC.RE</a></div></div><div class="text"><p><a href="/">@RSSBOX</a> 2023 author by <a target="_blank" rel="external nofollow noopener noreferrer" href="https://github.com/MHG-LAB/RSSBOX">MHuiG</a> powered by SummerGoro。<br><br>本博客所有文章除特别声明外，均采用 <a target="_blank" rel="external nofollow noopener noreferrer" href="https://github.com/me-shaon/GLWTPL/blob/master/translations/LICENSE_zh-CN">GLWT（Good Luck With That，祝你好运）公共许可证</a> 许可协议，转载请注明出处。</p>
+</div></footer>
+
+      <div class="float-panel mobile-only blur" style="display:none">
+  <button type="button" class="sidebar-toggle mobile" onclick="sidebar.toggle()">
+    <svg class="icon" style="width: 1em; height: 1em;vertical-align: middle;fill: currentColor;overflow: hidden;" viewbox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="15301"><path d="M566.407 808.3c26.9-0.1 49.3-20.8 51.6-47.6-1.9-27.7-23.9-49.7-51.6-51.6h-412.6c-28.2-1.4-52.6 19.5-55.5 47.6 2.3 26.8 24.6 47.5 51.6 47.6h416.5v4z m309.3-249.9c26.9-0.1 49.3-20.8 51.6-47.6-2.2-26.8-24.6-47.5-51.6-47.6h-721.9c-27.7-2.8-52.5 17.4-55.3 45.1-0.1 0.8-0.1 1.7-0.2 2.5 0.9 27.2 23.6 48.5 50.7 47.6H875.707z m-103.1-245.9c26.9-0.1 49.3-20.8 51.6-47.6-0.4-28.3-23.2-51.1-51.5-51.6h-618.9c-29.5-1.1-54.3 21.9-55.5 51.4v0.2c1.4 27.8 25.2 49.2 53 47.8 0.8 0 1.7-0.1 2.5-0.2h618.8z" p-id="15302"/><path d="M566.407 808.3c26.9-0.1 49.3-20.8 51.6-47.6-1.9-27.7-23.9-49.7-51.6-51.6h-412.6c-28.2-1.4-52.6 19.5-55.5 47.6 1.9 27.7 23.9 49.7 51.6 51.6h416.5z m309.3-249.9c26.9-0.1 49.3-20.8 51.6-47.6-2.2-26.8-24.6-47.5-51.6-47.6h-721.9c-27.7-2.8-52.5 17.4-55.3 45.1-0.1 0.8-0.1 1.7-0.2 2.5 0.9 27.2 23.6 48.5 50.7 47.6H875.707z m-103.1-245.9c26.9-0.1 49.3-20.8 51.6-47.6-0.4-28.3-23.2-51.1-51.5-51.6h-618.9c-29.5-1.1-54.3 21.9-55.5 51.4v0.2c1.4 27.8 25.2 49.2 53 47.8 0.8 0 1.7-0.1 2.5-0.2h618.8z" p-id="15303"/></svg>
+  </button>
+</div>
+
+    </div>
+  </div>
+  <div class="scripts">
+    <script type="text/javascript">
+  const stellar = {
+    // 懒加载 css https://github.com/filamentgroup/loadCSS
+    loadCSS: (href, before, media, attributes) => {
+      var doc = window.document;
+      var ss = doc.createElement("link");
+      var ref;
+      if (before) {
+        ref = before;
+      } else {
+        var refs = (doc.body || doc.getElementsByTagName("head")[0]).childNodes;
+        ref = refs[refs.length - 1];
+      }
+      var sheets = doc.styleSheets;
+      if (attributes) {
+        for (var attributeName in attributes) {
+          if (attributes.hasOwnProperty(attributeName)) {
+            ss.setAttribute(attributeName, attributes[attributeName]);
+          }
+        }
+      }
+      ss.rel = "stylesheet";
+      ss.href = href;
+      ss.media = "only x";
+      function ready(cb) {
+        if (doc.body) {
+          return cb();
+        }
+        setTimeout(function () {
+          ready(cb);
+        });
+      }
+      ready(function () {
+        ref.parentNode.insertBefore(ss, before ? ref : ref.nextSibling);
+      });
+      var onloadcssdefined = function (cb) {
+        var resolvedHref = ss.href;
+        var i = sheets.length;
+        while (i--) {
+          if (sheets[i].href === resolvedHref) {
+            return cb();
+          }
+        }
+        setTimeout(function () {
+          onloadcssdefined(cb);
+        });
+      };
+      function loadCB() {
+        if (ss.addEventListener) {
+          ss.removeEventListener("load", loadCB);
+        }
+        ss.media = media || "all";
+      }
+      if (ss.addEventListener) {
+        ss.addEventListener("load", loadCB);
+      }
+      ss.onloadcssdefined = onloadcssdefined;
+      onloadcssdefined(loadCB);
+      return ss;
+    },
+
+    // 从 butterfly 和 volantis 获得灵感
+    loadScript: (src, opt) => new Promise((resolve, reject) => {
+      var script = document.createElement('script');
+      if (src.startsWith('/')){
+        src = stellar.config.root + src.substring(1);
+      }
+      script.src = src;
+      if (opt) {
+        for (let key of Object.keys(opt)) {
+          script[key] = opt[key]
+        }
+      } else {
+        // 默认异步，如果需要同步，第二个参数传入 {} 即可
+        script.async = true
+      }
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    }),
+
+    // https://github.com/jerryc127/hexo-theme-butterfly
+    jQuery: (fn) => {
+      if (typeof jQuery === 'undefined') {
+        stellar.loadScript(stellar.plugins.jQuery).then(fn)
+      } else {
+        fn()
+      }
+    }
+  };
+  stellar.version = '1.19.0';
+  stellar.github = 'https://github.com/xaoxuu/hexo-theme-stellar/tree/1.19.0';
+  stellar.config = {
+    date_suffix: {
+      just: '刚刚',
+      min: '分钟前',
+      hour: '小时前',
+      day: '天前',
+      month: '个月前',
+    },
+    root : '/RSSBOX/',
+  };
+
+  // required plugins (only load if needs)
+  stellar.plugins = {
+    jQuery: 'https://gcore.jsdelivr.net/npm/jquery@3.6.2/dist/jquery.min.js'
+  };
+
+  if ('local_search') {
+    stellar.search = {};
+    stellar.search.service = 'local_search';
+    if (stellar.search.service == 'local_search') {
+      let service_obj = Object.assign({}, {"field":"all","path":"/search.json","content":true,"codeblock":true,"sort":"-date"});
+      stellar.search[stellar.search.service] = service_obj;
+    }
+  }
+
+  // stellar js
+  stellar.plugins.stellar = Object.assign({"sites":"/js/plugins/sites.js","friends":"/js/plugins/friends.js","ghinfo":"/js/plugins/ghinfo.js","timeline":"/js/plugins/timeline.js","linkcard":"/js/plugins/linkcard.js","fcircle":"/js/plugins/fcircle.js","weibo":"/js/plugins/weibo.js"});
+
+  stellar.plugins.marked = Object.assign("https://cdn.bootcdn.net/ajax/libs/marked/4.0.18/marked.min.js");
+  // optional plugins
+  if ('true' == 'true') {
+    stellar.plugins.lazyload = Object.assign({"enable":true,"js":"https://gcore.jsdelivr.net/npm/vanilla-lazyload@17.8.3/dist/lazyload.min.js","transition":"blur"});
+  }
+  if ('true' == 'true') {
+    stellar.plugins.swiper = Object.assign({"enable":true,"css":"https://unpkg.com/swiper@8.4.5/swiper-bundle.min.css","js":"https://unpkg.com/swiper@8.4.5/swiper-bundle.min.js"});
+  }
+  if ('' == 'true') {
+    stellar.plugins.scrollreveal = Object.assign({"enable":null,"js":"https://gcore.jsdelivr.net/npm/scrollreveal@4.0.9/dist/scrollreveal.min.js","distance":"8px","duration":500,"interval":100,"scale":1});
+  }
+  if ('true' == 'true') {
+    stellar.plugins.preload = Object.assign({"enable":true,"service":"flying_pages","instant_page":"https://gcore.jsdelivr.net/gh/volantis-x/cdn-volantis@4.1.2/js/instant_page.js","flying_pages":"https://gcore.jsdelivr.net/gh/gijo-varghese/flying-pages@2.1.2/flying-pages.min.js"});
+  }
+  if ('true' == 'true') {
+    stellar.plugins.fancybox = Object.assign({"enable":true,"js":"https://gcore.jsdelivr.net/npm/@fancyapps/ui@4.0/dist/fancybox.umd.js","css":"https://gcore.jsdelivr.net/npm/@fancyapps/ui@4.0/dist/fancybox.css","selector":".swiper-slide img"});
+  }
+  if ('false' == 'true') {
+    stellar.plugins.heti = Object.assign({"enable":false,"css":"https://unpkg.com/heti@0.9.2/umd/heti.min.css","js":"https://unpkg.com/heti@0.9.2/umd/heti-addon.min.js"});
+  }
+  if ('true' == 'true') {
+    stellar.plugins.copycode = Object.assign({"enable":true,"js":"/js/plugins/copycode.js","default_text":"Copy","success_text":"Copied"});
+  }
+</script>
+
+<!-- required -->
+
+  
+<script src="/RSSBOX/js/main.js" async></script>
+
+
+
+<!-- optional -->
+
+  <script>
+  function loadJS() {
+    const els = document.querySelectorAll("#comments #giscus");
+    if (els.length === 0) return;
+    els.forEach((el, i) => {
+      try {
+        el.innerHTML = '';
+      } catch (error) {
+        console.log(error);
+      }
+      var script = document.createElement('script');
+      script.src = 'https://giscus.app/client.js';
+      script.async = true;
+      for (let key of Object.keys(el.attributes)) {
+        let attr = el.attributes[key];
+        if (['class', 'id'].includes(attr.name) === false) {
+          script.setAttribute(attr.name, attr.value);
+        }
+      }
+      el.appendChild(script);
+    });
+  }
+  window.addEventListener('DOMContentLoaded', (event) => {
+    loadJS();
+  });
+</script>
+
+
+
+
+<!-- inject -->
+
+
+  </div>
+</body>
+</html>

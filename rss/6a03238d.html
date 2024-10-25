@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+  <meta name="generator" content="Hexo 6.3.0">
+  <meta name="hexo-theme" content="https://github.com/xaoxuu/hexo-theme-stellar/tree/1.19.0">
+  <meta charset="utf-8">
+  
+
+  <meta http-equiv="x-dns-prefetch-control" content="on">
+  <link rel="dns-prefetch" href="https://gcore.jsdelivr.net">
+  <link rel="preconnect" href="https://gcore.jsdelivr.net" crossorigin>
+  <link rel="dns-prefetch" href="//unpkg.com">
+
+  <meta name="renderer" content="webkit">
+  <meta name="force-rendering" content="webkit">
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+  <meta name="HandheldFriendly" content="True">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="theme-color" content="#f8f8f8">
+  
+  <title>部署第一个智能合约 - RSSBOX</title>
+
+  
+    <meta name="description" content="注意访问本文的引用链接可能需要魔法对区块链最好的描述是将其描述为一个公共数据库，它由网络中的许多计算机更新和共享。小试身手我猜您和我们一样会很兴奋在以太坊区块链上部署智能合约并与之交互。别担心，作为我们的第一个智能合约，我们会将其部署在本地测试网络上，因此您不需要任何开销就可以随意部署和运行它。编写合约第一步访问 Remix 并创建一个新文件。 在 Remix 界面的左上角添加一个新文件，并输入">
+<meta property="og:type" content="article">
+<meta property="og:title" content="部署第一个智能合约">
+<meta property="og:url" content="https://blog.imc.re/RSSBOX/rss/6a03238d.html">
+<meta property="og:site_name" content="RSSBOX">
+<meta property="og:description" content="注意访问本文的引用链接可能需要魔法对区块链最好的描述是将其描述为一个公共数据库，它由网络中的许多计算机更新和共享。小试身手我猜您和我们一样会很兴奋在以太坊区块链上部署智能合约并与之交互。别担心，作为我们的第一个智能合约，我们会将其部署在本地测试网络上，因此您不需要任何开销就可以随意部署和运行它。编写合约第一步访问 Remix 并创建一个新文件。 在 Remix 界面的左上角添加一个新文件，并输入">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://api.mhuig.top/pixel-blog-atom-12138.gif">
+<meta property="og:image" content="https://unpkg.com/mhgoos@0.0.1651969245917/remix.webp">
+<meta property="og:image" content="https://cdn.jsdelivr.net/npm/imbox@0.0.12/eth-1/remix-compile-button.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/npm/imbox@0.0.12/eth-1/remix-compile.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/npm/imbox@0.0.12/eth-1/remix-deploy.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/npm/imbox@0.0.12/eth-1/remix-deploy-button.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/npm/imbox@0.0.12/eth-1/remix-function-button.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/npm/imbox@0.0.12/eth-1/transaction-log.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/npm/imbox@0.0.12/eth-1/updated-state.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/npm/imbox@0.0.12/eth-1/remix-screenshot.png">
+<meta property="og:image" content="https://unpkg.com/mhgoos@0.0.1651881937785/image-20220301101701156.webp">
+<meta property="og:image" content="https://unpkg.com/mhgoos@0.0.1651882197195/image-20220301102026905.webp">
+<meta property="og:image" content="https://unpkg.com/mhgoos@0.0.1651882314775/image-20220301102046537.webp">
+<meta property="og:image" content="https://unpkg.com/mhgoos@0.0.1651882505618/image-20220301104544409.webp">
+<meta property="og:image" content="https://unpkg.com/mhgoos@0.0.1651882638867/image-20220301104632082.webp">
+<meta property="og:image" content="https://unpkg.com/mhgoos@0.0.1651882964833/image-20220301105159633.webp">
+<meta property="og:image" content="https://unpkg.com/mhgoos@0.0.1651883147459/image-20220301105400927.webp">
+<meta property="og:image" content="https://unpkg.com/mhgoos@0.0.1651883264213/image-20220301105546782.webp">
+<meta property="og:image" content="https://unpkg.com/mhgoos@0.0.1651883454625/image-20220301105958769.webp">
+<meta property="og:image" content="https://unpkg.com/mhgoos@0.0.1651883551603/image-20220301110333702.webp">
+<meta property="og:image" content="https://unpkg.com/mhgoos@0.0.1651883673988/image-20220301110809192.webp">
+<meta property="og:image" content="https://unpkg.com/mhgoos@0.0.1651883742435/image-20220301111043197.webp">
+<meta property="og:image" content="https://unpkg.com/mhgoos@0.0.1651883874383/image-20220301111634995.webp">
+<meta property="og:image" content="https://unpkg.com/mhgoos@0.0.1651883969151/image-20220301111959163.webp">
+<meta property="og:image" content="https://unpkg.com/mhgoos@0.0.1651884067187/image-20220301112142701.webp">
+<meta property="og:image" content="https://unpkg.com/mhgoos@0.0.1651884181025/image-20220301112337360.webp">
+<meta property="og:image" content="https://unpkg.com/mhgoos@0.0.1651884273044/image-20220301112555043.webp">
+<meta property="og:image" content="https://unpkg.com/mhgoos@0.0.1651884384477/image-20220301112735479.webp">
+<meta property="og:image" content="https://unpkg.com/mhgoos@0.0.1651884464447/image-20220301112757549.webp">
+<meta property="og:image" content="https://unpkg.com/mhgoos@0.0.1651884609138/image-20220301112923178.webp">
+<meta property="og:image" content="https://unpkg.com/mhgoos@0.0.1651884657883/image-20220301113008335.webp">
+<meta property="article:published_time" content="2022-02-28T18:12:23.000Z">
+<meta property="article:modified_time" content="2022-02-28T18:12:23.000Z">
+<meta property="article:author" content="SMGoro">
+<meta property="article:tag" content="Blogs">
+<meta property="article:tag" content="MHuiG">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://api.mhuig.top/pixel-blog-atom-12138.gif">
+  
+  
+  
+  <meta name="keywords" content="Blogs,MHuiG">
+
+  <!-- feed -->
+  
+    <link rel="alternate" href="/RSSBOX/atom.xml" title="RSSBOX" type="application/atom+xml">
+  
+
+  
+    
+<link rel="stylesheet" href="/RSSBOX/css/main.css">
+
+  
+
+  
+
+  
+
+  
+    <link rel="stylesheet" href="https://gcore.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.css" integrity="sha384-vKruj+a13U8yHIkAyGgK1J3ArTLzrFGBbBc0tDp4ad/EyewESeXE/Iv67Aj8gKZ0" crossorigin="anonymous">
+    <script defer src="https://gcore.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.js" integrity="sha384-PwRUT/YqbnEjkZO0zZxNqcxACrXe+j766U2amXcgMg5457rve2Y7I6ZJSm2A0mS4" crossorigin="anonymous"></script>
+    <script defer src="https://gcore.jsdelivr.net/npm/katex@0.16.4/dist/contrib/auto-render.min.js" integrity="sha384-+VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4+/RRE05" crossorigin="anonymous" onload="renderMathInElement(document.body);"></script>
+  
+
+
+  
+
+<!--百度统计-->
+<script>
+  var _hmt = _hmt || [];
+  (function() {
+    var hm = document.createElement("script");
+    hm.src = "https://hm.baidu.com/hm.js?f42afe3e5b76d22c8b1a8060171c7184";
+    var s = document.getElementsByTagName("script")[0]; 
+    s.parentNode.insertBefore(hm, s);
+  })();
+</script>  
+  <!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-V2NSKYGXNG"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-V2NSKYGXNG');
+</script>
+<!--Google Adsense-->
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4773172018528901" crossorigin="anonymous"></script>
+</head>
+
+<body>
+  
+
+
+
+
+  <div class="l_body" id="start">
+    <aside class="l_left" layout="post">
+    
+
+  
+
+<header class="header"><div class="logo-wrap"><a class="avatar" href="/RSSBOX/archives"><div class="bg" style="opacity:0;background-image:url(https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.4/avatar/round/rainbow64@3x.webp);"></div><img no-lazy class="avatar" src="https://cdn.jsdelivr.net/gh/SMGCDN/photos/icon/rsshub.png" onerror="javascript:this.classList.add('error');this.src='https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.4/image/2659360.svg';"></a><a class="title" href="/RSSBOX/"><div class="main" ff="title">RSSBOX</div><div class="sub normal cap">SMGoroのRSS订阅</div><div class="sub hover cap" style="opacity:0"> 一些好康的东西</div></a></div>
+
+<nav class="menu dis-select"><a class="nav-item active" href="/RSSBOX/">订阅</a><a class="nav-item" href="https://blog.imc.re/">博客</a><a class="nav-item" href="https://blog.imc.re/contact">联系</a><a class="nav-item" href="https://blog.imc.re/more">更多</a></nav>
+</header>
+
+
+<div class="widgets">
+
+<widget class="widget-wrapper toc single" id="data-toc"><div class="widget-header cap dis-select"><span class="name">部署第一个智能合约</span></div><div class="widget-body fs14"><div class="doc-tree active"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%B0%8F%E8%AF%95%E8%BA%AB%E6%89%8B"><span class="toc-text">小试身手</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BC%96%E5%86%99%E5%90%88%E7%BA%A6"><span class="toc-text">编写合约</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%83%A8%E7%BD%B2%E5%90%88%E7%BA%A6"><span class="toc-text">部署合约</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8%E4%BA%8B%E4%BB%B6%E8%AE%B0%E5%BD%95%E6%99%BA%E8%83%BD%E5%90%88%E7%BA%A6%E4%B8%AD%E7%9A%84%E6%95%B0%E6%8D%AE"><span class="toc-text">使用事件记录智能合约中的数据</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%B3%A8%E5%86%8C%E9%92%B1%E5%8C%85"><span class="toc-text">注册钱包</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%89%E8%A3%85-Chrome-MetaMask-%E6%8F%92%E4%BB%B6"><span class="toc-text">安装 Chrome MetaMask 插件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%B7%BB%E5%8A%A0-BSC-Testnet-%EF%BC%88%E6%B5%8B%E8%AF%95%E7%BD%91%E7%BB%9C%EF%BC%89"><span class="toc-text">添加 BSC Testnet （测试网络）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%AF%8F%E6%97%A5%E9%A2%86%E5%8F%96%E6%B5%8B%E8%AF%95-BNB"><span class="toc-text">每日领取测试 BNB</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8F%91%E8%A1%8C-MHGC-MHuiGCoin-%E4%BB%A3%E5%B8%81"><span class="toc-text">发行 MHGC (MHuiGCoin) 代币</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#FILE-EXPLORERS"><span class="toc-text">FILE EXPLORERS</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#SOLIDITY-COMPILER"><span class="toc-text">SOLIDITY COMPILER</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#DEPLOY-RUN-TRANSACTIONS"><span class="toc-text">DEPLOY &amp; RUN TRANSACTIONS</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AF%BC%E5%85%A5%E4%BB%A3%E5%B8%81%E5%90%88%E7%BA%A6"><span class="toc-text">导入代币合约</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BB%A3%E5%B8%81%E8%BD%AC%E8%B4%A6%E6%B5%8B%E8%AF%95"><span class="toc-text">代币转账测试</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%B5%8B%E8%AF%95%E7%BD%91%E7%BB%9C%E8%B5%84%E6%BA%90%E7%AE%A1%E7%90%86%E5%99%A8"><span class="toc-text">测试网络资源管理器</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%89%E5%85%A8%E9%A3%8E%E9%99%A9%E6%8F%90%E7%A4%BA"><span class="toc-text">安全风险提示</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%9C%80%E5%90%8E"><span class="toc-text">最后</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#MHGC-%E8%8E%B7%E5%8F%96%E6%96%B9%E5%BC%8F"><span class="toc-text">MHGC 获取方式</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%B5%8B%E8%AF%95%E7%BD%91%E7%BB%9C"><span class="toc-text">测试网络</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%BB%A3%E5%B8%81%E5%90%88%E7%BA%A6"><span class="toc-text">代币合约</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%B0%BE%E5%B7%B4"><span class="toc-text">尾巴</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8F%82%E8%80%83%E8%B5%84%E6%96%99"><span class="toc-text">参考资料</span></a></li></ol></li></ol></div></div></widget>
+
+
+
+<widget class="widget-wrapper search"><div class="widget-body"><div class="search-wrapper" id="search"><form class="search-form"><input type="text" class="search-input" id="search-input" data-filter="/rss/" placeholder="文章搜索"><svg t="1670596976048" class="icon search-icon" viewbox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2676" width="200" height="200"><path d="M938.2 832.6L723.8 618.1c-2.5-2.5-5.3-4.4-7.9-6.4 36.2-55.6 57.3-121.8 57.3-193.1C773.3 222.8 614.6 64 418.7 64S64 222.8 64 418.6c0 195.9 158.8 354.6 354.6 354.6 71.3 0 137.5-21.2 193.2-57.4 2 2.7 3.9 5.4 6.3 7.8L832.5 938c14.6 14.6 33.7 21.9 52.8 21.9 19.1 0 38.2-7.3 52.8-21.8 29.2-29.1 29.2-76.4 0.1-105.5M418.7 661.3C284.9 661.3 176 552.4 176 418.6 176 284.9 284.9 176 418.7 176c133.8 0 242.6 108.9 242.6 242.7 0 133.7-108.9 242.6-242.6 242.6" p-id="2677"/></svg></form><div id="search-result"></div><div class="search-no-result">没有找到内容！</div></div></div></widget>
+
+
+
+<widget class="widget-wrapper recent"><div class="widget-header cap theme dis-select"><span class="name">最近更新</span><a class="cap-action" id="rss" title="Subscribe" href="/atom.xml"><svg class="icon" viewbox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="8938"><path d="M800.966 947.251c0-404.522-320.872-732.448-716.69-732.448V62.785c477.972 0 865.44 395.987 865.44 884.466h-148.75z m-162.273 0h-148.74c0-228.98-181.628-414.598-405.678-414.598v-152.01c306.205 0 554.418 253.68 554.418 566.608z m-446.24-221.12c59.748 0 108.189 49.503 108.189 110.557 0 61.063-48.44 110.563-108.188 110.563-59.747 0-108.18-49.5-108.18-110.563 0-61.054 48.433-110.556 108.18-110.556z" p-id="8939"/></svg></a></div><div class="widget-body related-posts fs14"><a class="item title" href="/RSSBOX/rss/9478a4fa.html"><span class="title">I Got My Wish and Reincarnated as the Villainess (Last Boss)! 001-024 as V01-03 (Digital-Compilation) (Oan) [Oak]</span></a><a class="item title" href="/RSSBOX/rss/81997030.html"><span class="title">Keiken Zumi Na Kimi To, Keiken Zero Na Ore Ga, Otsukiai Suru Hanashi / You Were Experienced, I Was Not: Our Dating Story V01-05 [J-Novel Club] [Antithetical]</span></a><a class="item title" href="/RSSBOX/rss/2e17acd3.html"><span class="title">Trillion Game - 05 「乙女の眼差し」 (TBS 1920x1080 X264 AAC).mkv</span></a><a class="item title" href="/RSSBOX/rss/7bd92795.html"><span class="title">Sayonara Ryuusei, Konnichiwa Jinsei - 03 「女剣士」 (TBS 1920x1080 X264 AAC).mkv</span></a><a class="item title" href="/RSSBOX/rss/da1442de.html"><span class="title">Aldnoah.Zero (2024) - 16 「熱砂の進撃 -Soldiers' Pay-」 (BS11 1920x1080 X264 AAC).mp4</span></a></div></widget>
+</div>
+<footer class="footer dis-select"><div class="social-wrap"><a class="social" href="https://github.com/SMGoro" target="_blank" rel="external nofollow noopener noreferrer"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cdn.jsdelivr.net/gh/SMGCDN/photos/icon/iconfont/social-github.svg"></a><a class="social" href="https://space.bilibili.com/359079394" target="_blank" rel="external nofollow noopener noreferrer"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cdn.jsdelivr.net/gh/SMGCDN/photos/icon/iconfont/bilibili.svg"></a><a class="social" href="https://l.imc.re/zhihu" target="_blank" rel="external nofollow noopener noreferrer"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cdn.jsdelivr.net/gh/SMGCDN/photos/icon/iconfont/zhihu.svg"></a><a class="social" href="https://l.imc.re/discord" target="_blank" rel="external nofollow noopener noreferrer"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cdn.jsdelivr.net/gh/SMGCDN/photos/icon/iconfont/discord.svg"></a><a class="social" href="https://blog.imc.re/contact" target="_blank" rel="external nofollow noopener noreferrer"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cdn.jsdelivr.net/gh/SMGCDN/photos/icon/iconfont/comments.svg"></a></div></footer>
+
+    </aside>
+    <div class="l_main">
+      
+
+      
+
+
+
+<div class="bread-nav fs12"><div id="breadcrumb"><a class="cap breadcrumb" href="/RSSBOX/">主页</a><span class="sep"></span><a class="cap breadcrumb" href="/RSSBOX/">文章</a><span class="sep"></span><a class="cap breadcrumb-link" href="/RSSBOX/categories/blogs/">Blogs</a> <span class="sep"></span> <a class="cap breadcrumb-link" href="/RSSBOX/categories/blogs/mhuig/">MHuiG</a></div><div id="post-meta">发布于&nbsp;<time datetime="2022-02-28T18:12:23.000Z">2022-03-01</time></div></div>
+
+<article class="md-text content post">
+<h1 class="article-title"><span>部署第一个智能合约</span></h1>
+<div>
+<img no-lazy src="https://api.mhuig.top/pixel-blog-atom-12138.gif" style="display: none;" onerror="javascript:this.classList.add('error');this.src='https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.4/image/2659360.svg';"><div class="note warning"><p>注意访问本文的引用链接可能需要魔法</p></div><br><div class="note guide clear"><p>对区块链最好的描述是将其描述为一个公共数据库，它由网络中的许多计算机更新和共享。</p></div><div class="story post-story"><h2 id="小试身手"><a class="headerlink" href="#小试身手" title="小试身手"></a>小试身手</h2><p>我猜您和我们一样会很兴奋在以太坊区块链上<a target="_blank" rel="external nofollow noopener noreferrer" href="https://ethereum.org/zh/developers/docs/smart-contracts/deploying/">部署</a><a target="_blank" rel="external nofollow noopener noreferrer" href="https://ethereum.org/zh/developers/docs/smart-contracts/">智能合约</a>并与之交互。</p><p>别担心，作为我们的第一个智能合约，我们会将其部署在<a target="_blank" rel="external nofollow noopener noreferrer" href="https://ethereum.org/zh/developers/docs/networks/">本地测试网络</a>上，因此您不需要任何开销就可以随意部署和运行它。</p><h3 id="编写合约"><a class="headerlink" href="#编写合约" title="编写合约"></a>编写合约</h3><p>第一步<a target="_blank" rel="external nofollow noopener noreferrer" href="https://remix.ethereum.org/">访问 Remix</a> 并创建一个新文件。 在 Remix 界面的左上角添加一个新文件，并输入所需的文件名。</p><p><img><img alt="在Remix界面中添加一个新文件" class="lazyload" data-src="data:image/gif;base64,R0lGODlhAQABAIAAAP///////yH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" data-srcset="https://unpkg.com/mhgoos@0.0.1651969245917/remix.webp" src="https://unpkg.com/mhgoos@0.0.1651969245917/remix.webp"></p><p>在这个新文件中，我们将粘贴如下代码：</p><figure class="highlight js"><table><tbody><tr><td class="code"><pre><span class="line"><span class="comment">// SPDX-License-Identifier: MIT</span></span><br><span class="line">pragma solidity &gt;=<span class="number">0.5</span><span class="number">.17</span>;</span><br><span class="line"></span><br><span class="line">contract <span class="title class_">Counter</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Public variable of type unsigned int to keep the number of counts</span></span><br><span class="line">    uint256 public count = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Function that increments our counter</span></span><br><span class="line">    <span class="keyword">function</span> <span class="title function_">increment</span>(<span class="params"></span>) public &#123;</span><br><span class="line">        count += <span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Not necessary getter to get the count value</span></span><br><span class="line">    <span class="keyword">function</span> <span class="title function_">getCount</span>(<span class="params"></span>) public view returns (uint256) &#123;</span><br><span class="line">        <span class="keyword">return</span> count;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></tbody></table></figure><p>如果您曾经写过程序，应该可以轻松猜到这个程序是做什么的。 下面按行解释：</p><ul><li>第 3 行：定义了一个名为 <code>Counter</code> 的合约。</li><li>第 6 行：我们的合约存储了一个无符号整型 <code>count</code>，从 0 开始。</li><li>第 9 行：第一个函数将修改合约的状态并且 <code>increment()</code> 变量 <code>count</code>。</li><li>第 14 行，第二个函数是一个 getter 函数，能够从智能合约外部读取 <code>count</code> 变量的值。 请注意，因为我们将 <code>count</code> 变量定义为公共变量，所以这个函数是不必要的，但它可以作为一个例子展示。</li></ul><p>第一个简单的智能合约到此结束。 正如您所知，它看上去像是 Java、C++ 这样的面向对象编程语言中的一个类。 现在可以运行我们的合约了。</p><h3 id="部署合约"><a class="headerlink" href="#部署合约" title="部署合约"></a>部署合约</h3><p>当我们写了第一个智能合约后，我们现在可以将它部署在区块链中并运行它。</p><p><a target="_blank" rel="external nofollow noopener noreferrer" href="https://ethereum.org/zh/developers/docs/smart-contracts/deploying/">在区块链上部署智能合约</a>实际上只是发送了一个包含已编译智能合约代码的交易，并且没有指定任何收件人。</p><p>我们首先点击左侧的编译图标来<a target="_blank" rel="external nofollow noopener noreferrer" href="https://ethereum.org/zh/developers/docs/smart-contracts/compiling/">编译合约</a>：</p><p><img><img alt="Remix工具栏中的编译图标" class="lazyload" data-src="data:image/gif;base64,R0lGODlhAQABAIAAAP///////yH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" data-srcset="https://cdn.jsdelivr.net/npm/imbox@0.0.12/eth-1/remix-compile-button.png" src="https://cdn.jsdelivr.net/npm/imbox@0.0.12/eth-1/remix-compile-button.png"></p><p>然后点击编译按钮：</p><p><img><img alt="Remix solidity编译器的编译按钮" class="lazyload" data-src="data:image/gif;base64,R0lGODlhAQABAIAAAP///////yH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" data-srcset="https://cdn.jsdelivr.net/npm/imbox@0.0.12/eth-1/remix-compile.png" src="https://cdn.jsdelivr.net/npm/imbox@0.0.12/eth-1/remix-compile.png"></p><p>您可以选择 “自动编译” 选项，这样当您在文本编辑器中保存内容时，合约始终会自动编译。</p><p>然后切换到部署和运行交易屏幕：</p><p><img><img alt="Remix工具栏的部署图标" class="lazyload" data-src="data:image/gif;base64,R0lGODlhAQABAIAAAP///////yH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" data-srcset="https://cdn.jsdelivr.net/npm/imbox@0.0.12/eth-1/remix-deploy.png" src="https://cdn.jsdelivr.net/npm/imbox@0.0.12/eth-1/remix-deploy.png"></p><p>在 “部署和运行交易” 屏幕上，仔细检查显示的合约名称并点击 “部署”。 在页面顶部可以看到，当前环境为 “Javascript VM”，这意味着当前我们在本地测试区块链上部署智能合约并交互，这样测试可以更快，也不需要任何费用。</p><p><img><img alt="Remix solidity编译器的部署按钮" class="lazyload" data-src="data:image/gif;base64,R0lGODlhAQABAIAAAP///////yH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" data-srcset="https://cdn.jsdelivr.net/npm/imbox@0.0.12/eth-1/remix-deploy-button.png" src="https://cdn.jsdelivr.net/npm/imbox@0.0.12/eth-1/remix-deploy-button.png"></p><p>点击 “部署” 按钮后，您可以看到合约在底部显示出来。 点击左侧的箭头展开，可以看到合约的内容。 这里有我们的变量 <code>counter</code>、函数 <code>increment()</code> 和 getter <code>getCounter()</code>。</p><p>如果您点击 <code>count</code> 或 <code>getCount</code> 按钮，它将实际检索合约的 <code>count</code> 变量的内容，并显示出来。 因为我们尚未调用 <code>increment</code> 函数，它应该显示 0。</p><p><img><img alt="Remix solidity编译器的函数按钮" class="lazyload" data-src="data:image/gif;base64,R0lGODlhAQABAIAAAP///////yH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" data-srcset="https://cdn.jsdelivr.net/npm/imbox@0.0.12/eth-1/remix-function-button.png" src="https://cdn.jsdelivr.net/npm/imbox@0.0.12/eth-1/remix-function-button.png"></p><p>现在点击按钮来调用 <code>increment</code> 函数。 您可以在窗口底部看到交易产生的日志。 当按下检索数据按钮而非 <code>increment</code> 按钮时，您看到的日志有所不同。 这是因为读取区块链的数据不需要任何交易（写入）或费用。 因为只有修改区块链的状态需要进行交易。</p><p><img><img alt="交易日志" class="lazyload" data-src="data:image/gif;base64,R0lGODlhAQABAIAAAP///////yH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" data-srcset="https://cdn.jsdelivr.net/npm/imbox@0.0.12/eth-1/transaction-log.png" src="https://cdn.jsdelivr.net/npm/imbox@0.0.12/eth-1/transaction-log.png"></p><p>在按下 increment 按钮后，将产生一个交易来调用我们的 <code>increment()</code> 函数，如果我们点击 count 或 getCount 按钮，将读取我们的智能合约的最新状态，count 变量大于 0。</p><p><img><img alt="智能合约状态的最新更新" class="lazyload" data-src="data:image/gif;base64,R0lGODlhAQABAIAAAP///////yH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" data-srcset="https://cdn.jsdelivr.net/npm/imbox@0.0.12/eth-1/updated-state.png" src="https://cdn.jsdelivr.net/npm/imbox@0.0.12/eth-1/updated-state.png"></p><h3 id="使用事件记录智能合约中的数据"><a class="headerlink" href="#使用事件记录智能合约中的数据" title="使用事件记录智能合约中的数据"></a>使用事件记录智能合约中的数据</h3><p>在 solidity 中，<a target="_blank" rel="external nofollow noopener noreferrer" href="https://ethereum.org/zh/developers/docs/smart-contracts/anatomy/#events-and-logs">事件</a>是智能合约可触发的调度信号。 去中心化应用或其他任何连接到以太坊 JSON-PRC API 的程序，都可以监听这些事件，并执行相应操作。 可以建立事件的索引，以便稍后可以搜索到事件历史记录。</p><p>在撰写这篇文章之时，以太坊区块链上最常见的事件是由 ERC20 代币转账时触发的 Transfer 事件。</p><figure class="highlight js"><table><tbody><tr><td class="code"><pre><span class="line">event <span class="title class_">Transfer</span>(address indexed <span class="keyword">from</span>, address indexed to, uint256 value);</span><br></pre></td></tr></tbody></table></figure><p>事件签名在合约代码内声明，并且可以使用 emit 关键字来触发。 例如，transfer 事件记录了谁发起了转账 (<em>from</em>)，转账给谁 (<em>to</em>)，以及转账的代币数转账 (<em>value</em>)。</p><p>我们再次回到 Counter 智能合约，决定在每次值发生变化时进行记录。 由于这个合约不是为了部署，而是作为基础，通过扩展来构建另一个合约：因此它被称为抽象合约。 在我们 counter 示例中，它将类似于如下：</p><figure class="highlight js"><table><tbody><tr><td class="code"><pre><span class="line">pragma solidity <span class="number">0.5</span><span class="number">.17</span>;</span><br><span class="line"></span><br><span class="line">contract <span class="title class_">Counter</span> &#123;</span><br><span class="line"></span><br><span class="line">    event <span class="title class_">ValueChanged</span>(uint oldValue, uint256 newValue);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Private variable of type unsigned int to keep the number of counts</span></span><br><span class="line">    uint256 private count = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Function that increments our counter</span></span><br><span class="line">    <span class="keyword">function</span> <span class="title function_">increment</span>(<span class="params"></span>) public &#123;</span><br><span class="line">        count += <span class="number">1</span>;</span><br><span class="line">        emit <span class="title class_">ValueChanged</span>(count - <span class="number">1</span>, count);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Getter to get the count value</span></span><br><span class="line">    <span class="keyword">function</span> <span class="title function_">getCount</span>(<span class="params"></span>) public view returns (uint256) &#123;</span><br><span class="line">        <span class="keyword">return</span> count;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></tbody></table></figure><p>注意：</p><ul><li><p><strong>第 5 行</strong>：我们声明了事件及其包含的内容、旧值以及新值。</p></li><li><p><strong>第 13 行</strong>：当我们增加 count 变量的值时，我们会触发事件。</p></li></ul><p>如果我们现在部署合约并调用 increment 函数，如果您在名为 logs 的数组内单击新交易，我们将看到 Remix 会自动显示它。</p><p><img><img alt="Remix截屏" class="lazyload" data-src="data:image/gif;base64,R0lGODlhAQABAIAAAP///////yH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" data-srcset="https://cdn.jsdelivr.net/npm/imbox@0.0.12/eth-1/remix-screenshot.png" src="https://cdn.jsdelivr.net/npm/imbox@0.0.12/eth-1/remix-screenshot.png"></p><p>日志在调试智能合约时非常有用，另一方面，如果您构建一个不同人使用的应用，并且使分析更容易跟踪和了解您的智能合约的使用情况，那么日志也是非常重要的手段。 交易生成的日志会显示常见的区块浏览器中，并且，举例来说，您也可以使用它们来创建链外脚本，用于侦听特定的事件，并且这些事件发生时采取相应操作。</p></div><div class="story post-story"><h2 id="注册钱包"><a class="headerlink" href="#注册钱包" title="注册钱包"></a>注册钱包</h2><h3 id="安装-Chrome-MetaMask-插件"><a class="headerlink" href="#安装-Chrome-MetaMask-插件" title="安装 Chrome MetaMask 插件"></a>安装 Chrome MetaMask 插件</h3><p><a target="_blank" rel="external nofollow noopener noreferrer" href="https://chrome.google.com/webstore/detail/metamask/nkbihfbeogaeaoehlefnkodbefgpgknn">https://chrome.google.com/webstore/detail/metamask/nkbihfbeogaeaoehlefnkodbefgpgknn</a></p><p><img><img alt="安装 Chrome MetaMask 插件" class="lazyload" data-src="data:image/gif;base64,R0lGODlhAQABAIAAAP///////yH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" data-srcset="https://unpkg.com/mhgoos@0.0.1651881937785/image-20220301101701156.webp" src="https://unpkg.com/mhgoos@0.0.1651881937785/image-20220301101701156.webp"></p><p>注册绑定你的账号。</p><h3 id="添加-BSC-Testnet-（测试网络）"><a class="headerlink" href="#添加-BSC-Testnet-（测试网络）" title="添加 BSC Testnet （测试网络）"></a>添加 BSC Testnet （测试网络）</h3><p>添加自定义网络</p><p><img><img alt="添加自定义网络" class="lazyload" data-src="data:image/gif;base64,R0lGODlhAQABAIAAAP///////yH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" data-srcset="https://unpkg.com/mhgoos@0.0.1651882197195/image-20220301102026905.webp" src="https://unpkg.com/mhgoos@0.0.1651882197195/image-20220301102026905.webp"></p><p><img><img alt="添加自定义网络 BSC Testnet" class="lazyload" data-src="data:image/gif;base64,R0lGODlhAQABAIAAAP///////yH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" data-srcset="https://unpkg.com/mhgoos@0.0.1651882314775/image-20220301102046537.webp" src="https://unpkg.com/mhgoos@0.0.1651882314775/image-20220301102046537.webp"></p><ul><li><p>网络名称：BSC Testnet</p></li><li><p>RPC URL: <a target="_blank" rel="external nofollow noopener noreferrer" href="https://data-seed-prebsc-1-s1.binance.org:8545/">https://data-seed-prebsc-1-s1.binance.org:8545/</a></p></li><li><p> 链 ID: 0x61</p></li><li><p>区块浏览器：<a target="_blank" rel="external nofollow noopener noreferrer" href="https://testnet.bscscan.com/">https://testnet.bscscan.com/</a></p></li><li><p> 货币符号: BNB</p></li></ul><h3 id="每日领取测试-BNB"><a class="headerlink" href="#每日领取测试-BNB" title="每日领取测试 BNB"></a>每日领取测试 BNB</h3><p>进入 <a target="_blank" rel="external nofollow noopener noreferrer" href="https://testnet.binance.org/faucet-smart">https://testnet.binance.org/faucet-smart</a> , 填入账户 Address 领取测试链的 BNB。</p><p>BNB 用于支付测试网络的燃料费用.</p><p><img><img alt="领取测试 BNB" class="lazyload" data-src="data:image/gif;base64,R0lGODlhAQABAIAAAP///////yH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" data-srcset="https://unpkg.com/mhgoos@0.0.1651882505618/image-20220301104544409.webp" src="https://unpkg.com/mhgoos@0.0.1651882505618/image-20220301104544409.webp"></p><p>在 metamask 钱包中也可以看到这笔 BNB 到账了。</p><p><img><img alt="BNB到账" class="lazyload" data-src="data:image/gif;base64,R0lGODlhAQABAIAAAP///////yH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" data-srcset="https://unpkg.com/mhgoos@0.0.1651882638867/image-20220301104632082.webp" src="https://unpkg.com/mhgoos@0.0.1651882638867/image-20220301104632082.webp"></p></div><div class="story post-story"><h2 id="发行-MHGC-MHuiGCoin-代币"><a class="headerlink" href="#发行-MHGC-MHuiGCoin-代币" title="发行 MHGC (MHuiGCoin) 代币"></a>发行 MHGC (MHuiGCoin) 代币</h2><p>进入 <a target="_blank" rel="external nofollow noopener noreferrer" href="https://remix.ethereum.org/">Remix 环境</a> 中</p><h3 id="FILE-EXPLORERS"><a class="headerlink" href="#FILE-EXPLORERS" title="FILE EXPLORERS"></a>FILE EXPLORERS</h3><p>依次创建三个文件: <code>EIP20.sol</code>、<code>EIP20Factory.sol</code>、<code>EIP20Interface.sol</code>。</p><p><img><img alt="依次创建三个文件" class="lazyload" data-src="data:image/gif;base64,R0lGODlhAQABAIAAAP///////yH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" data-srcset="https://unpkg.com/mhgoos@0.0.1651882964833/image-20220301105159633.webp" src="https://unpkg.com/mhgoos@0.0.1651882964833/image-20220301105159633.webp"></p><figure class="highlight js"><figcaption><span>EIP20.sol</span></figcaption><table><tbody><tr><td class="code"><pre><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">Implements EIP20 token standard: https://github.com/ethereum/EIPs/blob/master/EIPS/eip-20.md</span></span><br><span class="line"><span class="comment">.*/</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">pragma solidity ^<span class="number">0.4</span><span class="number">.21</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> <span class="string">"./EIP20Interface.sol"</span>;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">contract <span class="title class_">EIP20</span> is <span class="title class_">EIP20Interface</span> &#123;</span><br><span class="line"></span><br><span class="line">    uint256 constant private <span class="variable constant_">MAX_UINT256</span> = <span class="number">2</span>**<span class="number">256</span> - <span class="number">1</span>;</span><br><span class="line">    mapping (<span class="function"><span class="params">address</span> =&gt;</span> uint256) public balances;</span><br><span class="line">    mapping (<span class="function"><span class="params">address</span> =&gt;</span> mapping (<span class="function"><span class="params">address</span> =&gt;</span> uint256)) public allowed;</span><br><span class="line">    <span class="comment">/*</span></span><br><span class="line"><span class="comment">    <span class="doctag">NOTE:</span></span></span><br><span class="line"><span class="comment">    The following variables are OPTIONAL vanities. One does not have to include them.</span></span><br><span class="line"><span class="comment">    They allow one to customise the token contract &amp; in no way influences the core functionality.</span></span><br><span class="line"><span class="comment">    Some wallets/interfaces might not even bother to look at this information.</span></span><br><span class="line"><span class="comment">    */</span></span><br><span class="line">    string public name;                   <span class="comment">//fancy name: eg Simon Bucks</span></span><br><span class="line">    uint8 public decimals;                <span class="comment">//How many decimals to show.</span></span><br><span class="line">    string public symbol;                 <span class="comment">//An identifier: eg SBX</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">function</span> <span class="title function_">EIP20</span>(<span class="params"></span></span><br><span class="line"><span class="params">        uint256 _initialAmount,</span></span><br><span class="line"><span class="params">        string _tokenName,</span></span><br><span class="line"><span class="params">        uint8 _decimalUnits,</span></span><br><span class="line"><span class="params">        string _tokenSymbol</span></span><br><span class="line"><span class="params">    </span>) public &#123;</span><br><span class="line">        balances[msg.<span class="property">sender</span>] = _initialAmount;               <span class="comment">// Give the creator all initial tokens</span></span><br><span class="line">        totalSupply = _initialAmount;                        <span class="comment">// Update total supply</span></span><br><span class="line">        name = _tokenName;                                   <span class="comment">// Set the name for display purposes</span></span><br><span class="line">        decimals = _decimalUnits;                            <span class="comment">// Amount of decimals for display purposes</span></span><br><span class="line">        symbol = _tokenSymbol;                               <span class="comment">// Set the symbol for display purposes</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">function</span> <span class="title function_">transfer</span>(<span class="params">address _to, uint256 _value</span>) public returns (bool success) &#123;</span><br><span class="line">        <span class="built_in">require</span>(balances[msg.<span class="property">sender</span>] &gt;= _value);</span><br><span class="line">        balances[msg.<span class="property">sender</span>] -= _value;</span><br><span class="line">        balances[_to] += _value;</span><br><span class="line">        emit <span class="title class_">Transfer</span>(msg.<span class="property">sender</span>, _to, _value); <span class="comment">//solhint-disable-line indent, no-unused-vars</span></span><br><span class="line">        <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">function</span> <span class="title function_">transferFrom</span>(<span class="params">address _from, address _to, uint256 _value</span>) public returns (bool success) &#123;</span><br><span class="line">        uint256 allowance = allowed[_from][msg.<span class="property">sender</span>];</span><br><span class="line">        <span class="built_in">require</span>(balances[_from] &gt;= _value &amp;&amp; allowance &gt;= _value);</span><br><span class="line">        balances[_to] += _value;</span><br><span class="line">        balances[_from] -= _value;</span><br><span class="line">        <span class="keyword">if</span> (allowance &lt; <span class="variable constant_">MAX_UINT256</span>) &#123;</span><br><span class="line">            allowed[_from][msg.<span class="property">sender</span>] -= _value;</span><br><span class="line">        &#125;</span><br><span class="line">        emit <span class="title class_">Transfer</span>(_from, _to, _value); <span class="comment">//solhint-disable-line indent, no-unused-vars</span></span><br><span class="line">        <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">function</span> <span class="title function_">balanceOf</span>(<span class="params">address _owner</span>) public view returns (uint256 balance) &#123;</span><br><span class="line">        <span class="keyword">return</span> balances[_owner];</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">function</span> <span class="title function_">approve</span>(<span class="params">address _spender, uint256 _value</span>) public returns (bool success) &#123;</span><br><span class="line">        allowed[msg.<span class="property">sender</span>][_spender] = _value;</span><br><span class="line">        emit <span class="title class_">Approval</span>(msg.<span class="property">sender</span>, _spender, _value); <span class="comment">//solhint-disable-line indent, no-unused-vars</span></span><br><span class="line">        <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">function</span> <span class="title function_">allowance</span>(<span class="params">address _owner, address _spender</span>) public view returns (uint256 remaining) &#123;</span><br><span class="line">        <span class="keyword">return</span> allowed[_owner][_spender];</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></tbody></table></figure><figure class="highlight js"><figcaption><span>EIP20Factory.sol</span></figcaption><table><tbody><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> <span class="string">"./EIP20.sol"</span>;</span><br><span class="line"></span><br><span class="line">pragma solidity ^<span class="number">0.4</span><span class="number">.21</span>;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">contract <span class="title class_">EIP20Factory</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="title function_">mapping</span>(<span class="function"><span class="params">address</span> =&gt;</span> address[]) public created;</span><br><span class="line">    <span class="title function_">mapping</span>(<span class="function"><span class="params">address</span> =&gt;</span> bool) public isEIP20; <span class="comment">//verify without having to do a bytecode check.</span></span><br><span class="line">    bytes public <span class="title class_">EIP20ByteCode</span>; <span class="comment">// solhint-disable-line var-name-mixedcase</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">function</span> <span class="title function_">EIP20Factory</span>(<span class="params"></span>) public &#123;</span><br><span class="line">        <span class="comment">//upon creation of the factory, deploy a EIP20 (parameters are meaningless) and store the bytecode provably.</span></span><br><span class="line">        address verifiedToken = <span class="title function_">createEIP20</span>(<span class="number">10000</span>, <span class="string">"Verify Token"</span>, <span class="number">3</span>, <span class="string">"VTX"</span>);</span><br><span class="line">        <span class="title class_">EIP20ByteCode</span> = <span class="title function_">codeAt</span>(verifiedToken);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//verifies if a contract that has been deployed is a Human Standard Token.</span></span><br><span class="line">    <span class="comment">//<span class="doctag">NOTE:</span> This is a very expensive function, and should only be used in an eth_call. ~800k gas</span></span><br><span class="line">    <span class="keyword">function</span> <span class="title function_">verifyEIP20</span>(<span class="params">address _tokenContract</span>) public view returns (bool) &#123;</span><br><span class="line">        bytes memory fetchedTokenByteCode = <span class="title function_">codeAt</span>(_tokenContract);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (fetchedTokenByteCode.<span class="property">length</span> != <span class="title class_">EIP20ByteCode</span>.<span class="property">length</span>) &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">false</span>; <span class="comment">//clear mismatch</span></span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">      <span class="comment">//starting iterating through it if lengths match</span></span><br><span class="line">        <span class="keyword">for</span> (uint i = <span class="number">0</span>; i &lt; fetchedTokenByteCode.<span class="property">length</span>; i++) &#123;</span><br><span class="line">            <span class="keyword">if</span> (fetchedTokenByteCode[i] != <span class="title class_">EIP20ByteCode</span>[i]) &#123;</span><br><span class="line">                <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">function</span> <span class="title function_">createEIP20</span>(<span class="params">uint256 _initialAmount, string _name, uint8 _decimals, string _symbol</span>)</span><br><span class="line">        public</span><br><span class="line">    returns (address) &#123;</span><br><span class="line"></span><br><span class="line">        <span class="title class_">EIP20</span> newToken = (<span class="keyword">new</span> <span class="title class_">EIP20</span>(_initialAmount, _name, _decimals, _symbol));</span><br><span class="line">        created[msg.<span class="property">sender</span>].<span class="title function_">push</span>(<span class="title function_">address</span>(newToken));</span><br><span class="line">        isEIP20[<span class="title function_">address</span>(newToken)] = <span class="literal">true</span>;</span><br><span class="line">        <span class="comment">//the factory will own the created tokens. You must transfer them.</span></span><br><span class="line">        newToken.<span class="title function_">transfer</span>(msg.<span class="property">sender</span>, _initialAmount);</span><br><span class="line">        <span class="keyword">return</span> <span class="title function_">address</span>(newToken);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//for now, keeping this internal. Ideally there should also be a live version of this that</span></span><br><span class="line">    <span class="comment">// any contract can use, lib-style.</span></span><br><span class="line">    <span class="comment">//retrieves the bytecode at a specific address.</span></span><br><span class="line">    <span class="keyword">function</span> <span class="title function_">codeAt</span>(<span class="params">address _addr</span>) internal view returns (bytes outputCode) &#123;</span><br><span class="line">        assembly &#123; <span class="comment">// solhint-disable-line no-inline-assembly</span></span><br><span class="line">            <span class="comment">// retrieve the size of the code, this needs assembly</span></span><br><span class="line">            <span class="keyword">let</span> size := <span class="title function_">extcodesize</span>(_addr)</span><br><span class="line">            <span class="comment">// allocate output byte array - this could also be done without assembly</span></span><br><span class="line">            <span class="comment">// by using outputCode = new bytes(size)</span></span><br><span class="line">            outputCode := <span class="title function_">mload</span>(<span class="number">0x40</span>)</span><br><span class="line">            <span class="comment">// new "memory end" including padding</span></span><br><span class="line">            <span class="title function_">mstore</span>(<span class="number">0x40</span>, <span class="title function_">add</span>(outputCode, <span class="title function_">and</span>(<span class="title function_">add</span>(<span class="title function_">add</span>(size, <span class="number">0x20</span>), <span class="number">0x1f</span>), <span class="title function_">not</span>(<span class="number">0x1f</span>))))</span><br><span class="line">            <span class="comment">// store length in memory</span></span><br><span class="line">            <span class="title function_">mstore</span>(outputCode, size)</span><br><span class="line">            <span class="comment">// actually retrieve the code, this needs assembly</span></span><br><span class="line">            <span class="title function_">extcodecopy</span>(_addr, <span class="title function_">add</span>(outputCode, <span class="number">0x20</span>), <span class="number">0</span>, size)</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></tbody></table></figure><figure class="highlight js"><figcaption><span>EIP20Interface.sol</span></figcaption><table><tbody><tr><td class="code"><pre><span class="line"><span class="comment">// Abstract contract for the full ERC 20 Token standard</span></span><br><span class="line"><span class="comment">// https://github.com/ethereum/EIPs/blob/master/EIPS/eip-20.md</span></span><br><span class="line">pragma solidity ^<span class="number">0.4</span><span class="number">.21</span>;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">contract <span class="title class_">EIP20Interface</span> &#123;</span><br><span class="line">    <span class="comment">/* This is a slight change to the ERC20 base standard.</span></span><br><span class="line"><span class="comment">    function totalSupply() constant returns (uint256 supply);</span></span><br><span class="line"><span class="comment">    is replaced with:</span></span><br><span class="line"><span class="comment">    uint256 public totalSupply;</span></span><br><span class="line"><span class="comment">    This automatically creates a getter function for the totalSupply.</span></span><br><span class="line"><span class="comment">    This is moved to the base contract since public getter functions are not</span></span><br><span class="line"><span class="comment">    currently recognised as an implementation of the matching abstract</span></span><br><span class="line"><span class="comment">    function by the compiler.</span></span><br><span class="line"><span class="comment">    */</span></span><br><span class="line">    <span class="comment">/// total amount of tokens</span></span><br><span class="line">    uint256 public totalSupply;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/// @param _owner The address from which the balance will be retrieved</span></span><br><span class="line">    <span class="comment">/// @return The balance</span></span><br><span class="line">    <span class="keyword">function</span> <span class="title function_">balanceOf</span>(<span class="params">address _owner</span>) public view returns (uint256 balance);</span><br><span class="line"></span><br><span class="line">    <span class="comment">/// @notice send `_value` token to `_to` from `msg.sender`</span></span><br><span class="line">    <span class="comment">/// @param _to The address of the recipient</span></span><br><span class="line">    <span class="comment">/// @param _value The amount of token to be transferred</span></span><br><span class="line">    <span class="comment">/// @return Whether the transfer was successful or not</span></span><br><span class="line">    <span class="keyword">function</span> <span class="title function_">transfer</span>(<span class="params">address _to, uint256 _value</span>) public returns (bool success);</span><br><span class="line"></span><br><span class="line">    <span class="comment">/// @notice send `_value` token to `_to` from `_from` on the condition it is approved by `_from`</span></span><br><span class="line">    <span class="comment">/// @param _from The address of the sender</span></span><br><span class="line">    <span class="comment">/// @param _to The address of the recipient</span></span><br><span class="line">    <span class="comment">/// @param _value The amount of token to be transferred</span></span><br><span class="line">    <span class="comment">/// @return Whether the transfer was successful or not</span></span><br><span class="line">    <span class="keyword">function</span> <span class="title function_">transferFrom</span>(<span class="params">address _from, address _to, uint256 _value</span>) public returns (bool success);</span><br><span class="line"></span><br><span class="line">    <span class="comment">/// @notice `msg.sender` approves `_spender` to spend `_value` tokens</span></span><br><span class="line">    <span class="comment">/// @param _spender The address of the account able to transfer the tokens</span></span><br><span class="line">    <span class="comment">/// @param _value The amount of tokens to be approved for transfer</span></span><br><span class="line">    <span class="comment">/// @return Whether the approval was successful or not</span></span><br><span class="line">    <span class="keyword">function</span> <span class="title function_">approve</span>(<span class="params">address _spender, uint256 _value</span>) public returns (bool success);</span><br><span class="line"></span><br><span class="line">    <span class="comment">/// @param _owner The address of the account owning tokens</span></span><br><span class="line">    <span class="comment">/// @param _spender The address of the account able to transfer the tokens</span></span><br><span class="line">    <span class="comment">/// @return Amount of remaining tokens allowed to spent</span></span><br><span class="line">    <span class="keyword">function</span> <span class="title function_">allowance</span>(<span class="params">address _owner, address _spender</span>) public view returns (uint256 remaining);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// solhint-disable-next-line no-simple-event-func-name</span></span><br><span class="line">    event <span class="title class_">Transfer</span>(address indexed _from, address indexed _to, uint256 _value);</span><br><span class="line">    event <span class="title class_">Approval</span>(address indexed _owner, address indexed _spender, uint256 _value);</span><br><span class="line">&#125;</span><br></pre></td></tr></tbody></table></figure><h3 id="SOLIDITY-COMPILER"><a class="headerlink" href="#SOLIDITY-COMPILER" title="SOLIDITY COMPILER"></a>SOLIDITY COMPILER</h3><p>我们选择 0.4.21 版本的编译环境.</p><p><img><img alt="选择 0.4.21 版本的编译环境" class="lazyload" data-src="data:image/gif;base64,R0lGODlhAQABAIAAAP///////yH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" data-srcset="https://unpkg.com/mhgoos@0.0.1651883147459/image-20220301105400927.webp" src="https://unpkg.com/mhgoos@0.0.1651883147459/image-20220301105400927.webp"></p><p>点击编译.</p><p><img><img alt="点击编译" class="lazyload" data-src="data:image/gif;base64,R0lGODlhAQABAIAAAP///////yH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" data-srcset="https://unpkg.com/mhgoos@0.0.1651883264213/image-20220301105546782.webp" src="https://unpkg.com/mhgoos@0.0.1651883264213/image-20220301105546782.webp"></p><p>在这里你可以将源码发布到 <code>IPFS</code>.</p><figure class="highlight bash"><table><tbody><tr><td class="code"><pre><span class="line">Metadata of <span class="string">"eip20"</span> was published successfully.</span><br><span class="line">token/EIP20.sol : </span><br><span class="line">dweb:/ipfs/QmZemboWkhVyhYMRyCJmjwhw4caenvXS5Mw7Uc5tdE77jP</span><br><span class="line">token/EIP20Interface.sol : </span><br><span class="line">dweb:/ipfs/QmWQEUAdy5QnnCTGsEtRfedZrVG2xZ77YfKiPE5MVvQiSS</span><br><span class="line">metadata.json : </span><br><span class="line">dweb:/ipfs/QmWFrJHPJLEWJGAoXpq8MD1pGJsvdcfxhPiW5SDXiwEvm8</span><br></pre></td></tr></tbody></table></figure><h3 id="DEPLOY-RUN-TRANSACTIONS"><a class="headerlink" href="#DEPLOY-RUN-TRANSACTIONS" title="DEPLOY &amp; RUN TRANSACTIONS"></a>DEPLOY &amp; RUN TRANSACTIONS</h3><p>运行环境选择  <code>Injected Web3</code></p><p><img><img alt="运行环境选择 Injected Web3" class="lazyload" data-src="data:image/gif;base64,R0lGODlhAQABAIAAAP///////yH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" data-srcset="https://unpkg.com/mhgoos@0.0.1651883454625/image-20220301105958769.webp" src="https://unpkg.com/mhgoos@0.0.1651883454625/image-20220301105958769.webp"></p><p>因为我们用的是 metamask 钱包；Account 账户填写 metamask 钱包账户；此时浏览器插件会弹出，我们选择连接账户。点击下一步，点击连接.</p><p><img><img alt="连接账户" class="lazyload" data-src="data:image/gif;base64,R0lGODlhAQABAIAAAP///////yH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" data-srcset="https://unpkg.com/mhgoos@0.0.1651883551603/image-20220301110333702.webp" src="https://unpkg.com/mhgoos@0.0.1651883551603/image-20220301110333702.webp"></p><p>在 <code>DEPLOY</code> 中输入部署信息，合约构造函数的输入参数.</p><figure class="highlight bash"><table><tbody><tr><td class="code"><pre><span class="line">_INITIALAMOUNT: <span class="string">"21000000000000000000000000"</span></span><br><span class="line">_TOKENNAME: <span class="string">"MHuiGCoin"</span></span><br><span class="line">_DECIMALUNITS: <span class="string">"18"</span></span><br><span class="line">_TOKENSYMBOL: <span class="string">"MHGC"</span></span><br></pre></td></tr></tbody></table></figure><p>发币数量 <code>21000000</code>, 和比特币一样，向中本聪致敬。</p><p>货币名称 <code>MHuiGCoin</code>，最小货币单位 <code>18</code>（decimaUnits），货币简称 <code>MHGC</code>。</p><p>点击 <code>transact</code>.</p><p><img><img alt="transact" class="lazyload" data-src="data:image/gif;base64,R0lGODlhAQABAIAAAP///////yH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" data-srcset="https://unpkg.com/mhgoos@0.0.1651883673988/image-20220301110809192.webp" src="https://unpkg.com/mhgoos@0.0.1651883673988/image-20220301110809192.webp"></p><p>点击确认支付燃料费用.</p><p><img><img alt="支付燃料费用" class="lazyload" data-src="data:image/gif;base64,R0lGODlhAQABAIAAAP///////yH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" data-srcset="https://unpkg.com/mhgoos@0.0.1651883742435/image-20220301111043197.webp" src="https://unpkg.com/mhgoos@0.0.1651883742435/image-20220301111043197.webp"></p><p>从 <code>Deployed Contracts</code> 复制部署的合约地址: <code>0xeb86A66E2d4A51F8de3d4d0F509f18A15Cde68F6</code>.</p><p><img><img alt="复制部署的合约地址" class="lazyload" data-src="data:image/gif;base64,R0lGODlhAQABAIAAAP///////yH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" data-srcset="https://unpkg.com/mhgoos@0.0.1651883874383/image-20220301111634995.webp" src="https://unpkg.com/mhgoos@0.0.1651883874383/image-20220301111634995.webp"></p><h3 id="导入代币合约"><a class="headerlink" href="#导入代币合约" title="导入代币合约"></a>导入代币合约</h3><p>进入部署合约的 MetaMask 账户，点击导入代币.</p><p><img><img alt="点击导入代币" class="lazyload" data-src="data:image/gif;base64,R0lGODlhAQABAIAAAP///////yH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" data-srcset="https://unpkg.com/mhgoos@0.0.1651883969151/image-20220301111959163.webp" src="https://unpkg.com/mhgoos@0.0.1651883969151/image-20220301111959163.webp"></p><p>输入代币合约信息</p><ul><li><p>代币合约地址：0xeb86A66E2d4A51F8de3d4d0F509f18A15Cde68F6</p></li><li><p>代币符号：MHGC</p></li><li><p>小数精度：18</p></li></ul><p><img><img alt="输入代币合约信息" class="lazyload" data-src="data:image/gif;base64,R0lGODlhAQABAIAAAP///////yH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" data-srcset="https://unpkg.com/mhgoos@0.0.1651884067187/image-20220301112142701.webp" src="https://unpkg.com/mhgoos@0.0.1651884067187/image-20220301112142701.webp"></p><p>可以看到我的账户中有 <code>21000000 MHGC (MHuiGCoin)</code></p><p><img><img alt="21000000 MHGC" class="lazyload" data-src="data:image/gif;base64,R0lGODlhAQABAIAAAP///////yH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" data-srcset="https://unpkg.com/mhgoos@0.0.1651884181025/image-20220301112337360.webp" src="https://unpkg.com/mhgoos@0.0.1651884181025/image-20220301112337360.webp"></p><h3 id="代币转账测试"><a class="headerlink" href="#代币转账测试" title="代币转账测试"></a>代币转账测试</h3><p>我们创建一个新的账户，并导入上面的代币合约.</p><p><img><img alt="创建一个新的账户" class="lazyload" data-src="data:image/gif;base64,R0lGODlhAQABAIAAAP///////yH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" data-srcset="https://unpkg.com/mhgoos@0.0.1651884273044/image-20220301112555043.webp" src="https://unpkg.com/mhgoos@0.0.1651884273044/image-20220301112555043.webp"></p><p>我们向目标账户发送 <code>1 MHGC</code> 测试</p><p><img><img alt="发送 1 MHGC 测试" class="lazyload" data-src="data:image/gif;base64,R0lGODlhAQABAIAAAP///////yH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" data-srcset="https://unpkg.com/mhgoos@0.0.1651884384477/image-20220301112735479.webp" src="https://unpkg.com/mhgoos@0.0.1651884384477/image-20220301112735479.webp"></p><p>需要支付测试网络的燃料费用.</p><p><img><img alt="支付测试网络的燃料费用" class="lazyload" data-src="data:image/gif;base64,R0lGODlhAQABAIAAAP///////yH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" data-srcset="https://unpkg.com/mhgoos@0.0.1651884464447/image-20220301112757549.webp" src="https://unpkg.com/mhgoos@0.0.1651884464447/image-20220301112757549.webp"></p><p>转账发送成功.</p><p><img><img alt="转账发送成功" class="lazyload" data-src="data:image/gif;base64,R0lGODlhAQABAIAAAP///////yH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" data-srcset="https://unpkg.com/mhgoos@0.0.1651884609138/image-20220301112923178.webp" src="https://unpkg.com/mhgoos@0.0.1651884609138/image-20220301112923178.webp"></p><p><img><img alt="转账发送成功" class="lazyload" data-src="data:image/gif;base64,R0lGODlhAQABAIAAAP///////yH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" data-srcset="https://unpkg.com/mhgoos@0.0.1651884657883/image-20220301113008335.webp" src="https://unpkg.com/mhgoos@0.0.1651884657883/image-20220301113008335.webp"></p><h3 id="测试网络资源管理器"><a class="headerlink" href="#测试网络资源管理器" title="测试网络资源管理器"></a>测试网络资源管理器</h3><p>在资源管理器中查看 <strong>资产</strong>: </p><p><a target="_blank" rel="external nofollow noopener noreferrer" href="https://testnet.bscscan.com/token/0xeb86A66E2d4A51F8de3d4d0F509f18A15Cde68F6">https://testnet.bscscan.com/token/0xeb86A66E2d4A51F8de3d4d0F509f18A15Cde68F6</a></p><p>可以看到资源信息和公开的转账记录. </p><p>如你所见这些在区块链中已经发生的历史信息是无法更改的.</p></div><div class="story post-story"><h2 id="安全风险提示"><a class="headerlink" href="#安全风险提示" title="安全风险提示"></a>安全风险提示</h2><p>任何人都可以创建代币，包括创建现有代币的假版本。了解更多关于 <a target="_blank" rel="external nofollow noopener noreferrer" href="https://metamask.zendesk.com/hc/en-us/articles/4403988839451">欺诈和安全风险.</a></p><p>2016 年 6 月，The DAOEther 的漏洞造成损失 5000 万美元，而开发者试图达成共识的解决方案。DAO 的程序在黑客删除资金之前有一段时间的延迟。以太坊软件的一个硬分叉在时限到期之前完成了攻击者的资金回收工作。</p><p>2021 年 9 月 24 日，中国人民银行发布进一步防范和处置虚拟货币交易炒作风险的通知。通知指出，虚拟货币不具有与法定货币等同的法律地位。比特币、以太币、泰达币等虚拟货币具有非货币当局发行、使用加密技术及分布式账户或类似技术、以数字化形式存在等主要特点，不具有法偿性，不应且不能作为货币在市场上流通使用 。</p></div><div class="story post-story"><h2 id="最后"><a class="headerlink" href="#最后" title="最后"></a>最后</h2><h3 id="MHGC-获取方式"><a class="headerlink" href="#MHGC-获取方式" title="MHGC 获取方式"></a>MHGC 获取方式</h3><h4 id="测试网络"><a class="headerlink" href="#测试网络" title="测试网络"></a>测试网络</h4><ul><li><p>网络名称：BSC Testnet</p></li><li><p>RPC URL: <a target="_blank" rel="external nofollow noopener noreferrer" href="https://data-seed-prebsc-1-s1.binance.org:8545/">https://data-seed-prebsc-1-s1.binance.org:8545/</a></p></li><li><p> 链 ID: 0x61</p></li><li><p>区块浏览器：<a target="_blank" rel="external nofollow noopener noreferrer" href="https://testnet.bscscan.com/">https://testnet.bscscan.com/</a></p></li><li><p> 货币符号: BNB</p></li></ul><h4 id="代币合约"><a class="headerlink" href="#代币合约" title="代币合约"></a>代币合约</h4><ul><li><p>代币合约地址：0xeb86A66E2d4A51F8de3d4d0F509f18A15Cde68F6</p></li><li><p>代币符号：MHGC</p></li><li><p>小数精度：18</p></li></ul><h3 id="尾巴"><a class="headerlink" href="#尾巴" title="尾巴"></a>尾巴</h3><p>联系我，发我地址，在 BSC Testnet 下可领取 <code>100 MHGC</code>.</p><p>共发行 <code>21000000 MHGC</code>, 集齐 <code>22000000 MHGC</code> 可领取精美礼品一份. </p><p>Just For Fun.</p><h3 id="参考资料"><a class="headerlink" href="#参考资料" title="参考资料"></a>参考资料</h3><ul><li><a target="_blank" rel="external nofollow noopener noreferrer" href="https://ethereum.org/en/">Welcome to Ethereum</a></li></ul></div>
+</div>
+
+<div>
+<div class="tag-plugin link dis-select"><a class="link-card plain" title="部署第一个智能合约" href="https://blog.mhuig.top/p/6a03238d/" target="_blank" rel="external nofollow noopener noreferrer" cardlink autofill="icon"><div class="left"><span class="title">部署第一个智能合约</span><span class="cap link fs12">https://blog.mhuig.top/p/6a03238d/</span></div><div class="right"><div class="lazy img" data-bg="https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.4/link/8f277b4ee0ecd.svg"></div></div></a></div>
+</div>
+
+
+
+
+<div class="article-footer reveal fs14"><section id="license"><div class="header"><span>许可协议</span></div><div class="body"><p>本文采用 <a target="_blank" rel="external nofollow noopener noreferrer" href="https://github.com/me-shaon/GLWTPL/blob/master/translations/LICENSE_zh-CN">GLWT（Good Luck With That，祝你好运）公共许可证</a> 许可协议，转载请注明出处。</p>
+</div></section><section id="share"><div class="header"><span>分享文章</span></div><div class="body"><div class="link"><input class="copy-area" readonly="true" id="copy-link" value="https://blog.imc.re/RSSBOX/rss/6a03238d.html"></div><div class="social-wrap dis-select"><a class="social share-item wechat" onclick="util.toggle(&quot;qrcode-wechat&quot)"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.4/social/b32ef3da1162a.svg"></a><a class="social share-item weibo" target="_blank" rel="external nofollow noopener noreferrer" href="https://service.weibo.com/share/share.php?url=https://blog.imc.re/RSSBOX/rss/6a03238d.html&title=部署第一个智能合约 - RSSBOX&pics=https://api.mhuig.top/pixel-blog-atom-12138.gif&summary=
+注意访问本文的引用链接可能需要魔法对区块链最好的描述是将其描述为一个公共数据库，它由网络中的许多计算机更新和共享。小试身手我猜您和我们一样会很兴奋在以太坊区块链上部署智能合约并与之交互。别担心，作为我们的第一个智能合约，我们会将其部..."><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.4/social/80c07e4dbb303.svg"></a><a class="social share-item email" href="mailto:?subject=部署第一个智能合约 - RSSBOX&amp;body=https://blog.imc.re/RSSBOX/rss/6a03238d.html"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.4/social/a1b00e20f425d.svg"></a><a class="social share-item link" onclick="util.copy(&quot;copy-link&quot;, &quot;复制成功&quot;)"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.4/social/8411ed322ced6.svg"></a></div><div class="qrcode" id="qrcode-wechat" style="visibility:hidden;height:0"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://api.qrserver.com/v1/create-qr-code/?size=256x256&data=https://blog.imc.re/RSSBOX/rss/6a03238d.html"></div></div></section></div>
+
+</article>
+
+<div class="related-wrap reveal" id="read-next"><section class="body"><div class="item" id="prev"><div class="note">较新文章</div><a href="/RSSBOX/rss/9e0f5fb7.html">1729818333.4104185</a></div><div class="item" id="next"><div class="note">较早文章</div><a href="/RSSBOX/rss/6dc844b7.html">一组粗略的类比</a></div></section></div>
+
+
+<div class="related-wrap reveal" id="related-posts">
+    <section class="header">
+      <div class="title cap theme">您可能感兴趣的文章</div>
+    </section>
+    <section class="body">
+    <div class="related-posts"><a class="item" href="/RSSBOX/rss/ce4440a9.html" title="1729818333.1186638"><span class="title">1729818333.1186638</span></a><a class="item" href="/RSSBOX/rss/9e0f5fb7.html" title="1729818333.4104185"><span class="title">1729818333.4104185</span></a><a class="item" href="/RSSBOX/rss/bc43343e.html" title="一大波题目正在来袭"><span class="title">一大波题目正在来袭</span></a><a class="item" href="/RSSBOX/rss/6dc844b7.html" title="一组粗略的类比"><span class="title">一组粗略的类比</span></a><a class="item" href="/RSSBOX/rss/6ace289f.html" title="唯物辩证法"><span class="title">唯物辩证法</span></a></div></section></div>
+
+
+
+
+
+      
+<footer class="page-footer reveal fs12"><hr><div class="sitemap"><div class="sitemap-group"><span class="fs14">文章</span><a href="/RSSBOX/categories">分类</a><a href="/RSSBOX/tags">标签</a><a href="/RSSBOX/archives">归档</a></div><div class="sitemap-group"><span class="fs14">更多</span><a href="https://blog.imc.re/">博客</a><a target="_blank" rel="noopener" href="https://imc.re/">IMC.RE</a></div></div><div class="text"><p><a href="/">@RSSBOX</a> 2023 author by <a target="_blank" rel="external nofollow noopener noreferrer" href="https://github.com/MHG-LAB/RSSBOX">MHuiG</a> powered by SummerGoro。<br><br>本博客所有文章除特别声明外，均采用 <a target="_blank" rel="external nofollow noopener noreferrer" href="https://github.com/me-shaon/GLWTPL/blob/master/translations/LICENSE_zh-CN">GLWT（Good Luck With That，祝你好运）公共许可证</a> 许可协议，转载请注明出处。</p>
+</div></footer>
+
+      <div class="float-panel mobile-only blur" style="display:none">
+  <button type="button" class="sidebar-toggle mobile" onclick="sidebar.toggle()">
+    <svg class="icon" style="width: 1em; height: 1em;vertical-align: middle;fill: currentColor;overflow: hidden;" viewbox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="15301"><path d="M566.407 808.3c26.9-0.1 49.3-20.8 51.6-47.6-1.9-27.7-23.9-49.7-51.6-51.6h-412.6c-28.2-1.4-52.6 19.5-55.5 47.6 2.3 26.8 24.6 47.5 51.6 47.6h416.5v4z m309.3-249.9c26.9-0.1 49.3-20.8 51.6-47.6-2.2-26.8-24.6-47.5-51.6-47.6h-721.9c-27.7-2.8-52.5 17.4-55.3 45.1-0.1 0.8-0.1 1.7-0.2 2.5 0.9 27.2 23.6 48.5 50.7 47.6H875.707z m-103.1-245.9c26.9-0.1 49.3-20.8 51.6-47.6-0.4-28.3-23.2-51.1-51.5-51.6h-618.9c-29.5-1.1-54.3 21.9-55.5 51.4v0.2c1.4 27.8 25.2 49.2 53 47.8 0.8 0 1.7-0.1 2.5-0.2h618.8z" p-id="15302"/><path d="M566.407 808.3c26.9-0.1 49.3-20.8 51.6-47.6-1.9-27.7-23.9-49.7-51.6-51.6h-412.6c-28.2-1.4-52.6 19.5-55.5 47.6 1.9 27.7 23.9 49.7 51.6 51.6h416.5z m309.3-249.9c26.9-0.1 49.3-20.8 51.6-47.6-2.2-26.8-24.6-47.5-51.6-47.6h-721.9c-27.7-2.8-52.5 17.4-55.3 45.1-0.1 0.8-0.1 1.7-0.2 2.5 0.9 27.2 23.6 48.5 50.7 47.6H875.707z m-103.1-245.9c26.9-0.1 49.3-20.8 51.6-47.6-0.4-28.3-23.2-51.1-51.5-51.6h-618.9c-29.5-1.1-54.3 21.9-55.5 51.4v0.2c1.4 27.8 25.2 49.2 53 47.8 0.8 0 1.7-0.1 2.5-0.2h618.8z" p-id="15303"/></svg>
+  </button>
+</div>
+
+    </div>
+  </div>
+  <div class="scripts">
+    <script type="text/javascript">
+  const stellar = {
+    // 懒加载 css https://github.com/filamentgroup/loadCSS
+    loadCSS: (href, before, media, attributes) => {
+      var doc = window.document;
+      var ss = doc.createElement("link");
+      var ref;
+      if (before) {
+        ref = before;
+      } else {
+        var refs = (doc.body || doc.getElementsByTagName("head")[0]).childNodes;
+        ref = refs[refs.length - 1];
+      }
+      var sheets = doc.styleSheets;
+      if (attributes) {
+        for (var attributeName in attributes) {
+          if (attributes.hasOwnProperty(attributeName)) {
+            ss.setAttribute(attributeName, attributes[attributeName]);
+          }
+        }
+      }
+      ss.rel = "stylesheet";
+      ss.href = href;
+      ss.media = "only x";
+      function ready(cb) {
+        if (doc.body) {
+          return cb();
+        }
+        setTimeout(function () {
+          ready(cb);
+        });
+      }
+      ready(function () {
+        ref.parentNode.insertBefore(ss, before ? ref : ref.nextSibling);
+      });
+      var onloadcssdefined = function (cb) {
+        var resolvedHref = ss.href;
+        var i = sheets.length;
+        while (i--) {
+          if (sheets[i].href === resolvedHref) {
+            return cb();
+          }
+        }
+        setTimeout(function () {
+          onloadcssdefined(cb);
+        });
+      };
+      function loadCB() {
+        if (ss.addEventListener) {
+          ss.removeEventListener("load", loadCB);
+        }
+        ss.media = media || "all";
+      }
+      if (ss.addEventListener) {
+        ss.addEventListener("load", loadCB);
+      }
+      ss.onloadcssdefined = onloadcssdefined;
+      onloadcssdefined(loadCB);
+      return ss;
+    },
+
+    // 从 butterfly 和 volantis 获得灵感
+    loadScript: (src, opt) => new Promise((resolve, reject) => {
+      var script = document.createElement('script');
+      if (src.startsWith('/')){
+        src = stellar.config.root + src.substring(1);
+      }
+      script.src = src;
+      if (opt) {
+        for (let key of Object.keys(opt)) {
+          script[key] = opt[key]
+        }
+      } else {
+        // 默认异步，如果需要同步，第二个参数传入 {} 即可
+        script.async = true
+      }
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    }),
+
+    // https://github.com/jerryc127/hexo-theme-butterfly
+    jQuery: (fn) => {
+      if (typeof jQuery === 'undefined') {
+        stellar.loadScript(stellar.plugins.jQuery).then(fn)
+      } else {
+        fn()
+      }
+    }
+  };
+  stellar.version = '1.19.0';
+  stellar.github = 'https://github.com/xaoxuu/hexo-theme-stellar/tree/1.19.0';
+  stellar.config = {
+    date_suffix: {
+      just: '刚刚',
+      min: '分钟前',
+      hour: '小时前',
+      day: '天前',
+      month: '个月前',
+    },
+    root : '/RSSBOX/',
+  };
+
+  // required plugins (only load if needs)
+  stellar.plugins = {
+    jQuery: 'https://gcore.jsdelivr.net/npm/jquery@3.6.2/dist/jquery.min.js'
+  };
+
+  if ('local_search') {
+    stellar.search = {};
+    stellar.search.service = 'local_search';
+    if (stellar.search.service == 'local_search') {
+      let service_obj = Object.assign({}, {"field":"all","path":"/search.json","content":true,"codeblock":true,"sort":"-date"});
+      stellar.search[stellar.search.service] = service_obj;
+    }
+  }
+
+  // stellar js
+  stellar.plugins.stellar = Object.assign({"sites":"/js/plugins/sites.js","friends":"/js/plugins/friends.js","ghinfo":"/js/plugins/ghinfo.js","timeline":"/js/plugins/timeline.js","linkcard":"/js/plugins/linkcard.js","fcircle":"/js/plugins/fcircle.js","weibo":"/js/plugins/weibo.js"});
+
+  stellar.plugins.marked = Object.assign("https://cdn.bootcdn.net/ajax/libs/marked/4.0.18/marked.min.js");
+  // optional plugins
+  if ('true' == 'true') {
+    stellar.plugins.lazyload = Object.assign({"enable":true,"js":"https://gcore.jsdelivr.net/npm/vanilla-lazyload@17.8.3/dist/lazyload.min.js","transition":"blur"});
+  }
+  if ('true' == 'true') {
+    stellar.plugins.swiper = Object.assign({"enable":true,"css":"https://unpkg.com/swiper@8.4.5/swiper-bundle.min.css","js":"https://unpkg.com/swiper@8.4.5/swiper-bundle.min.js"});
+  }
+  if ('' == 'true') {
+    stellar.plugins.scrollreveal = Object.assign({"enable":null,"js":"https://gcore.jsdelivr.net/npm/scrollreveal@4.0.9/dist/scrollreveal.min.js","distance":"8px","duration":500,"interval":100,"scale":1});
+  }
+  if ('true' == 'true') {
+    stellar.plugins.preload = Object.assign({"enable":true,"service":"flying_pages","instant_page":"https://gcore.jsdelivr.net/gh/volantis-x/cdn-volantis@4.1.2/js/instant_page.js","flying_pages":"https://gcore.jsdelivr.net/gh/gijo-varghese/flying-pages@2.1.2/flying-pages.min.js"});
+  }
+  if ('true' == 'true') {
+    stellar.plugins.fancybox = Object.assign({"enable":true,"js":"https://gcore.jsdelivr.net/npm/@fancyapps/ui@4.0/dist/fancybox.umd.js","css":"https://gcore.jsdelivr.net/npm/@fancyapps/ui@4.0/dist/fancybox.css","selector":".swiper-slide img"});
+  }
+  if ('false' == 'true') {
+    stellar.plugins.heti = Object.assign({"enable":false,"css":"https://unpkg.com/heti@0.9.2/umd/heti.min.css","js":"https://unpkg.com/heti@0.9.2/umd/heti-addon.min.js"});
+  }
+  if ('true' == 'true') {
+    stellar.plugins.copycode = Object.assign({"enable":true,"js":"/js/plugins/copycode.js","default_text":"Copy","success_text":"Copied"});
+  }
+</script>
+
+<!-- required -->
+
+  
+<script src="/RSSBOX/js/main.js" async></script>
+
+
+
+<!-- optional -->
+
+  <script>
+  function loadJS() {
+    const els = document.querySelectorAll("#comments #giscus");
+    if (els.length === 0) return;
+    els.forEach((el, i) => {
+      try {
+        el.innerHTML = '';
+      } catch (error) {
+        console.log(error);
+      }
+      var script = document.createElement('script');
+      script.src = 'https://giscus.app/client.js';
+      script.async = true;
+      for (let key of Object.keys(el.attributes)) {
+        let attr = el.attributes[key];
+        if (['class', 'id'].includes(attr.name) === false) {
+          script.setAttribute(attr.name, attr.value);
+        }
+      }
+      el.appendChild(script);
+    });
+  }
+  window.addEventListener('DOMContentLoaded', (event) => {
+    loadJS();
+  });
+</script>
+
+
+
+
+<!-- inject -->
+
+
+  </div>
+</body>
+</html>
