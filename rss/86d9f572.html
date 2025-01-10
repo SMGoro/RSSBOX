@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+  <meta name="generator" content="Hexo 6.3.0">
+  <meta name="hexo-theme" content="https://github.com/xaoxuu/hexo-theme-stellar/tree/1.19.0">
+  <meta charset="utf-8">
+  
+
+  <meta http-equiv="x-dns-prefetch-control" content="on">
+  <link rel="dns-prefetch" href="https://gcore.jsdelivr.net">
+  <link rel="preconnect" href="https://gcore.jsdelivr.net" crossorigin>
+  <link rel="dns-prefetch" href="//unpkg.com">
+
+  <meta name="renderer" content="webkit">
+  <meta name="force-rendering" content="webkit">
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+  <meta name="HandheldFriendly" content="True">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="theme-color" content="#f8f8f8">
+  
+  <title>Highlights From Git 2.48 - RSSBOX</title>
+
+  
+    <meta name="description" content="The open source Git project just released Git 2.48 with features and bug fixes from over 93 contributors, 35 of them new. We last caught up with you on the latest in Git back when 2.47 was released">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Highlights From Git 2.48">
+<meta property="og:url" content="https://blog.imc.re/RSSBOX/rss/86d9f572.html">
+<meta property="og:site_name" content="RSSBOX">
+<meta property="og:description" content="The open source Git project just released Git 2.48 with features and bug fixes from over 93 contributors, 35 of them new. We last caught up with you on the latest in Git back when 2.47 was released">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2025-01-10T10:28:50.000Z">
+<meta property="article:modified_time" content="2025-01-10T10:28:50.000Z">
+<meta property="article:author" content="SMGoro">
+<meta property="article:tag" content="Blogs">
+<meta property="article:tag" content="Github">
+<meta name="twitter:card" content="summary_large_image">
+  
+  
+  
+  <meta name="keywords" content="Blogs,Github">
+
+  <!-- feed -->
+  
+    <link rel="alternate" href="/RSSBOX/atom.xml" title="RSSBOX" type="application/atom+xml">
+  
+
+  
+    
+<link rel="stylesheet" href="/RSSBOX/css/main.css">
+
+  
+
+  
+
+  
+
+  
+    <link rel="stylesheet" href="https://gcore.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.css" integrity="sha384-vKruj+a13U8yHIkAyGgK1J3ArTLzrFGBbBc0tDp4ad/EyewESeXE/Iv67Aj8gKZ0" crossorigin="anonymous">
+    <script defer src="https://gcore.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.js" integrity="sha384-PwRUT/YqbnEjkZO0zZxNqcxACrXe+j766U2amXcgMg5457rve2Y7I6ZJSm2A0mS4" crossorigin="anonymous"></script>
+    <script defer src="https://gcore.jsdelivr.net/npm/katex@0.16.4/dist/contrib/auto-render.min.js" integrity="sha384-+VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4+/RRE05" crossorigin="anonymous" onload="renderMathInElement(document.body);"></script>
+  
+
+
+  
+
+<!--百度统计-->
+<script>
+  var _hmt = _hmt || [];
+  (function() {
+    var hm = document.createElement("script");
+    hm.src = "https://hm.baidu.com/hm.js?f42afe3e5b76d22c8b1a8060171c7184";
+    var s = document.getElementsByTagName("script")[0]; 
+    s.parentNode.insertBefore(hm, s);
+  })();
+</script>  
+  <!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-V2NSKYGXNG"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-V2NSKYGXNG');
+</script>
+<!--Google Adsense-->
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4773172018528901" crossorigin="anonymous"></script>
+</head>
+
+<body>
+  
+
+
+
+
+  <div class="l_body" id="start">
+    <aside class="l_left" layout="post">
+    
+
+  
+
+<header class="header"><div class="logo-wrap"><a class="avatar" href="/RSSBOX/archives"><div class="bg" style="opacity:0;background-image:url(https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.4/avatar/round/rainbow64@3x.webp);"></div><img no-lazy class="avatar" src="https://cdn.jsdelivr.net/gh/SMGCDN/photos/icon/rsshub.png" onerror="javascript:this.classList.add('error');this.src='https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.4/image/2659360.svg';"></a><a class="title" href="/RSSBOX/"><div class="main" ff="title">RSSBOX</div><div class="sub normal cap">SMGoroのRSS订阅</div><div class="sub hover cap" style="opacity:0"> 一些好康的东西</div></a></div>
+
+<nav class="menu dis-select"><a class="nav-item active" href="/RSSBOX/">订阅</a><a class="nav-item" href="https://blog.imc.re/">博客</a><a class="nav-item" href="https://blog.imc.re/contact">联系</a><a class="nav-item" href="https://blog.imc.re/more">更多</a></nav>
+</header>
+
+
+<div class="widgets">
+
+<widget class="widget-wrapper toc single" id="data-toc"><div class="widget-header cap dis-select"><span class="name">Highlights From Git 2.48</span></div><div class="widget-body fs14"><div class="doc-tree active"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#faster-sha-1s-without-compromising-security"><span class="toc-text">Faster SHA-1s without compromising security</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#bringing-remerge-diff-to-range-diff"><span class="toc-text">Bringing --remerge-diff to range-diff</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#memory-leak-free-tests-in-git"><span class="toc-text">Memory leak-free tests in Git</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#introducing-meson-into-git"><span class="toc-text">Introducing Meson into Git</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#the-rest-of-the-iceberg"><span class="toc-text">The rest of the iceberg</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#notes"><span class="toc-text">Notes</span></a></li></ol></li></ol></div></div></widget>
+
+
+
+<widget class="widget-wrapper search"><div class="widget-body"><div class="search-wrapper" id="search"><form class="search-form"><input type="text" class="search-input" id="search-input" data-filter="/rss/" placeholder="文章搜索"><svg t="1670596976048" class="icon search-icon" viewbox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2676" width="200" height="200"><path d="M938.2 832.6L723.8 618.1c-2.5-2.5-5.3-4.4-7.9-6.4 36.2-55.6 57.3-121.8 57.3-193.1C773.3 222.8 614.6 64 418.7 64S64 222.8 64 418.6c0 195.9 158.8 354.6 354.6 354.6 71.3 0 137.5-21.2 193.2-57.4 2 2.7 3.9 5.4 6.3 7.8L832.5 938c14.6 14.6 33.7 21.9 52.8 21.9 19.1 0 38.2-7.3 52.8-21.8 29.2-29.1 29.2-76.4 0.1-105.5M418.7 661.3C284.9 661.3 176 552.4 176 418.6 176 284.9 284.9 176 418.7 176c133.8 0 242.6 108.9 242.6 242.7 0 133.7-108.9 242.6-242.6 242.6" p-id="2677"/></svg></form><div id="search-result"></div><div class="search-no-result">没有找到内容！</div></div></div></widget>
+
+
+
+<widget class="widget-wrapper recent"><div class="widget-header cap theme dis-select"><span class="name">最近更新</span><a class="cap-action" id="rss" title="Subscribe" href="/atom.xml"><svg class="icon" viewbox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="8938"><path d="M800.966 947.251c0-404.522-320.872-732.448-716.69-732.448V62.785c477.972 0 865.44 395.987 865.44 884.466h-148.75z m-162.273 0h-148.74c0-228.98-181.628-414.598-405.678-414.598v-152.01c306.205 0 554.418 253.68 554.418 566.608z m-446.24-221.12c59.748 0 108.189 49.503 108.189 110.557 0 61.063-48.44 110.563-108.188 110.563-59.747 0-108.18-49.5-108.18-110.563 0-61.054 48.433-110.556 108.18-110.556z" p-id="8939"/></svg></a></div><div class="widget-body related-posts fs14"><a class="item title" href="/RSSBOX/rss/44757927.html"><span class="title">Vocaloid Opera - the End (720p)</span></a><a class="item title" href="/RSSBOX/rss/5d3e505.html"><span class="title">いとしのムーコ 第01-17巻 [Itoshi No Muco Vol 01-17]</span></a><a class="item title" href="/RSSBOX/rss/48910fa7.html"><span class="title">Sorairo Utility S01E02 1080p WEB X264 AAC -Tsundere-Raws (ABEMA)</span></a><a class="item title" href="/RSSBOX/rss/ca53dfad.html"><span class="title">Tying.the.Knot.with.an.Amagami.Sister.S01E12.MULTi.1080p.WEB-DL.x264-T3KASHi</span></a><a class="item title" href="/RSSBOX/rss/c7690982.html"><span class="title">I.ll.Become.a.Villainess.who.Goes.Down.in.History.S01E12.MULTi.1080p.WEB-DL.x264-T3KASHi</span></a></div></widget>
+</div>
+<footer class="footer dis-select"><div class="social-wrap"><a class="social" href="https://github.com/SMGoro" target="_blank" rel="external nofollow noopener noreferrer"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cdn.jsdelivr.net/gh/SMGCDN/photos/icon/iconfont/social-github.svg"></a><a class="social" href="https://space.bilibili.com/359079394" target="_blank" rel="external nofollow noopener noreferrer"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cdn.jsdelivr.net/gh/SMGCDN/photos/icon/iconfont/bilibili.svg"></a><a class="social" href="https://l.imc.re/zhihu" target="_blank" rel="external nofollow noopener noreferrer"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cdn.jsdelivr.net/gh/SMGCDN/photos/icon/iconfont/zhihu.svg"></a><a class="social" href="https://l.imc.re/discord" target="_blank" rel="external nofollow noopener noreferrer"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cdn.jsdelivr.net/gh/SMGCDN/photos/icon/iconfont/discord.svg"></a><a class="social" href="https://blog.imc.re/contact" target="_blank" rel="external nofollow noopener noreferrer"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cdn.jsdelivr.net/gh/SMGCDN/photos/icon/iconfont/comments.svg"></a></div></footer>
+
+    </aside>
+    <div class="l_main">
+      
+
+      
+
+
+
+<div class="bread-nav fs12"><div id="breadcrumb"><a class="cap breadcrumb" href="/RSSBOX/">主页</a><span class="sep"></span><a class="cap breadcrumb" href="/RSSBOX/">文章</a><span class="sep"></span><a class="cap breadcrumb-link" href="/RSSBOX/categories/blogs/">Blogs</a> <span class="sep"></span> <a class="cap breadcrumb-link" href="/RSSBOX/categories/blogs/github/">Github</a></div><div id="post-meta">发布于&nbsp;<time datetime="2025-01-10T10:28:50.000Z">2025-01-10</time></div></div>
+
+<article class="md-text content post">
+<h1 class="article-title"><span>Highlights From Git 2.48</span></h1>
+<div>
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN" "http://www.w3.org/TR/REC-html40/loose.dtd">
+
+<html><body><p>The open source Git project just <a target="_blank" rel="external nofollow noopener noreferrer" href="https://lore.kernel.org/git/xmqqplku7cvm.fsf@gitster.g/">released Git 2.48</a> with features and bug fixes from over 93 contributors, 35 of them new. We last caught up with you on the latest in Git back when <a target="_blank" rel="external nofollow noopener noreferrer" href="https://github.blog/open-source/git/highlights-from-git-2-47/">2.47 was released</a>.</p>
+<p>To celebrate this most recent release, here is GitHub’s look at some of the most interesting features and changes introduced since last time.</p>
+<h2 id="faster-sha-1s-without-compromising-security">Faster SHA-1s without compromising security<a aria-label="Faster SHA-1s without compromising security" class="heading-link pl-2 text-italic text-bold" href="#faster-sha-1s-without-compromising-security"></a></h2>
+<p>When we published our coverage of Git’s 2.47 release, we neglected to mention a handful of performance changes that went in toward the very end of the cycle. Because this version contains a bugfix related to those changes, we figured now was as good a time as any<sup id="fnref-81991-1"><a class="jetpack-footnote" href="#fn-81991-1" title="Read footnote.">1</a></sup> to discuss those changes.</p>
+<p>You likely know that Git famously uses SHA-1 hashes by default to identify objects within your repository. (We <a target="_blank" rel="external nofollow noopener noreferrer" href="https://github.blog/open-source/git/git-2-29-released">have covered</a> Git’s capability to use SHA-256 as its primary hash function instead, but for this tidbit we’ll focus on Git in its SHA-1 mode). What you may not know is that Git uses SHA-1 hashes internally in a couple of spots, too. Most notable for our purposes is that the <a target="_blank" rel="external nofollow noopener noreferrer" href="https://git-scm.com/docs/pack-format">pack format</a> includes a trailing SHA-1 that stores the checksum of the preceding bytes. Git uses this data to validate that a pack’s contents matches what was advertised, and didn’t get corrupted in transit.</p>
+<p>By default, Git uses a collision detecting implementation of SHA-1, hardening it against common SHA-1 attacks like <a target="_blank" rel="external nofollow noopener noreferrer" href="https://shattered.io/">SHAttered</a> and <a target="_blank" rel="external nofollow noopener noreferrer" href="https://sha-mbles.github.io/">Shambles</a>. (GitHub <a target="_blank" rel="external nofollow noopener noreferrer" href="https://github.blog/news-insights/company-news/sha-1-collision-detection-on-github-com/">also uses</a> the collision detecting SHA-1 implementation). While the collision detecting SHA-1 implementation protects Git against collision attacks, it does so at the cost of a few extra CPU cycles to look for the telltale signs of these attacks while checksumming.</p>
+<p>In most cases, the performance impact is negligible, and the benefit outweighs the minor performance cost. But when computing the checksum of a large pack (like when cloning a large repository), the cost adds up. For instance, we used <a target="_blank" rel="external nofollow noopener noreferrer" href="https://valgrind.org/docs/manual/cl-manual.html">Callgrind</a> and measured that Git spends around 78% of its CPU computing a checksum during a simulated clone of <code>torvalds/linux</code>.</p>
+<p>Luckily, the trailing checksum is a data integrity measure, not a security one. For our purposes, this means that we can safely use a faster, non-collision-detecting implementation of SHA-1 specifically when computing trailing checksums (but nowhere else) without compromising security. Git 2.47 introduced new build-time options to specify a separate hash function implementation used specifically when computing trailing checksums. GitHub has used this option, and as a result measured a 10-13% performance improvement in serving fetches/clones across all repositories.</p>
+<p>You can try out Git’s ability to select alternative hash function implementations by building with <code>make OPENSSL_SHA1_UNSAFE=1</code>, or other <a target="_blank" rel="external nofollow noopener noreferrer" href="https://github.com/git/git/blob/v2.48.0/Makefile#L513-L532"><code>_UNSAFE</code> variants</a>.</p>
+<p>[<a target="_blank" rel="external nofollow noopener noreferrer" href="https://github.com/git/git/compare/59ee4f70136a12feb47979ca90baaf7c7beafe73...1b9e9be8b4694ea52d8aae93f311b1607c3576b7">source</a>, <a target="_blank" rel="external nofollow noopener noreferrer" href="https://github.com/git/git/compare/b1c6ed40cde2c0e2fd9b41c51555eba48bce49a8...4638250b7b9288c197c16600630cefd4e196b4fc">source</a>, <a target="_blank" rel="external nofollow noopener noreferrer" href="https://github.com/git/git/compare/6d81fe64dd646654bdb84fa5832c717954bf1696...863f2459a2047406c93758e8c3352cd5d2836f1e">source</a>]</p>
+<h2 id="bringing-remerge-diff-to-range-diff">Bringing <code>--remerge-diff</code> to range-diff<a aria-label="Bringing &lt;code&gt;--remerge-diff&lt;/code&gt; to range-diff" class="heading-link pl-2 text-italic text-bold" href="#bringing-remerge-diff-to-range-diff"></a></h2>
+<p>Regular readers of this series will no doubt recall our coverage of <a target="_blank" rel="external nofollow noopener noreferrer" href="https://github.blog/open-source/git/highlights-from-git-2-19/#user-content-compare-histories-with-git-range-diff">Git’s range-diff command</a> (introduced back in Git 2.19), and <a target="_blank" rel="external nofollow noopener noreferrer" href="https://github.blog/open-source/git/highlights-from-git-2-36/#review-merge-conflict-resolution-with-remerge-diff">the newer –remerge-diff option</a> (released in Git 2.36). In case you’re a first-time reader, or neither of those ring a bell for you, don’t worry; here’s a brief refresher.</p>
+<p>Git’s <code>range-diff</code> command allows you to compare two <em>sequences</em> of commits, including changes to their order, commit messages, and the actual content changes they introduce. This can be useful when comparing a sequence of commits that were rebased (potentially tweaking the order and changes within the patches along the way), to what that set of commits looked like before the rebase.</p>
+<p>Git’s <code>--remerge-diff</code> option tells <code>git show</code>, <code>git log</code>, or various diff-related commands to view the differences between where Git would have stopped with the merge, and what is recorded in the merge. This can be useful when dealing with merge conflicts, since the <code>--remerge-diff</code> view will show you the difference between the conflicts and their resolution, showing you how a given merge conflict was handled.</p>
+<p>In Git 2.48, these two features meet for the first time, and <code>range-diff</code> now accepts a <code>--remerge-diff</code> option, so that if someone rebases a sequence of commits with <a target="_blank" rel="external nofollow noopener noreferrer" href="https://github.blog/open-source/git/highlights-from-git-2-22/#rebase-merges-interactively"><code>--rebase-merges</code></a> and potentially needs to make some changes, then the changes in merge commits can also be reviewed as part of the range-diff.</p>
+<p>As a side effect of this work, a longstanding bug with <code>--remerge-diff</code> was also fixed, which in particular will allow <code>git log –remerge-diff</code> to be used together with options that change the order of commit traversal (such as <code>--reverse</code>).</p>
+<p>[<a target="_blank" rel="external nofollow noopener noreferrer" href="https://github.com/git/git/compare/c4cc685a62ffc06c86b1ecd1382c1b5cd0166189...88e59f8027ed0260584ccc0abd6fe435031614eb">source</a>, <a target="_blank" rel="external nofollow noopener noreferrer" href="https://github.com/git/git/commit/f94bfa151623d7e675db9465ae7ff0b33e4825f3">source</a>]</p>
+<h2 id="memory-leak-free-tests-in-git">Memory leak-free tests in Git<a aria-label="Memory leak-free tests in Git" class="heading-link pl-2 text-italic text-bold" href="#memory-leak-free-tests-in-git"></a></h2>
+<p>Beginning <a target="_blank" rel="external nofollow noopener noreferrer" href="https://github.blog/open-source/git/highlights-from-git-2-34/">all the way back in Git 2.34</a>, the Git project has been focused on reducing <a target="_blank" rel="external nofollow noopener noreferrer" href="https://en.wikipedia.org/wiki/Memory_leak">memory leaks</a> with the goal of ultimately making Git leak-free. Since Git is a command line tool, each execution typically only lasts for a brief period of time, after which the kernel will free any memory allocated to Git that Git itself did not free. Because of this, memory leaks in Git have not posed a significant practical issue for everyday use.</p>
+<p>But, having memory leaks in Git makes it difficult to convert much of Git’s internals into a callable library, where having memory leaks would be a significant issue. To address this, there has been a concerted effort over many years to reduce the number of memory leaks in Git’s codebase, with the ultimate goal of eliminating them altogether.</p>
+<p>After much effort toward that end, Git can now run its test suite successfully with leak checking enabled. As a satisfying end result, much of the test infrastructure we talked about back in 2.34 was removed, resulting in a simpler test infrastructure. Making Git memory leak-free represents significant progress toward being able to convert parts of Git’s internals into a callable library.</p>
+<p>[<a target="_blank" rel="external nofollow noopener noreferrer" href="https://github.com/git/git/compare/98009afd24e2304bf923a64750340423473809ff...9972cd6004ac46a919d2e8773be976ef1e2d6a65">source</a>, <a target="_blank" rel="external nofollow noopener noreferrer" href="https://github.com/git/git/compare/2a1a882890a3336f6f44d33793eedb70ff75d37a...fba95dad6ad83fd27eaf57cf526110faa8a20833">source</a>, <a target="_blank" rel="external nofollow noopener noreferrer" href="https://github.com/git/git/compare/7b0defb3915eaa0bd118f0996e8c00b4eb2dc1ca...ebdbefa4fe9f618347124b37d44e517e0c6a3e4c">source</a>, <a target="_blank" rel="external nofollow noopener noreferrer" href="https://github.com/git/git/compare/ecf7fc600a5218c9ee3863ee70d5a6e312164f30...fbf7a46d881429ef5495af7bbf3a6c3dacbf80b3">source</a>, <a target="_blank" rel="external nofollow noopener noreferrer" href="https://github.com/git/git/compare/25673b1c476756ec0587fb0596ab3c22b96dc52a...f30bfafcd41d0f13575361957dc361aa2be4d4c5">source</a>, <a target="_blank" rel="external nofollow noopener noreferrer" href="https://github.com/git/git/compare/3a7362eb9fad0c4838f5cfaa95ed3c51a4c18d93...77d4b3dd73c44b2c617345a6d9686d2f7f5b8a68">source</a>, <a target="_blank" rel="external nofollow noopener noreferrer" href="https://github.com/git/git/compare/f123c19e72190e666fbcd827924fd1f090a9d6ae...13b23d2da552b9476a0025562bc4ab8954d5be45">source</a>, <a target="_blank" rel="external nofollow noopener noreferrer" href="https://github.com/git/git/compare/2b800ec45e53051c41a85900009430704bfdf031...46f6ca2a68e02dd68132ed0b64cd55a8b6569e29">source</a>, <a target="_blank" rel="external nofollow noopener noreferrer" href="https://github.com/git/git/compare/9293a931868f21029baf55935f2f092c3f06415f...12dfc2475ce4808df696fb67fc71a66793f78f06">source</a>, <a target="_blank" rel="external nofollow noopener noreferrer" href="https://github.com/git/git/compare/d29d644d18737c7fbc2651ddbda64a3b552d9acb...66893a14d0c0d3850227def321312a7290317610">source</a>, <a target="_blank" rel="external nofollow noopener noreferrer" href="https://github.com/git/git/compare/b31fb630c0fc6869a33ed717163e8a1210460d94...c810549be1dd31e1a0a1de5060a519a461533564">source</a>, <a target="_blank" rel="external nofollow noopener noreferrer" href="https://github.com/git/git/compare/2f605347da0f6859175d6110cfd49b2d8937dea4...fc1ddf42af6742fae7e770cae20e30d7902014c0">source</a>]</p>
+<h2 id="introducing-meson-into-git">Introducing Meson into Git<a aria-label="Introducing Meson into Git" class="heading-link pl-2 text-italic text-bold" href="#introducing-meson-into-git"></a></h2>
+<p>The Git project uses <a target="_blank" rel="external nofollow noopener noreferrer" href="https://www.gnu.org/software/make/manual/make.html">GNU Make</a> as the primary means to compile Git, meaning that if you can obtain a copy of Git’s source, running <code>make</code> should be all you need to get a working Git binary (provided you have the necessary dependencies, etc.). There are a couple of exceptions, namely that Git has some support for Autoconf and CMake, though they are not as up-to-date as Git’s <code>Makefile</code>.</p>
+<p>But as the Git project approaches its 20th anniversary later this year, its <code>Makefile</code> is starting to show its age. There have been <a target="_blank" rel="external nofollow noopener noreferrer" href="https://github.com/git/git/commits/v2.48.0/Makefile">over 2,000 commits</a> to the <code>Makefile</code>, resulting in a build script that is nearly 4,000 lines long.</p>
+<p>In this release, the Git project has support for a new build system, <a target="_blank" rel="external nofollow noopener noreferrer" href="https://en.wikipedia.org/wiki/Meson_(software)">Meson</a>, as an alternative to building with GNU Make. While support for Meson is not yet as robust as building with Make, Meson does offer a handful of advantages over Make. Meson is easier to use than Make, making the project more accessible to newcomers or contributors who don’t have significant experience working with Make. Meson also has extensive IDE support, and supports out-of-tree and cross-platform builds, which are both significant assets to the Git project.</p>
+<p>Git will retain support for Make and CMake in addition to Meson for the foreseeable future, and retain support for Autoconf for a little longer. But if you’re curious to experiment with Git’s newest build system, you can run <code>meson setup build &amp;&amp; ninja -C build</code> on a fresh copy of Git 2.48 or newer.</p>
+<p>[<a target="_blank" rel="external nofollow noopener noreferrer" href="https://github.com/git/git/compare/ededd0d5dceefc308c670f4ed5f9fc727184e83d...904339edbd80ec5676616af6e072b41804c1c8eb">source</a>]</p>
+<hr>
+<ul>
+<li>As the Git project has grown over the years, it has accumulated a number of features and modes that, while reasonable when first introduced, have since become outdated or superseded and are now deprecated. In Git 2.48, the Git project began collecting these now-deprecated features in a list stored in <a target="_blank" rel="external nofollow noopener noreferrer" href="https://github.com/git/git/blob/v2.48.0/Documentation/BreakingChanges.txt"><code>Documentation/BreakingChanges.txt</code></a>.
+<p>This document enables the Git project to discuss deprecating certain features and collects the project’s anticipated deprecations in a single place. On the other side of the equation, it allows users to see if they might be affected by an upcoming deprecation, and share their use-case of a particular feature with the project. Check out the list to see if there is anything on there that you might miss, and to get an early picture of what an eventual Git 3.0 release might look like!</p>
+<p>[<a target="_blank" rel="external nofollow noopener noreferrer" href="https://github.com/git/git/compare/23d289d273d861f0a6244480e89ff937f66efa77...2454970930851179fb6486e6faa6342f008e7d9d">source</a>]</p>
+</li>
+<li>
+<p>If you’ve ever scripted around your repository’s references, you are likely familiar with Git’s <code>for-each-ref</code> command. In case you’re not, <code>for-each-ref</code> is a flexible tool that allows you to list references in your repository, apply custom formatting specifiers to them, and much more.</p>
+<p>Back <a target="_blank" rel="external nofollow noopener noreferrer" href="https://github.blog/open-source/git/highlights-from-git-2-44/">in Git 2.44</a>, we talked about <a target="_blank" rel="external nofollow noopener noreferrer" href="https://github.com/git/git/compare/e020e55a62dc3281504858d4091847d18ca63b2d...294bfc24418e81dfb204d14a3c3c24af9b195179">some performance improvements</a> that allowed <code>git for-each-ref</code> to run significantly faster by combining reference filtering and formatting into the same codepath, eliminating the need to store and sort the results in certain conditions.</p>
+<p>Git 2.48 extends those changes by allowing us to take advantage of the same optimizations even when asked to output the references in sorted order (under certain conditions). As long as those conditions are met, you can quickly output a small number of references even under <code>--sort=refname</code> independent of how many references your repository actually has.</p>
+<p>[<a target="_blank" rel="external nofollow noopener noreferrer" href="https://github.com/git/git/compare/bc627658b06155a0b1c3d0b1b0bf72db70770dc9...2e7c6d2f4112dd374f615f4e612e1cebbcb6d431">source</a>]</p>
+</li>
+<li>
+<p>While we’re on the topic of references, the <a target="_blank" rel="external nofollow noopener noreferrer" href="https://github.com/git/git/tree/v2.48.0-rc0/reftable">reftable subsystem</a> has received some more attention in this release. Git’s reftable implementation was updated to avoid explicit dependencies on some of Git’s convenience APIs, making further progress on being able to compile the reftable code without <code>libgit.a</code>. The reftable implementation was also updated to gracefully handle memory allocation failures instead of exiting the process immediately. Last but not least, the reftable code was updated to be able to reuse reference iterators, resulting in faster reference creation and lower memory usage when using reftables.</p>
+<p>For more about reftables, check out <a target="_blank" rel="external nofollow noopener noreferrer" href="https://github.blog/open-source/git/highlights-from-git-2-45/#preliminary-reftable-support">our previous coverage of reftables</a>.</p>
+<p>[<a target="_blank" rel="external nofollow noopener noreferrer" href="https://github.com/git/git/compare/799450316b606d4b6cd5db6a6cc814f1710d923f...2179b5c831f6bc286acda15c7c7f4a573291ee5c">source</a>, <a target="_blank" rel="external nofollow noopener noreferrer" href="https://github.com/git/git/compare/6a11438f43469f3815f2f0fc997bd45792ff04c0...20590cd287ada9c96efdf804e2bcdac0117c01b8">source</a>, <a target="_blank" rel="external nofollow noopener noreferrer" href="https://github.com/git/git/compare/35f40385e441d5aa885f5aa813539d5ed9dc2d26...988e7f5e952bbb7b6ae885f4da744f536f22693f">source</a>, <a target="_blank" rel="external nofollow noopener noreferrer" href="https://github.com/git/git/compare/de9278127e107455fda269d2db280782d77e5eba...7cf65e266020f23d31863a1f9508f375be818071">source</a>]</p>
+</li>
+<li>
+<p>When you clone from a remote repository, the default branch that the remote repository uses is reflected in <code>refs/remotes/origin/HEAD</code> locally<sup id="fnref-81991-2"><a class="jetpack-footnote" href="#fn-81991-2" title="Read footnote.">2</a></sup>. In prior versions of Git, subsequent fetches and pulls did not update this symbolic reference. With Git 2.48, if the remote has a default branch but <code>refs/remotes/origin/HEAD</code> is missing locally, then a fetch will update it.</p>
+<p>If you want to take it a step further, you can set <code>remote.origin.followRemoteHead</code> configuration to <code>warn</code> or <code>always</code>; if you do so, when <code>refs/remotes/origin/HEAD</code> already exists but does not match the default branch on the remote side, then when you run <code>git fetch</code> it will either warn you about the change or just automatically update <code>refs/remote/origin/HEAD</code> to the appropriate value depending on what setting you used.</p>
+<p>[<a target="_blank" rel="external nofollow noopener noreferrer" href="https://github.com/git/git/compare/cc01bad4a9f566cf4453c7edd6b433851b0835e2...761e62a09a8248bbab065a7159977a5de6d12aba">source</a>, <a target="_blank" rel="external nofollow noopener noreferrer" href="https://github.com/git/git/compare/ae75cefd94075045edeb1d23283a47e4e48a9360...a1f34d5955035dc64f2e25da0ba2cc0a0c73c21c">source</a>]</p>
+</li>
+<li>
+<p>Partial clones also received some love this cycle, fixing an infinite loop and avoiding promisor to non-promisor references that could break the repository after a <code>git gc</code>.</p>
+<p>For those unfamiliar with partial clones or want to learn more about their internals, you can read the guide “<a target="_blank" rel="external nofollow noopener noreferrer" href="https://github.blog/open-source/git/get-up-to-speed-with-partial-clone-and-shallow-clone/">Get up to speed with partial clone and shallow clone</a>.”</p>
+<p>[<a target="_blank" rel="external nofollow noopener noreferrer" href="https://github.com/git/git/compare/51ba60116019e03dee4c1b98107fb376aabcf1b1...486c9d3995c432510457656332a810b4d4dab547">source</a>, <a target="_blank" rel="external nofollow noopener noreferrer" href="https://github.com/git/git/compare/090d24e9af6e9f59c3f7bee97c42bb1ae3c7f559...0c11ef13565b7428437645d8c54cce4fbbc7df36">source</a>, <a target="_blank" rel="external nofollow noopener noreferrer" href="https://github.com/git/git/compare/8eaa06590fe916d4f2baa1fdb93959f1cfa9ab47...1f3d9b981465a8320878c725d2dd5924f452e786">source</a>, <a target="_blank" rel="external nofollow noopener noreferrer" href="https://github.com/git/git/compare/4007617fda480f18a879ee733a5bc6540e29352c...ededd0d5dceefc308c670f4ed5f9fc727184e83d">source</a>]</p>
+</li>
+</ul>
+<hr>
+<h2 id="the-rest-of-the-iceberg">The rest of the iceberg<a aria-label="The rest of the iceberg" class="heading-link pl-2 text-italic text-bold" href="#the-rest-of-the-iceberg"></a></h2>
+<p>That’s just a sample of changes from the latest release. For more, check out the release notes for <a target="_blank" rel="external nofollow noopener noreferrer" href="https://github.com/git/git/blob/v2.48.0/Documentation/RelNotes/2.48.0.txt">2.48</a>, or <a target="_blank" rel="external nofollow noopener noreferrer" href="https://github.com/git/git/tree/v2.48.0/Documentation/RelNotes">any previous version</a> in <a target="_blank" rel="external nofollow noopener noreferrer" href="https://github.com/git/git">the Git repository</a>.</p>
+<p><!-- Footnotes themselves at the bottom. --></p>
+<h4 id="notes">Notes<a aria-label="Notes" class="heading-link pl-2 text-italic text-bold" href="#notes"></a></h4>
+<div class="footnotes">
+<hr>
+<ol>
+<li id="fn-81991-1">
+A better time would have been in the Highlights from Git 2.47 blog post, but who’s counting? <a href="#fnref-81991-1" title="Return to main content.">↩</a>
+</li>
+<li id="fn-81991-2">
+By default, anyway. You can specify a name other than “origin” with the <code>-o</code> option <a href="#fnref-81991-2" title="Return to main content.">↩</a>
+</li>
+</ol>
+</div>
+</body></html>
+<p>The post <a target="_blank" rel="external nofollow noopener noreferrer" href="https://github.blog/open-source/git/highlights-from-git-2-48/">Highlights from Git 2.48</a> appeared first on <a target="_blank" rel="external nofollow noopener noreferrer" href="https://github.blog">The GitHub Blog</a>.</p>
+
+</div>
+
+<div>
+<div class="tag-plugin link dis-select"><a class="link-card plain" title="Highlights from Git 2.48" href="https://github.blog/open-source/git/highlights-from-git-2-48/" target="_blank" rel="external nofollow noopener noreferrer" cardlink autofill="icon"><div class="left"><span class="title">Highlights from Git 2.48</span><span class="cap link fs12">https://github.blog/open-source/git/highlights-from-git-2-48/</span></div><div class="right"><div class="lazy img" data-bg="https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.4/link/8f277b4ee0ecd.svg"></div></div></a></div>
+</div>
+
+
+
+
+<div class="article-footer reveal fs14"><section id="license"><div class="header"><span>许可协议</span></div><div class="body"><p>本文采用 <a target="_blank" rel="external nofollow noopener noreferrer" href="https://github.com/me-shaon/GLWTPL/blob/master/translations/LICENSE_zh-CN">GLWT（Good Luck With That，祝你好运）公共许可证</a> 许可协议，转载请注明出处。</p>
+</div></section><section id="share"><div class="header"><span>分享文章</span></div><div class="body"><div class="link"><input class="copy-area" readonly="true" id="copy-link" value="https://blog.imc.re/RSSBOX/rss/86d9f572.html"></div><div class="social-wrap dis-select"><a class="social share-item wechat" onclick="util.toggle(&quot;qrcode-wechat&quot)"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.4/social/b32ef3da1162a.svg"></a><a class="social share-item weibo" target="_blank" rel="external nofollow noopener noreferrer" href="https://service.weibo.com/share/share.php?url=https://blog.imc.re/RSSBOX/rss/86d9f572.html&title=Highlights From Git 2.48 - RSSBOX&pics=https://picsum.photos/400/300?random=7661&summary=
+
+
+The open source Git project just released Git 2.48 with features and bug fixes from over 93 contributors, 35 of th..."><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.4/social/80c07e4dbb303.svg"></a><a class="social share-item email" href="mailto:?subject=Highlights From Git 2.48 - RSSBOX&amp;body=https://blog.imc.re/RSSBOX/rss/86d9f572.html"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.4/social/a1b00e20f425d.svg"></a><a class="social share-item link" onclick="util.copy(&quot;copy-link&quot;, &quot;复制成功&quot;)"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.4/social/8411ed322ced6.svg"></a></div><div class="qrcode" id="qrcode-wechat" style="visibility:hidden;height:0"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://api.qrserver.com/v1/create-qr-code/?size=256x256&data=https://blog.imc.re/RSSBOX/rss/86d9f572.html"></div></div></section></div>
+
+</article>
+
+<div class="related-wrap reveal" id="read-next"><section class="body"><div class="item" id="prev"><div class="note">较新文章</div><a href="/RSSBOX/rss/55d9976e.html">恐怖体验交流大会，核市奇谭vol.84</a></div><div class="item" id="next"><div class="note">较早文章</div><a href="/RSSBOX/rss/f162ecf3.html">年末聊胶2024！鬼鬼老师加盟畅谈拼装与把玩</a></div></section></div>
+
+
+<div class="related-wrap reveal" id="related-posts">
+    <section class="header">
+      <div class="title cap theme">您可能感兴趣的文章</div>
+    </section>
+    <section class="body">
+    <div class="related-posts"><a class="item" href="/RSSBOX/rss/d4d7562.html" title="Announcing CodeQL Community Packs"><span class="title">Announcing CodeQL Community Packs</span></a><a class="item" href="/RSSBOX/rss/868f80a5.html" title="Building LATAM&#8217;s Future Tech Workforce With AI"><span class="title">Building LATAM&#8217;s Future Tech Workforce With AI</span></a><a class="item" href="/RSSBOX/rss/92d6d03c.html" title="Enhance Build Security and Reach SLSA Level 3 With GitHub Artifact Attestations"><span class="title">Enhance Build Security and Reach SLSA Level 3 With GitHub Artifact Attestations</span></a><a class="item" href="/RSSBOX/rss/e38966e3.html" title="GitHub’s Top Blogs of 2024"><span class="title">GitHub’s Top Blogs of 2024</span></a><a class="item" href="/RSSBOX/rss/8927e0cb.html" title="How to Use GitHub Copilot: What It Can Do and Real-World Examples"><span class="title">How to Use GitHub Copilot: What It Can Do and Real-World Examples</span></a></div></section></div>
+
+
+
+
+
+      
+<footer class="page-footer reveal fs12"><hr><div class="sitemap"><div class="sitemap-group"><span class="fs14">文章</span><a href="/RSSBOX/categories">分类</a><a href="/RSSBOX/tags">标签</a><a href="/RSSBOX/archives">归档</a></div><div class="sitemap-group"><span class="fs14">更多</span><a href="https://blog.imc.re/">博客</a><a target="_blank" rel="noopener" href="https://imc.re/">IMC.RE</a></div></div><div class="text"><p><a href="/">@RSSBOX</a> 2023 author by <a target="_blank" rel="external nofollow noopener noreferrer" href="https://github.com/MHG-LAB/RSSBOX">MHuiG</a> powered by SummerGoro。<br><br>本博客所有文章除特别声明外，均采用 <a target="_blank" rel="external nofollow noopener noreferrer" href="https://github.com/me-shaon/GLWTPL/blob/master/translations/LICENSE_zh-CN">GLWT（Good Luck With That，祝你好运）公共许可证</a> 许可协议，转载请注明出处。</p>
+</div></footer>
+
+      <div class="float-panel mobile-only blur" style="display:none">
+  <button type="button" class="sidebar-toggle mobile" onclick="sidebar.toggle()">
+    <svg class="icon" style="width: 1em; height: 1em;vertical-align: middle;fill: currentColor;overflow: hidden;" viewbox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="15301"><path d="M566.407 808.3c26.9-0.1 49.3-20.8 51.6-47.6-1.9-27.7-23.9-49.7-51.6-51.6h-412.6c-28.2-1.4-52.6 19.5-55.5 47.6 2.3 26.8 24.6 47.5 51.6 47.6h416.5v4z m309.3-249.9c26.9-0.1 49.3-20.8 51.6-47.6-2.2-26.8-24.6-47.5-51.6-47.6h-721.9c-27.7-2.8-52.5 17.4-55.3 45.1-0.1 0.8-0.1 1.7-0.2 2.5 0.9 27.2 23.6 48.5 50.7 47.6H875.707z m-103.1-245.9c26.9-0.1 49.3-20.8 51.6-47.6-0.4-28.3-23.2-51.1-51.5-51.6h-618.9c-29.5-1.1-54.3 21.9-55.5 51.4v0.2c1.4 27.8 25.2 49.2 53 47.8 0.8 0 1.7-0.1 2.5-0.2h618.8z" p-id="15302"/><path d="M566.407 808.3c26.9-0.1 49.3-20.8 51.6-47.6-1.9-27.7-23.9-49.7-51.6-51.6h-412.6c-28.2-1.4-52.6 19.5-55.5 47.6 1.9 27.7 23.9 49.7 51.6 51.6h416.5z m309.3-249.9c26.9-0.1 49.3-20.8 51.6-47.6-2.2-26.8-24.6-47.5-51.6-47.6h-721.9c-27.7-2.8-52.5 17.4-55.3 45.1-0.1 0.8-0.1 1.7-0.2 2.5 0.9 27.2 23.6 48.5 50.7 47.6H875.707z m-103.1-245.9c26.9-0.1 49.3-20.8 51.6-47.6-0.4-28.3-23.2-51.1-51.5-51.6h-618.9c-29.5-1.1-54.3 21.9-55.5 51.4v0.2c1.4 27.8 25.2 49.2 53 47.8 0.8 0 1.7-0.1 2.5-0.2h618.8z" p-id="15303"/></svg>
+  </button>
+</div>
+
+    </div>
+  </div>
+  <div class="scripts">
+    <script type="text/javascript">
+  const stellar = {
+    // 懒加载 css https://github.com/filamentgroup/loadCSS
+    loadCSS: (href, before, media, attributes) => {
+      var doc = window.document;
+      var ss = doc.createElement("link");
+      var ref;
+      if (before) {
+        ref = before;
+      } else {
+        var refs = (doc.body || doc.getElementsByTagName("head")[0]).childNodes;
+        ref = refs[refs.length - 1];
+      }
+      var sheets = doc.styleSheets;
+      if (attributes) {
+        for (var attributeName in attributes) {
+          if (attributes.hasOwnProperty(attributeName)) {
+            ss.setAttribute(attributeName, attributes[attributeName]);
+          }
+        }
+      }
+      ss.rel = "stylesheet";
+      ss.href = href;
+      ss.media = "only x";
+      function ready(cb) {
+        if (doc.body) {
+          return cb();
+        }
+        setTimeout(function () {
+          ready(cb);
+        });
+      }
+      ready(function () {
+        ref.parentNode.insertBefore(ss, before ? ref : ref.nextSibling);
+      });
+      var onloadcssdefined = function (cb) {
+        var resolvedHref = ss.href;
+        var i = sheets.length;
+        while (i--) {
+          if (sheets[i].href === resolvedHref) {
+            return cb();
+          }
+        }
+        setTimeout(function () {
+          onloadcssdefined(cb);
+        });
+      };
+      function loadCB() {
+        if (ss.addEventListener) {
+          ss.removeEventListener("load", loadCB);
+        }
+        ss.media = media || "all";
+      }
+      if (ss.addEventListener) {
+        ss.addEventListener("load", loadCB);
+      }
+      ss.onloadcssdefined = onloadcssdefined;
+      onloadcssdefined(loadCB);
+      return ss;
+    },
+
+    // 从 butterfly 和 volantis 获得灵感
+    loadScript: (src, opt) => new Promise((resolve, reject) => {
+      var script = document.createElement('script');
+      if (src.startsWith('/')){
+        src = stellar.config.root + src.substring(1);
+      }
+      script.src = src;
+      if (opt) {
+        for (let key of Object.keys(opt)) {
+          script[key] = opt[key]
+        }
+      } else {
+        // 默认异步，如果需要同步，第二个参数传入 {} 即可
+        script.async = true
+      }
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    }),
+
+    // https://github.com/jerryc127/hexo-theme-butterfly
+    jQuery: (fn) => {
+      if (typeof jQuery === 'undefined') {
+        stellar.loadScript(stellar.plugins.jQuery).then(fn)
+      } else {
+        fn()
+      }
+    }
+  };
+  stellar.version = '1.19.0';
+  stellar.github = 'https://github.com/xaoxuu/hexo-theme-stellar/tree/1.19.0';
+  stellar.config = {
+    date_suffix: {
+      just: '刚刚',
+      min: '分钟前',
+      hour: '小时前',
+      day: '天前',
+      month: '个月前',
+    },
+    root : '/RSSBOX/',
+  };
+
+  // required plugins (only load if needs)
+  stellar.plugins = {
+    jQuery: 'https://gcore.jsdelivr.net/npm/jquery@3.6.2/dist/jquery.min.js'
+  };
+
+  if ('local_search') {
+    stellar.search = {};
+    stellar.search.service = 'local_search';
+    if (stellar.search.service == 'local_search') {
+      let service_obj = Object.assign({}, {"field":"all","path":"/search.json","content":true,"codeblock":true,"sort":"-date"});
+      stellar.search[stellar.search.service] = service_obj;
+    }
+  }
+
+  // stellar js
+  stellar.plugins.stellar = Object.assign({"sites":"/js/plugins/sites.js","friends":"/js/plugins/friends.js","ghinfo":"/js/plugins/ghinfo.js","timeline":"/js/plugins/timeline.js","linkcard":"/js/plugins/linkcard.js","fcircle":"/js/plugins/fcircle.js","weibo":"/js/plugins/weibo.js"});
+
+  stellar.plugins.marked = Object.assign("https://cdn.bootcdn.net/ajax/libs/marked/4.0.18/marked.min.js");
+  // optional plugins
+  if ('true' == 'true') {
+    stellar.plugins.lazyload = Object.assign({"enable":true,"js":"https://gcore.jsdelivr.net/npm/vanilla-lazyload@17.8.3/dist/lazyload.min.js","transition":"blur"});
+  }
+  if ('true' == 'true') {
+    stellar.plugins.swiper = Object.assign({"enable":true,"css":"https://unpkg.com/swiper@8.4.5/swiper-bundle.min.css","js":"https://unpkg.com/swiper@8.4.5/swiper-bundle.min.js"});
+  }
+  if ('' == 'true') {
+    stellar.plugins.scrollreveal = Object.assign({"enable":null,"js":"https://gcore.jsdelivr.net/npm/scrollreveal@4.0.9/dist/scrollreveal.min.js","distance":"8px","duration":500,"interval":100,"scale":1});
+  }
+  if ('true' == 'true') {
+    stellar.plugins.preload = Object.assign({"enable":true,"service":"flying_pages","instant_page":"https://gcore.jsdelivr.net/gh/volantis-x/cdn-volantis@4.1.2/js/instant_page.js","flying_pages":"https://gcore.jsdelivr.net/gh/gijo-varghese/flying-pages@2.1.2/flying-pages.min.js"});
+  }
+  if ('true' == 'true') {
+    stellar.plugins.fancybox = Object.assign({"enable":true,"js":"https://gcore.jsdelivr.net/npm/@fancyapps/ui@4.0/dist/fancybox.umd.js","css":"https://gcore.jsdelivr.net/npm/@fancyapps/ui@4.0/dist/fancybox.css","selector":".swiper-slide img"});
+  }
+  if ('false' == 'true') {
+    stellar.plugins.heti = Object.assign({"enable":false,"css":"https://unpkg.com/heti@0.9.2/umd/heti.min.css","js":"https://unpkg.com/heti@0.9.2/umd/heti-addon.min.js"});
+  }
+  if ('true' == 'true') {
+    stellar.plugins.copycode = Object.assign({"enable":true,"js":"/js/plugins/copycode.js","default_text":"Copy","success_text":"Copied"});
+  }
+</script>
+
+<!-- required -->
+
+  
+<script src="/RSSBOX/js/main.js" async></script>
+
+
+
+<!-- optional -->
+
+  <script>
+  function loadJS() {
+    const els = document.querySelectorAll("#comments #giscus");
+    if (els.length === 0) return;
+    els.forEach((el, i) => {
+      try {
+        el.innerHTML = '';
+      } catch (error) {
+        console.log(error);
+      }
+      var script = document.createElement('script');
+      script.src = 'https://giscus.app/client.js';
+      script.async = true;
+      for (let key of Object.keys(el.attributes)) {
+        let attr = el.attributes[key];
+        if (['class', 'id'].includes(attr.name) === false) {
+          script.setAttribute(attr.name, attr.value);
+        }
+      }
+      el.appendChild(script);
+    });
+  }
+  window.addEventListener('DOMContentLoaded', (event) => {
+    loadJS();
+  });
+</script>
+
+
+
+
+<!-- inject -->
+
+
+  </div>
+</body>
+</html>

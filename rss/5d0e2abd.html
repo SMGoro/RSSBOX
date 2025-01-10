@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+  <meta name="generator" content="Hexo 6.3.0">
+  <meta name="hexo-theme" content="https://github.com/xaoxuu/hexo-theme-stellar/tree/1.19.0">
+  <meta charset="utf-8">
+  
+
+  <meta http-equiv="x-dns-prefetch-control" content="on">
+  <link rel="dns-prefetch" href="https://gcore.jsdelivr.net">
+  <link rel="preconnect" href="https://gcore.jsdelivr.net" crossorigin>
+  <link rel="dns-prefetch" href="//unpkg.com">
+
+  <meta name="renderer" content="webkit">
+  <meta name="force-rendering" content="webkit">
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+  <meta name="HandheldFriendly" content="True">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="theme-color" content="#f8f8f8">
+  
+  <title>What’s New in Cloudflare: MASQUE Now Powers 1.1.1.1 & WARP Apps, DEX Now Generally Available With Remote Captures - RSSBOX</title>
+
+  
+    <meta name="description" content="At Cloudflare, we are constantly innovating and launching new features and capabilities across our product portfolio. Today’s roundup blog post shares two exciting updates across our platform: our c">
+<meta property="og:type" content="article">
+<meta property="og:title" content="What’s New in Cloudflare: MASQUE Now Powers 1.1.1.1 &amp; WARP Apps, DEX Now Generally Available With Remote Captures">
+<meta property="og:url" content="https://blog.imc.re/RSSBOX/rss/5d0e2abd.html">
+<meta property="og:site_name" content="RSSBOX">
+<meta property="og:description" content="At Cloudflare, we are constantly innovating and launching new features and capabilities across our product portfolio. Today’s roundup blog post shares two exciting updates across our platform: our c">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://cf-assets.www.cloudflare.com/zkvhlag99gkb/6CghJvmC5DBnhKLM36MY3O/ecf722a9d9b5a4e4a048afea06237749/image1.png">
+<meta property="og:image" content="https://cf-assets.www.cloudflare.com/zkvhlag99gkb/6XkQ3rF8oo8JaG0Iujskia/6383b0c0bce36a94298960c163495843/image4.png">
+<meta property="og:image" content="https://cf-assets.www.cloudflare.com/zkvhlag99gkb/3c7lAh7C5huXDUYt4v7B7w/a089967f8d9d668b2ded321f40b35cf4/Screenshot_2024-12-23_at_18.26.20.png">
+<meta property="og:image" content="https://cf-assets.www.cloudflare.com/zkvhlag99gkb/2RkuqjgXZh8tmoj4W1narK/baaf61dcde00bbfa4cef71e5dbd2cc23/image2.png">
+<meta property="og:image" content="https://cf-assets.www.cloudflare.com/zkvhlag99gkb/5NWQAhlUK8OQvuydQV0lb7/d93f6792e897120aa5e2f837a6ec7786/image3.png">
+<meta property="article:published_time" content="2024-12-27T14:00:00.000Z">
+<meta property="article:modified_time" content="2024-12-27T14:00:00.000Z">
+<meta property="article:author" content="SMGoro">
+<meta property="article:tag" content="Blogs">
+<meta property="article:tag" content="Cloudflare">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://cf-assets.www.cloudflare.com/zkvhlag99gkb/6CghJvmC5DBnhKLM36MY3O/ecf722a9d9b5a4e4a048afea06237749/image1.png">
+  
+  
+  
+  <meta name="keywords" content="Blogs,Cloudflare">
+
+  <!-- feed -->
+  
+    <link rel="alternate" href="/RSSBOX/atom.xml" title="RSSBOX" type="application/atom+xml">
+  
+
+  
+    
+<link rel="stylesheet" href="/RSSBOX/css/main.css">
+
+  
+
+  
+
+  
+
+  
+    <link rel="stylesheet" href="https://gcore.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.css" integrity="sha384-vKruj+a13U8yHIkAyGgK1J3ArTLzrFGBbBc0tDp4ad/EyewESeXE/Iv67Aj8gKZ0" crossorigin="anonymous">
+    <script defer src="https://gcore.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.js" integrity="sha384-PwRUT/YqbnEjkZO0zZxNqcxACrXe+j766U2amXcgMg5457rve2Y7I6ZJSm2A0mS4" crossorigin="anonymous"></script>
+    <script defer src="https://gcore.jsdelivr.net/npm/katex@0.16.4/dist/contrib/auto-render.min.js" integrity="sha384-+VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4+/RRE05" crossorigin="anonymous" onload="renderMathInElement(document.body);"></script>
+  
+
+
+  
+
+<!--百度统计-->
+<script>
+  var _hmt = _hmt || [];
+  (function() {
+    var hm = document.createElement("script");
+    hm.src = "https://hm.baidu.com/hm.js?f42afe3e5b76d22c8b1a8060171c7184";
+    var s = document.getElementsByTagName("script")[0]; 
+    s.parentNode.insertBefore(hm, s);
+  })();
+</script>  
+  <!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-V2NSKYGXNG"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-V2NSKYGXNG');
+</script>
+<!--Google Adsense-->
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4773172018528901" crossorigin="anonymous"></script>
+</head>
+
+<body>
+  
+
+
+
+
+  <div class="l_body" id="start">
+    <aside class="l_left" layout="post">
+    
+
+  
+
+<header class="header"><div class="logo-wrap"><a class="avatar" href="/RSSBOX/archives"><div class="bg" style="opacity:0;background-image:url(https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.4/avatar/round/rainbow64@3x.webp);"></div><img no-lazy class="avatar" src="https://cdn.jsdelivr.net/gh/SMGCDN/photos/icon/rsshub.png" onerror="javascript:this.classList.add('error');this.src='https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.4/image/2659360.svg';"></a><a class="title" href="/RSSBOX/"><div class="main" ff="title">RSSBOX</div><div class="sub normal cap">SMGoroのRSS订阅</div><div class="sub hover cap" style="opacity:0"> 一些好康的东西</div></a></div>
+
+<nav class="menu dis-select"><a class="nav-item active" href="/RSSBOX/">订阅</a><a class="nav-item" href="https://blog.imc.re/">博客</a><a class="nav-item" href="https://blog.imc.re/contact">联系</a><a class="nav-item" href="https://blog.imc.re/more">更多</a></nav>
+</header>
+
+
+<div class="widgets">
+
+<widget class="widget-wrapper toc single" id="data-toc"><div class="widget-header cap dis-select"><span class="name">What’s New in Cloudflare: MASQUE Now Powers 1.1.1.1 & WARP Apps, DEX Now Generally Available With Remote Captures</span></div><div class="widget-body fs14"><div class="doc-tree active"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">Faster and more stable: our 1.1.1.1 &amp; WARP apps now use MASQUE by default</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-text">Why MASQUE?</span></a></li><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-text">Get started now </span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">DEX now Generally Available: Announcing detailed device visibility with DEX Remote Captures</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-text">Introducing Remote Captures: PCAP and WARP Diag</span></a></li><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-text">Why Remote Captures?</span></a></li><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-text">How Remote Captures work</span></a></li><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-text">Get started today</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">Never miss an update </span></a></li></ol></div></div></widget>
+
+
+
+<widget class="widget-wrapper search"><div class="widget-body"><div class="search-wrapper" id="search"><form class="search-form"><input type="text" class="search-input" id="search-input" data-filter="/rss/" placeholder="文章搜索"><svg t="1670596976048" class="icon search-icon" viewbox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2676" width="200" height="200"><path d="M938.2 832.6L723.8 618.1c-2.5-2.5-5.3-4.4-7.9-6.4 36.2-55.6 57.3-121.8 57.3-193.1C773.3 222.8 614.6 64 418.7 64S64 222.8 64 418.6c0 195.9 158.8 354.6 354.6 354.6 71.3 0 137.5-21.2 193.2-57.4 2 2.7 3.9 5.4 6.3 7.8L832.5 938c14.6 14.6 33.7 21.9 52.8 21.9 19.1 0 38.2-7.3 52.8-21.8 29.2-29.1 29.2-76.4 0.1-105.5M418.7 661.3C284.9 661.3 176 552.4 176 418.6 176 284.9 284.9 176 418.7 176c133.8 0 242.6 108.9 242.6 242.7 0 133.7-108.9 242.6-242.6 242.6" p-id="2677"/></svg></form><div id="search-result"></div><div class="search-no-result">没有找到内容！</div></div></div></widget>
+
+
+
+<widget class="widget-wrapper recent"><div class="widget-header cap theme dis-select"><span class="name">最近更新</span><a class="cap-action" id="rss" title="Subscribe" href="/atom.xml"><svg class="icon" viewbox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="8938"><path d="M800.966 947.251c0-404.522-320.872-732.448-716.69-732.448V62.785c477.972 0 865.44 395.987 865.44 884.466h-148.75z m-162.273 0h-148.74c0-228.98-181.628-414.598-405.678-414.598v-152.01c306.205 0 554.418 253.68 554.418 566.608z m-446.24-221.12c59.748 0 108.189 49.503 108.189 110.557 0 61.063-48.44 110.563-108.188 110.563-59.747 0-108.18-49.5-108.18-110.563 0-61.054 48.433-110.556 108.18-110.556z" p-id="8939"/></svg></a></div><div class="widget-body related-posts fs14"><a class="item title" href="/RSSBOX/rss/44757927.html"><span class="title">Vocaloid Opera - the End (720p)</span></a><a class="item title" href="/RSSBOX/rss/5d3e505.html"><span class="title">いとしのムーコ 第01-17巻 [Itoshi No Muco Vol 01-17]</span></a><a class="item title" href="/RSSBOX/rss/48910fa7.html"><span class="title">Sorairo Utility S01E02 1080p WEB X264 AAC -Tsundere-Raws (ABEMA)</span></a><a class="item title" href="/RSSBOX/rss/ca53dfad.html"><span class="title">Tying.the.Knot.with.an.Amagami.Sister.S01E12.MULTi.1080p.WEB-DL.x264-T3KASHi</span></a><a class="item title" href="/RSSBOX/rss/c7690982.html"><span class="title">I.ll.Become.a.Villainess.who.Goes.Down.in.History.S01E12.MULTi.1080p.WEB-DL.x264-T3KASHi</span></a></div></widget>
+</div>
+<footer class="footer dis-select"><div class="social-wrap"><a class="social" href="https://github.com/SMGoro" target="_blank" rel="external nofollow noopener noreferrer"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cdn.jsdelivr.net/gh/SMGCDN/photos/icon/iconfont/social-github.svg"></a><a class="social" href="https://space.bilibili.com/359079394" target="_blank" rel="external nofollow noopener noreferrer"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cdn.jsdelivr.net/gh/SMGCDN/photos/icon/iconfont/bilibili.svg"></a><a class="social" href="https://l.imc.re/zhihu" target="_blank" rel="external nofollow noopener noreferrer"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cdn.jsdelivr.net/gh/SMGCDN/photos/icon/iconfont/zhihu.svg"></a><a class="social" href="https://l.imc.re/discord" target="_blank" rel="external nofollow noopener noreferrer"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cdn.jsdelivr.net/gh/SMGCDN/photos/icon/iconfont/discord.svg"></a><a class="social" href="https://blog.imc.re/contact" target="_blank" rel="external nofollow noopener noreferrer"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cdn.jsdelivr.net/gh/SMGCDN/photos/icon/iconfont/comments.svg"></a></div></footer>
+
+    </aside>
+    <div class="l_main">
+      
+
+      
+
+
+
+<div class="bread-nav fs12"><div id="breadcrumb"><a class="cap breadcrumb" href="/RSSBOX/">主页</a><span class="sep"></span><a class="cap breadcrumb" href="/RSSBOX/">文章</a><span class="sep"></span><a class="cap breadcrumb-link" href="/RSSBOX/categories/blogs/">Blogs</a> <span class="sep"></span> <a class="cap breadcrumb-link" href="/RSSBOX/categories/blogs/cloudflare/">Cloudflare</a></div><div id="post-meta">发布于&nbsp;<time datetime="2024-12-27T14:00:00.000Z">2024-12-27</time></div></div>
+
+<article class="md-text content post">
+<h1 class="article-title"><span>What’s New in Cloudflare: MASQUE Now Powers 1.1.1.1 & WARP Apps, DEX Now Generally Available With Remote Captures</span></h1>
+<div>
+ <p>At Cloudflare, we are constantly innovating and launching new features and capabilities across our product portfolio. Today’s roundup blog post shares two exciting updates across our platform: our cross-platform <a target="_blank" rel="external nofollow noopener noreferrer" href="https://www.cloudflare.com/en-gb/learning/dns/what-is-1.1.1.1/"><u>1.1.1.1</u></a> &amp; <a target="_blank" rel="external nofollow noopener noreferrer" href="https://developers.cloudflare.com/warp-client/"><u>WARP</u></a> applications (consumer) and device agents (Zero Trust)  now use <a target="_blank" rel="external nofollow noopener noreferrer" href="https://blog.cloudflare.com/masque-building-a-new-protocol-into-cloudflare-warp/"><u>MASQUE</u></a>, a cutting-edge <a target="_blank" rel="external nofollow noopener noreferrer" href="https://www.cloudflare.com/en-gb/learning/performance/what-is-http3/"><u>HTTP/3</u></a>-based protocol, to secure your Internet connection. Additionally, DEX is now available for general availability. </p>
+<div>
+<h2>Faster and more stable: our 1.1.1.1 &amp; WARP apps now use MASQUE by default</h2>
+<a href="#faster-and-more-stable-our-1-1-1-1-warp-apps-now-use-masque-by-default">
+</a>
+</div>
+<figure>
+<img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cf-assets.www.cloudflare.com/zkvhlag99gkb/6CghJvmC5DBnhKLM36MY3O/ecf722a9d9b5a4e4a048afea06237749/image1.png">
+</figure><p>We’re excited to announce that as of today, our cross-platform <a target="_blank" rel="external nofollow noopener noreferrer" href="https://www.cloudflare.com/en-gb/learning/dns/what-is-1.1.1.1/"><u>1.1.1.1</u></a> &amp; <a target="_blank" rel="external nofollow noopener noreferrer" href="https://developers.cloudflare.com/warp-client/"><u>WARP</u></a> apps now use <a target="_blank" rel="external nofollow noopener noreferrer" href="https://blog.cloudflare.com/masque-building-a-new-protocol-into-cloudflare-warp/"><u>MASQUE</u></a>, a cutting-edge <a target="_blank" rel="external nofollow noopener noreferrer" href="https://www.cloudflare.com/en-gb/learning/performance/what-is-http3/"><u>HTTP/3</u></a>-based protocol, to secure your Internet connection.</p><p>As a reminder, our 1.1.1.1 &amp; WARP apps have two main functions: send all DNS queries through 1.1.1.1, our privacy-preserving DNS resolver, and protect your device’s network traffic via WARP by creating a private and encrypted tunnel to the resources you’re accessing, preventing unwanted third parties or public Wi-Fi networks from snooping on your traffic.</p><p>There are many ways to encrypt and proxy Internet traffic — you may have heard of a few, such as IPSec, WireGuard, or OpenVPN. There are many tradeoffs we considered when choosing a protocol, but we believe MASQUE is the future of fast, secure, and stable Internet proxying, it aligns with our belief in building on top of open Internet standards, and we’ve deployed it successfully at scale for customers like <a target="_blank" rel="external nofollow noopener noreferrer" href="https://blog.cloudflare.com/icloud-private-relay/"><u>iCloud Private Relay</u></a> and <a target="_blank" rel="external nofollow noopener noreferrer" href="https://blog.cloudflare.com/cloudflare-now-powering-microsoft-edge-secure-network/"><u>Microsoft Edge Secure Network</u></a>.</p>
+<div>
+<h3>Why MASQUE?</h3>
+<a href="#why-masque">
+</a>
+</div>
+<p><a target="_blank" rel="external nofollow noopener noreferrer" href="https://blog.cloudflare.com/masque-building-a-new-protocol-into-cloudflare-warp/"><b><u>MASQUE</u></b></a> is a modern framework for proxying traffic that allows a variety of application protocols, including HTTP/3, to utilize QUIC as their transport mechanism. That’s a lot of acronyms, so let's make sure those are clear. </p>
+<figure>
+<img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cf-assets.www.cloudflare.com/zkvhlag99gkb/6XkQ3rF8oo8JaG0Iujskia/6383b0c0bce36a94298960c163495843/image4.png">
+</figure><p><a target="_blank" rel="external nofollow noopener noreferrer" href="https://blog.cloudflare.com/quic-version-1-is-live-on-cloudflare/"><b><u>QUIC</u></b></a> is a general-purpose transport protocol and <a target="_blank" rel="external nofollow noopener noreferrer" href="https://www.rfc-editor.org/rfc/rfc9000.html"><u>Internet standard</u></a> that operates on top of UDP (instead of TCP), is encrypted by default, and solves several performance issues that plagued its predecessors. <a target="_blank" rel="external nofollow noopener noreferrer" href="https://www.cloudflare.com/en-gb/learning/performance/what-is-http3/"><b><u>HTTP/3</u></b></a><b> </b>is the latest version of the HTTP protocol, defining the application-layer protocol that runs on top of QUIC as its transport mechanism. MASQUE is a set of mechanisms for tunneling traffic over HTTP. It extends the existing HTTP CONNECT model, to allow tunneling UDP and IP traffic. This is especially efficient when combined with the QUIC’s <a target="_blank" rel="external nofollow noopener noreferrer" href="https://datatracker.ietf.org/doc/html/rfc9221"><u>unreliable datagram extension</u></a>. </p><p>For example, we can use MASQUE’s <a target="_blank" rel="external nofollow noopener noreferrer" href="https://www.rfc-editor.org/rfc/rfc9484.html"><u>CONNECT-IP method</u></a> to establish a tunnel that can send multiple concurrent requests over a single QUIC connection:</p>
+<pre><code>HEADERS
+:method = CONNECT
+:protocol = connect-ip
+:scheme = https
+:path = /.well-known/masque/ip/*/*/
+:authority = example.org
+capsule-protocol = ?1</code></pre>
+<p>The benefit these protocols have for the quality and security of everyone’s Internet browsing experience is real. Earlier transport protocols were built before the advent of smartphones and mobile networks, so QUIC was designed to support a mobile world, maintaining connections even in poorly connected networks, and minimizing disruptions as people switch rapidly between networks as they move through their day. Leveraging HTTP/3 as the application layer means that MASQUE is more like “normal” HTTP traffic on the Internet, meaning that it is easier to support, is compatible with existing firewall and security rules, and that it supports cryptographic agility (i.e. support for <a target="_blank" rel="external nofollow noopener noreferrer" href="https://blog.cloudflare.com/post-quantum-for-all/"><u>post-quantum crypto</u></a>), making this traffic more secure and resilient in the long term.</p>
+<div>
+<h3>Get started now </h3>
+<a href="#get-started-now">
+</a>
+</div>
+<p>All new installations of our 1.1.1.1 &amp; WARP apps support MASQUE, including iOS, Android, macOS, Windows, and Linux, and we’ve started to roll it out as the preferred protocol over WireGuard. <a target="_blank" rel="external nofollow noopener noreferrer" href="https://developers.cloudflare.com/warp-client/get-started/"><u>On mobile</u></a>, to check if your connection is already secured over MASQUE, or change your device’s default option, you can toggle this setting via <i>Advanced &gt; Connection options &gt; Tunnel protocol:</i></p>
+<figure>
+<img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cf-assets.www.cloudflare.com/zkvhlag99gkb/3c7lAh7C5huXDUYt4v7B7w/a089967f8d9d668b2ded321f40b35cf4/Screenshot_2024-12-23_at_18.26.20.png">
+</figure><p><sup><i>Protocol connection options shown here on the iOS app</i></sup></p><p>We offer the following options: </p><ul><li><p><b>Auto</b>: this allows the app to choose the protocol.</p></li><li><p><b>MASQUE</b>: always use MASQUE to secure your connection.</p></li><li><p><b>WireGuard</b>: always use WireGuard to secure your connection.</p></li></ul><p>On <a target="_blank" rel="external nofollow noopener noreferrer" href="https://developers.cloudflare.com/warp-client/get-started/linux/"><u>desktop</u></a> versions, you can switch the protocol by using the WARP command-line interface. For example:</p>
+<pre><code>warp-cli tunnel protocol set WireGuard
+warp-cli tunnel protocol set MASQUE</code></pre>
+<p>With this rollout, we're excited to see MASQUE deliver increased performance and stability to millions of users. Download <a target="_blank" rel="external nofollow noopener noreferrer" href="https://one.one.one.one/"><u>one of the WARP apps</u></a> today!</p>
+<div>
+<h2>DEX now Generally Available: Announcing detailed device visibility with DEX Remote Captures</h2>
+<a href="#dex-now-generally-available-announcing-detailed-device-visibility-with-dex-remote-captures">
+</a>
+</div>
+<figure>
+<img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cf-assets.www.cloudflare.com/zkvhlag99gkb/2RkuqjgXZh8tmoj4W1narK/baaf61dcde00bbfa4cef71e5dbd2cc23/image2.png">
+</figure><p><i>Following the successful beta launch of Digital Experience Monitoring (DEX), we are thrilled to announce the general availability of DEX, along with new Remote Captures functionality.</i></p><p>In today's hyper distributed environment, user experience is paramount. Recurring performance problems can lead to decreased user satisfaction, lost productivity, and damaged brand reputation.  <a target="_blank" rel="external nofollow noopener noreferrer" href="https://www.cloudflare.com/learning/performance/what-is-digital-experience-monitoring/"><u>Digital Experience Monitoring (DEX)</u></a> offers a comprehensive solution to these challenges. Previous blog posts have discussed the solution and its capabilities. (<a target="_blank" rel="external nofollow noopener noreferrer" href="https://blog.cloudflare.com/introducing-digital-experience-monitoring/"><i><u>Introducing Digital Experience Monitoring</u></i></a><i>, </i><a target="_blank" rel="external nofollow noopener noreferrer" href="https://blog.cloudflare.com/digital-experience-monitoring-beta/"><i><u>Understanding end user-connectivity and performance with Digital Experience Monitoring, now available in beta</u></i></a><i>, </i><a target="_blank" rel="external nofollow noopener noreferrer" href="https://blog.cloudflare.com/tag/dex"><i><u>What's new in Cloudflare One: Digital Experience monitoring notifications</u></i></a>)</p>
+<div>
+<h3>Introducing Remote Captures: PCAP and WARP Diag</h3>
+<a href="#introducing-remote-captures-pcap-and-warp-diag">
+</a>
+</div>
+<p>Imagine this: an end user is frustrated with a slow application, and your IT team is struggling to pinpoint the root cause. Traditionally, troubleshooting such issues involved contacting the end user and asking them to manually collect and share network traffic data. This process is time-consuming, prone to errors, and often disruptive to the end user's workflow.</p><p>Building upon the capabilities of DEX, we are excited to introduce Remote Captures, a powerful new feature that empowers IT admins to gain unprecedented visibility into end-user devices and network performance. DEX now introduces Remote Captures, a powerful new feature that empowers IT admins to remotely initiate network <a target="_blank" rel="external nofollow noopener noreferrer" href="https://en.wikipedia.org/wiki/Pcap"><u>packet captures (PCAP)</u></a> and <a target="_blank" rel="external nofollow noopener noreferrer" href="https://developers.cloudflare.com/cloudflare-one/connections/connect-devices/warp/troubleshooting/warp-logs/"><u>WARP Diag logs</u></a> directly from your end users’ devices and capture diagnostic information automatically from our device client. This streamlined approach accelerates troubleshooting, reduces the burden on end users, and provides valuable insights into network performance and security.</p>
+<div>
+<h3>Why Remote Captures?</h3>
+<a href="#why-remote-captures">
+</a>
+</div>
+<p>Remote Captures offer several key advantages. By analyzing detailed network traffic, IT teams can quickly pinpoint the root cause of network issues. Furthermore, granular network data empowers security teams to proactively detect and investigate potential threats. Finally, by identifying bottlenecks and latency issues, Remote Captures enable organizations to optimize network performance for a smoother user experience.</p>
+<div>
+<h3>How Remote Captures work</h3>
+<a href="#how-remote-captures-work">
+</a>
+</div>
+<p>Initiating a Remote Capture is straightforward. First, select the specific device you wish to troubleshoot. Then, with a few simple clicks, start capturing network traffic and/or WARP Diag data. Once the capture is complete, download the captured data and utilize your preferred tools for in-depth analysis.</p>
+<figure>
+<img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cf-assets.www.cloudflare.com/zkvhlag99gkb/5NWQAhlUK8OQvuydQV0lb7/d93f6792e897120aa5e2f837a6ec7786/image3.png">
+</figure>
+<div>
+<h3>Get started today</h3>
+<a href="#get-started-today">
+</a>
+</div>
+<p>DEX Remote Captures are now available for Cloudflare One customers. They can be configured by going to <a target="_blank" rel="external nofollow noopener noreferrer" href="https://dash.cloudflare.com/"><u>Cloudflare Dashboard</u></a> &gt;  Zero Trust &gt; DEX &gt; Remote Captures, and then selecting the device you wish to collect from. For more information, refer to <a target="_blank" rel="external nofollow noopener noreferrer" href="https://developers.cloudflare.com/cloudflare-one/insights/dex/remote-captures/"><u>Remote captures</u></a>. This new capability highlights just one of the many ways our unified SASE platform helps organizations find and fix security issues across SaaS applications. <a target="_blank" rel="external nofollow noopener noreferrer" href="https://dash.cloudflare.com/sign-up/teams"><u>Try it out now</u></a> using our free tier to get started.</p>
+<div>
+<h2>Never miss an update </h2>
+<a href="#never-miss-an-update">
+</a>
+</div>
+<p>We hope you enjoy reading our roundup blog posts as we continue to build and innovate. Stay tuned to the <a target="_blank" rel="external nofollow noopener noreferrer" href="https://blog.cloudflare.com/"><u>Cloudflare Blog</u></a> for the latest news and updates.</p> 
+</div>
+
+<div>
+<div class="tag-plugin link dis-select"><a class="link-card plain" title="What’s new in Cloudflare: MASQUE now powers 1.1.1.1 & WARP apps, DEX now generally available with Remote Captures" href="https://blog.cloudflare.com/masque-now-powers-1-1-1-1-and-warp-apps-dex-available-with-remote-captures/" target="_blank" rel="external nofollow noopener noreferrer" cardlink autofill="icon"><div class="left"><span class="title">What’s new in Cloudflare: MASQUE now powers 1.1.1.1 & WARP apps, DEX now generally available with Remote Captures</span><span class="cap link fs12">https://blog.cloudflare.com/masque-now-powers-1-1-1-1-and-warp-apps-dex-available-with-remote-captures/</span></div><div class="right"><div class="lazy img" data-bg="https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.4/link/8f277b4ee0ecd.svg"></div></div></a></div>
+</div>
+
+
+
+
+<div class="article-footer reveal fs14"><section id="license"><div class="header"><span>许可协议</span></div><div class="body"><p>本文采用 <a target="_blank" rel="external nofollow noopener noreferrer" href="https://github.com/me-shaon/GLWTPL/blob/master/translations/LICENSE_zh-CN">GLWT（Good Luck With That，祝你好运）公共许可证</a> 许可协议，转载请注明出处。</p>
+</div></section><section id="share"><div class="header"><span>分享文章</span></div><div class="body"><div class="link"><input class="copy-area" readonly="true" id="copy-link" value="https://blog.imc.re/RSSBOX/rss/5d0e2abd.html"></div><div class="social-wrap dis-select"><a class="social share-item wechat" onclick="util.toggle(&quot;qrcode-wechat&quot)"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.4/social/b32ef3da1162a.svg"></a><a class="social share-item weibo" target="_blank" rel="external nofollow noopener noreferrer" href="https://service.weibo.com/share/share.php?url=https://blog.imc.re/RSSBOX/rss/5d0e2abd.html&title=What’s New in Cloudflare: MASQUE Now Powers 1.1.1.1 & WARP Apps, DEX Now Generally Available With Remote Captures - RSSBOX&pics=https://cf-assets.www.cloudflare.com/zkvhlag99gkb/6CghJvmC5DBnhKLM36MY3O/ecf722a9d9b5a4e4a048afea06237749/image1.png&summary=
+ At Cloudflare, we are constantly innovating and launching new features and capabilities across our product portfoli..."><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.4/social/80c07e4dbb303.svg"></a><a class="social share-item email" href="mailto:?subject=What’s New in Cloudflare: MASQUE Now Powers 1.1.1.1 & WARP Apps, DEX Now Generally Available With Remote Captures - RSSBOX&amp;body=https://blog.imc.re/RSSBOX/rss/5d0e2abd.html"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.4/social/a1b00e20f425d.svg"></a><a class="social share-item link" onclick="util.copy(&quot;copy-link&quot;, &quot;复制成功&quot;)"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.4/social/8411ed322ced6.svg"></a></div><div class="qrcode" id="qrcode-wechat" style="visibility:hidden;height:0"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://api.qrserver.com/v1/create-qr-code/?size=256x256&data=https://blog.imc.re/RSSBOX/rss/5d0e2abd.html"></div></div></section></div>
+
+</article>
+
+<div class="related-wrap reveal" id="read-next"><section class="body"><div class="item" id="prev"><div class="note">较新文章</div><a href="/RSSBOX/rss/e38966e3.html">GitHub’s Top Blogs of 2024</a></div><div class="item" id="next"><div class="note">较早文章</div><a href="/RSSBOX/rss/8a655bdc.html">Sometimes I Cache: Implementing Lock-Free Probabilistic Caching</a></div></section></div>
+
+
+<div class="related-wrap reveal" id="related-posts">
+    <section class="header">
+      <div class="title cap theme">您可能感兴趣的文章</div>
+    </section>
+    <section class="body">
+    <div class="related-posts"><a class="item" href="/RSSBOX/rss/ef860f74.html" title="Bring Multimodal Real-Time Interaction to Your AI Applications With Cloudflare Calls"><span class="title">Bring Multimodal Real-Time Interaction to Your AI Applications With Cloudflare Calls</span></a><a class="item" href="/RSSBOX/rss/101c747.html" title="Behind the Scenes With Stream Live, Cloudflare’s Live Streaming Service"><span class="title">Behind the Scenes With Stream Live, Cloudflare’s Live Streaming Service</span></a><a class="item" href="/RSSBOX/rss/c3d79809.html" title="Grinch Bots Strike Again: Defending Your Holidays From Cyber Threats"><span class="title">Grinch Bots Strike Again: Defending Your Holidays From Cyber Threats</span></a><a class="item" href="/RSSBOX/rss/9920173b.html" title="Hi Claude, Build an MCP Server on Cloudflare Workers"><span class="title">Hi Claude, Build an MCP Server on Cloudflare Workers</span></a><a class="item" href="/RSSBOX/rss/ccded7a6.html" title="Global Elections in 2024: Internet Traffic and Cyber Threat Trends"><span class="title">Global Elections in 2024: Internet Traffic and Cyber Threat Trends</span></a></div></section></div>
+
+
+
+
+
+      
+<footer class="page-footer reveal fs12"><hr><div class="sitemap"><div class="sitemap-group"><span class="fs14">文章</span><a href="/RSSBOX/categories">分类</a><a href="/RSSBOX/tags">标签</a><a href="/RSSBOX/archives">归档</a></div><div class="sitemap-group"><span class="fs14">更多</span><a href="https://blog.imc.re/">博客</a><a target="_blank" rel="noopener" href="https://imc.re/">IMC.RE</a></div></div><div class="text"><p><a href="/">@RSSBOX</a> 2023 author by <a target="_blank" rel="external nofollow noopener noreferrer" href="https://github.com/MHG-LAB/RSSBOX">MHuiG</a> powered by SummerGoro。<br><br>本博客所有文章除特别声明外，均采用 <a target="_blank" rel="external nofollow noopener noreferrer" href="https://github.com/me-shaon/GLWTPL/blob/master/translations/LICENSE_zh-CN">GLWT（Good Luck With That，祝你好运）公共许可证</a> 许可协议，转载请注明出处。</p>
+</div></footer>
+
+      <div class="float-panel mobile-only blur" style="display:none">
+  <button type="button" class="sidebar-toggle mobile" onclick="sidebar.toggle()">
+    <svg class="icon" style="width: 1em; height: 1em;vertical-align: middle;fill: currentColor;overflow: hidden;" viewbox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="15301"><path d="M566.407 808.3c26.9-0.1 49.3-20.8 51.6-47.6-1.9-27.7-23.9-49.7-51.6-51.6h-412.6c-28.2-1.4-52.6 19.5-55.5 47.6 2.3 26.8 24.6 47.5 51.6 47.6h416.5v4z m309.3-249.9c26.9-0.1 49.3-20.8 51.6-47.6-2.2-26.8-24.6-47.5-51.6-47.6h-721.9c-27.7-2.8-52.5 17.4-55.3 45.1-0.1 0.8-0.1 1.7-0.2 2.5 0.9 27.2 23.6 48.5 50.7 47.6H875.707z m-103.1-245.9c26.9-0.1 49.3-20.8 51.6-47.6-0.4-28.3-23.2-51.1-51.5-51.6h-618.9c-29.5-1.1-54.3 21.9-55.5 51.4v0.2c1.4 27.8 25.2 49.2 53 47.8 0.8 0 1.7-0.1 2.5-0.2h618.8z" p-id="15302"/><path d="M566.407 808.3c26.9-0.1 49.3-20.8 51.6-47.6-1.9-27.7-23.9-49.7-51.6-51.6h-412.6c-28.2-1.4-52.6 19.5-55.5 47.6 1.9 27.7 23.9 49.7 51.6 51.6h416.5z m309.3-249.9c26.9-0.1 49.3-20.8 51.6-47.6-2.2-26.8-24.6-47.5-51.6-47.6h-721.9c-27.7-2.8-52.5 17.4-55.3 45.1-0.1 0.8-0.1 1.7-0.2 2.5 0.9 27.2 23.6 48.5 50.7 47.6H875.707z m-103.1-245.9c26.9-0.1 49.3-20.8 51.6-47.6-0.4-28.3-23.2-51.1-51.5-51.6h-618.9c-29.5-1.1-54.3 21.9-55.5 51.4v0.2c1.4 27.8 25.2 49.2 53 47.8 0.8 0 1.7-0.1 2.5-0.2h618.8z" p-id="15303"/></svg>
+  </button>
+</div>
+
+    </div>
+  </div>
+  <div class="scripts">
+    <script type="text/javascript">
+  const stellar = {
+    // 懒加载 css https://github.com/filamentgroup/loadCSS
+    loadCSS: (href, before, media, attributes) => {
+      var doc = window.document;
+      var ss = doc.createElement("link");
+      var ref;
+      if (before) {
+        ref = before;
+      } else {
+        var refs = (doc.body || doc.getElementsByTagName("head")[0]).childNodes;
+        ref = refs[refs.length - 1];
+      }
+      var sheets = doc.styleSheets;
+      if (attributes) {
+        for (var attributeName in attributes) {
+          if (attributes.hasOwnProperty(attributeName)) {
+            ss.setAttribute(attributeName, attributes[attributeName]);
+          }
+        }
+      }
+      ss.rel = "stylesheet";
+      ss.href = href;
+      ss.media = "only x";
+      function ready(cb) {
+        if (doc.body) {
+          return cb();
+        }
+        setTimeout(function () {
+          ready(cb);
+        });
+      }
+      ready(function () {
+        ref.parentNode.insertBefore(ss, before ? ref : ref.nextSibling);
+      });
+      var onloadcssdefined = function (cb) {
+        var resolvedHref = ss.href;
+        var i = sheets.length;
+        while (i--) {
+          if (sheets[i].href === resolvedHref) {
+            return cb();
+          }
+        }
+        setTimeout(function () {
+          onloadcssdefined(cb);
+        });
+      };
+      function loadCB() {
+        if (ss.addEventListener) {
+          ss.removeEventListener("load", loadCB);
+        }
+        ss.media = media || "all";
+      }
+      if (ss.addEventListener) {
+        ss.addEventListener("load", loadCB);
+      }
+      ss.onloadcssdefined = onloadcssdefined;
+      onloadcssdefined(loadCB);
+      return ss;
+    },
+
+    // 从 butterfly 和 volantis 获得灵感
+    loadScript: (src, opt) => new Promise((resolve, reject) => {
+      var script = document.createElement('script');
+      if (src.startsWith('/')){
+        src = stellar.config.root + src.substring(1);
+      }
+      script.src = src;
+      if (opt) {
+        for (let key of Object.keys(opt)) {
+          script[key] = opt[key]
+        }
+      } else {
+        // 默认异步，如果需要同步，第二个参数传入 {} 即可
+        script.async = true
+      }
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    }),
+
+    // https://github.com/jerryc127/hexo-theme-butterfly
+    jQuery: (fn) => {
+      if (typeof jQuery === 'undefined') {
+        stellar.loadScript(stellar.plugins.jQuery).then(fn)
+      } else {
+        fn()
+      }
+    }
+  };
+  stellar.version = '1.19.0';
+  stellar.github = 'https://github.com/xaoxuu/hexo-theme-stellar/tree/1.19.0';
+  stellar.config = {
+    date_suffix: {
+      just: '刚刚',
+      min: '分钟前',
+      hour: '小时前',
+      day: '天前',
+      month: '个月前',
+    },
+    root : '/RSSBOX/',
+  };
+
+  // required plugins (only load if needs)
+  stellar.plugins = {
+    jQuery: 'https://gcore.jsdelivr.net/npm/jquery@3.6.2/dist/jquery.min.js'
+  };
+
+  if ('local_search') {
+    stellar.search = {};
+    stellar.search.service = 'local_search';
+    if (stellar.search.service == 'local_search') {
+      let service_obj = Object.assign({}, {"field":"all","path":"/search.json","content":true,"codeblock":true,"sort":"-date"});
+      stellar.search[stellar.search.service] = service_obj;
+    }
+  }
+
+  // stellar js
+  stellar.plugins.stellar = Object.assign({"sites":"/js/plugins/sites.js","friends":"/js/plugins/friends.js","ghinfo":"/js/plugins/ghinfo.js","timeline":"/js/plugins/timeline.js","linkcard":"/js/plugins/linkcard.js","fcircle":"/js/plugins/fcircle.js","weibo":"/js/plugins/weibo.js"});
+
+  stellar.plugins.marked = Object.assign("https://cdn.bootcdn.net/ajax/libs/marked/4.0.18/marked.min.js");
+  // optional plugins
+  if ('true' == 'true') {
+    stellar.plugins.lazyload = Object.assign({"enable":true,"js":"https://gcore.jsdelivr.net/npm/vanilla-lazyload@17.8.3/dist/lazyload.min.js","transition":"blur"});
+  }
+  if ('true' == 'true') {
+    stellar.plugins.swiper = Object.assign({"enable":true,"css":"https://unpkg.com/swiper@8.4.5/swiper-bundle.min.css","js":"https://unpkg.com/swiper@8.4.5/swiper-bundle.min.js"});
+  }
+  if ('' == 'true') {
+    stellar.plugins.scrollreveal = Object.assign({"enable":null,"js":"https://gcore.jsdelivr.net/npm/scrollreveal@4.0.9/dist/scrollreveal.min.js","distance":"8px","duration":500,"interval":100,"scale":1});
+  }
+  if ('true' == 'true') {
+    stellar.plugins.preload = Object.assign({"enable":true,"service":"flying_pages","instant_page":"https://gcore.jsdelivr.net/gh/volantis-x/cdn-volantis@4.1.2/js/instant_page.js","flying_pages":"https://gcore.jsdelivr.net/gh/gijo-varghese/flying-pages@2.1.2/flying-pages.min.js"});
+  }
+  if ('true' == 'true') {
+    stellar.plugins.fancybox = Object.assign({"enable":true,"js":"https://gcore.jsdelivr.net/npm/@fancyapps/ui@4.0/dist/fancybox.umd.js","css":"https://gcore.jsdelivr.net/npm/@fancyapps/ui@4.0/dist/fancybox.css","selector":".swiper-slide img"});
+  }
+  if ('false' == 'true') {
+    stellar.plugins.heti = Object.assign({"enable":false,"css":"https://unpkg.com/heti@0.9.2/umd/heti.min.css","js":"https://unpkg.com/heti@0.9.2/umd/heti-addon.min.js"});
+  }
+  if ('true' == 'true') {
+    stellar.plugins.copycode = Object.assign({"enable":true,"js":"/js/plugins/copycode.js","default_text":"Copy","success_text":"Copied"});
+  }
+</script>
+
+<!-- required -->
+
+  
+<script src="/RSSBOX/js/main.js" async></script>
+
+
+
+<!-- optional -->
+
+  <script>
+  function loadJS() {
+    const els = document.querySelectorAll("#comments #giscus");
+    if (els.length === 0) return;
+    els.forEach((el, i) => {
+      try {
+        el.innerHTML = '';
+      } catch (error) {
+        console.log(error);
+      }
+      var script = document.createElement('script');
+      script.src = 'https://giscus.app/client.js';
+      script.async = true;
+      for (let key of Object.keys(el.attributes)) {
+        let attr = el.attributes[key];
+        if (['class', 'id'].includes(attr.name) === false) {
+          script.setAttribute(attr.name, attr.value);
+        }
+      }
+      el.appendChild(script);
+    });
+  }
+  window.addEventListener('DOMContentLoaded', (event) => {
+    loadJS();
+  });
+</script>
+
+
+
+
+<!-- inject -->
+
+
+  </div>
+</body>
+</html>

@@ -1,0 +1,665 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+  <meta name="generator" content="Hexo 6.3.0">
+  <meta name="hexo-theme" content="https://github.com/xaoxuu/hexo-theme-stellar/tree/1.19.0">
+  <meta charset="utf-8">
+  
+
+  <meta http-equiv="x-dns-prefetch-control" content="on">
+  <link rel="dns-prefetch" href="https://gcore.jsdelivr.net">
+  <link rel="preconnect" href="https://gcore.jsdelivr.net" crossorigin>
+  <link rel="dns-prefetch" href="//unpkg.com">
+
+  <meta name="renderer" content="webkit">
+  <meta name="force-rendering" content="webkit">
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+  <meta name="HandheldFriendly" content="True">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="theme-color" content="#f8f8f8">
+  
+  <title>Introducing Annotated Logger: A Python Package to Aid in Adding Metadata to Logs - RSSBOX</title>
+
+  
+    <meta name="description" content="What it is Annotated Logger is a Python package that allows you to decorate functions and classes, which then log when complete and can request a customized logger object, which has additional fiel">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Introducing Annotated Logger: A Python Package to Aid in Adding Metadata to Logs">
+<meta property="og:url" content="https://blog.imc.re/RSSBOX/rss/68d82f32.html">
+<meta property="og:site_name" content="RSSBOX">
+<meta property="og:description" content="What it is Annotated Logger is a Python package that allows you to decorate functions and classes, which then log when complete and can request a customized logger object, which has additional fiel">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2024-12-18T13:31:44.000Z">
+<meta property="article:modified_time" content="2024-12-18T13:31:44.000Z">
+<meta property="article:author" content="SMGoro">
+<meta property="article:tag" content="Blogs">
+<meta property="article:tag" content="Github">
+<meta name="twitter:card" content="summary_large_image">
+  
+  
+  
+  <meta name="keywords" content="Blogs,Github">
+
+  <!-- feed -->
+  
+    <link rel="alternate" href="/RSSBOX/atom.xml" title="RSSBOX" type="application/atom+xml">
+  
+
+  
+    
+<link rel="stylesheet" href="/RSSBOX/css/main.css">
+
+  
+
+  
+
+  
+
+  
+    <link rel="stylesheet" href="https://gcore.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.css" integrity="sha384-vKruj+a13U8yHIkAyGgK1J3ArTLzrFGBbBc0tDp4ad/EyewESeXE/Iv67Aj8gKZ0" crossorigin="anonymous">
+    <script defer src="https://gcore.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.js" integrity="sha384-PwRUT/YqbnEjkZO0zZxNqcxACrXe+j766U2amXcgMg5457rve2Y7I6ZJSm2A0mS4" crossorigin="anonymous"></script>
+    <script defer src="https://gcore.jsdelivr.net/npm/katex@0.16.4/dist/contrib/auto-render.min.js" integrity="sha384-+VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4+/RRE05" crossorigin="anonymous" onload="renderMathInElement(document.body);"></script>
+  
+
+
+  
+
+<!--百度统计-->
+<script>
+  var _hmt = _hmt || [];
+  (function() {
+    var hm = document.createElement("script");
+    hm.src = "https://hm.baidu.com/hm.js?f42afe3e5b76d22c8b1a8060171c7184";
+    var s = document.getElementsByTagName("script")[0]; 
+    s.parentNode.insertBefore(hm, s);
+  })();
+</script>  
+  <!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-V2NSKYGXNG"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-V2NSKYGXNG');
+</script>
+<!--Google Adsense-->
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4773172018528901" crossorigin="anonymous"></script>
+</head>
+
+<body>
+  
+
+
+
+
+  <div class="l_body" id="start">
+    <aside class="l_left" layout="post">
+    
+
+  
+
+<header class="header"><div class="logo-wrap"><a class="avatar" href="/RSSBOX/archives"><div class="bg" style="opacity:0;background-image:url(https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.4/avatar/round/rainbow64@3x.webp);"></div><img no-lazy class="avatar" src="https://cdn.jsdelivr.net/gh/SMGCDN/photos/icon/rsshub.png" onerror="javascript:this.classList.add('error');this.src='https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.4/image/2659360.svg';"></a><a class="title" href="/RSSBOX/"><div class="main" ff="title">RSSBOX</div><div class="sub normal cap">SMGoroのRSS订阅</div><div class="sub hover cap" style="opacity:0"> 一些好康的东西</div></a></div>
+
+<nav class="menu dis-select"><a class="nav-item active" href="/RSSBOX/">订阅</a><a class="nav-item" href="https://blog.imc.re/">博客</a><a class="nav-item" href="https://blog.imc.re/contact">联系</a><a class="nav-item" href="https://blog.imc.re/more">更多</a></nav>
+</header>
+
+
+<div class="widgets">
+
+<widget class="widget-wrapper toc single" id="data-toc"><div class="widget-header cap dis-select"><span class="name">Introducing Annotated Logger: A Python Package to Aid in Adding Metadata to Logs</span></div><div class="widget-body fs14"><div class="doc-tree active"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#what-it-is"><span class="toc-text">What it is</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#why-we-made-it"><span class="toc-text">Why we made it</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#how-and-why-to-use-it"><span class="toc-text">How and why to use it</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#under-the-covers"><span class="toc-text">Under the covers</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#how-its-implemented"><span class="toc-text">How it’s implemented</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#type-hinting"><span class="toc-text">Type hinting</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#plugins"><span class="toc-text">Plugins</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#dictconfig"><span class="toc-text">dictconfig</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#notes"><span class="toc-text">Notes</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#pytest-mock"><span class="toc-text">Pytest mock</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#other-features"><span class="toc-text">Other features</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#class-decorators-and-persist"><span class="toc-text">Class decorators and persist</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#iterators"><span class="toc-text">Iterators</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#provided"><span class="toc-text">Provided</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#split-messages"><span class="toc-text">Split messages</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#pre-post-hooks"><span class="toc-text">Pre&#x2F;Post hooks</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#runtime-annotations"><span class="toc-text">Runtime annotations</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#tips-tricks-and-gotchas"><span class="toc-text">Tips, tricks and gotchas</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#questions-feedback-and-requests"><span class="toc-text">Questions, feedback and requests</span></a></li></ol></div></div></widget>
+
+
+
+<widget class="widget-wrapper search"><div class="widget-body"><div class="search-wrapper" id="search"><form class="search-form"><input type="text" class="search-input" id="search-input" data-filter="/rss/" placeholder="文章搜索"><svg t="1670596976048" class="icon search-icon" viewbox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2676" width="200" height="200"><path d="M938.2 832.6L723.8 618.1c-2.5-2.5-5.3-4.4-7.9-6.4 36.2-55.6 57.3-121.8 57.3-193.1C773.3 222.8 614.6 64 418.7 64S64 222.8 64 418.6c0 195.9 158.8 354.6 354.6 354.6 71.3 0 137.5-21.2 193.2-57.4 2 2.7 3.9 5.4 6.3 7.8L832.5 938c14.6 14.6 33.7 21.9 52.8 21.9 19.1 0 38.2-7.3 52.8-21.8 29.2-29.1 29.2-76.4 0.1-105.5M418.7 661.3C284.9 661.3 176 552.4 176 418.6 176 284.9 284.9 176 418.7 176c133.8 0 242.6 108.9 242.6 242.7 0 133.7-108.9 242.6-242.6 242.6" p-id="2677"/></svg></form><div id="search-result"></div><div class="search-no-result">没有找到内容！</div></div></div></widget>
+
+
+
+<widget class="widget-wrapper recent"><div class="widget-header cap theme dis-select"><span class="name">最近更新</span><a class="cap-action" id="rss" title="Subscribe" href="/atom.xml"><svg class="icon" viewbox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="8938"><path d="M800.966 947.251c0-404.522-320.872-732.448-716.69-732.448V62.785c477.972 0 865.44 395.987 865.44 884.466h-148.75z m-162.273 0h-148.74c0-228.98-181.628-414.598-405.678-414.598v-152.01c306.205 0 554.418 253.68 554.418 566.608z m-446.24-221.12c59.748 0 108.189 49.503 108.189 110.557 0 61.063-48.44 110.563-108.188 110.563-59.747 0-108.18-49.5-108.18-110.563 0-61.054 48.433-110.556 108.18-110.556z" p-id="8939"/></svg></a></div><div class="widget-body related-posts fs14"><a class="item title" href="/RSSBOX/rss/44757927.html"><span class="title">Vocaloid Opera - the End (720p)</span></a><a class="item title" href="/RSSBOX/rss/5d3e505.html"><span class="title">いとしのムーコ 第01-17巻 [Itoshi No Muco Vol 01-17]</span></a><a class="item title" href="/RSSBOX/rss/48910fa7.html"><span class="title">Sorairo Utility S01E02 1080p WEB X264 AAC -Tsundere-Raws (ABEMA)</span></a><a class="item title" href="/RSSBOX/rss/ca53dfad.html"><span class="title">Tying.the.Knot.with.an.Amagami.Sister.S01E12.MULTi.1080p.WEB-DL.x264-T3KASHi</span></a><a class="item title" href="/RSSBOX/rss/c7690982.html"><span class="title">I.ll.Become.a.Villainess.who.Goes.Down.in.History.S01E12.MULTi.1080p.WEB-DL.x264-T3KASHi</span></a></div></widget>
+</div>
+<footer class="footer dis-select"><div class="social-wrap"><a class="social" href="https://github.com/SMGoro" target="_blank" rel="external nofollow noopener noreferrer"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cdn.jsdelivr.net/gh/SMGCDN/photos/icon/iconfont/social-github.svg"></a><a class="social" href="https://space.bilibili.com/359079394" target="_blank" rel="external nofollow noopener noreferrer"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cdn.jsdelivr.net/gh/SMGCDN/photos/icon/iconfont/bilibili.svg"></a><a class="social" href="https://l.imc.re/zhihu" target="_blank" rel="external nofollow noopener noreferrer"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cdn.jsdelivr.net/gh/SMGCDN/photos/icon/iconfont/zhihu.svg"></a><a class="social" href="https://l.imc.re/discord" target="_blank" rel="external nofollow noopener noreferrer"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cdn.jsdelivr.net/gh/SMGCDN/photos/icon/iconfont/discord.svg"></a><a class="social" href="https://blog.imc.re/contact" target="_blank" rel="external nofollow noopener noreferrer"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cdn.jsdelivr.net/gh/SMGCDN/photos/icon/iconfont/comments.svg"></a></div></footer>
+
+    </aside>
+    <div class="l_main">
+      
+
+      
+
+
+
+<div class="bread-nav fs12"><div id="breadcrumb"><a class="cap breadcrumb" href="/RSSBOX/">主页</a><span class="sep"></span><a class="cap breadcrumb" href="/RSSBOX/">文章</a><span class="sep"></span><a class="cap breadcrumb-link" href="/RSSBOX/categories/blogs/">Blogs</a> <span class="sep"></span> <a class="cap breadcrumb-link" href="/RSSBOX/categories/blogs/github/">Github</a></div><div id="post-meta">发布于&nbsp;<time datetime="2024-12-18T13:31:44.000Z">2024-12-18</time></div></div>
+
+<article class="md-text content post">
+<h1 class="article-title"><span>Introducing Annotated Logger: A Python Package to Aid in Adding Metadata to Logs</span></h1>
+<div>
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN" "http://www.w3.org/TR/REC-html40/loose.dtd">
+
+<html><body><h2 id="what-it-is">What it is<a aria-label="What it is" class="heading-link pl-2 text-italic text-bold" href="#what-it-is"></a></h2>
+<p><a target="_blank" rel="external nofollow noopener noreferrer" href="https://github.com/github/annotated-logger">Annotated Logger</a> is a Python package that allows you to decorate functions and classes, which then log when complete and can request a customized logger object, which has additional fields pre-added. GitHub’s Vulnerability Management team created this tool to make it easier to find and filter logs in Splunk.</p>
+<h2 id="why-we-made-it">Why we made it<a aria-label="Why we made it" class="heading-link pl-2 text-italic text-bold" href="#why-we-made-it"></a></h2>
+<p>We have several Python projects that have grown in complexity over the years and have used Splunk to ingest and search those logs. We have always sent our logs in via JSON, which makes it easy to add in extra fields. However, there were a number of fields, like what Git branch was deployed, that we also wanted to send, plus, there were fields, like the CVE name of the vulnerability being processed, that we wanted to add for messages in a given function. Both are possible with the base Python logger, but it’s a lot of manual work repeating the same thing over and over, or building and managing a dictionary of extra fields that are included in every log message.</p>
+<p>The Annotated Logger started out as a simple decorator in one of our repositories, but was extracted into a package in its own right as we started to use it in all of our projects. As we’ve continued to use it, its features have grown and been updated.</p>
+<h2 id="how-and-why-to-use-it">How and why to use it<a aria-label="How and why to use it" class="heading-link pl-2 text-italic text-bold" href="#how-and-why-to-use-it"></a></h2>
+<p>Now that I’ve gotten a bit of the backstory out of the way, here’s what it does, why you should use it, and how to configure it for your specific needs. At its simplest, you decorate a function with <code>@annotate_logs()</code> and it will “just work.” If you’d like to dive right in and poke around, the <a target="_blank" rel="external nofollow noopener noreferrer" href="https://github.com/github/annotated-logger/tree/main/example">example folder</a> contains examples that fully exercise the features.</p>
+<pre><code class="language-python">@annotate_logs()
+def foo():
+    return True
+</code></pre>
+<pre><code>&gt;&gt;&gt; foo()
+&#123;"created": 1733176439.5067494, "levelname": "DEBUG", "name": "annotated_logger.8fcd85f5-d47f-4925-8d3f-935d45ceeefc", "message": "start", "action": "__main__:foo", "annotated": true&#125;
+&#123;"created": 1733176439.506998, "levelname": "INFO", "name": "annotated_logger.8fcd85f5-d47f-4925-8d3f-935d45ceeefc", "message": "success", "action": "__main__:foo", "success": true, "run_time": "0.0", "annotated": true&#125;
+True
+</code></pre>
+<p>Here is a more complete example that makes use of a number of the features. Make sure to install the package: <code>pip install annotated-logger</code> first.</p>
+<pre><code class="language-python">import os
+from annotated_logger import AnnotatedLogger
+al = AnnotatedLogger(
+    name="annotated_logger.example",
+    annotations=&#123;"branch": os.environ.get("BRANCH", "unknown-branch")&#125;
+)
+annotate_logs = al.annotate_logs
+
+<p>@annotate_logs()<br>def split_username(annotated_logger, username):<br>    annotated_logger.annotate(username&#x3D;username)<br>    annotated_logger.info(“This is a very important message!”, extra&#x3D;&amp;#123;”important”: True&amp;#125;)<br>    return list(username)<br></p></code></pre><p></p>
+<pre><code>&gt;&gt;&gt; split_username("crimsonknave")
+&#123;"created": 1733349907.7293086, "levelname": "DEBUG", "name": "annotated_logger.example.c499f318-e54b-4f54-9030-a83607fa8519", "message": "start", "action": "__main__:split_username", "branch": "unknown-branch", "annotated": true&#125;
+&#123;"created": 1733349907.7296104, "levelname": "INFO", "name": "annotated_logger.example.c499f318-e54b-4f54-9030-a83607fa8519", "message": "This is a very important message!", "important": true, "action": "__main__:split_username", "branch": "unknown-branch", "username": "crimsonknave", "annotated": true&#125;
+&#123;"created": 1733349907.729843, "levelname": "INFO", "name": "annotated_logger.example.c499f318-e54b-4f54-9030-a83607fa8519", "message": "success", "action": "__main__:split_username", "branch": "unknown-branch", "username": "crimsonknave", "success": true, "run_time": "0.0", "count": 12, "annotated": true&#125;
+['c', 'r', 'i', 'm', 's', 'o', 'n', 'k', 'n', 'a', 'v', 'e']
+&gt;&gt;&gt;
+&gt;&gt;&gt; split_username(1)
+&#123;"created": 1733349913.719831, "levelname": "DEBUG", "name": "annotated_logger.example.1c354f32-dc76-4a6a-8082-751106213cbd", "message": "start", "action": "__main__:split_username", "branch": "unknown-branch", "annotated": true&#125;
+&#123;"created": 1733349913.719936, "levelname": "INFO", "name": "annotated_logger.example.1c354f32-dc76-4a6a-8082-751106213cbd", "message": "This is a very important message!", "important": true, "action": "__main__:split_username", "branch": "unknown-branch", "username": 1, "annotated": true&#125;
+&#123;"created": 1733349913.7200255, "levelname": "ERROR", "name": "annotated_logger.example.1c354f32-dc76-4a6a-8082-751106213cbd", "message": "Uncaught Exception in logged function", "exc_info": "Traceback (most recent call last):\n  File \"/home/crimsonknave/code/annotated-logger/annotated_logger/__init__.py\", line 758, in wrap_function\n  result = wrapped(*new_args, **new_kwargs)  # pyright: ignore[reportCallIssue]\n  File \"&lt;stdin&gt;\", line 5, in split_username\nTypeError: 'int' object is not iterable", "action": "__main__:split_username", "branch": "unknown-branch", "username": 1, "success": false, "exception_title": "'int' object is not iterable", "annotated": true&#125;
+Traceback (most recent call last):
+  File "&lt;stdin&gt;", line 1, in &lt;module&gt;
+  File "&lt;makefun-gen-0&gt;", line 2, in split_username
+  File "/home/crimsonknave/code/annotated-logger/annotated_logger/__init__.py", line 758, in wrap_function
+    result = wrapped(*new_args, **new_kwargs)  # pyright: ignore[reportCallIssue]
+  File "&lt;stdin&gt;", line 5, in split_username
+TypeError: 'int' object is not iterable
+</code></pre>
+<p>There are a few things going on in this example. Let’s break it down piece by piece.</p>
+<ul>
+<li>The Annotated Logger requires a small amount of setup to use; specifically, you need to instantiate an instance of the <code>AnnotatedLogger</code> class. This class contains all of the configuration for the loggers.
+<ul>
+<li>Here we set the name of the logger. (You will need to update the logging config if your name does not start with <code>annotated_logger</code> or there will be nothing configured to log your messages.)</li>
+<li>We also set a <code>branch</code> annotation that will be sent with all log messages.</li>
+</ul>
+</li>
+<li>After that, we create an alias for the decorator. You don’t have to do this, but I find it’s easier to read than <code>@al.annotate_logs()</code>.</li>
+<li>Now, we decorate and define our method, but this time we’re going to ask the decorator to provide us with a logger object, <code>annotated_logger</code>. This <code>annotated_logger</code> variable can be used just like a standard <code>logger</code> object but has some extra features.
+<ul>
+<li>This <code>annotated_logger</code> argument is added by the decorator before calling the decorated method.</li>
+<li>The signature of the decorated method is adjusted so that it does not have an <code>annotated_logger</code> parameter (see how it’s called with just name).</li>
+<li>There are optional parameters to the decorator that allow type hints to correctly parse the modified signature.</li>
+</ul>
+</li>
+<li>We make use of one of those features right away by calling the <code>annotate method</code>, which will add whatever kwargs we pass to the <code>extra</code> field of all log messages that use the logger.
+<ul>
+<li>Any field added as an annotation will be included in each subsequent log message that uses that logger.</li>
+<li>You can override an annotation by annotating again with the same name</li>
+</ul>
+</li>
+<li>At last, we send a log message! In this message we also pass in a field that’s only for that log message, in the same way you would when using <code>logger</code>.</li>
+<li>In the second call, we passed an <code>int</code> to the name field and <code>list</code> threw an exception.
+<ul>
+<li>This exception is logged automatically and then re-raised.</li>
+<li>This makes it much easier to know if/when a method ended (unless the process was killed).</li>
+</ul>
+</li>
+</ul>
+<p>Let’s break down each of the fields in the log message:</p>
+<div class="content-table-wrap"><table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Source</th>
+<th>Description</th>
+</tr>
+</thead>
+<tr>
+<td>created</td>
+<td><code>logging</code></td>
+<td>Standard <code>Logging</code> field.</td>
+</tr>
+<tr>
+<td>levelname</td>
+<td><code>logging</code></td>
+<td>Standard <code>Logging</code> field.</td>
+</tr>
+<td>name</td>
+<td><code>annotated_logger</code></td>
+<td>Logger name (set via class instantiation).</td>
+<tr>
+<td>message</td>
+<td><code>logging</code></td>
+<td>Standard <code>Logging</code> field for log content.</td>
+</tr>
+<tr>
+<td>action</td>
+<td><code>annotated_logger</code></td>
+<td>Method name the logger was created for.</td>
+</tr>
+<tr>
+<td>branch</td>
+<td><code>AnnotatedLogger()</code></td>
+<td>Set from the configuration’s <code>branch</code> annotation.</td>
+</tr>
+<tr>
+<td>annotated</td>
+<td><code>annotated_logger</code></td>
+<td>Boolean indicating if the message was sent via Annotated Logger.</td>
+</tr>
+<tr>
+<td>important</td>
+<td><code>annotated_logger.info</code></td>
+<td>Annotation set for a specific log message.</td>
+</tr>
+<tr>
+<td>username</td>
+<td><code>annotated_logger.annotate</code></td>
+<td>Annotation set by user.</td>
+</tr>
+<tr>
+<td>success</td>
+<td><code>annotated_logger</code></td>
+<td>Indicates if the method completed successfully (True/False).</td>
+</tr>
+<tr>
+<td>run_time</td>
+<td><code>annotated_logger</code></td>
+<td>Duration of the method execution.</td>
+</tr>
+<tr>
+<td>count</td>
+<td><code>annotated_logger</code></td>
+<td>Length of the return value (if applicable).</td>
+</tr>
+</table></div>
+<p>The <code>success</code>, <code>run_time</code> and <code>count</code> fields are added automatically to the message (“success”) that is logged after a decorated method is completed without an exception being raised.</p>
+<h2 id="under-the-covers">Under the covers<a aria-label="Under the covers" class="heading-link pl-2 text-italic text-bold" href="#under-the-covers"></a></h2>
+<h3 id="how-its-implemented">How it’s implemented<a aria-label="How it’s implemented" class="heading-link pl-2 text-italic text-bold" href="#how-its-implemented"></a></h3>
+<p>The Annotated Logger interacts with <code>Logging</code> via two main classes: <code>AnnotatedAdapter</code> and <code>AnnotatedFilter</code>. <code>AnnotatedAdapter</code> is a subclass of <code>logging.LoggerAdapter</code> and is what all <code>annotated_logger</code> arguments are instances of. <code>AnnotatedFilter</code> is a subclass of <code>logging.Filter</code> and is where the annotations are actually injected into the log messages. As a user outside of config and plugins, the only part of the code you will only interact with are <code>AnnotatedAdapter</code> in methods and the decorator itself. Each instance of the <code>AnnotatedAdapter</code> class has an <code>AnnotatedFilter</code> instance—the <code>AnnotatedAdapter.annotate</code> method passes those annotations on to the filter where they are stored. When a message is logged, that filter will calculate all the annotations it should have and then update the existing <code>LogRecord</code> object with those annotations.</p>
+<p>Because each invocation of a method gets its own <code>AnnotatedAdapter</code> object it also has its own <code>AnnotatedFilter</code> object. This ensures that there is no leaking of annotations from one method call to another.</p>
+<h3 id="type-hinting">Type hinting<a aria-label="Type hinting" class="heading-link pl-2 text-italic text-bold" href="#type-hinting"></a></h3>
+<p>The Annotated Logger is fully type hinted internally and fully supports type hinting of decorated methods. But a little bit of additional detail is required in the decorator invocation. The <code>annotate_logs</code> method takes a number of optional arguments. For type hinting, <code>_typing_self</code>, <code>_typing_requested</code>, <code>_typing_class</code> and <code>provided</code> are relevant. The three arguments that start with <code>_typing</code> have no impact on the behavior of the decorator and are only used in method signature overrides for type hinting. Setting <code>provided</code> to <code>True</code> tells the decorator that the <code>annotated_logger</code> should not be created and will be provided by the caller (thus the signature shouldn’t be altered).</p>
+<p><code>_typing_self</code> defaults to <code>True</code> as that is how most of my code is written. <code>provided</code>, <code>_typing_class</code> and <code>_typing_requested</code> default to <code>False</code>.</p>
+<pre><code class="language-python">class Example:
+    @annotate_logs(_typing_requested=True)
+    def foo(self, annotated_logger):
+        ...
+
+<p>e &#x3D; Example()<br>e.foo()<br></p></code></pre><p></p>
+<h3 id="plugins">Plugins<a aria-label="Plugins" class="heading-link pl-2 text-italic text-bold" href="#plugins"></a></h3>
+<p>There are a number of plugins that come packaged with the Annotated Logger. Plugins allow for the user to hook into two places: when an exception is caught by the decorator and when logging a message. You can create your own plugin by creating a class that defines the <code>filter</code> and <code>uncaught_exception</code> methods (or inherits from <code>annotated_logger.plugins.BasePlugin</code> which provides noop methods for both).</p>
+<p>The <code>filter</code> method of a plugin is called when a message is being logged. Plugins are called in the order they are set in the config. They are called by the AnnotatedFilter object of the AnnotatedAdapter and work like any <code>logging.Filter</code>. They take a record argument which is a <code>logging.LogRecord</code> object. They can manipulate that record in any way they want and those modifications will persist. Additionally, just like any logging filter, they can stop a message from being logged by returning <code>False</code>.</p>
+<p>The <code>uncaught_exception</code> method of a plugin is called when the decorator catches an exception in the decorated method. It takes two arguments, <code>exception</code> and <code>logger</code>. The <code>logger</code> argument is the <code>annotated_logger</code> for the decorated method. This allows the plugin to annotate the log message stating that there was an uncaught exception that is about to be logged once the plugins have all processed their <code>uncaught_exception</code> methods.</p>
+<p>Here is an example of a simple plugin. The plugin inherits from the <code>BasePlugin</code>, which isn’t strictly needed here since it implements both <code>filter</code> and <code>uncaught_exception</code>, but if it didn’t, inheriting from the BasePlugin means that it would fall back to the default noop methods. The plugin has an init so that it can take and store arguments. The <code>filter</code> and <code>uncaught_exception</code> methods will end up with the same result: <code>flagged=True</code> being set if a word matches. But they do it slightly differently, <code>filter</code> is called while a given log message is being processed and so the annotation it adds is directly to that record. While <code>uncaught_exception</code> is called if an exception is raised and not caught during the execution of the decorated method, so it doesn’t have a specific log record to interact with and set an annotation on the logger. The only difference in outcome would be if another plugin emitted a log message during its <code>uncaught_exception</code> method after <code>FlagWordPlugin</code>, in that case, the additional log message would also have <code>flagged=True</code> on it.</p>
+<pre><code class="language-python">from annotated_logger.plugins import BasePlugin
+
+<p>class FlagWordPlugin(BasePlugin):<br>    “””Plugin that flags any log message&#x2F;exception that contains a word in a list.”””<br>    def <strong>init</strong>(self, *wordlist):<br>        “””Save the wordlist.”””<br>        self.wordlist &#x3D; wordlist</p>
+<pre><code>def filter(self, record):
+&quot;&quot;&quot;Add annotation if the message contains words in the wordlist.&quot;&quot;&quot;
+for word in self.wordlist:
+    if word in record.msg:
+        record.flagged = True
+
+def uncaught_exception(self, exception, logger):
+&quot;&quot;&quot;Add annotation if exception title contains words in the wordlist.&quot;&quot;&quot;
+for word in self.wordlist:
+    if word in str(exception)
+        logger.annotate(flagged=True)
+</code></pre>
+<p>AnnotatedLogger(plugins&#x3D;[FlagWordPlugin(“danger”, “Will Robinson”)])<br></p></code></pre><p></p>
+<p>Plugins are stored in a list and the order they are added can matter. The <code>BasePlugin</code> is always the first plugin in the list; any that are set in configuration are added after it.</p>
+<p>When a log message is being sent the <code>filter</code> methods of each plugin will be called in the order they appear in the list. Because the <code>filter</code> methods often modify the record directly, one filter can break another if, for example, one filter removed or renamed a field that another filter used. Conversely, one filter could expect another to have added or altered a field before its run and would fail if it was ahead of the other filter. Finally, just like in the <code>logging</code> module, the <code>filter</code> method can stop a log from being emitted by returning False. As soon as a filter does so the processing ends and any Plugins later in the list will not have their <code>filter</code> methods called.</p>
+<p>If the decorated method raises an exception that is not caught, then the plugins will again execute in order. The most common interaction is plugins attempting to set/modify the same annotation. The <code>BasePlugin</code> and <code>RequestsPlugin</code> both set the <code>exception_title</code> annotation. Since the <code>BasePlugin</code> is always first, the title it sets will be overridden. Other interactions would be one plugin setting an annotation before or after another plugin that emits a log message or sends data to a third-party. In both of those cases the order will impact if the annotation is present or not.</p>
+<p>Plugins that come with the Annotated Logger:</p>
+<ul>
+<li><code>GitHubActionsPlugin</code>—Set a level of log messages to also be emitted in actions notation (<code>notice::</code>).</li>
+<li><code>NameAdjusterPlugin</code>—Add a pre/postfix to a name to avoid collisions in any log processing software (<code>source</code> is a field in Splunk, but we often include it as a field and it’s just hidden).</li>
+<li><code>RemoverPlugin</code>—Remove a field. Exclude <code>password</code>/<code>key</code> fields and set an object’s attributes to the log if you want or ignore fields like <code>taskName</code> that are set when running async, but not sync.</li>
+<li><code>NestedRemoverPlugin</code>—Remove a field no matter how deep in a dictionary it is.</li>
+<li><code>RenamerPlugin</code>—Rename one field to another (don’t like <code>levelname</code> and want <code>level</code>, this is how you do that).</li>
+<li><code>RequestsPlugin</code>—Adds a title and status code to the annotations if the exception inherits from <code>requests.exceptions.HTTPError</code>.</li>
+<li><code>RuntimeAnnotationsPlugin</code>—Sets dynamic annotations.</li>
+</ul>
+<h3 id="dictconfig">dictconfig<a aria-label="dictconfig" class="heading-link pl-2 text-italic text-bold" href="#dictconfig"></a></h3>
+<p>When adding the Annotated Logger to an existing project, or one that uses other packages that log messages (flask, django, and so on), you can configure all of the Annotated Logger via <a target="_blank" rel="external nofollow noopener noreferrer" href="https://docs.python.org/3/library/logging.config.html#logging.config.dictConfig"><code>dictConfig</code></a> by supplying a <code>dictConfig</code> compliant dictionary as the <code>config</code> argument when initializing the Annotated Logger class. If, instead, you wish to do this yourself you can pass <code>config=False</code> and reference <code>annotated_logger.DEFAULT_LOGGING_CONFIG</code> to obtain the config that is used when none is provided and alter/extract as needed.</p>
+<p>There is one special case where the Annotated Logger will modify the config passed to it: if there is a filter named <code>annotated_filter</code> that entry will be replaced with a reference to a filter that is created by the instance of the Annotated Logger that’s being created. This allows any annotations or other options set to be applied to messages that use that filter. You can instead create a filter that uses the AnnotatedFilter class, but it won’t have any of the config the rest of your logs have.</p>
+<h4 id="notes">Notes<a aria-label="Notes" class="heading-link pl-2 text-italic text-bold" href="#notes"></a></h4>
+<p><code>dictConfig</code> partly works when merging dictionaries. I have found that some parts of the config are not overwritten, but other parts seem to lose their references. So, I would encourage you to build up a logging config for everything and call it once only. If you pass <code>config</code>, the Annotated Logger will call <code>logging.config.dictConfig</code> on your config after it has the option to add/adjust the config.</p>
+<p>The <a target="_blank" rel="external nofollow noopener noreferrer" href="https://github.com/github/annotated-logger/blob/main/example/logging_config.py"><code>logging_config.py</code></a> example has a much more detailed breakdown and set of examples.</p>
+<h3 id="pytest-mock">Pytest mock<a aria-label="Pytest mock" class="heading-link pl-2 text-italic text-bold" href="#pytest-mock"></a></h3>
+<p>Included with the package is a pytest mock to assist in testing for logged messages. I know that there are some strong opinions about testing log messages, and I don’t suggest doing it extensively, or frequently, but sometimes it’s the easiest way to check a loop, or the log message is tied to an alert, and it is important how it’s formatted. In these cases, you can ask for the <code>annotated_logger_mock</code> fixture which will intercept, record and forward all log messages.</p>
+<pre><code class="language-python">def test_logs(annotated_logger_mock):
+    with pytest.raises(KeyError):
+        complicated_method()
+    annotated_logger_mock.assert_logged(
+        "ERROR",  # Log level
+        "That's not the right key",  # Log message
+        present=&#123;"success": False, "key": "bad-key"&#125;,  # annotations and their values that are required
+        absent=["fake-annotations"],  # annotations that are forbidden
+        count=1  # Number of times log messages should match
+    )
+</code></pre>
+<p>The <code>assert_logged</code> method makes use of <a target="_blank" rel="external nofollow noopener noreferrer" href="https://pypi.org/project/pychoir/">pychoir</a> for flexible matching. None of the parameters are required, so feel free to use whichever makes sense. Below is a breakdown of the default and valid values for each parameter.</p>
+<div class="content-table-wrap"><table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Default Value</th>
+<th>Valid Values</th>
+<th>Description</th>
+</tr>
+</thead>
+<tr>
+<td>level</td>
+<td>Matches anything</td>
+<td>String or string-based matcher</td>
+<td>Log level to check (e.g., “ERROR”).</td>
+</tr>
+<tr>
+<td>message</td>
+<td>Matches anything</td>
+<td>String or string-based matcher</td>
+<td>Log message to check.</td>
+</tr>
+<tr>
+<td>present</td>
+<td>Empty dictionary</td>
+<td>Dictionary with string keys and any value</td>
+<td>Annotations required in the log.</td>
+</tr>
+<tr>
+<td>absent</td>
+<td>Empty set</td>
+<td>`ALL`, set, or list of strings</td>
+<td>Annotations that must not be present in the log.</td>
+</tr>
+<tr>
+<td>count</td>
+<td>All positive integers</td>
+<td>Integer or integer-based matcher</td>
+<td>Number of times the log message should match.</td>
+</tr>
+</table></div>
+<p>The <code>present</code> key is often what makes the mock truly useful. It allows you to require the things you care about and ignore the things you don’t care about. For example, nobody wants their tests to fail because the <code>run_time</code> of a method went from <code>0.0</code> to <code>0.1</code> or fail because the hostname is different on different test machines. But both of those are useful things to have in the logs. This mock should replace everything you use the <code>caplog</code> fixture for and more.</p>
+<h2 id="other-features">Other features<a aria-label="Other features" class="heading-link pl-2 text-italic text-bold" href="#other-features"></a></h2>
+<h3 id="class-decorators-and-persist">Class decorators and persist<a aria-label="Class decorators and persist" class="heading-link pl-2 text-italic text-bold" href="#class-decorators-and-persist"></a></h3>
+<p>Classes can be decorated with <code>@annotate_logs</code> as well. These classes will have an <code>annotated_logger</code> attribute added after the init (I was unable to get it to work inside the <code>__init__</code>). Any decorated methods of that class will have an <code>annotated_logger</code> that’s based on the class logger. Calls to <code>annotate</code> that pass <code>persist=True</code> will set the annotations on the class Annotated Logger and so subsequent calls of any decorated method of that instance will have those annotations. The class instance’s <code>annotated_logger</code> will also have an annotation of <code>class</code> specifying which class the logs are coming from.</p>
+<h3 id="iterators">Iterators<a aria-label="Iterators" class="heading-link pl-2 text-italic text-bold" href="#iterators"></a></h3>
+<p>The Annotated Logger also supports logging iterations of an <code>enumerable</code> object. <code>annotated_logger.iterator</code> will log the start, each step of the iteration, and when the iteration is complete. This can be useful for pagination in an API if your results object is enumerable, logging each time a page is fetched instead of sitting for a long time with no indication if the pages are hanging or there are simply many pages.</p>
+<p>By default the <code>iterator</code> method will log the value of each iteration, but this can be disabled by setting <code>value=False</code>. You can also specify the level to log the iterations at if you don’t want the default of <code>info</code>.</p>
+<h3 id="provided">Provided<a aria-label="Provided" class="heading-link pl-2 text-italic text-bold" href="#provided"></a></h3>
+<p>Because each decorated method gets its own <code>annotated_logger</code> calls to other methods will not have any annotations from the caller. Instead of simply passing the <code>annotated_logger</code> object to the method being called, you can specify <code>provided=True</code> in the decorator invocation. This does two things: first, it means that this method won’t have an <code>annotated_logger</code> created and passed automatically, instead it requires that the first argument be an existing <code>annotated_logger</code>, which it will use as a basis for the <code>annotated_logger</code> object it creates for the function. Second, it adds the annotation of <code>subaction</code> and sets the decorated function’s name as its value, the <code>action</code> annotation is preserved as from the method that called and provided the <code>annotated_logger</code>. Annotations are not persisted from a method decorated with <code>provided=True</code> to the method that called it, unless the class of the calling method was decorated and the called action annotated with <code>persist=True</code>, in which case the annotation is set on the <code>annotated_logger</code> of the instance and shared with all methods as is normal for decorated classes.</p>
+<p>The most common use of this is with private methods, especially ones created during a refactor to extract some self contained logic. But other uses are for common methods that are called from a number of different places.</p>
+<h3 id="split-messages">Split messages<a aria-label="Split messages" class="heading-link pl-2 text-italic text-bold" href="#split-messages"></a></h3>
+<p>Long messages wreak havoc on log parsing tools. I’ve encountered cases where the HTML of a 500 error page was too long for Splunk to parse, causing the entire log entry to be discarded and its annotations to go unprocessed. Setting <code>max_length</code> when configuring the Annotated Logger will break long messages into multiple log messages each annotated with <code>split=True</code>, <code>split_complete=False</code>, <code>message_parts=#</code> and <code>message_part=#</code>. The last part of the long message will have <code>split_complete=True</code> when it is logged.</p>
+<p>Only messages can be split like this; annotations will not trigger the splitting. However, a plugin could truncate any values with a length over a certain size.</p>
+<h3 id="pre-post-hooks">Pre/Post hooks<a aria-label="Pre/Post hooks" class="heading-link pl-2 text-italic text-bold" href="#pre-post-hooks"></a></h3>
+<p>You can register hooks that are executed before and after the decorated method is called. The <code>pre_call</code> and <code>post_call</code> parameters of the decorator take a reference to a function and will call that function right before passing in the same arguments that the function will be/was called with. This allows the hooks to add annotations and/or log anything that is desired (assuming the decorated function requested an <code>annotated_logger</code>).</p>
+<p>Examples of this would be having a set of annotations that annotate fields on a model and a <code>pre_call</code> that sets them in a standard way. Or a <code>post_call</code> that logs if the function left a model in an unsaved state.</p>
+<h3 id="runtime-annotations">Runtime annotations<a aria-label="Runtime annotations" class="heading-link pl-2 text-italic text-bold" href="#runtime-annotations"></a></h3>
+<p>Most annotations are static, but sometimes you need something that’s dynamic. These are achieved via the <code>RuntimeAnnotationsPlugin</code> in the Annotated Logger config. The <code>RuntimeAnnotationsPlugin</code> takes a dict of names and references to functions. These functions will be called and passed the log record when the plugin’s filter method is invoked just before the log message is emitted. Whatever is returned by the function will be set as the value of the annotation of the log message currently being logged.</p>
+<p>A common use case is to annotate a request/correlation id, which identifies all of the log messages that were part of a given API request. For Django, one way to do this is via <a target="_blank" rel="external nofollow noopener noreferrer" href="https://pypi.org/project/django-guid/">django-guid</a>.</p>
+<h2 id="tips-tricks-and-gotchas">Tips, tricks and gotchas<a aria-label="Tips, tricks and gotchas" class="heading-link pl-2 text-italic text-bold" href="#tips-tricks-and-gotchas"></a></h2>
+<ul>
+<li>When using the decorator in more than one file, it’s useful to do all of the configuration in a file like <code>log.py</code>. That allows you to <code>from project.log import annotate_logs</code> everywhere you want to use it and you know it’s all configured and everything will be using the same setup.</li>
+<li>Namespacing your loggers helps when there are two projects that both use the Annotated Logger (a package and a service that uses the package). If you are setting anything via <code>dictConfig</code> you will want to have a single config that has everything for all Annotated Loggers.</li>
+<li>In addition to setting a correlation id for the API request being processed, passing the correlation id of the caller and then annotating that will allow you to trace from the logs of service A to the specific logs in Service B that relate to a call made by service A.</li>
+<li>Plugins are very flexible. For example:
+<ul>
+<li>Send every <code>exception</code> log message to a service like Sentry.</li>
+<li>Suppress logs from another package, like Django, that you don’t want to see (assuming you’ve configured Django’s logs to use a filter for your Annotated Logger).</li>
+<li>Add annotations for extra information about specific types of exceptions (see the <code>RequestsPlugin</code>).</li>
+<li>Set run time annotations on a subset of messages (instead of all messages with <code>RuntimeAnnotationsPlugin</code>)</li>
+</ul>
+</li>
+</ul>
+<h2 id="questions-feedback-and-requests">Questions, feedback and requests<a aria-label="Questions, feedback and requests" class="heading-link pl-2 text-italic text-bold" href="#questions-feedback-and-requests"></a></h2>
+<p>We’d love to hear any questions, comments or requests you might have in an <a target="_blank" rel="external nofollow noopener noreferrer" href="https://github.com/github/annotated-logger/issues">issue</a>. Pull requests welcome as well!</p>
+</body></html>
+<p>The post <a target="_blank" rel="external nofollow noopener noreferrer" href="https://github.blog/developer-skills/programming-languages-and-frameworks/introducing-annotated-logger-a-python-package-to-aid-in-adding-metadata-to-logs/">Introducing Annotated Logger: A Python package to aid in adding metadata to logs</a> appeared first on <a target="_blank" rel="external nofollow noopener noreferrer" href="https://github.blog">The GitHub Blog</a>.</p>
+
+</div>
+
+<div>
+<div class="tag-plugin link dis-select"><a class="link-card plain" title="Introducing Annotated Logger: A Python package to aid in adding metadata to logs" href="https://github.blog/developer-skills/programming-languages-and-frameworks/introducing-annotated-logger-a-python-package-to-aid-in-adding-metadata-to-logs/" target="_blank" rel="external nofollow noopener noreferrer" cardlink autofill="icon"><div class="left"><span class="title">Introducing Annotated Logger: A Python package to aid in adding metadata to logs</span><span class="cap link fs12">https://github.blog/developer-skills/programming-languages-and-frameworks/introducing-annotated-logger-a-python-package-to-aid-in-adding-metadata-to-logs/</span></div><div class="right"><div class="lazy img" data-bg="https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.4/link/8f277b4ee0ecd.svg"></div></div></a></div>
+</div>
+
+
+
+
+<div class="article-footer reveal fs14"><section id="license"><div class="header"><span>许可协议</span></div><div class="body"><p>本文采用 <a target="_blank" rel="external nofollow noopener noreferrer" href="https://github.com/me-shaon/GLWTPL/blob/master/translations/LICENSE_zh-CN">GLWT（Good Luck With That，祝你好运）公共许可证</a> 许可协议，转载请注明出处。</p>
+</div></section><section id="share"><div class="header"><span>分享文章</span></div><div class="body"><div class="link"><input class="copy-area" readonly="true" id="copy-link" value="https://blog.imc.re/RSSBOX/rss/68d82f32.html"></div><div class="social-wrap dis-select"><a class="social share-item wechat" onclick="util.toggle(&quot;qrcode-wechat&quot)"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.4/social/b32ef3da1162a.svg"></a><a class="social share-item weibo" target="_blank" rel="external nofollow noopener noreferrer" href="https://service.weibo.com/share/share.php?url=https://blog.imc.re/RSSBOX/rss/68d82f32.html&title=Introducing Annotated Logger: A Python Package to Aid in Adding Metadata to Logs - RSSBOX&pics=https://picsum.photos/400/300?random=5149&summary=
+
+
+What it is
+Annotated Logger is a Python package that allows you to decorate functions and classes, which then log ..."><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.4/social/80c07e4dbb303.svg"></a><a class="social share-item email" href="mailto:?subject=Introducing Annotated Logger: A Python Package to Aid in Adding Metadata to Logs - RSSBOX&amp;body=https://blog.imc.re/RSSBOX/rss/68d82f32.html"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.4/social/a1b00e20f425d.svg"></a><a class="social share-item link" onclick="util.copy(&quot;copy-link&quot;, &quot;复制成功&quot;)"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.4/social/8411ed322ced6.svg"></a></div><div class="qrcode" id="qrcode-wechat" style="visibility:hidden;height:0"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://api.qrserver.com/v1/create-qr-code/?size=256x256&data=https://blog.imc.re/RSSBOX/rss/68d82f32.html"></div></div></section></div>
+
+</article>
+
+<div class="related-wrap reveal" id="read-next"><section class="body"><div class="item" id="prev"><div class="note">较新文章</div><a href="/RSSBOX/rss/5951e5e0.html">The Role of Email Security in Reducing User Risk Amid Rising Threats</a></div><div class="item" id="next"><div class="note">较早文章</div><a href="/RSSBOX/rss/94362ba1.html">Internationalization and Localization: Bringing Cloudflare Radar to a Global Audience</a></div></section></div>
+
+
+<div class="related-wrap reveal" id="related-posts">
+    <section class="header">
+      <div class="title cap theme">您可能感兴趣的文章</div>
+    </section>
+    <section class="body">
+    <div class="related-posts"><a class="item" href="/RSSBOX/rss/d4d7562.html" title="Announcing CodeQL Community Packs"><span class="title">Announcing CodeQL Community Packs</span></a><a class="item" href="/RSSBOX/rss/868f80a5.html" title="Building LATAM&#8217;s Future Tech Workforce With AI"><span class="title">Building LATAM&#8217;s Future Tech Workforce With AI</span></a><a class="item" href="/RSSBOX/rss/92d6d03c.html" title="Enhance Build Security and Reach SLSA Level 3 With GitHub Artifact Attestations"><span class="title">Enhance Build Security and Reach SLSA Level 3 With GitHub Artifact Attestations</span></a><a class="item" href="/RSSBOX/rss/e38966e3.html" title="GitHub’s Top Blogs of 2024"><span class="title">GitHub’s Top Blogs of 2024</span></a><a class="item" href="/RSSBOX/rss/86d9f572.html" title="Highlights From Git 2.48"><span class="title">Highlights From Git 2.48</span></a></div></section></div>
+
+
+
+
+
+      
+<footer class="page-footer reveal fs12"><hr><div class="sitemap"><div class="sitemap-group"><span class="fs14">文章</span><a href="/RSSBOX/categories">分类</a><a href="/RSSBOX/tags">标签</a><a href="/RSSBOX/archives">归档</a></div><div class="sitemap-group"><span class="fs14">更多</span><a href="https://blog.imc.re/">博客</a><a target="_blank" rel="noopener" href="https://imc.re/">IMC.RE</a></div></div><div class="text"><p><a href="/">@RSSBOX</a> 2023 author by <a target="_blank" rel="external nofollow noopener noreferrer" href="https://github.com/MHG-LAB/RSSBOX">MHuiG</a> powered by SummerGoro。<br><br>本博客所有文章除特别声明外，均采用 <a target="_blank" rel="external nofollow noopener noreferrer" href="https://github.com/me-shaon/GLWTPL/blob/master/translations/LICENSE_zh-CN">GLWT（Good Luck With That，祝你好运）公共许可证</a> 许可协议，转载请注明出处。</p>
+</div></footer>
+
+      <div class="float-panel mobile-only blur" style="display:none">
+  <button type="button" class="sidebar-toggle mobile" onclick="sidebar.toggle()">
+    <svg class="icon" style="width: 1em; height: 1em;vertical-align: middle;fill: currentColor;overflow: hidden;" viewbox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="15301"><path d="M566.407 808.3c26.9-0.1 49.3-20.8 51.6-47.6-1.9-27.7-23.9-49.7-51.6-51.6h-412.6c-28.2-1.4-52.6 19.5-55.5 47.6 2.3 26.8 24.6 47.5 51.6 47.6h416.5v4z m309.3-249.9c26.9-0.1 49.3-20.8 51.6-47.6-2.2-26.8-24.6-47.5-51.6-47.6h-721.9c-27.7-2.8-52.5 17.4-55.3 45.1-0.1 0.8-0.1 1.7-0.2 2.5 0.9 27.2 23.6 48.5 50.7 47.6H875.707z m-103.1-245.9c26.9-0.1 49.3-20.8 51.6-47.6-0.4-28.3-23.2-51.1-51.5-51.6h-618.9c-29.5-1.1-54.3 21.9-55.5 51.4v0.2c1.4 27.8 25.2 49.2 53 47.8 0.8 0 1.7-0.1 2.5-0.2h618.8z" p-id="15302"/><path d="M566.407 808.3c26.9-0.1 49.3-20.8 51.6-47.6-1.9-27.7-23.9-49.7-51.6-51.6h-412.6c-28.2-1.4-52.6 19.5-55.5 47.6 1.9 27.7 23.9 49.7 51.6 51.6h416.5z m309.3-249.9c26.9-0.1 49.3-20.8 51.6-47.6-2.2-26.8-24.6-47.5-51.6-47.6h-721.9c-27.7-2.8-52.5 17.4-55.3 45.1-0.1 0.8-0.1 1.7-0.2 2.5 0.9 27.2 23.6 48.5 50.7 47.6H875.707z m-103.1-245.9c26.9-0.1 49.3-20.8 51.6-47.6-0.4-28.3-23.2-51.1-51.5-51.6h-618.9c-29.5-1.1-54.3 21.9-55.5 51.4v0.2c1.4 27.8 25.2 49.2 53 47.8 0.8 0 1.7-0.1 2.5-0.2h618.8z" p-id="15303"/></svg>
+  </button>
+</div>
+
+    </div>
+  </div>
+  <div class="scripts">
+    <script type="text/javascript">
+  const stellar = {
+    // 懒加载 css https://github.com/filamentgroup/loadCSS
+    loadCSS: (href, before, media, attributes) => {
+      var doc = window.document;
+      var ss = doc.createElement("link");
+      var ref;
+      if (before) {
+        ref = before;
+      } else {
+        var refs = (doc.body || doc.getElementsByTagName("head")[0]).childNodes;
+        ref = refs[refs.length - 1];
+      }
+      var sheets = doc.styleSheets;
+      if (attributes) {
+        for (var attributeName in attributes) {
+          if (attributes.hasOwnProperty(attributeName)) {
+            ss.setAttribute(attributeName, attributes[attributeName]);
+          }
+        }
+      }
+      ss.rel = "stylesheet";
+      ss.href = href;
+      ss.media = "only x";
+      function ready(cb) {
+        if (doc.body) {
+          return cb();
+        }
+        setTimeout(function () {
+          ready(cb);
+        });
+      }
+      ready(function () {
+        ref.parentNode.insertBefore(ss, before ? ref : ref.nextSibling);
+      });
+      var onloadcssdefined = function (cb) {
+        var resolvedHref = ss.href;
+        var i = sheets.length;
+        while (i--) {
+          if (sheets[i].href === resolvedHref) {
+            return cb();
+          }
+        }
+        setTimeout(function () {
+          onloadcssdefined(cb);
+        });
+      };
+      function loadCB() {
+        if (ss.addEventListener) {
+          ss.removeEventListener("load", loadCB);
+        }
+        ss.media = media || "all";
+      }
+      if (ss.addEventListener) {
+        ss.addEventListener("load", loadCB);
+      }
+      ss.onloadcssdefined = onloadcssdefined;
+      onloadcssdefined(loadCB);
+      return ss;
+    },
+
+    // 从 butterfly 和 volantis 获得灵感
+    loadScript: (src, opt) => new Promise((resolve, reject) => {
+      var script = document.createElement('script');
+      if (src.startsWith('/')){
+        src = stellar.config.root + src.substring(1);
+      }
+      script.src = src;
+      if (opt) {
+        for (let key of Object.keys(opt)) {
+          script[key] = opt[key]
+        }
+      } else {
+        // 默认异步，如果需要同步，第二个参数传入 {} 即可
+        script.async = true
+      }
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    }),
+
+    // https://github.com/jerryc127/hexo-theme-butterfly
+    jQuery: (fn) => {
+      if (typeof jQuery === 'undefined') {
+        stellar.loadScript(stellar.plugins.jQuery).then(fn)
+      } else {
+        fn()
+      }
+    }
+  };
+  stellar.version = '1.19.0';
+  stellar.github = 'https://github.com/xaoxuu/hexo-theme-stellar/tree/1.19.0';
+  stellar.config = {
+    date_suffix: {
+      just: '刚刚',
+      min: '分钟前',
+      hour: '小时前',
+      day: '天前',
+      month: '个月前',
+    },
+    root : '/RSSBOX/',
+  };
+
+  // required plugins (only load if needs)
+  stellar.plugins = {
+    jQuery: 'https://gcore.jsdelivr.net/npm/jquery@3.6.2/dist/jquery.min.js'
+  };
+
+  if ('local_search') {
+    stellar.search = {};
+    stellar.search.service = 'local_search';
+    if (stellar.search.service == 'local_search') {
+      let service_obj = Object.assign({}, {"field":"all","path":"/search.json","content":true,"codeblock":true,"sort":"-date"});
+      stellar.search[stellar.search.service] = service_obj;
+    }
+  }
+
+  // stellar js
+  stellar.plugins.stellar = Object.assign({"sites":"/js/plugins/sites.js","friends":"/js/plugins/friends.js","ghinfo":"/js/plugins/ghinfo.js","timeline":"/js/plugins/timeline.js","linkcard":"/js/plugins/linkcard.js","fcircle":"/js/plugins/fcircle.js","weibo":"/js/plugins/weibo.js"});
+
+  stellar.plugins.marked = Object.assign("https://cdn.bootcdn.net/ajax/libs/marked/4.0.18/marked.min.js");
+  // optional plugins
+  if ('true' == 'true') {
+    stellar.plugins.lazyload = Object.assign({"enable":true,"js":"https://gcore.jsdelivr.net/npm/vanilla-lazyload@17.8.3/dist/lazyload.min.js","transition":"blur"});
+  }
+  if ('true' == 'true') {
+    stellar.plugins.swiper = Object.assign({"enable":true,"css":"https://unpkg.com/swiper@8.4.5/swiper-bundle.min.css","js":"https://unpkg.com/swiper@8.4.5/swiper-bundle.min.js"});
+  }
+  if ('' == 'true') {
+    stellar.plugins.scrollreveal = Object.assign({"enable":null,"js":"https://gcore.jsdelivr.net/npm/scrollreveal@4.0.9/dist/scrollreveal.min.js","distance":"8px","duration":500,"interval":100,"scale":1});
+  }
+  if ('true' == 'true') {
+    stellar.plugins.preload = Object.assign({"enable":true,"service":"flying_pages","instant_page":"https://gcore.jsdelivr.net/gh/volantis-x/cdn-volantis@4.1.2/js/instant_page.js","flying_pages":"https://gcore.jsdelivr.net/gh/gijo-varghese/flying-pages@2.1.2/flying-pages.min.js"});
+  }
+  if ('true' == 'true') {
+    stellar.plugins.fancybox = Object.assign({"enable":true,"js":"https://gcore.jsdelivr.net/npm/@fancyapps/ui@4.0/dist/fancybox.umd.js","css":"https://gcore.jsdelivr.net/npm/@fancyapps/ui@4.0/dist/fancybox.css","selector":".swiper-slide img"});
+  }
+  if ('false' == 'true') {
+    stellar.plugins.heti = Object.assign({"enable":false,"css":"https://unpkg.com/heti@0.9.2/umd/heti.min.css","js":"https://unpkg.com/heti@0.9.2/umd/heti-addon.min.js"});
+  }
+  if ('true' == 'true') {
+    stellar.plugins.copycode = Object.assign({"enable":true,"js":"/js/plugins/copycode.js","default_text":"Copy","success_text":"Copied"});
+  }
+</script>
+
+<!-- required -->
+
+  
+<script src="/RSSBOX/js/main.js" async></script>
+
+
+
+<!-- optional -->
+
+  <script>
+  function loadJS() {
+    const els = document.querySelectorAll("#comments #giscus");
+    if (els.length === 0) return;
+    els.forEach((el, i) => {
+      try {
+        el.innerHTML = '';
+      } catch (error) {
+        console.log(error);
+      }
+      var script = document.createElement('script');
+      script.src = 'https://giscus.app/client.js';
+      script.async = true;
+      for (let key of Object.keys(el.attributes)) {
+        let attr = el.attributes[key];
+        if (['class', 'id'].includes(attr.name) === false) {
+          script.setAttribute(attr.name, attr.value);
+        }
+      }
+      el.appendChild(script);
+    });
+  }
+  window.addEventListener('DOMContentLoaded', (event) => {
+    loadJS();
+  });
+</script>
+
+
+
+
+<!-- inject -->
+
+
+  </div>
+</body>
+</html>

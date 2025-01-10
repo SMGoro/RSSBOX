@@ -1,0 +1,708 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+  <meta name="generator" content="Hexo 6.3.0">
+  <meta name="hexo-theme" content="https://github.com/xaoxuu/hexo-theme-stellar/tree/1.19.0">
+  <meta charset="utf-8">
+  
+
+  <meta http-equiv="x-dns-prefetch-control" content="on">
+  <link rel="dns-prefetch" href="https://gcore.jsdelivr.net">
+  <link rel="preconnect" href="https://gcore.jsdelivr.net" crossorigin>
+  <link rel="dns-prefetch" href="//unpkg.com">
+
+  <meta name="renderer" content="webkit">
+  <meta name="force-rendering" content="webkit">
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+  <meta name="HandheldFriendly" content="True">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="theme-color" content="#f8f8f8">
+  
+  <title>How to Secure Your GitHub Actions Workflows With CodeQL - RSSBOX</title>
+
+  
+    <meta name="description" content="In the last few months, we secured more than 75 GitHub Actions workflows in open source projects, disclosing more than 90 different vulnerabilities. Out of this research, we produced new support fo">
+<meta property="og:type" content="article">
+<meta property="og:title" content="How to Secure Your GitHub Actions Workflows With CodeQL">
+<meta property="og:url" content="https://blog.imc.re/RSSBOX/rss/465b5fb1.html">
+<meta property="og:site_name" content="RSSBOX">
+<meta property="og:description" content="In the last few months, we secured more than 75 GitHub Actions workflows in open source projects, disclosing more than 90 different vulnerabilities. Out of this research, we produced new support fo">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://github.blog/wp-content/uploads/2025/01/run-script.png?w=674&amp;resize=674%2C57">
+<meta property="og:image" content="https://github.blog/wp-content/uploads/2025/01/artifact-download.png?w=1024&amp;resize=1024%2C465">
+<meta property="og:image" content="https://github.blog/wp-content/uploads/2025/01/step-2-and-3.png?w=1024&amp;resize=1024%2C593">
+<meta property="og:image" content="https://github.blog/wp-content/uploads/2025/01/potential-code-injection.png?w=1024&amp;resize=1024%2C303">
+<meta property="og:image" content="https://github.blog/wp-content/uploads/2025/01/environment-variabl.png?w=1024&amp;resize=1024%2C326">
+<meta property="og:image" content="https://github.blog/wp-content/uploads/2025/01/step2.png?w=1024&amp;resize=1024%2C457">
+<meta property="article:published_time" content="2025-01-09T13:27:11.000Z">
+<meta property="article:modified_time" content="2025-01-09T13:27:11.000Z">
+<meta property="article:author" content="SMGoro">
+<meta property="article:tag" content="Blogs">
+<meta property="article:tag" content="Github">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://github.blog/wp-content/uploads/2025/01/run-script.png?w=674&amp;resize=674%2C57">
+  
+  
+  
+  <meta name="keywords" content="Blogs,Github">
+
+  <!-- feed -->
+  
+    <link rel="alternate" href="/RSSBOX/atom.xml" title="RSSBOX" type="application/atom+xml">
+  
+
+  
+    
+<link rel="stylesheet" href="/RSSBOX/css/main.css">
+
+  
+
+  
+
+  
+
+  
+    <link rel="stylesheet" href="https://gcore.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.css" integrity="sha384-vKruj+a13U8yHIkAyGgK1J3ArTLzrFGBbBc0tDp4ad/EyewESeXE/Iv67Aj8gKZ0" crossorigin="anonymous">
+    <script defer src="https://gcore.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.js" integrity="sha384-PwRUT/YqbnEjkZO0zZxNqcxACrXe+j766U2amXcgMg5457rve2Y7I6ZJSm2A0mS4" crossorigin="anonymous"></script>
+    <script defer src="https://gcore.jsdelivr.net/npm/katex@0.16.4/dist/contrib/auto-render.min.js" integrity="sha384-+VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4+/RRE05" crossorigin="anonymous" onload="renderMathInElement(document.body);"></script>
+  
+
+
+  
+
+<!--百度统计-->
+<script>
+  var _hmt = _hmt || [];
+  (function() {
+    var hm = document.createElement("script");
+    hm.src = "https://hm.baidu.com/hm.js?f42afe3e5b76d22c8b1a8060171c7184";
+    var s = document.getElementsByTagName("script")[0]; 
+    s.parentNode.insertBefore(hm, s);
+  })();
+</script>  
+  <!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-V2NSKYGXNG"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-V2NSKYGXNG');
+</script>
+<!--Google Adsense-->
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4773172018528901" crossorigin="anonymous"></script>
+</head>
+
+<body>
+  
+
+
+
+
+  <div class="l_body" id="start">
+    <aside class="l_left" layout="post">
+    
+
+  
+
+<header class="header"><div class="logo-wrap"><a class="avatar" href="/RSSBOX/archives"><div class="bg" style="opacity:0;background-image:url(https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.4/avatar/round/rainbow64@3x.webp);"></div><img no-lazy class="avatar" src="https://cdn.jsdelivr.net/gh/SMGCDN/photos/icon/rsshub.png" onerror="javascript:this.classList.add('error');this.src='https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.4/image/2659360.svg';"></a><a class="title" href="/RSSBOX/"><div class="main" ff="title">RSSBOX</div><div class="sub normal cap">SMGoroのRSS订阅</div><div class="sub hover cap" style="opacity:0"> 一些好康的东西</div></a></div>
+
+<nav class="menu dis-select"><a class="nav-item active" href="/RSSBOX/">订阅</a><a class="nav-item" href="https://blog.imc.re/">博客</a><a class="nav-item" href="https://blog.imc.re/contact">联系</a><a class="nav-item" href="https://blog.imc.re/more">更多</a></nav>
+</header>
+
+
+<div class="widgets">
+
+<widget class="widget-wrapper toc single" id="data-toc"><div class="widget-header cap dis-select"><span class="name">How to Secure Your GitHub Actions Workflows With CodeQL</span></div><div class="widget-body fs14"><div class="doc-tree active"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#the-situation-growing-number-of-insecure-workflows"><span class="toc-text">The situation: growing number of insecure workflows</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#previous-attempt"><span class="toc-text">Previous attempt</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#taint-tracking-is-key"><span class="toc-text">Taint Tracking is key!</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#bash-support"><span class="toc-text">Bash support</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#models"><span class="toc-text">Models</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#queries"><span class="toc-text">Queries</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#results"><span class="toc-text">Results</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#new-vulnerability-patterns"><span class="toc-text">New vulnerability patterns</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#misuse-of-pull_request_target-trigger"><span class="toc-text">Misuse of pull_request_target trigger</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#security-boundaries-and-workflow_run-event"><span class="toc-text">Security boundaries and workflow_run event</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#effective-mitigations"><span class="toc-text">Effective mitigations</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#non-effective-mitigations"><span class="toc-text">Non-effective mitigations</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#issueoops-security-pitfalls-with-issue_comment-trigger"><span class="toc-text">IssueOops: Security pitfalls with issue_comment trigger</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#mitigating-the-risks"><span class="toc-text">Mitigating the risks</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#ineffective-or-incomplete-mitigations"><span class="toc-text">Ineffective or incomplete mitigations</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#wrapping-up"><span class="toc-text">Wrapping up</span></a></li></ol></div></div></widget>
+
+
+
+<widget class="widget-wrapper search"><div class="widget-body"><div class="search-wrapper" id="search"><form class="search-form"><input type="text" class="search-input" id="search-input" data-filter="/rss/" placeholder="文章搜索"><svg t="1670596976048" class="icon search-icon" viewbox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2676" width="200" height="200"><path d="M938.2 832.6L723.8 618.1c-2.5-2.5-5.3-4.4-7.9-6.4 36.2-55.6 57.3-121.8 57.3-193.1C773.3 222.8 614.6 64 418.7 64S64 222.8 64 418.6c0 195.9 158.8 354.6 354.6 354.6 71.3 0 137.5-21.2 193.2-57.4 2 2.7 3.9 5.4 6.3 7.8L832.5 938c14.6 14.6 33.7 21.9 52.8 21.9 19.1 0 38.2-7.3 52.8-21.8 29.2-29.1 29.2-76.4 0.1-105.5M418.7 661.3C284.9 661.3 176 552.4 176 418.6 176 284.9 284.9 176 418.7 176c133.8 0 242.6 108.9 242.6 242.7 0 133.7-108.9 242.6-242.6 242.6" p-id="2677"/></svg></form><div id="search-result"></div><div class="search-no-result">没有找到内容！</div></div></div></widget>
+
+
+
+<widget class="widget-wrapper recent"><div class="widget-header cap theme dis-select"><span class="name">最近更新</span><a class="cap-action" id="rss" title="Subscribe" href="/atom.xml"><svg class="icon" viewbox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="8938"><path d="M800.966 947.251c0-404.522-320.872-732.448-716.69-732.448V62.785c477.972 0 865.44 395.987 865.44 884.466h-148.75z m-162.273 0h-148.74c0-228.98-181.628-414.598-405.678-414.598v-152.01c306.205 0 554.418 253.68 554.418 566.608z m-446.24-221.12c59.748 0 108.189 49.503 108.189 110.557 0 61.063-48.44 110.563-108.188 110.563-59.747 0-108.18-49.5-108.18-110.563 0-61.054 48.433-110.556 108.18-110.556z" p-id="8939"/></svg></a></div><div class="widget-body related-posts fs14"><a class="item title" href="/RSSBOX/rss/44757927.html"><span class="title">Vocaloid Opera - the End (720p)</span></a><a class="item title" href="/RSSBOX/rss/5d3e505.html"><span class="title">いとしのムーコ 第01-17巻 [Itoshi No Muco Vol 01-17]</span></a><a class="item title" href="/RSSBOX/rss/48910fa7.html"><span class="title">Sorairo Utility S01E02 1080p WEB X264 AAC -Tsundere-Raws (ABEMA)</span></a><a class="item title" href="/RSSBOX/rss/ca53dfad.html"><span class="title">Tying.the.Knot.with.an.Amagami.Sister.S01E12.MULTi.1080p.WEB-DL.x264-T3KASHi</span></a><a class="item title" href="/RSSBOX/rss/c7690982.html"><span class="title">I.ll.Become.a.Villainess.who.Goes.Down.in.History.S01E12.MULTi.1080p.WEB-DL.x264-T3KASHi</span></a></div></widget>
+</div>
+<footer class="footer dis-select"><div class="social-wrap"><a class="social" href="https://github.com/SMGoro" target="_blank" rel="external nofollow noopener noreferrer"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cdn.jsdelivr.net/gh/SMGCDN/photos/icon/iconfont/social-github.svg"></a><a class="social" href="https://space.bilibili.com/359079394" target="_blank" rel="external nofollow noopener noreferrer"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cdn.jsdelivr.net/gh/SMGCDN/photos/icon/iconfont/bilibili.svg"></a><a class="social" href="https://l.imc.re/zhihu" target="_blank" rel="external nofollow noopener noreferrer"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cdn.jsdelivr.net/gh/SMGCDN/photos/icon/iconfont/zhihu.svg"></a><a class="social" href="https://l.imc.re/discord" target="_blank" rel="external nofollow noopener noreferrer"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cdn.jsdelivr.net/gh/SMGCDN/photos/icon/iconfont/discord.svg"></a><a class="social" href="https://blog.imc.re/contact" target="_blank" rel="external nofollow noopener noreferrer"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cdn.jsdelivr.net/gh/SMGCDN/photos/icon/iconfont/comments.svg"></a></div></footer>
+
+    </aside>
+    <div class="l_main">
+      
+
+      
+
+
+
+<div class="bread-nav fs12"><div id="breadcrumb"><a class="cap breadcrumb" href="/RSSBOX/">主页</a><span class="sep"></span><a class="cap breadcrumb" href="/RSSBOX/">文章</a><span class="sep"></span><a class="cap breadcrumb-link" href="/RSSBOX/categories/blogs/">Blogs</a> <span class="sep"></span> <a class="cap breadcrumb-link" href="/RSSBOX/categories/blogs/github/">Github</a></div><div id="post-meta">发布于&nbsp;<time datetime="2025-01-09T13:27:11.000Z">2025-01-09</time></div></div>
+
+<article class="md-text content post">
+<h1 class="article-title"><span>How to Secure Your GitHub Actions Workflows With CodeQL</span></h1>
+<div>
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN" "http://www.w3.org/TR/REC-html40/loose.dtd">
+
+<html><body><p>In the last few months, we secured more than 75 GitHub Actions workflows in open source projects, disclosing more than 90 different vulnerabilities. Out of this research, we produced new support for workflows in CodeQL, empowering you to secure yours.</p>
+<h2 id="the-situation-growing-number-of-insecure-workflows">The situation: growing number of insecure workflows<a aria-label="The situation: growing number of insecure workflows" class="heading-link pl-2 text-italic text-bold" href="#the-situation-growing-number-of-insecure-workflows"></a></h2>
+<p>If you have read our series about keeping your GitHub Actions and workflows secure, you already have a good understanding of common vulnerabilities in GitHub Actions and how to solve them.</p>
+<ul>
+<li><a target="_blank" rel="external nofollow noopener noreferrer" href="https://securitylab.github.com/resources/github-actions-preventing-pwn-requests/">Keeping your GitHub Actions and workflows secure Part 1: Preventing pwn requests</a> </li>
+<li><a target="_blank" rel="external nofollow noopener noreferrer" href="https://securitylab.github.com/resources/github-actions-untrusted-input/">Keeping your GitHub Actions and workflows secure Part 2: Untrusted input</a> </li>
+<li><a target="_blank" rel="external nofollow noopener noreferrer" href="https://securitylab.github.com/resources/github-actions-building-blocks/">Keeping your GitHub Actions and workflows secure Part 3: How to trust your building blocks</a></li>
+</ul>
+<p>Unfortunately, we found that these vulnerabilities are still quite common, mostly because of a lack of awareness of how the moving parts interact with each other and what the impact of these vulnerabilities may be for your organization or repository.</p>
+<p>To help prevent the introduction of vulnerabilities, identify them in existing workflows, and even fix them using GitHub Copilot Autofix, <a target="_blank" rel="external nofollow noopener noreferrer" href="https://github.blog/changelog/2024-12-17-find-and-fix-actions-workflows-vulnerabilities-with-codeql-public-preview/">CodeQL support has been added for GitHub Actions</a>. The new CodeQL packs can be used by code scanning to scan both existing and new workflows. As code scanning and Copilot Autofix are free for OSS repositories, all public GitHub repositories will have access to these new queries, empowering detection and remediation of these vulnerabilities.</p>
+<p>In the rest of this post, we’ll see</p>
+<ul>
+<li>What we added to our existing CodeQL support, including actions as a first-class language, taint tracking, bash support;  </li>
+<li>What models and queries we developed;  </li>
+<li>What vulnerabilities and what new patterns we discovered as part of this work.</li>
+</ul>
+<h2 id="previous-attempt">Previous attempt<a aria-label="Previous attempt" class="heading-link pl-2 text-italic text-bold" href="#previous-attempt"></a></h2>
+<p>Previously, there was a <a target="_blank" rel="external nofollow noopener noreferrer" href="https://github.com/github/codeql/blob/2cbb0726689e3c6cb213eab2b3fc4b4e7d8119a4/javascript/ql/src/Security/CWE-094/ExpressionInjection.qhelp">single CodeQL query</a> capable of identifying simplistic code injections in GitHub workflows. However, this query had several limitations. First, it was bundled with the JavaScript QL packs, meaning users had to enable JavaScript scanning even if they had no JavaScript code in their repositories, which was confusing and misleading. Additionally, the representation of GitHub workflow syntax and grammar was incomplete, making it difficult to express more complex patterns using the existing Abstract Syntax Tree (AST) of GitHub Actions, which is used by static analysis tools such as CodeQL. Most importantly, the CodeQL support for GitHub workflows did not previously include Taint Tracking support and models for non-straightforward sources of untrusted data or dangerous operations.</p>
+<h2 id="taint-tracking-is-key">Taint Tracking is key!<a aria-label="Taint Tracking is key!" class="heading-link pl-2 text-italic text-bold" href="#taint-tracking-is-key"></a></h2>
+<p>So what is Taint Tracking and how important is it?</p>
+<p>Through the <a target="_blank" rel="external nofollow noopener noreferrer" href="https://github.com/github/codeql/blob/2cbb0726689e3c6cb213eab2b3fc4b4e7d8119a4/javascript/ql/src/Security/CWE-094/ExpressionInjection.qhelp">previous query for Code Injection</a>, we were able to identify simplistic vulnerabilities such as those cases where a known user-controlled property gets directly interpolated into a Run script:</p>
+<p><img><img alt="Code snippet through which a known user-controlled property gets directly interpolated into a Run script" class="aligncenter size-large wp-image-81906 width-fit" data-recalc-dims="1" data-src="data:image/gif;base64,R0lGODlhAQABAIAAAP///////yH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" decoding="async" height="57" sizes="(max-width: 674px) 100vw, 674px" src="https://github.blog/wp-content/uploads/2025/01/run-script.png?w=674&amp;resize=674%2C57" width="674"></p>
+<p>That was a great starting point, but what about cases such as the following?</p>
+<p>The first step of the path is the download of an artifact.</p>
+<p><img><img alt="Code snippet representing an artifact download" class="aligncenter size-large wp-image-81907 width-fit" data-recalc-dims="1" data-src="data:image/gif;base64,R0lGODlhAQABAIAAAP///////yH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" decoding="async" fetchpriority="high" height="465" sizes="(max-width: 1000px) 100vw, 1000px" src="https://github.blog/wp-content/uploads/2025/01/artifact-download.png?w=1024&amp;resize=1024%2C465" width="1024"></p>
+<p>The second and third steps are setting the content of a file from the artifact as the output of the workflow step.</p>
+<p><img><img alt="Code snippets setting the content of a file from the artifact as the output of the workflow step" class="aligncenter size-large wp-image-81908 width-fit" data-recalc-dims="1" data-src="data:image/gif;base64,R0lGODlhAQABAIAAAP///////yH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" decoding="async" height="593" sizes="(max-width: 1000px) 100vw, 1000px" src="https://github.blog/wp-content/uploads/2025/01/step-2-and-3.png?w=1024&amp;resize=1024%2C593" width="1024"></p>
+<p>In the last step, the value from the previous step is interpolated in an unsafe manner in a Run script leading to a potential code injection.</p>
+<p><img><img alt="Code snippet identifying a potential code injection" class="aligncenter size-large wp-image-81909 width-fit" data-recalc-dims="1" data-src="data:image/gif;base64,R0lGODlhAQABAIAAAP///////yH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" decoding="async" height="303" loading="lazy" sizes="auto, (max-width: 1000px) 100vw, 1000px" src="https://github.blog/wp-content/uploads/2025/01/potential-code-injection.png?w=1024&amp;resize=1024%2C303" width="1024"></p>
+<p>In the case above, the source of untrusted data is not simply a GitHub Event Context access of a known untrusted property (for example, <code>github.event.pull_request.body</code>) but rather the download of an artifact. Should all artifacts be considered untrusted? Certainly not. However, in this instance, where the workflow is triggered by a <code>workflow_run</code> event with no branch filters and where an artifact is downloaded from the triggering workflow (<code>github.event.workflow_run.workflow_id</code>), the artifact should be considered untrusted. When decompressed, it may pollute the Runner’s workspace by writing to files in unexpected locations. Consequently, from that step onward, all files in the workspace should be considered untrusted. This example highlights a non-trivial pattern that we need to express using the new actions AST representation to identify sources of untrusted data.</p>
+<p>Identifying sources of untrusted data is only the first step towards uncovering more complex injection vulnerabilities. In the example above, it is crucial to understand Bash scripts to determine if they are reading from untrusted files and inserting data into shell variables. It is essential to comprehend how these variables may flow into the output of a step, and, subsequently, how the output flows through different steps, jobs, composite actions, or reusable workflows until they reach a potentially dangerous sink. This understanding is what Taint Tracking and Control Flow will achieve.</p>
+<p>In summary, as illustrated in the CodeQL alert above, we can now identify non-obvious sources of untrusted data (for example, <code>git</code> or <code>gh</code> commands or third-party actions) and, more importantly, track this untrusted data throughout complex workflows. These workflows involve multiple steps, jobs, actions, and even entire workflows, allowing us to better understand where this data is used and to report potential vulnerabilities effectively.</p>
+<h2 id="bash-support">Bash support<a aria-label="Bash support" class="heading-link pl-2 text-italic text-bold" href="#bash-support"></a></h2>
+<p>GitHub’s workflows can execute various scripts, with Bash scripts being among the most common. The new CodeQL packs for GitHub Actions offer basic support for Bash, helping to identify tainted data originating from Bash scripts. For example, commands such as <code>git diff-tree</code> obtain a list of changed files. Tainted data can flow through a script when reading an attacker-controlled file or environment variable into a step’s output or another environment variable. A pertinent example of such a vulnerability could be found in a workflow of Azure CLI repository.</p>
+<p><img><img alt="environment variable built from user-controlled sources" class="aligncenter size-large wp-image-81910 width-fit" data-recalc-dims="1" data-src="data:image/gif;base64,R0lGODlhAQABAIAAAP///////yH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" decoding="async" height="326" loading="lazy" sizes="auto, (max-width: 1000px) 100vw, 1000px" src="https://github.blog/wp-content/uploads/2025/01/environment-variabl.png?w=1024&amp;resize=1024%2C326" width="1024"></p>
+<p><img><img alt="Code snippet showing how untrusted data, such as a pull request’s title, is assigned to the TITLE environment variable" class="aligncenter size-large wp-image-81911 width-fit" data-recalc-dims="1" data-src="data:image/gif;base64,R0lGODlhAQABAIAAAP///////yH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" decoding="async" height="457" loading="lazy" sizes="auto, (max-width: 1000px) 100vw, 1000px" src="https://github.blog/wp-content/uploads/2025/01/step2.png?w=1024&amp;resize=1024%2C457" width="1024"></p>
+<p>In the alert above, we can see how untrusted data, such as a pull request’s title, is assigned to the <code>TITLE</code> environment variable. This variable is then read and processed by several commands, resulting in a new message variable that gets redirected to the special file pointed to by the <code>GITHUB_ENV</code> variable. A malicious actor could craft a title that results in a multiline <code>message</code>, allowing them to inject arbitrary environment variables into subsequent steps. This, in turn, would enable the attacker to exfiltrate secrets used in the workflow.</p>
+<p>The new CodeQL packs are able to parse Bash scripts. While they don’t yet generate a full AST, they already allow us to understand elements such as assignments, pipelines, and redirections, enabling us to report subtle vulnerabilities like the one mentioned above.</p>
+<h2 id="models">Models<a aria-label="Models" class="heading-link pl-2 text-italic text-bold" href="#models"></a></h2>
+<p>As explained in “<a target="_blank" rel="external nofollow noopener noreferrer" href="https://securitylab.github.com/resources/github-actions-untrusted-input/">Keeping your GitHub Actions and workflows secure Part 2: Untrusted input</a>,” GitHub’s event context is the most common source of untrusted data. Properties such as <code>github.event.issue.title</code>, <code>github.event.pull_request.head.ref</code>, or <code>github.event.comment.body</code> are typical sources of untrusted data. However, any third-party action may introduce untrusted data. For instance, an action that returns a list of filenames changed in a pull request should be considered a source of untrusted data. Similarly, actions that parse an issue body or comment for a command or structured data should also be treated as sources of untrusted data.</p>
+<p>The same applies to actions that pass data from one of their inputs to their outputs or into an environment variable, therefore acting as taint steps (summaries). Actions such as <code>actions/github-script</code>, <code>azure/cli</code>, or <code>azure/powershell</code> should be considered sinks for Code Injection, similar to a Run’s step.</p>
+<p>We have analyzed thousands of popular third-party actions and identified a number of models now incorporated into the analysis:</p>
+<ul>
+<li>62 sources  </li>
+<li>129 summaries  </li>
+<li>2199 sinks</li>
+</ul>
+<h2 id="queries">Queries<a aria-label="Queries" class="heading-link pl-2 text-italic text-bold" href="#queries"></a></h2>
+<p>The previous support for GitHub Actions contained a single query for code injection, whereas the new CodeQL packs incorporate 18 new queries, including the Code Injection and Environment Variable Injection queries mentioned above.</p>
+<ul>
+<li>Execution of Untrusted Code  </li>
+<li>Execution of Untrusted Code (TOCTOU)  </li>
+<li>Artifact Poisoning  </li>
+<li>Code Injection  </li>
+<li>Environment Variable Injection  </li>
+<li>Path Injection  </li>
+<li>Unpinned Action Tag  </li>
+<li>Improper Access Control  </li>
+<li>Excessive Secrets Exposure  </li>
+<li>Secrets In Artifacts  </li>
+<li>Expression is Always True  </li>
+<li>Unmasked Secret Exposure  </li>
+<li>Cache Poisoning (Code Injection, Direct Cache, Untrusted Code)  </li>
+<li>Use of Known Vulnerable Actions  </li>
+<li>Missing Action Permissions  </li>
+<li>Argument Injection (Experimental)  </li>
+<li>Code Execution on Self Hosted Runners (Experimental)  </li>
+<li>Output Clobbering (Experimental)</li>
+</ul>
+<h2 id="results">Results<a aria-label="Results" class="heading-link pl-2 text-italic text-bold" href="#results"></a></h2>
+<p>For the past few months, we have been testing the new queries on thousands of open source projects to validate their accuracy and performance. The results have been very impressive, allowing us to identify and report vulnerabilities in numerous critical organizations and repositories, such as Microsoft, Azure, GitHub, Eclipse, Jupyter, Adobe, AWS, Cloudflare, Discord, Hibernate, HuggingFace, and Apache.</p>
+<p>The table below shows all the repositories affected, along with their GitHub stars, to give an idea of the impact that a supply chain attack could have had in these projects:</p>
+<div class="content-table-wrap"><table>
+<thead>
+<tr>
+<th align="left">Repository</th>
+<th align="left">Stars</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">ant-design/ant-design</td>
+<td align="left">92,412</td>
+</tr>
+<tr>
+<td align="left">Excalidraw/excalidraw</td>
+<td align="left">84,021</td>
+</tr>
+<tr>
+<td align="left">apache/superset</td>
+<td align="left">62,589</td>
+</tr>
+<tr>
+<td align="left">withastro/astro</td>
+<td align="left">46,604</td>
+</tr>
+<tr>
+<td align="left">Stirling-Tools/Stirling-PDF</td>
+<td align="left">44,988</td>
+</tr>
+<tr>
+<td align="left">geekan/MetaGPT</td>
+<td align="left">44,901</td>
+</tr>
+<tr>
+<td align="left">Kong/kong</td>
+<td align="left">39,221</td>
+</tr>
+<tr>
+<td align="left">LAION-AI/Open-Assistant</td>
+<td align="left">37,045</td>
+</tr>
+<tr>
+<td align="left">appsmithorg/appsmith</td>
+<td align="left">34,352</td>
+</tr>
+<tr>
+<td align="left">gradio-app/gradio</td>
+<td align="left">33,709</td>
+</tr>
+<tr>
+<td align="left">DIYgod/RSSHub</td>
+<td align="left">33,432</td>
+</tr>
+<tr>
+<td align="left">calcom/cal.com</td>
+<td align="left">32,282</td>
+</tr>
+<tr>
+<td align="left">milvus-io/milvus</td>
+<td align="left">30,299</td>
+</tr>
+<tr>
+<td align="left">k3s-io/k3s</td>
+<td align="left">28,010</td>
+</tr>
+<tr>
+<td align="left">discordjs/discord.js</td>
+<td align="left">25,390</td>
+</tr>
+<tr>
+<td align="left">element-plus/element-plus</td>
+<td align="left">24,488</td>
+</tr>
+<tr>
+<td align="left">cilium/cilium</td>
+<td align="left">20,150</td>
+</tr>
+<tr>
+<td align="left">monkeytypegame/monkeytype</td>
+<td align="left">15,635</td>
+</tr>
+<tr>
+<td align="left">amplication/amplication</td>
+<td align="left">15,196</td>
+</tr>
+<tr>
+<td align="left">docker-mailserver/docker-mailserver</td>
+<td align="left">14,643</td>
+</tr>
+<tr>
+<td align="left">jupyterlab/jupyterlab</td>
+<td align="left">14,167</td>
+</tr>
+<tr>
+<td align="left">openimsdk/open-im-server</td>
+<td align="left">14,041</td>
+</tr>
+<tr>
+<td align="left">quarkusio/quarkus</td>
+<td align="left">13,771</td>
+</tr>
+<tr>
+<td align="left">espressif/arduino-esp32</td>
+<td align="left">13,609</td>
+</tr>
+<tr>
+<td align="left">sympy/sympy</td>
+<td align="left">12,967</td>
+</tr>
+<tr>
+<td align="left">ionic-team/stencil</td>
+<td align="left">12,561</td>
+</tr>
+<tr>
+<td align="left">zephyrproject-rtos/zephyr</td>
+<td align="left">10,819</td>
+</tr>
+<tr>
+<td align="left">qgis/QGIS</td>
+<td align="left">10,569</td>
+</tr>
+<tr>
+<td align="left">trinodb/trino</td>
+<td align="left">10,413</td>
+</tr>
+<tr>
+<td align="left">OpenFeign/feign</td>
+<td align="left">9,490</td>
+</tr>
+<tr>
+<td align="left">marimo-team/marimo</td>
+<td align="left">7,583</td>
+</tr>
+<tr>
+<td align="left">dream-num/univer</td>
+<td align="left">7,021</td>
+</tr>
+<tr>
+<td align="left">aws/karpenter-provider-aws</td>
+<td align="left">6,782</td>
+</tr>
+<tr>
+<td align="left">hibernate/hibernate-orm</td>
+<td align="left">5,976</td>
+</tr>
+<tr>
+<td align="left">ant-design-blazor/ant-design-blazor</td>
+<td align="left">5,809</td>
+</tr>
+<tr>
+<td align="left">litestar-org/litestar</td>
+<td align="left">5,511</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="new-vulnerability-patterns">New vulnerability patterns<a aria-label="New vulnerability patterns" class="heading-link pl-2 text-italic text-bold" href="#new-vulnerability-patterns"></a></h2>
+<p>Having triaged and reported numerous alerts, we have identified some common patterns that often lead to vulnerabilities in GitHub workflows:</p>
+<h3 id="misuse-of-pull_request_target-trigger">Misuse of <code>pull_request_target trigger</code><a aria-label="Misuse of &lt;code&gt;pull_request_target trigger&lt;/code&gt;" class="heading-link pl-2 text-italic text-bold" href="#misuse-of-pull_request_target-trigger"></a></h3>
+<p>The <code>pull_request_target</code> event trigger, while offering powerful automation capabilities in GitHub Actions, harbors a dark side filled with potential security pitfalls. This event trigger, designed to execute workflows within the context of pull request’s base branch, presents special characteristics that severely increase the impact in case of any vulnerability. A workflow activated by <code>pull_request_target</code> and triggered from a fork operates with significant privileges, in contrast to the <code>pull_request</code> event:</p>
+<ul>
+<li>It is able to read repository and organization secrets.  </li>
+<li>It is allowed to have write permissions.  </li>
+<li>It circumvents the usual safeguards of pull request approvals, allowing workflows to run unimpeded even if approval mechanisms are configured for standard <code>pull_request</code> events.  </li>
+<li>It normally runs in the context of the default branch, which, as we will see, may allow malicious actors to poison the action’s cache and move laterally to other, more privileged workflows even when removing all permissions to the vulnerable workflow.</li>
+</ul>
+<p>When working with <code>pull_request_triggered</code> workflows, we have to be very careful and pay special attention to the following scenarios:</p>
+<ul>
+<li><strong>Code execution from untrusted sources:</strong> The ability to execute code from forked pull requests is a double-edged sword. A malicious actor can submit a seemingly innocuous pull request that, when triggered by <code>pull_request_target</code>, unleashes havoc. This malicious code, running in the context of the target repository’s environment, could exfiltrate secrets or even tamper with repository contents and releases. The danger lies in the inadvertent checkout and execution of code from untrusted sources. Common mistakes include using the <code>actions/checkout</code> action with a reference to the pull request’s head branch.
+</li>
+<li>
+<p><strong>Time of check to time of use (TOCTOU) attacks</strong>. Even with approval requirements in place (such as requiring the pull request to have a specific label that attackers are not able to set on their own), attackers can leverage the element of time to bypass security measures. A malicious actor can submit a seemingly harmless pull request, patiently wait for approval, and then swiftly update the pull request with malicious code before the workflow execution. The workflow, relying on a mutable reference like a branch name, falls prey to this <a target="_blank" rel="external nofollow noopener noreferrer" href="https://github.com/AdnaneKhan/ActionsTOCTOU">“time of check to time of use” (TOCTOU) attack</a>, unwittingly executing the newly injected malicious code. Confusion surrounding context variables, specifically <code>head.ref</code> and <code>head.sha</code>, can lead to vulnerabilities.  <code>head.ref</code>, pointing to the branch, is susceptible to manipulation by attackers. In contrast, <code>head.sha</code>, referencing the specific commit, provides a reliable and immutable pointer to the reviewed and approved code. Using the incorrect variable can create an opening for attackers to inject malicious code after approval.</p>
+</li>
+<li>
+<p><strong>Lurking threats in non-default branches</strong>. Vulnerabilities often linger in non-default branches, even after being addressed in the default branch. An attacker can target these vulnerable versions of the workflows residing in non-default branches, exploiting them by submitting pull requests specifically to those branches.</p>
+</li>
+<li>
+<p><strong>Cache poisoning</strong>. As a mitigation, developers may strip out all read and write permissions from these workflows when in need to run untrusted code. However, the seemingly innocuous <code>permissions: &#123;&#125;</code> configuration can unexpectedly pave the way for <a target="_blank" rel="external nofollow noopener noreferrer" href="https://adnanthekhan.com/2024/05/06/the-monsters-in-your-build-cache-github-actions-cache-poisoning/">cache poisoning attacks</a>. This attack vector involves injecting malicious content into the cache, which can subsequently affect other workflows relying on the poisoned cache entries. Even if a workflow doesn’t have write access to the repository, it can still poison the cache, leading to potential code execution or data manipulation in other workflows that utilize the compromised cache.</p>
+</li>
+</ul>
+<p>If we really need to use this trigger event, there are a few ways to harden the workflows to prevent any abuses:</p>
+<ul>
+<li><strong>Repository checks</strong>. Implementing stringent repository checks is crucial for thwarting attacks originating from forked pull requests. One effective method is to configure workflows to execute only for pull requests originating from the base repository, effectively blocking any attempts from external forks. This can be achieved by using conditions such as <code>github.event.pull_request.head.repo.owner.login == “myorg”</code> to restrict workflow execution.
+</li>
+<li>
+<p><strong>Actor checks</strong>. Verifying the permissions of the pull request author is another layer of defense. By restricting workflow execution to trusted actors, such as members of the organization or approved collaborators, the risk of malicious code injection from unauthorized sources can be significantly reduced. Never use a hardcoded list of user names, since the users may lose the permissions with time or the user names may be left abandoned for an attacker to claim.</p>
+</li>
+<li>
+<p><strong>Workflow splitting</strong>. The above mitigations may not be useful if we need to run a workflow for forks or arbitrary users. In those cases, splitting workflows into unprivileged and privileged components is a powerful security strategy. Unprivileged workflows, triggered by <code>pull_request</code> events, handle the initial processing of pull requests without access to sensitive secrets or write permissions. Privileged workflows, activated by <code>workflow_run</code> events, are invoked only after the unprivileged workflow has completed its checks. This separation ensures that potentially malicious code from forked pull requests never executes within a privileged context. The unprivileged workflow will generally need to communicate and pass information to the privileged one. This is a <strong>crucial security boundary</strong>, and, as we will see in the next section, any data coming from the unprivileged workflow should be considered untrusted and potentially dangerous.</p>
+</li>
+</ul>
+<h3 id="security-boundaries-and-workflow_run-event">Security boundaries and <code>workflow_run event</code><a aria-label="Security boundaries and &lt;code&gt;workflow_run event&lt;/code&gt;" class="heading-link pl-2 text-italic text-bold" href="#security-boundaries-and-workflow_run-event"></a></h3>
+<p>The <code>workflow_run</code> event trigger in GitHub Actions is designed to automate tasks based on the execution or completion of another workflow. It may grant write permissions and access to secrets even if the triggering workflow doesn’t have such privileges. While this is beneficial for tasks like labeling pull requests based on test results, it poses significant security risks if not used carefully.</p>
+<p>The <code>workflow_run</code> trigger poses a risk because it can often be initiated by an attacker. Some maintainers were surprised by this, believing that their triggering workflows, which were run on events such as <code>release</code>, were safe. This assumption was based on the idea that since an attacker couldn’t trigger a new release, they shouldn’t be able to initiate the triggering workflow or the subsequent <code>workflow_run</code> workflow.</p>
+<p>The reality is that an attacker can submit a pull request that modifies the triggering workflow and even replace the triggering events. Since <code>pull_request</code> workflows run in the context of the pull request’s <code>HEAD</code> branch, the modified workflow will run and, upon completion, will be able to trigger an existing <code>workflow_run</code> workflow. The danger arises from the fact that even if the triggering <code>pull_request</code> workflow is not privileged, the triggered <code>workflow_run</code> workflow will have access to secrets and write-scoped tokens, even if the initial workflow did not have those privileges. This enables privilege escalation attacks, allowing attackers to execute malicious code with elevated permissions within the CI/CD pipeline.</p>
+<p>Another significant pitfall with the <code>workflow_run</code> event trigger is artifact poisoning. Artifacts are files generated during a workflow run that can be shared with other workflows. Attackers can poison these artifacts by uploading malicious content through a pull request. When a <code>workflow_run</code> workflow downloads and uses these poisoned artifacts, it can lead to arbitrary code execution or other malicious activities within the privileged workflow. The issue is that many <code>workflow_run</code> workflows do not verify the contents of downloaded artifacts before using them, making them vulnerable to various attacks.</p>
+<p>Securing <code>workflow_run</code> workflows requires a multi-faceted approach. By understanding the inherent risks and implementing the recommended mitigations, developers can leverage the automation benefits of <code>workflow_run</code> while minimizing the potential for security compromises.</p>
+<h4 id="effective-mitigations">Effective mitigations<a aria-label="Effective mitigations" class="heading-link pl-2 text-italic text-bold" href="#effective-mitigations"></a></h4>
+<ul>
+<li><strong>Limit workflow scope with branch filters:</strong> Specify the branches where <code>workflow_run</code> workflows can be triggered using the <code>branches</code> filter. This helps restrict the scope of potential attacks by preventing them from being triggered on branches from forks.
+</li>
+<li>
+<p><strong>Verify event origin:</strong> Incorporate a check like <code>github.event_name != 'pull_request'</code> to prevent <code>workflow_run</code> workflows from being triggered by pull requests from forks. This adds an extra layer of protection by ensuring that the triggering workflow originates from a trusted source.</p>
+</li>
+<li>
+<p><strong>Treat artifacts as untrusted:</strong> Treat all downloaded artifacts as potentially malicious and implement rigorous validation checks before using them. Always unzip artifacts to a temporary directory like <code>/tmp</code> to prevent potential file overwrites, that is, the pollution of the workspace.</p>
+<ul>
+<li><strong>Avoid defining environment variables:</strong> Minimize the use of environment variables, especially when handling untrusted data. Environment variables can be vulnerable to injection attacks, potentially allowing attackers to modify their values and execute malicious code.
+</li>
+<li>
+<p><strong>Handle output variables with caution:</strong> Exercise caution when defining output variables from artifact’s content, as they can also be vulnerable to manipulation by attackers. Always validate the contents of output variables (for example, that it is a number, not a string) before using them in subsequent steps or other workflows.</p>
+</li>
+</ul>
+</li>
+</ul>
+<h4 id="non-effective-mitigations">Non-effective mitigations<a aria-label="Non-effective mitigations" class="heading-link pl-2 text-italic text-bold" href="#non-effective-mitigations"></a></h4>
+<ul>
+<li><strong>Repository checks:</strong> We found several workflows (for example, <a target="_blank" rel="external nofollow noopener noreferrer" href="https://securitylab.github.com/advisories/GHSL-2024-314_AWS_Karpenter_Provider/">AWS Karpenter Provider</a>, or <a target="_blank" rel="external nofollow noopener noreferrer" href="https://securitylab.github.com/advisories/GHSL-2024-252_Cloudflare_workers-sdk/">Cloudflare Workers SDK</a>) relying solely on repository checks, such as verifying the repository owner (<code>github.repository_owner == 'myorg'</code>), which is not effective in mitigating <code>workflow_run</code> risks since the workflow always runs in the context of the default branch which belongs to the organization.</li>
+</ul>
+<h3 id="issueoops-security-pitfalls-with-issue_comment-trigger">IssueOops: Security pitfalls with <code>issue_comment</code> trigger<a aria-label="IssueOops: Security pitfalls with &lt;code&gt;issue_comment&lt;/code&gt; trigger" class="heading-link pl-2 text-italic text-bold" href="#issueoops-security-pitfalls-with-issue_comment-trigger"></a></h3>
+<p>The <code>issue_comment</code> event trigger in GitHub Actions is a powerful tool for automating workflows based on comments on issues and pull requests. When applied in the context of <a target="_blank" rel="external nofollow noopener noreferrer" href="https://issue-ops.github.io/docs/">IssueOps</a>, it can streamline tasks like running commands in response to specific comments. However, this convenience comes with significant security risks that must be carefully considered.</p>
+<ul>
+<li><strong>TOCTOU vulnerabilities:</strong> Similar to the <code>pull_request_target</code> event trigger, workflows using <code>issue_comment</code> can be vulnerable to <a target="_blank" rel="external nofollow noopener noreferrer" href="https://github.com/AdnaneKhan/ActionsTOCTOU">TOCTOU attacks</a>. If the workflow checks out and executes code from a pull request based on an issue comment, an attacker could exploit the time window between the comment and the workflow execution. An attacker might initially submit a harmless pull request, waiting for an administrator to review and approve the workflow by adding a comment. Once the approval is given, the attacker could quickly update the pull request with malicious code, which would then be executed by the workflow.
+</li>
+<li>
+<p><strong>Bypassing pull request approval mechanisms:</strong> The <code>issue_comment</code> event trigger is not subject to the pull request approval mechanisms intended to prevent abuse. Even if the workflows triggered by <code>pull request</code> require approvals, an attacker can trigger an <code>issue_comment</code> workflow by simply adding a comment to the pull request, potentially executing malicious code without any review.</p>
+</li>
+</ul>
+<h4 id="mitigating-the-risks">Mitigating the risks<a aria-label="Mitigating the risks" class="heading-link pl-2 text-italic text-bold" href="#mitigating-the-risks"></a></h4>
+<ul>
+<li><strong>Shifting to label gates:</strong> Instead of relying on issue comments to trigger critical workflows, consider adopting a label gates approach. Label gates use labels to trigger specific actions, allowing for more granular control and better security. Since the labeled activity type for a <code>pull_request</code> trigger contains details about the latest commit SHA of the pull request, there is no need for workflow to resolve a pull request number into the latest commit SHA, as it is the case with <code>issue_comment</code>, and, therefore, there is no window for an attacker to modify the pull request. Remember to use the commit SHA rather than the HEAD reference to prevent <a target="_blank" rel="external nofollow noopener noreferrer" href="https://github.com/AdnaneKhan/ActionsTOCTOU">TOCTOU vulnerabilities</a>.</li>
+</ul>
+<h4 id="ineffective-or-incomplete-mitigations">Ineffective or incomplete mitigations<a aria-label="Ineffective or incomplete mitigations" class="heading-link pl-2 text-italic text-bold" href="#ineffective-or-incomplete-mitigations"></a></h4>
+<ul>
+<li>
+<p><strong>Actor checks:</strong> Relying solely on actor checks (verifying the identity or permissions of the commenter) is ineffective. The actor triggering the workflow might not be the same one trying to exploit it, further rendering actor checks unreliable. This is the case for TOCTOU vulnerabilities where an attacker can submit a legitimate pull request and wait for an admin to trigger an IssueOp and then swiftly mutate the pull request by adding a new commit with malicious code on it.</p>
+</li>
+<li>
+<p><strong>Date checks:</strong> Comparing timestamps to verify that the last commit occurred before the triggering comment is also unreliable. Currently, GitHub has no reliable way to figure out the date when a commit was pushed to a repository. An attacker can forge commit dates, rendering these checks useless in preventing malicious code execution.</p>
+</li>
+<li>
+<p><strong>Repository checks:</strong> Verifying the origin repository is not a useful mitigation for <code>issue_comment</code> event triggers. The <code>issue_comment</code> event always executes within the context of the target repository’s default branch, making repository checks redundant.</p>
+</li>
+</ul>
+<h2 id="wrapping-up">Wrapping up<a aria-label="Wrapping up" class="heading-link pl-2 text-italic text-bold" href="#wrapping-up"></a></h2>
+<p><a target="_blank" rel="external nofollow noopener noreferrer" href="https://github.blog/changelog/2024-12-17-find-and-fix-actions-workflows-vulnerabilities-with-codeql-public-preview/">The new CodeQL support for GitHub Actions is in public preview</a>. The new QL packs allow you to scan your repository for a variety of vulnerabilities in GitHub Actions, helping prevent supply chain attacks in the OSS software we all depend on! If you want to give them a try, take one of the following steps depending on your case:</p>
+<ul>
+<li>Your repository is newly configured for <a target="_blank" rel="external nofollow noopener noreferrer" href="https://docs.github.com/en/code-security/code-scanning/enabling-code-scanning/configuring-default-setup-for-code-scanning">default setup</a>: Code scanning will automatically attempt to analyze actions if any workflows are present on the default branch. You have nothing to do; keep calm and fix the potential alerts.  </li>
+<li>Your repository is already configured for default setup: You need to edit the Default Setup settings and explicitly enable actions analysis.  </li>
+<li>Your repository is using advanced setup: You just have to add <code>actions</code> to the language matrix.</li>
+</ul>
+<p>Stay secure!</p>
+</body></html>
+<p>The post <a target="_blank" rel="external nofollow noopener noreferrer" href="https://github.blog/security/application-security/how-to-secure-your-github-actions-workflows-with-codeql/">How to secure your GitHub Actions workflows with CodeQL</a> appeared first on <a target="_blank" rel="external nofollow noopener noreferrer" href="https://github.blog">The GitHub Blog</a>.</p>
+
+</div>
+
+<div>
+<div class="tag-plugin link dis-select"><a class="link-card plain" title="How to secure your GitHub Actions workflows with CodeQL" href="https://github.blog/security/application-security/how-to-secure-your-github-actions-workflows-with-codeql/" target="_blank" rel="external nofollow noopener noreferrer" cardlink autofill="icon"><div class="left"><span class="title">How to secure your GitHub Actions workflows with CodeQL</span><span class="cap link fs12">https://github.blog/security/application-security/how-to-secure-your-github-actions-workflows-with-codeql/</span></div><div class="right"><div class="lazy img" data-bg="https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.4/link/8f277b4ee0ecd.svg"></div></div></a></div>
+</div>
+
+
+
+
+<div class="article-footer reveal fs14"><section id="license"><div class="header"><span>许可协议</span></div><div class="body"><p>本文采用 <a target="_blank" rel="external nofollow noopener noreferrer" href="https://github.com/me-shaon/GLWTPL/blob/master/translations/LICENSE_zh-CN">GLWT（Good Luck With That，祝你好运）公共许可证</a> 许可协议，转载请注明出处。</p>
+</div></section><section id="share"><div class="header"><span>分享文章</span></div><div class="body"><div class="link"><input class="copy-area" readonly="true" id="copy-link" value="https://blog.imc.re/RSSBOX/rss/465b5fb1.html"></div><div class="social-wrap dis-select"><a class="social share-item wechat" onclick="util.toggle(&quot;qrcode-wechat&quot)"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.4/social/b32ef3da1162a.svg"></a><a class="social share-item weibo" target="_blank" rel="external nofollow noopener noreferrer" href="https://service.weibo.com/share/share.php?url=https://blog.imc.re/RSSBOX/rss/465b5fb1.html&title=How to Secure Your GitHub Actions Workflows With CodeQL - RSSBOX&pics=https://github.blog/wp-content/uploads/2025/01/run-script.png?w=674&resize=674%2C57&summary=
+
+
+In the last few months, we secured more than 75 GitHub Actions workflows in open source projects, disclosing more ..."><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.4/social/80c07e4dbb303.svg"></a><a class="social share-item email" href="mailto:?subject=How to Secure Your GitHub Actions Workflows With CodeQL - RSSBOX&amp;body=https://blog.imc.re/RSSBOX/rss/465b5fb1.html"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.4/social/a1b00e20f425d.svg"></a><a class="social share-item link" onclick="util.copy(&quot;copy-link&quot;, &quot;复制成功&quot;)"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.4/social/8411ed322ced6.svg"></a></div><div class="qrcode" id="qrcode-wechat" style="visibility:hidden;height:0"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://api.qrserver.com/v1/create-qr-code/?size=256x256&data=https://blog.imc.re/RSSBOX/rss/465b5fb1.html"></div></div></section></div>
+
+</article>
+
+<div class="related-wrap reveal" id="read-next"><section class="body"><div class="item" id="prev"><div class="note">较新文章</div><a href="/RSSBOX/rss/ec78a25a.html">KRAFTON携手NVIDIA发表“CPC”AI技术</a></div><div class="item" id="next"><div class="note">较早文章</div><a href="/RSSBOX/rss/8927e0cb.html">How to Use GitHub Copilot: What It Can Do and Real-World Examples</a></div></section></div>
+
+
+<div class="related-wrap reveal" id="related-posts">
+    <section class="header">
+      <div class="title cap theme">您可能感兴趣的文章</div>
+    </section>
+    <section class="body">
+    <div class="related-posts"><a class="item" href="/RSSBOX/rss/d4d7562.html" title="Announcing CodeQL Community Packs"><span class="title">Announcing CodeQL Community Packs</span></a><a class="item" href="/RSSBOX/rss/868f80a5.html" title="Building LATAM&#8217;s Future Tech Workforce With AI"><span class="title">Building LATAM&#8217;s Future Tech Workforce With AI</span></a><a class="item" href="/RSSBOX/rss/92d6d03c.html" title="Enhance Build Security and Reach SLSA Level 3 With GitHub Artifact Attestations"><span class="title">Enhance Build Security and Reach SLSA Level 3 With GitHub Artifact Attestations</span></a><a class="item" href="/RSSBOX/rss/e38966e3.html" title="GitHub’s Top Blogs of 2024"><span class="title">GitHub’s Top Blogs of 2024</span></a><a class="item" href="/RSSBOX/rss/86d9f572.html" title="Highlights From Git 2.48"><span class="title">Highlights From Git 2.48</span></a></div></section></div>
+
+
+
+
+
+      
+<footer class="page-footer reveal fs12"><hr><div class="sitemap"><div class="sitemap-group"><span class="fs14">文章</span><a href="/RSSBOX/categories">分类</a><a href="/RSSBOX/tags">标签</a><a href="/RSSBOX/archives">归档</a></div><div class="sitemap-group"><span class="fs14">更多</span><a href="https://blog.imc.re/">博客</a><a target="_blank" rel="noopener" href="https://imc.re/">IMC.RE</a></div></div><div class="text"><p><a href="/">@RSSBOX</a> 2023 author by <a target="_blank" rel="external nofollow noopener noreferrer" href="https://github.com/MHG-LAB/RSSBOX">MHuiG</a> powered by SummerGoro。<br><br>本博客所有文章除特别声明外，均采用 <a target="_blank" rel="external nofollow noopener noreferrer" href="https://github.com/me-shaon/GLWTPL/blob/master/translations/LICENSE_zh-CN">GLWT（Good Luck With That，祝你好运）公共许可证</a> 许可协议，转载请注明出处。</p>
+</div></footer>
+
+      <div class="float-panel mobile-only blur" style="display:none">
+  <button type="button" class="sidebar-toggle mobile" onclick="sidebar.toggle()">
+    <svg class="icon" style="width: 1em; height: 1em;vertical-align: middle;fill: currentColor;overflow: hidden;" viewbox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="15301"><path d="M566.407 808.3c26.9-0.1 49.3-20.8 51.6-47.6-1.9-27.7-23.9-49.7-51.6-51.6h-412.6c-28.2-1.4-52.6 19.5-55.5 47.6 2.3 26.8 24.6 47.5 51.6 47.6h416.5v4z m309.3-249.9c26.9-0.1 49.3-20.8 51.6-47.6-2.2-26.8-24.6-47.5-51.6-47.6h-721.9c-27.7-2.8-52.5 17.4-55.3 45.1-0.1 0.8-0.1 1.7-0.2 2.5 0.9 27.2 23.6 48.5 50.7 47.6H875.707z m-103.1-245.9c26.9-0.1 49.3-20.8 51.6-47.6-0.4-28.3-23.2-51.1-51.5-51.6h-618.9c-29.5-1.1-54.3 21.9-55.5 51.4v0.2c1.4 27.8 25.2 49.2 53 47.8 0.8 0 1.7-0.1 2.5-0.2h618.8z" p-id="15302"/><path d="M566.407 808.3c26.9-0.1 49.3-20.8 51.6-47.6-1.9-27.7-23.9-49.7-51.6-51.6h-412.6c-28.2-1.4-52.6 19.5-55.5 47.6 1.9 27.7 23.9 49.7 51.6 51.6h416.5z m309.3-249.9c26.9-0.1 49.3-20.8 51.6-47.6-2.2-26.8-24.6-47.5-51.6-47.6h-721.9c-27.7-2.8-52.5 17.4-55.3 45.1-0.1 0.8-0.1 1.7-0.2 2.5 0.9 27.2 23.6 48.5 50.7 47.6H875.707z m-103.1-245.9c26.9-0.1 49.3-20.8 51.6-47.6-0.4-28.3-23.2-51.1-51.5-51.6h-618.9c-29.5-1.1-54.3 21.9-55.5 51.4v0.2c1.4 27.8 25.2 49.2 53 47.8 0.8 0 1.7-0.1 2.5-0.2h618.8z" p-id="15303"/></svg>
+  </button>
+</div>
+
+    </div>
+  </div>
+  <div class="scripts">
+    <script type="text/javascript">
+  const stellar = {
+    // 懒加载 css https://github.com/filamentgroup/loadCSS
+    loadCSS: (href, before, media, attributes) => {
+      var doc = window.document;
+      var ss = doc.createElement("link");
+      var ref;
+      if (before) {
+        ref = before;
+      } else {
+        var refs = (doc.body || doc.getElementsByTagName("head")[0]).childNodes;
+        ref = refs[refs.length - 1];
+      }
+      var sheets = doc.styleSheets;
+      if (attributes) {
+        for (var attributeName in attributes) {
+          if (attributes.hasOwnProperty(attributeName)) {
+            ss.setAttribute(attributeName, attributes[attributeName]);
+          }
+        }
+      }
+      ss.rel = "stylesheet";
+      ss.href = href;
+      ss.media = "only x";
+      function ready(cb) {
+        if (doc.body) {
+          return cb();
+        }
+        setTimeout(function () {
+          ready(cb);
+        });
+      }
+      ready(function () {
+        ref.parentNode.insertBefore(ss, before ? ref : ref.nextSibling);
+      });
+      var onloadcssdefined = function (cb) {
+        var resolvedHref = ss.href;
+        var i = sheets.length;
+        while (i--) {
+          if (sheets[i].href === resolvedHref) {
+            return cb();
+          }
+        }
+        setTimeout(function () {
+          onloadcssdefined(cb);
+        });
+      };
+      function loadCB() {
+        if (ss.addEventListener) {
+          ss.removeEventListener("load", loadCB);
+        }
+        ss.media = media || "all";
+      }
+      if (ss.addEventListener) {
+        ss.addEventListener("load", loadCB);
+      }
+      ss.onloadcssdefined = onloadcssdefined;
+      onloadcssdefined(loadCB);
+      return ss;
+    },
+
+    // 从 butterfly 和 volantis 获得灵感
+    loadScript: (src, opt) => new Promise((resolve, reject) => {
+      var script = document.createElement('script');
+      if (src.startsWith('/')){
+        src = stellar.config.root + src.substring(1);
+      }
+      script.src = src;
+      if (opt) {
+        for (let key of Object.keys(opt)) {
+          script[key] = opt[key]
+        }
+      } else {
+        // 默认异步，如果需要同步，第二个参数传入 {} 即可
+        script.async = true
+      }
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    }),
+
+    // https://github.com/jerryc127/hexo-theme-butterfly
+    jQuery: (fn) => {
+      if (typeof jQuery === 'undefined') {
+        stellar.loadScript(stellar.plugins.jQuery).then(fn)
+      } else {
+        fn()
+      }
+    }
+  };
+  stellar.version = '1.19.0';
+  stellar.github = 'https://github.com/xaoxuu/hexo-theme-stellar/tree/1.19.0';
+  stellar.config = {
+    date_suffix: {
+      just: '刚刚',
+      min: '分钟前',
+      hour: '小时前',
+      day: '天前',
+      month: '个月前',
+    },
+    root : '/RSSBOX/',
+  };
+
+  // required plugins (only load if needs)
+  stellar.plugins = {
+    jQuery: 'https://gcore.jsdelivr.net/npm/jquery@3.6.2/dist/jquery.min.js'
+  };
+
+  if ('local_search') {
+    stellar.search = {};
+    stellar.search.service = 'local_search';
+    if (stellar.search.service == 'local_search') {
+      let service_obj = Object.assign({}, {"field":"all","path":"/search.json","content":true,"codeblock":true,"sort":"-date"});
+      stellar.search[stellar.search.service] = service_obj;
+    }
+  }
+
+  // stellar js
+  stellar.plugins.stellar = Object.assign({"sites":"/js/plugins/sites.js","friends":"/js/plugins/friends.js","ghinfo":"/js/plugins/ghinfo.js","timeline":"/js/plugins/timeline.js","linkcard":"/js/plugins/linkcard.js","fcircle":"/js/plugins/fcircle.js","weibo":"/js/plugins/weibo.js"});
+
+  stellar.plugins.marked = Object.assign("https://cdn.bootcdn.net/ajax/libs/marked/4.0.18/marked.min.js");
+  // optional plugins
+  if ('true' == 'true') {
+    stellar.plugins.lazyload = Object.assign({"enable":true,"js":"https://gcore.jsdelivr.net/npm/vanilla-lazyload@17.8.3/dist/lazyload.min.js","transition":"blur"});
+  }
+  if ('true' == 'true') {
+    stellar.plugins.swiper = Object.assign({"enable":true,"css":"https://unpkg.com/swiper@8.4.5/swiper-bundle.min.css","js":"https://unpkg.com/swiper@8.4.5/swiper-bundle.min.js"});
+  }
+  if ('' == 'true') {
+    stellar.plugins.scrollreveal = Object.assign({"enable":null,"js":"https://gcore.jsdelivr.net/npm/scrollreveal@4.0.9/dist/scrollreveal.min.js","distance":"8px","duration":500,"interval":100,"scale":1});
+  }
+  if ('true' == 'true') {
+    stellar.plugins.preload = Object.assign({"enable":true,"service":"flying_pages","instant_page":"https://gcore.jsdelivr.net/gh/volantis-x/cdn-volantis@4.1.2/js/instant_page.js","flying_pages":"https://gcore.jsdelivr.net/gh/gijo-varghese/flying-pages@2.1.2/flying-pages.min.js"});
+  }
+  if ('true' == 'true') {
+    stellar.plugins.fancybox = Object.assign({"enable":true,"js":"https://gcore.jsdelivr.net/npm/@fancyapps/ui@4.0/dist/fancybox.umd.js","css":"https://gcore.jsdelivr.net/npm/@fancyapps/ui@4.0/dist/fancybox.css","selector":".swiper-slide img"});
+  }
+  if ('false' == 'true') {
+    stellar.plugins.heti = Object.assign({"enable":false,"css":"https://unpkg.com/heti@0.9.2/umd/heti.min.css","js":"https://unpkg.com/heti@0.9.2/umd/heti-addon.min.js"});
+  }
+  if ('true' == 'true') {
+    stellar.plugins.copycode = Object.assign({"enable":true,"js":"/js/plugins/copycode.js","default_text":"Copy","success_text":"Copied"});
+  }
+</script>
+
+<!-- required -->
+
+  
+<script src="/RSSBOX/js/main.js" async></script>
+
+
+
+<!-- optional -->
+
+  <script>
+  function loadJS() {
+    const els = document.querySelectorAll("#comments #giscus");
+    if (els.length === 0) return;
+    els.forEach((el, i) => {
+      try {
+        el.innerHTML = '';
+      } catch (error) {
+        console.log(error);
+      }
+      var script = document.createElement('script');
+      script.src = 'https://giscus.app/client.js';
+      script.async = true;
+      for (let key of Object.keys(el.attributes)) {
+        let attr = el.attributes[key];
+        if (['class', 'id'].includes(attr.name) === false) {
+          script.setAttribute(attr.name, attr.value);
+        }
+      }
+      el.appendChild(script);
+    });
+  }
+  window.addEventListener('DOMContentLoaded', (event) => {
+    loadJS();
+  });
+</script>
+
+
+
+
+<!-- inject -->
+
+
+  </div>
+</body>
+</html>

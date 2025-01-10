@@ -1,0 +1,519 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+  <meta name="generator" content="Hexo 6.3.0">
+  <meta name="hexo-theme" content="https://github.com/xaoxuu/hexo-theme-stellar/tree/1.19.0">
+  <meta charset="utf-8">
+  
+
+  <meta http-equiv="x-dns-prefetch-control" content="on">
+  <link rel="dns-prefetch" href="https://gcore.jsdelivr.net">
+  <link rel="preconnect" href="https://gcore.jsdelivr.net" crossorigin>
+  <link rel="dns-prefetch" href="//unpkg.com">
+
+  <meta name="renderer" content="webkit">
+  <meta name="force-rendering" content="webkit">
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+  <meta name="HandheldFriendly" content="True">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="theme-color" content="#f8f8f8">
+  
+  <title>Un Experimento Rápido: Translating Cloudflare Stream Captions With Workers AI - RSSBOX</title>
+
+  
+    <meta name="description" content="Cloudflare Stream launched AI-powered automated captions to transcribe English in on-demand videos in March 2024. Customers&#39; immediate next questions were about other languages — both transcribing">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Un Experimento Rápido: Translating Cloudflare Stream Captions With Workers AI">
+<meta property="og:url" content="https://blog.imc.re/RSSBOX/rss/302a2768.html">
+<meta property="og:site_name" content="RSSBOX">
+<meta property="og:description" content="Cloudflare Stream launched AI-powered automated captions to transcribe English in on-demand videos in March 2024. Customers&#39; immediate next questions were about other languages — both transcribing">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://cf-assets.www.cloudflare.com/zkvhlag99gkb/1MzmQ0KAJBntBrqgwGAqTd/035d044fc9e70c9933c1406074de52b9/image2.png">
+<meta property="article:published_time" content="2024-12-24T14:00:00.000Z">
+<meta property="article:modified_time" content="2024-12-24T14:00:00.000Z">
+<meta property="article:author" content="SMGoro">
+<meta property="article:tag" content="Blogs">
+<meta property="article:tag" content="Cloudflare">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://cf-assets.www.cloudflare.com/zkvhlag99gkb/1MzmQ0KAJBntBrqgwGAqTd/035d044fc9e70c9933c1406074de52b9/image2.png">
+  
+  
+  
+  <meta name="keywords" content="Blogs,Cloudflare">
+
+  <!-- feed -->
+  
+    <link rel="alternate" href="/RSSBOX/atom.xml" title="RSSBOX" type="application/atom+xml">
+  
+
+  
+    
+<link rel="stylesheet" href="/RSSBOX/css/main.css">
+
+  
+
+  
+
+  
+
+  
+    <link rel="stylesheet" href="https://gcore.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.css" integrity="sha384-vKruj+a13U8yHIkAyGgK1J3ArTLzrFGBbBc0tDp4ad/EyewESeXE/Iv67Aj8gKZ0" crossorigin="anonymous">
+    <script defer src="https://gcore.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.js" integrity="sha384-PwRUT/YqbnEjkZO0zZxNqcxACrXe+j766U2amXcgMg5457rve2Y7I6ZJSm2A0mS4" crossorigin="anonymous"></script>
+    <script defer src="https://gcore.jsdelivr.net/npm/katex@0.16.4/dist/contrib/auto-render.min.js" integrity="sha384-+VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4+/RRE05" crossorigin="anonymous" onload="renderMathInElement(document.body);"></script>
+  
+
+
+  
+
+<!--百度统计-->
+<script>
+  var _hmt = _hmt || [];
+  (function() {
+    var hm = document.createElement("script");
+    hm.src = "https://hm.baidu.com/hm.js?f42afe3e5b76d22c8b1a8060171c7184";
+    var s = document.getElementsByTagName("script")[0]; 
+    s.parentNode.insertBefore(hm, s);
+  })();
+</script>  
+  <!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-V2NSKYGXNG"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-V2NSKYGXNG');
+</script>
+<!--Google Adsense-->
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4773172018528901" crossorigin="anonymous"></script>
+</head>
+
+<body>
+  
+
+
+
+
+  <div class="l_body" id="start">
+    <aside class="l_left" layout="post">
+    
+
+  
+
+<header class="header"><div class="logo-wrap"><a class="avatar" href="/RSSBOX/archives"><div class="bg" style="opacity:0;background-image:url(https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.4/avatar/round/rainbow64@3x.webp);"></div><img no-lazy class="avatar" src="https://cdn.jsdelivr.net/gh/SMGCDN/photos/icon/rsshub.png" onerror="javascript:this.classList.add('error');this.src='https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.4/image/2659360.svg';"></a><a class="title" href="/RSSBOX/"><div class="main" ff="title">RSSBOX</div><div class="sub normal cap">SMGoroのRSS订阅</div><div class="sub hover cap" style="opacity:0"> 一些好康的东西</div></a></div>
+
+<nav class="menu dis-select"><a class="nav-item active" href="/RSSBOX/">订阅</a><a class="nav-item" href="https://blog.imc.re/">博客</a><a class="nav-item" href="https://blog.imc.re/contact">联系</a><a class="nav-item" href="https://blog.imc.re/more">更多</a></nav>
+</header>
+
+
+<div class="widgets">
+
+<widget class="widget-wrapper toc single" id="data-toc"><div class="widget-header cap dis-select"><span class="name">Un Experimento Rápido: Translating Cloudflare Stream Captions With Workers AI</span></div><div class="widget-body fs14"><div class="doc-tree active"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">Selecting test content</span></a></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">Parsing the input</span></a></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">AI-ify</span></a></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">Consolidating sentences</span></a></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">Re-exporting to VTT</span></a></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">More testing and what I learned</span></a></li></ol></div></div></widget>
+
+
+
+<widget class="widget-wrapper search"><div class="widget-body"><div class="search-wrapper" id="search"><form class="search-form"><input type="text" class="search-input" id="search-input" data-filter="/rss/" placeholder="文章搜索"><svg t="1670596976048" class="icon search-icon" viewbox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2676" width="200" height="200"><path d="M938.2 832.6L723.8 618.1c-2.5-2.5-5.3-4.4-7.9-6.4 36.2-55.6 57.3-121.8 57.3-193.1C773.3 222.8 614.6 64 418.7 64S64 222.8 64 418.6c0 195.9 158.8 354.6 354.6 354.6 71.3 0 137.5-21.2 193.2-57.4 2 2.7 3.9 5.4 6.3 7.8L832.5 938c14.6 14.6 33.7 21.9 52.8 21.9 19.1 0 38.2-7.3 52.8-21.8 29.2-29.1 29.2-76.4 0.1-105.5M418.7 661.3C284.9 661.3 176 552.4 176 418.6 176 284.9 284.9 176 418.7 176c133.8 0 242.6 108.9 242.6 242.7 0 133.7-108.9 242.6-242.6 242.6" p-id="2677"/></svg></form><div id="search-result"></div><div class="search-no-result">没有找到内容！</div></div></div></widget>
+
+
+
+<widget class="widget-wrapper recent"><div class="widget-header cap theme dis-select"><span class="name">最近更新</span><a class="cap-action" id="rss" title="Subscribe" href="/atom.xml"><svg class="icon" viewbox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="8938"><path d="M800.966 947.251c0-404.522-320.872-732.448-716.69-732.448V62.785c477.972 0 865.44 395.987 865.44 884.466h-148.75z m-162.273 0h-148.74c0-228.98-181.628-414.598-405.678-414.598v-152.01c306.205 0 554.418 253.68 554.418 566.608z m-446.24-221.12c59.748 0 108.189 49.503 108.189 110.557 0 61.063-48.44 110.563-108.188 110.563-59.747 0-108.18-49.5-108.18-110.563 0-61.054 48.433-110.556 108.18-110.556z" p-id="8939"/></svg></a></div><div class="widget-body related-posts fs14"><a class="item title" href="/RSSBOX/rss/44757927.html"><span class="title">Vocaloid Opera - the End (720p)</span></a><a class="item title" href="/RSSBOX/rss/5d3e505.html"><span class="title">いとしのムーコ 第01-17巻 [Itoshi No Muco Vol 01-17]</span></a><a class="item title" href="/RSSBOX/rss/48910fa7.html"><span class="title">Sorairo Utility S01E02 1080p WEB X264 AAC -Tsundere-Raws (ABEMA)</span></a><a class="item title" href="/RSSBOX/rss/ca53dfad.html"><span class="title">Tying.the.Knot.with.an.Amagami.Sister.S01E12.MULTi.1080p.WEB-DL.x264-T3KASHi</span></a><a class="item title" href="/RSSBOX/rss/c7690982.html"><span class="title">I.ll.Become.a.Villainess.who.Goes.Down.in.History.S01E12.MULTi.1080p.WEB-DL.x264-T3KASHi</span></a></div></widget>
+</div>
+<footer class="footer dis-select"><div class="social-wrap"><a class="social" href="https://github.com/SMGoro" target="_blank" rel="external nofollow noopener noreferrer"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cdn.jsdelivr.net/gh/SMGCDN/photos/icon/iconfont/social-github.svg"></a><a class="social" href="https://space.bilibili.com/359079394" target="_blank" rel="external nofollow noopener noreferrer"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cdn.jsdelivr.net/gh/SMGCDN/photos/icon/iconfont/bilibili.svg"></a><a class="social" href="https://l.imc.re/zhihu" target="_blank" rel="external nofollow noopener noreferrer"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cdn.jsdelivr.net/gh/SMGCDN/photos/icon/iconfont/zhihu.svg"></a><a class="social" href="https://l.imc.re/discord" target="_blank" rel="external nofollow noopener noreferrer"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cdn.jsdelivr.net/gh/SMGCDN/photos/icon/iconfont/discord.svg"></a><a class="social" href="https://blog.imc.re/contact" target="_blank" rel="external nofollow noopener noreferrer"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cdn.jsdelivr.net/gh/SMGCDN/photos/icon/iconfont/comments.svg"></a></div></footer>
+
+    </aside>
+    <div class="l_main">
+      
+
+      
+
+
+
+<div class="bread-nav fs12"><div id="breadcrumb"><a class="cap breadcrumb" href="/RSSBOX/">主页</a><span class="sep"></span><a class="cap breadcrumb" href="/RSSBOX/">文章</a><span class="sep"></span><a class="cap breadcrumb-link" href="/RSSBOX/categories/blogs/">Blogs</a> <span class="sep"></span> <a class="cap breadcrumb-link" href="/RSSBOX/categories/blogs/cloudflare/">Cloudflare</a></div><div id="post-meta">发布于&nbsp;<time datetime="2024-12-24T14:00:00.000Z">2024-12-24</time></div></div>
+
+<article class="md-text content post">
+<h1 class="article-title"><span>Un Experimento Rápido: Translating Cloudflare Stream Captions With Workers AI</span></h1>
+<div>
+ <div>
+</div>
+<p></p><p><a target="_blank" rel="external nofollow noopener noreferrer" href="https://www.cloudflare.com/products/cloudflare-stream"><u>Cloudflare Stream</u></a> launched AI-powered <a target="_blank" rel="external nofollow noopener noreferrer" href="https://blog.cloudflare.com/stream-automatic-captions-with-ai"><u>automated captions</u></a> to transcribe English in on-demand videos in March 2024. Customers' immediate next questions were about other languages — both <i>transcribing</i> audio from other languages, and <i>translating</i> captions to make subtitles for other languages. As the Stream Product Manager, I've thought a lot about how we might tackle these, but I wondered…</p><p><b>What if I just translated a generated </b><a target="_blank" rel="external nofollow noopener noreferrer" href="https://en.wikipedia.org/wiki/WebVTT"><b><u>VTT</u></b></a><b> (caption file)? Can we do that?</b> I hoped to use <a target="_blank" rel="external nofollow noopener noreferrer" href="https://www.cloudflare.com/developer-platform/products/workers-ai/"><u>Workers AI</u></a> to conduct a quick experiment to learn more about the problem space, challenges we may find, and what platform capabilities we can leverage.</p><p>There is a <a target="_blank" rel="external nofollow noopener noreferrer" href="https://github.com/elizabethsiegle/cfworkers-ai-translate"><u>sample translator demo</u></a> in Workers documentation that uses the “<a target="_blank" rel="external nofollow noopener noreferrer" href="https://developers.cloudflare.com/workers-ai/models/m2m100-1.2b/"><u>m2m100-1.2b</u></a>” Many-to-Many multilingual translation model to translate short input strings. I decided to start there and try using it to translate some of the English captions in my Stream library into Spanish.</p>
+<div>
+<h2>Selecting test content</h2>
+<a href="#selecting-test-content">
+</a>
+</div>
+<p>I started with my <a target="_blank" rel="external nofollow noopener noreferrer" href="https://customer-eq7kiuol0tk9chox.cloudflarestream.com/13297d6aa7c112b771c8d25d16fd3155/iframe?defaultTextTrack=en"><u>short demo video announcing</u></a> the transcription feature. I wanted a Worker that could read the VTT captions file from Stream, isolate the text content, and run it through the model as-is.</p><p>The first step was parsing the input. A VTT file is a text file that contains a sequence of numbered “cues,” each with a number, a start and end time, and text content. </p>
+<pre><code>WEBVTT
+X-TIMESTAMP-MAP=LOCAL:00:00:00.000,MPEGTS:900000
+ 
+<p>1<br>00:00:00.000 –&gt; 00:00:02.580<br>Good morning, I’m Taylor Smith,</p>
+<p>2<br>00:00:02.580 –&gt; 00:00:03.520<br>the Product Manager for Cloudflare</p>
+<p>3<br>00:00:03.520 –&gt; 00:00:04.460<br>Stream. This is a quick</p>
+<p>4<br>00:00:04.460 –&gt; 00:00:06.040<br>demo of our AI-powered automatic</p>
+<p>5<br>00:00:06.040 –&gt; 00:00:07.580<br>subtitles feature. These subtitles</p>
+<p>6<br>00:00:07.580 –&gt; 00:00:09.420<br>were generated with Cloudflare WorkersAI</p>
+<p>7<br>00:00:09.420 –&gt; 00:00:10.860<br>and the Whisper Model,</p>
+<p>8<br>00:00:10.860 –&gt; 00:00:12.020<br>not handwritten, and it took</p>
+<p>9<br>00:00:12.020 –&gt; 00:00:13.940<br>just a few seconds.</p></code></pre><p></p>
+<div>
+<h2>Parsing the input</h2>
+<a href="#parsing-the-input">
+</a>
+</div>
+<p>I started with a simple Worker that would fetch the VTT from Stream directly, run it through a <a target="_blank" rel="external nofollow noopener noreferrer" href="https://github.com/tsmith512/vtt-translate/blob/trunk/src/index.ts#L54"><u>function I wrote to deconstruct the cues</u></a>, and return the timestamps and original text in an easier to review format.</p>
+<pre><code>export default &#123;
+  async fetch(request: Request, env: Env, ctx): Promise&lt;Response&gt; &#123;
+    // Step One: Get our input.
+    const input = await fetch(PLACEHOLDER_VTT_URL)
+      .then(res =&gt; res.text());
+ 
+<pre><code>// Step Two: Parse the VTT file and get the text
+const captions = vttToCues(input);
+
+// Done: Return what we have.
+return new Response(captions.map(c =&amp;gt;
+  (`#$&amp;#123;c.number&amp;#125;: $&amp;#123;c.start&amp;#125; --&amp;gt; $&amp;#123;c.end&amp;#125;: $&amp;#123;c.content.toString()&amp;#125;`)
+).join(&#39;\n&#39;));
+</code></pre>
+<p>  &amp;#125;,<br>&amp;#125;;</p></code></pre><p></p>
+<p>That returned this text:</p>
+<pre><code>#1: 0 --&gt; 2.58: Good morning, I'm Taylor Smith,
+#2: 2.58 --&gt; 3.52: the Product Manager for Cloudflare
+#3: 3.52 --&gt; 4.46: Stream. This is a quick
+#4: 4.46 --&gt; 6.04: demo of our AI-powered automatic
+#5: 6.04 --&gt; 7.58: subtitles feature. These subtitles
+#6: 7.58 --&gt; 9.42: were generated with Cloudflare WorkersAI
+#7: 9.42 --&gt; 10.86: and the Whisper Model,
+#8: 10.86 --&gt; 12.02: not handwritten, and it took
+#9: 12.02 --&gt; 13.94: just a few seconds.</code></pre>
+<div>
+<h2>AI-ify</h2>
+<a href="#ai-ify">
+</a>
+</div>
+<p>As a proof of concept, I adapted a snippet from the demo into my Worker. In the example, the target language and input text are extracted from the user’s request. In my experiment, I decided to hardcode the languages. Also, I had an array of input objects, one for each cue, not just a string. After interpreting the caption input <i>but before returning a response</i>, I used a map callback to parallelize all the AI.run() calls to translate each cue, so they could execute asynchronously and in-place, then awaited them all to resolve. Ultimately, the AI inference call itself is the simplest part of the script.</p>
+<pre><code>await Promise.all(captions.map(async (q) =&gt; &#123;
+  const translation = await env.AI.run(
+    "@cf/meta/m2m100-1.2b",
+    &#123;
+      text: q.content,
+      source_lang: "en",
+      target_lang: "es",
+    &#125;
+  );
+ 
+<p>  q.content &#x3D; translation?.translated_text ?? q.content;<br>&amp;#125;));</p></code></pre><p></p>
+<p>Then the script returns the translated output in the format from before.</p><p>Of course, this is not a scalable or error-tolerant approach for production use because it doesn’t make affordances for rate limiting, failures, or processing bigger throughput. But for a few minutes of tinkering, it taught me a lot.</p>
+<pre><code>#1: 0 --&gt; 2.58: Buen día, soy Taylor Smith.
+#2: 2.58 --&gt; 3.52: El gerente de producto de Cloudflare
+#3: 3.52 --&gt; 4.46: Rápido, esto es rápido
+#4: 4.46 --&gt; 6.04: La demostración de nuestro automático AI-powered
+#5: 6.04 --&gt; 7.58: Los subtítulos, estos subtítulos
+#6: 7.58 --&gt; 9.42: Generado con Cloudflare WorkersAI
+#7: 9.42 --&gt; 10.86: y el modelo de susurro,
+#8: 10.86 --&gt; 12.02: No se escribió, y se tomó
+#9: 12.02 --&gt; 13.94: Sólo unos segundos.</code></pre>
+<p>A few immediate observations: first, these results came back surprisingly quickly and the Workers AI code worked on the first try! Second, evaluating the quality of translation results is going to depend on having team members with expertise in those languages. Because — third, as a novice Spanish speaker, I can tell this output has some issues.</p><p>Cues 1 and 2 are okay, but 3 is not (“Fast, this is fast” from “[Cloudflare] Stream. This is a quick…”). Cues 5 through 9 had several idiomatic and grammatical issues, too. I theorized that this is because Stream splits the English captions into groups of 4 or 5 words to make them easy to <i>read</i> quickly in the overlay. But that also means sentences and grammatical constructs are interrupted. When those fragments go to the translation model, there isn’t enough context.</p>
+<div>
+<h2>Consolidating sentences</h2>
+<a href="#consolidating-sentences">
+</a>
+</div>
+<p>I speculated that reconstructing sentences would be the most effective way to improve translation quality, so I made that the one problem I attempted to solve within this exploration. I added a rough <a target="_blank" rel="external nofollow noopener noreferrer" href="https://github.com/tsmith512/vtt-translate/blob/trunk/src/index.ts#L132C7-L218"><u>pre-processor</u></a> in the Worker that tries to merge caption cues together and then splits them at sentence boundaries instead. In the process, it also adjusts the timing of the resulting cues to cover the same approximate timeframe.</p><p>Looking at each cue in order:</p>
+<pre><code>// Break this cue up by sentence-ending punctuation.
+const sentences = thisCue.content.split(/(?&lt;=[.?!]+)/g);
+
+<p>&#x2F;&#x2F; Cut here? We have one fragment and it has a sentence terminator.<br>const cut &#x3D; sentences.length &#x3D;&#x3D;&#x3D; 1 &amp;&amp; thisCue.content.match(&#x2F;[.?!]&#x2F;);</p></code></pre><p></p>
+<p>But if there’s a cue that splits into multiple sentences, cut it up and split the timing. Leave the final fragment to roll into the next cue:</p>
+<pre><code>else if (sentences.length &gt; 1) &#123;
+  // Save the last fragment for later
+  const nextContent = sentences.pop();
+
+<p>  &#x2F;&#x2F; Put holdover content and all-but-last fragment into the content<br>  newContent +&#x3D; ‘ ‘ + sentences.join(‘ ‘);</p>
+<p>  const thisLength &#x3D; (thisCue.end - thisCue.start) &#x2F; 2;</p>
+<pre><code>result.push(&amp;#123;
+  number: newNumber,
+  start: newStart,
+  end: thisCue.start + (thisLength / 2), // End this cue early
+  content: newContent,
+&amp;#125;);
+
+// … then treat the next cue as a holdover
+cueLength = 1;
+newContent = nextContent;
+// Start the next consolidated cue halfway into this cue&#39;s original duration
+newStart = thisCue.start + (thisLength / 2) + 0.001;
+// Set the next consolidated cue&#39;s number to this cue&#39;s number
+newNumber = thisCue.number;
+</code></pre>
+<p>  &amp;#125;<br>&amp;#125;</p></code></pre><p></p>
+<p>Applying that to the input, it generates sentence-grouped output, visualized here in green:</p>
+<figure>
+<img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cf-assets.www.cloudflare.com/zkvhlag99gkb/1MzmQ0KAJBntBrqgwGAqTd/035d044fc9e70c9933c1406074de52b9/image2.png">
+</figure><p>There are only 3 “new” cues, each starts at the beginning of a sentence. The consolidated cues are longer and might be harder to read when overlaid on a video, but they are complete grammatical units:</p>
+<pre><code>#1: 0 --&gt; 3.755:  Good morning, I'm Taylor Smith, the Product Manager for Cloudflare Stream.
+#3: 3.756 --&gt; 6.425:  This is a quick demo of our AI-powered automatic subtitles feature.
+#5: 6.426 --&gt; 12.5:  These subtitles were generated with Cloudflare Workers AI and the Whisper Model, not handwritten, and it took just a few seconds.</code></pre>
+<p>Translating this “prepared” input the same way as before:</p>
+<pre><code>#1: 0 --&gt; 3.755: Buen día, soy Taylor Smith, el gerente de producto de Cloudflare Stream.
+#3: 3.756 --&gt; 6.425: Esta es una demostración rápida de nuestra función de subtítulos automáticos alimentados por IA.
+#5: 6.426 --&gt; 12.5: Estos subtítulos fueron generados con Cloudflare WorkersAI y el Modelo Whisper, no escritos a mano, y solo tomó unos segundos.</code></pre>
+<p>¡Mucho mejor! [Much better!]</p>
+<div>
+<h2>Re-exporting to VTT</h2>
+<a href="#re-exporting-to-vtt">
+</a>
+</div>
+<p>To use these translated captions on a video, they need to be <a target="_blank" rel="external nofollow noopener noreferrer" href="https://github.com/tsmith512/vtt-translate/blob/trunk/src/index.ts#L228-L238"><u>formatted back into a VTT</u></a> with renumbered cues and properly formatted timestamps. Ultimately, the solution should <a target="_blank" rel="external nofollow noopener noreferrer" href="https://developers.cloudflare.com/stream/edit-videos/adding-captions/#upload-a-file"><u>automatically upload them back to Stream</u></a>, too, but that is an established process, so I set it aside as out of scope. The final VTT result from my Worker is this:</p>
+<pre><code>WEBVTT
+ 
+<p>1<br>00:00:00.000 –&gt; 00:00:03.754<br>Buen día, soy Taylor Smith, el gerente de producto de Cloudflare Stream.</p>
+<p>2<br>00:00:03.755 –&gt; 00:00:06.424<br>Esta es una demostración rápida de nuestra función de subtítulos automáticos alimentados por IA.</p>
+<p>3<br>00:00:06.426 –&gt; 00:00:12.500<br>Estos subtítulos fueron generados con Cloudflare WorkersAI y el Modelo Whisper, no escritos a mano, y solo tomó unos segundos.</p></code></pre><p></p>
+<p>I saved it to a file locally and, using the Cloudflare Dashboard, I added it to the video which you may have noticed embedded at the top of this post! Captions can also be <a target="_blank" rel="external nofollow noopener noreferrer" href="https://developers.cloudflare.com/stream/edit-videos/adding-captions/#upload-a-file"><u>uploaded via the API</u></a>.</p>
+<div>
+<h2>More testing and what I learned</h2>
+<a href="#more-testing-and-what-i-learned">
+</a>
+</div>
+<p>I tested this script on a variety of videos from many sources, including short social media clips, 30-minute video diaries, and even a few clips with some specialized vocabulary. Ultimately, I was surprised at the level of prototype I was able to build on my first afternoon with Workers AI. The translation results were very promising! In the process, I learned a few key things that I will be bringing back to product planning for Stream:</p><p><b>We have the tools.</b> Workers AI has a model called "<a target="_blank" rel="external nofollow noopener noreferrer" href="https://developers.cloudflare.com/workers-ai/models/m2m100-1.2b/"><u>m2m100-1.2b</u></a>" from Hugging Face that can do text translations between many languages. We can use it to translate the plain text cues from VTT files — whether we generate them or they are user-supplied. We’ll keep an eye out for new models as they are added, too.</p><p><b>Quality is prone to "copy-of-a-copy" effect.</b> When auto-translating captions that were auto-transcribed, issues that impact the English transcription have a huge downstream impact on the translation. Editing the source transcription improves quality <i>a lot</i>.</p><p><b>Good grammar and punctuation counts.</b> Translations are significantly improved if the source content is grammatically correct and punctuated properly. Punctuation is often missing when captions are auto-generated, but not always  — I would like to learn more about how to predict that and if there are ways we can increase punctuation in the output of transcription jobs. My cue consolidator experiment returns giant walls of text if there’s no punctuation on the input.</p><p><b>Translate full sentences when possible.</b> We split our transcriptions into cues of about 5 words for several reasons. However, this produces lower quality output when translated because it breaks grammatical constructs. Translation results are better with full sentences or at least complete fragments. This is doable, but easier said than done, particularly as we look toward support for additional input languages that use punctuation differently.</p><p><b>We will have blind spots when evaluating quality.</b> Everyone on our team was able to adequately evaluate English <i>transcriptions</i>. Sanity-checking the quality of <i>translations</i> will require team members who are familiar with those languages. We state disclaimers about transcription quality and offer tips to improve it, but at least we know what we're looking at. For translations, we may not know how far off we are in many cases. How many readers of this article objected to the first translation sample above?</p><p><b>Clear UI and API design will be important for these related but distinct workflows.</b> There are two different flows being requested by Stream customers: "My audio is in English, please make translated subtitles" alongside "My audio is in another language, please transcribe captions as-is." We will need to carefully consider how we shape user-facing interactions to make it really clear to a user what they are asking us to do.</p><p><b>Workers AI is really easy to use.</b> Sheepishly, I will admit: although I read Stream's code for the transcription feature, this was the first time I've ever used Workers AI on my own, and it was definitely the easiest part of this experiment!</p><p>Finally, as a product manager, it is important I remain focused on the outcome. From a certain point of view, this experiment is a bit of an <a target="_blank" rel="external nofollow noopener noreferrer" href="https://en.wikipedia.org/wiki/XY_problem"><u>XY Problem</u></a>. The <i>need</i> is "I have audio in one language and I want subtitles in another." Are there other avenues worth looking into besides "transcribe to captions, then restructure and translate those captions?" Quite possibly. But this experiment with Workers AI helped me identify some potential challenges to plan for and opportunities to get excited about!</p><p>I’ve cleaned up and shared the sample code I used in this experiment at <a target="_blank" rel="external nofollow noopener noreferrer" href="https://github.com/tsmith512/vtt-translate/"><u>https://github.com/tsmith512/vtt-translate/</u></a>. Try it out and share your experience!</p> 
+</div>
+
+<div>
+<div class="tag-plugin link dis-select"><a class="link-card plain" title="Un experimento rápido: translating Cloudflare Stream captions with Workers AI" href="https://blog.cloudflare.com/un-experimento-rapido-translating-cloudflare-stream-captions-with-workers-ai/" target="_blank" rel="external nofollow noopener noreferrer" cardlink autofill="icon"><div class="left"><span class="title">Un experimento rápido: translating Cloudflare Stream captions with Workers AI</span><span class="cap link fs12">https://blog.cloudflare.com/un-experimento-rapido-translating-cloudflare-stream-captions-with-workers-ai/</span></div><div class="right"><div class="lazy img" data-bg="https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.4/link/8f277b4ee0ecd.svg"></div></div></a></div>
+</div>
+
+
+
+
+<div class="article-footer reveal fs14"><section id="license"><div class="header"><span>许可协议</span></div><div class="body"><p>本文采用 <a target="_blank" rel="external nofollow noopener noreferrer" href="https://github.com/me-shaon/GLWTPL/blob/master/translations/LICENSE_zh-CN">GLWT（Good Luck With That，祝你好运）公共许可证</a> 许可协议，转载请注明出处。</p>
+</div></section><section id="share"><div class="header"><span>分享文章</span></div><div class="body"><div class="link"><input class="copy-area" readonly="true" id="copy-link" value="https://blog.imc.re/RSSBOX/rss/302a2768.html"></div><div class="social-wrap dis-select"><a class="social share-item wechat" onclick="util.toggle(&quot;qrcode-wechat&quot)"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.4/social/b32ef3da1162a.svg"></a><a class="social share-item weibo" target="_blank" rel="external nofollow noopener noreferrer" href="https://service.weibo.com/share/share.php?url=https://blog.imc.re/RSSBOX/rss/302a2768.html&title=Un Experimento Rápido: Translating Cloudflare Stream Captions With Workers AI - RSSBOX&pics=https://cf-assets.www.cloudflare.com/zkvhlag99gkb/1MzmQ0KAJBntBrqgwGAqTd/035d044fc9e70c9933c1406074de52b9/image2.png&summary=
+ 
+
+Cloudflare Stream launched AI-powered automated captions to transcribe English in on-demand videos in March 2024...."><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.4/social/80c07e4dbb303.svg"></a><a class="social share-item email" href="mailto:?subject=Un Experimento Rápido: Translating Cloudflare Stream Captions With Workers AI - RSSBOX&amp;body=https://blog.imc.re/RSSBOX/rss/302a2768.html"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.4/social/a1b00e20f425d.svg"></a><a class="social share-item link" onclick="util.copy(&quot;copy-link&quot;, &quot;复制成功&quot;)"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.4/social/8411ed322ced6.svg"></a></div><div class="qrcode" id="qrcode-wechat" style="visibility:hidden;height:0"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://api.qrserver.com/v1/create-qr-code/?size=256x256&data=https://blog.imc.re/RSSBOX/rss/302a2768.html"></div></div></section></div>
+
+</article>
+
+<div class="related-wrap reveal" id="read-next"><section class="body"><div class="item" id="prev"><div class="note">较新文章</div><a href="/RSSBOX/rss/d4d7562.html">Announcing CodeQL Community Packs</a></div><div class="item" id="next"><div class="note">较早文章</div><a href="/RSSBOX/rss/ce9d603a.html">When the World Logs Off: Christmas, New Year’s, and the Internet’s Holiday Rhythm</a></div></section></div>
+
+
+<div class="related-wrap reveal" id="related-posts">
+    <section class="header">
+      <div class="title cap theme">您可能感兴趣的文章</div>
+    </section>
+    <section class="body">
+    <div class="related-posts"><a class="item" href="/RSSBOX/rss/ef860f74.html" title="Bring Multimodal Real-Time Interaction to Your AI Applications With Cloudflare Calls"><span class="title">Bring Multimodal Real-Time Interaction to Your AI Applications With Cloudflare Calls</span></a><a class="item" href="/RSSBOX/rss/101c747.html" title="Behind the Scenes With Stream Live, Cloudflare’s Live Streaming Service"><span class="title">Behind the Scenes With Stream Live, Cloudflare’s Live Streaming Service</span></a><a class="item" href="/RSSBOX/rss/c3d79809.html" title="Grinch Bots Strike Again: Defending Your Holidays From Cyber Threats"><span class="title">Grinch Bots Strike Again: Defending Your Holidays From Cyber Threats</span></a><a class="item" href="/RSSBOX/rss/9920173b.html" title="Hi Claude, Build an MCP Server on Cloudflare Workers"><span class="title">Hi Claude, Build an MCP Server on Cloudflare Workers</span></a><a class="item" href="/RSSBOX/rss/ccded7a6.html" title="Global Elections in 2024: Internet Traffic and Cyber Threat Trends"><span class="title">Global Elections in 2024: Internet Traffic and Cyber Threat Trends</span></a></div></section></div>
+
+
+
+
+
+      
+<footer class="page-footer reveal fs12"><hr><div class="sitemap"><div class="sitemap-group"><span class="fs14">文章</span><a href="/RSSBOX/categories">分类</a><a href="/RSSBOX/tags">标签</a><a href="/RSSBOX/archives">归档</a></div><div class="sitemap-group"><span class="fs14">更多</span><a href="https://blog.imc.re/">博客</a><a target="_blank" rel="noopener" href="https://imc.re/">IMC.RE</a></div></div><div class="text"><p><a href="/">@RSSBOX</a> 2023 author by <a target="_blank" rel="external nofollow noopener noreferrer" href="https://github.com/MHG-LAB/RSSBOX">MHuiG</a> powered by SummerGoro。<br><br>本博客所有文章除特别声明外，均采用 <a target="_blank" rel="external nofollow noopener noreferrer" href="https://github.com/me-shaon/GLWTPL/blob/master/translations/LICENSE_zh-CN">GLWT（Good Luck With That，祝你好运）公共许可证</a> 许可协议，转载请注明出处。</p>
+</div></footer>
+
+      <div class="float-panel mobile-only blur" style="display:none">
+  <button type="button" class="sidebar-toggle mobile" onclick="sidebar.toggle()">
+    <svg class="icon" style="width: 1em; height: 1em;vertical-align: middle;fill: currentColor;overflow: hidden;" viewbox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="15301"><path d="M566.407 808.3c26.9-0.1 49.3-20.8 51.6-47.6-1.9-27.7-23.9-49.7-51.6-51.6h-412.6c-28.2-1.4-52.6 19.5-55.5 47.6 2.3 26.8 24.6 47.5 51.6 47.6h416.5v4z m309.3-249.9c26.9-0.1 49.3-20.8 51.6-47.6-2.2-26.8-24.6-47.5-51.6-47.6h-721.9c-27.7-2.8-52.5 17.4-55.3 45.1-0.1 0.8-0.1 1.7-0.2 2.5 0.9 27.2 23.6 48.5 50.7 47.6H875.707z m-103.1-245.9c26.9-0.1 49.3-20.8 51.6-47.6-0.4-28.3-23.2-51.1-51.5-51.6h-618.9c-29.5-1.1-54.3 21.9-55.5 51.4v0.2c1.4 27.8 25.2 49.2 53 47.8 0.8 0 1.7-0.1 2.5-0.2h618.8z" p-id="15302"/><path d="M566.407 808.3c26.9-0.1 49.3-20.8 51.6-47.6-1.9-27.7-23.9-49.7-51.6-51.6h-412.6c-28.2-1.4-52.6 19.5-55.5 47.6 1.9 27.7 23.9 49.7 51.6 51.6h416.5z m309.3-249.9c26.9-0.1 49.3-20.8 51.6-47.6-2.2-26.8-24.6-47.5-51.6-47.6h-721.9c-27.7-2.8-52.5 17.4-55.3 45.1-0.1 0.8-0.1 1.7-0.2 2.5 0.9 27.2 23.6 48.5 50.7 47.6H875.707z m-103.1-245.9c26.9-0.1 49.3-20.8 51.6-47.6-0.4-28.3-23.2-51.1-51.5-51.6h-618.9c-29.5-1.1-54.3 21.9-55.5 51.4v0.2c1.4 27.8 25.2 49.2 53 47.8 0.8 0 1.7-0.1 2.5-0.2h618.8z" p-id="15303"/></svg>
+  </button>
+</div>
+
+    </div>
+  </div>
+  <div class="scripts">
+    <script type="text/javascript">
+  const stellar = {
+    // 懒加载 css https://github.com/filamentgroup/loadCSS
+    loadCSS: (href, before, media, attributes) => {
+      var doc = window.document;
+      var ss = doc.createElement("link");
+      var ref;
+      if (before) {
+        ref = before;
+      } else {
+        var refs = (doc.body || doc.getElementsByTagName("head")[0]).childNodes;
+        ref = refs[refs.length - 1];
+      }
+      var sheets = doc.styleSheets;
+      if (attributes) {
+        for (var attributeName in attributes) {
+          if (attributes.hasOwnProperty(attributeName)) {
+            ss.setAttribute(attributeName, attributes[attributeName]);
+          }
+        }
+      }
+      ss.rel = "stylesheet";
+      ss.href = href;
+      ss.media = "only x";
+      function ready(cb) {
+        if (doc.body) {
+          return cb();
+        }
+        setTimeout(function () {
+          ready(cb);
+        });
+      }
+      ready(function () {
+        ref.parentNode.insertBefore(ss, before ? ref : ref.nextSibling);
+      });
+      var onloadcssdefined = function (cb) {
+        var resolvedHref = ss.href;
+        var i = sheets.length;
+        while (i--) {
+          if (sheets[i].href === resolvedHref) {
+            return cb();
+          }
+        }
+        setTimeout(function () {
+          onloadcssdefined(cb);
+        });
+      };
+      function loadCB() {
+        if (ss.addEventListener) {
+          ss.removeEventListener("load", loadCB);
+        }
+        ss.media = media || "all";
+      }
+      if (ss.addEventListener) {
+        ss.addEventListener("load", loadCB);
+      }
+      ss.onloadcssdefined = onloadcssdefined;
+      onloadcssdefined(loadCB);
+      return ss;
+    },
+
+    // 从 butterfly 和 volantis 获得灵感
+    loadScript: (src, opt) => new Promise((resolve, reject) => {
+      var script = document.createElement('script');
+      if (src.startsWith('/')){
+        src = stellar.config.root + src.substring(1);
+      }
+      script.src = src;
+      if (opt) {
+        for (let key of Object.keys(opt)) {
+          script[key] = opt[key]
+        }
+      } else {
+        // 默认异步，如果需要同步，第二个参数传入 {} 即可
+        script.async = true
+      }
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    }),
+
+    // https://github.com/jerryc127/hexo-theme-butterfly
+    jQuery: (fn) => {
+      if (typeof jQuery === 'undefined') {
+        stellar.loadScript(stellar.plugins.jQuery).then(fn)
+      } else {
+        fn()
+      }
+    }
+  };
+  stellar.version = '1.19.0';
+  stellar.github = 'https://github.com/xaoxuu/hexo-theme-stellar/tree/1.19.0';
+  stellar.config = {
+    date_suffix: {
+      just: '刚刚',
+      min: '分钟前',
+      hour: '小时前',
+      day: '天前',
+      month: '个月前',
+    },
+    root : '/RSSBOX/',
+  };
+
+  // required plugins (only load if needs)
+  stellar.plugins = {
+    jQuery: 'https://gcore.jsdelivr.net/npm/jquery@3.6.2/dist/jquery.min.js'
+  };
+
+  if ('local_search') {
+    stellar.search = {};
+    stellar.search.service = 'local_search';
+    if (stellar.search.service == 'local_search') {
+      let service_obj = Object.assign({}, {"field":"all","path":"/search.json","content":true,"codeblock":true,"sort":"-date"});
+      stellar.search[stellar.search.service] = service_obj;
+    }
+  }
+
+  // stellar js
+  stellar.plugins.stellar = Object.assign({"sites":"/js/plugins/sites.js","friends":"/js/plugins/friends.js","ghinfo":"/js/plugins/ghinfo.js","timeline":"/js/plugins/timeline.js","linkcard":"/js/plugins/linkcard.js","fcircle":"/js/plugins/fcircle.js","weibo":"/js/plugins/weibo.js"});
+
+  stellar.plugins.marked = Object.assign("https://cdn.bootcdn.net/ajax/libs/marked/4.0.18/marked.min.js");
+  // optional plugins
+  if ('true' == 'true') {
+    stellar.plugins.lazyload = Object.assign({"enable":true,"js":"https://gcore.jsdelivr.net/npm/vanilla-lazyload@17.8.3/dist/lazyload.min.js","transition":"blur"});
+  }
+  if ('true' == 'true') {
+    stellar.plugins.swiper = Object.assign({"enable":true,"css":"https://unpkg.com/swiper@8.4.5/swiper-bundle.min.css","js":"https://unpkg.com/swiper@8.4.5/swiper-bundle.min.js"});
+  }
+  if ('' == 'true') {
+    stellar.plugins.scrollreveal = Object.assign({"enable":null,"js":"https://gcore.jsdelivr.net/npm/scrollreveal@4.0.9/dist/scrollreveal.min.js","distance":"8px","duration":500,"interval":100,"scale":1});
+  }
+  if ('true' == 'true') {
+    stellar.plugins.preload = Object.assign({"enable":true,"service":"flying_pages","instant_page":"https://gcore.jsdelivr.net/gh/volantis-x/cdn-volantis@4.1.2/js/instant_page.js","flying_pages":"https://gcore.jsdelivr.net/gh/gijo-varghese/flying-pages@2.1.2/flying-pages.min.js"});
+  }
+  if ('true' == 'true') {
+    stellar.plugins.fancybox = Object.assign({"enable":true,"js":"https://gcore.jsdelivr.net/npm/@fancyapps/ui@4.0/dist/fancybox.umd.js","css":"https://gcore.jsdelivr.net/npm/@fancyapps/ui@4.0/dist/fancybox.css","selector":".swiper-slide img"});
+  }
+  if ('false' == 'true') {
+    stellar.plugins.heti = Object.assign({"enable":false,"css":"https://unpkg.com/heti@0.9.2/umd/heti.min.css","js":"https://unpkg.com/heti@0.9.2/umd/heti-addon.min.js"});
+  }
+  if ('true' == 'true') {
+    stellar.plugins.copycode = Object.assign({"enable":true,"js":"/js/plugins/copycode.js","default_text":"Copy","success_text":"Copied"});
+  }
+</script>
+
+<!-- required -->
+
+  
+<script src="/RSSBOX/js/main.js" async></script>
+
+
+
+<!-- optional -->
+
+  <script>
+  function loadJS() {
+    const els = document.querySelectorAll("#comments #giscus");
+    if (els.length === 0) return;
+    els.forEach((el, i) => {
+      try {
+        el.innerHTML = '';
+      } catch (error) {
+        console.log(error);
+      }
+      var script = document.createElement('script');
+      script.src = 'https://giscus.app/client.js';
+      script.async = true;
+      for (let key of Object.keys(el.attributes)) {
+        let attr = el.attributes[key];
+        if (['class', 'id'].includes(attr.name) === false) {
+          script.setAttribute(attr.name, attr.value);
+        }
+      }
+      el.appendChild(script);
+    });
+  }
+  window.addEventListener('DOMContentLoaded', (event) => {
+    loadJS();
+  });
+</script>
+
+
+
+
+<!-- inject -->
+
+
+  </div>
+</body>
+</html>

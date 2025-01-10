@@ -1,0 +1,508 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+  <meta name="generator" content="Hexo 6.3.0">
+  <meta name="hexo-theme" content="https://github.com/xaoxuu/hexo-theme-stellar/tree/1.19.0">
+  <meta charset="utf-8">
+  
+
+  <meta http-equiv="x-dns-prefetch-control" content="on">
+  <link rel="dns-prefetch" href="https://gcore.jsdelivr.net">
+  <link rel="preconnect" href="https://gcore.jsdelivr.net" crossorigin>
+  <link rel="dns-prefetch" href="//unpkg.com">
+
+  <meta name="renderer" content="webkit">
+  <meta name="force-rendering" content="webkit">
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+  <meta name="HandheldFriendly" content="True">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="theme-color" content="#f8f8f8">
+  
+  <title>Sometimes I Cache: Implementing Lock-Free Probabilistic Caching - RSSBOX</title>
+
+  
+    <meta name="description" content="HTTP caching is conceptually simple: if the response to a request is in the cache, serve it, and if not, pull it from your origin, put it in the cache, and return it. When the response is old, you r">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Sometimes I Cache: Implementing Lock-Free Probabilistic Caching">
+<meta property="og:url" content="https://blog.imc.re/RSSBOX/rss/8a655bdc.html">
+<meta property="og:site_name" content="RSSBOX">
+<meta property="og:description" content="HTTP caching is conceptually simple: if the response to a request is in the cache, serve it, and if not, pull it from your origin, put it in the cache, and return it. When the response is old, you r">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://cf-assets.www.cloudflare.com/zkvhlag99gkb/6zdgMhKkU3cVKRk9T2CO2I/5302e6ef68cabd04b8bd65a7e416f033/BLOG-2639_2.png">
+<meta property="og:image" content="https://cf-assets.www.cloudflare.com/zkvhlag99gkb/4J5KIW2CocyvlLXLuVBTWH/1f6174983e1fc1de72b48a9801da160e/BLOG-2639_3.png">
+<meta property="og:image" content="https://cf-assets.www.cloudflare.com/zkvhlag99gkb/3xDMJ6iloIjNHWpAbkfXWv/bee11bc4e1bb83a5b330529d8d98fbaa/BLOG-2639_4.png">
+<meta property="og:image" content="https://cf-assets.www.cloudflare.com/zkvhlag99gkb/7LVi2SItiAUYWdEm3ll3ZH/368c6ff8e5d9017d2d3a8cc96246b73c/BLOG-2639_5.png">
+<meta property="og:image" content="https://cf-assets.www.cloudflare.com/zkvhlag99gkb/78UvqHlQ6Se6cifbla3ozw/111decceed55ba1387b78a75e28f04cc/BLOG-2639_6.jpg">
+<meta property="og:image" content="https://cf-assets.www.cloudflare.com/zkvhlag99gkb/TtLqU9nyKqtYxIz5oJefX/fba679de0599854ba344f19bd0b97939/BLOG-2639_7.jpg">
+<meta property="og:image" content="https://cf-assets.www.cloudflare.com/zkvhlag99gkb/1MLwwNsci3XxhK0uAvWcFu/62a17cc9056d6b12832160acc9e40fb9/BLOG-2639_8.png">
+<meta property="og:image" content="https://cf-assets.www.cloudflare.com/zkvhlag99gkb/3lHElc96ZDNbcMfXVQ9pUm/e70e98b4be158dcde11b95366a736742/BLOG-2639_9.jpg">
+<meta property="article:published_time" content="2024-12-26T14:00:00.000Z">
+<meta property="article:modified_time" content="2024-12-26T14:00:00.000Z">
+<meta property="article:author" content="SMGoro">
+<meta property="article:tag" content="Blogs">
+<meta property="article:tag" content="Cloudflare">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://cf-assets.www.cloudflare.com/zkvhlag99gkb/6zdgMhKkU3cVKRk9T2CO2I/5302e6ef68cabd04b8bd65a7e416f033/BLOG-2639_2.png">
+  
+  
+  
+  <meta name="keywords" content="Blogs,Cloudflare">
+
+  <!-- feed -->
+  
+    <link rel="alternate" href="/RSSBOX/atom.xml" title="RSSBOX" type="application/atom+xml">
+  
+
+  
+    
+<link rel="stylesheet" href="/RSSBOX/css/main.css">
+
+  
+
+  
+
+  
+
+  
+    <link rel="stylesheet" href="https://gcore.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.css" integrity="sha384-vKruj+a13U8yHIkAyGgK1J3ArTLzrFGBbBc0tDp4ad/EyewESeXE/Iv67Aj8gKZ0" crossorigin="anonymous">
+    <script defer src="https://gcore.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.js" integrity="sha384-PwRUT/YqbnEjkZO0zZxNqcxACrXe+j766U2amXcgMg5457rve2Y7I6ZJSm2A0mS4" crossorigin="anonymous"></script>
+    <script defer src="https://gcore.jsdelivr.net/npm/katex@0.16.4/dist/contrib/auto-render.min.js" integrity="sha384-+VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4+/RRE05" crossorigin="anonymous" onload="renderMathInElement(document.body);"></script>
+  
+
+
+  
+
+<!--百度统计-->
+<script>
+  var _hmt = _hmt || [];
+  (function() {
+    var hm = document.createElement("script");
+    hm.src = "https://hm.baidu.com/hm.js?f42afe3e5b76d22c8b1a8060171c7184";
+    var s = document.getElementsByTagName("script")[0]; 
+    s.parentNode.insertBefore(hm, s);
+  })();
+</script>  
+  <!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-V2NSKYGXNG"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-V2NSKYGXNG');
+</script>
+<!--Google Adsense-->
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4773172018528901" crossorigin="anonymous"></script>
+</head>
+
+<body>
+  
+
+
+
+
+  <div class="l_body" id="start">
+    <aside class="l_left" layout="post">
+    
+
+  
+
+<header class="header"><div class="logo-wrap"><a class="avatar" href="/RSSBOX/archives"><div class="bg" style="opacity:0;background-image:url(https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.4/avatar/round/rainbow64@3x.webp);"></div><img no-lazy class="avatar" src="https://cdn.jsdelivr.net/gh/SMGCDN/photos/icon/rsshub.png" onerror="javascript:this.classList.add('error');this.src='https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.4/image/2659360.svg';"></a><a class="title" href="/RSSBOX/"><div class="main" ff="title">RSSBOX</div><div class="sub normal cap">SMGoroのRSS订阅</div><div class="sub hover cap" style="opacity:0"> 一些好康的东西</div></a></div>
+
+<nav class="menu dis-select"><a class="nav-item active" href="/RSSBOX/">订阅</a><a class="nav-item" href="https://blog.imc.re/">博客</a><a class="nav-item" href="https://blog.imc.re/contact">联系</a><a class="nav-item" href="https://blog.imc.re/more">更多</a></nav>
+</header>
+
+
+<div class="widgets">
+
+<widget class="widget-wrapper toc single" id="data-toc"><div class="widget-header cap dis-select"><span class="name">Sometimes I Cache: Implementing Lock-Free Probabilistic Caching</span></div><div class="widget-body fs14"><div class="doc-tree active"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">Background</span></a></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">Setup</span></a></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">Expectation about cache revalidation</span></a></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">The usual solution: a cache lock</span></a></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">First dive into probabilities given a stable request rate</span></a></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">Adaptive cache revalidation</span></a></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">Optimal cache stampede solution</span></a></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">Conclusion</span></a></li></ol></div></div></widget>
+
+
+
+<widget class="widget-wrapper search"><div class="widget-body"><div class="search-wrapper" id="search"><form class="search-form"><input type="text" class="search-input" id="search-input" data-filter="/rss/" placeholder="文章搜索"><svg t="1670596976048" class="icon search-icon" viewbox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2676" width="200" height="200"><path d="M938.2 832.6L723.8 618.1c-2.5-2.5-5.3-4.4-7.9-6.4 36.2-55.6 57.3-121.8 57.3-193.1C773.3 222.8 614.6 64 418.7 64S64 222.8 64 418.6c0 195.9 158.8 354.6 354.6 354.6 71.3 0 137.5-21.2 193.2-57.4 2 2.7 3.9 5.4 6.3 7.8L832.5 938c14.6 14.6 33.7 21.9 52.8 21.9 19.1 0 38.2-7.3 52.8-21.8 29.2-29.1 29.2-76.4 0.1-105.5M418.7 661.3C284.9 661.3 176 552.4 176 418.6 176 284.9 284.9 176 418.7 176c133.8 0 242.6 108.9 242.6 242.7 0 133.7-108.9 242.6-242.6 242.6" p-id="2677"/></svg></form><div id="search-result"></div><div class="search-no-result">没有找到内容！</div></div></div></widget>
+
+
+
+<widget class="widget-wrapper recent"><div class="widget-header cap theme dis-select"><span class="name">最近更新</span><a class="cap-action" id="rss" title="Subscribe" href="/atom.xml"><svg class="icon" viewbox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="8938"><path d="M800.966 947.251c0-404.522-320.872-732.448-716.69-732.448V62.785c477.972 0 865.44 395.987 865.44 884.466h-148.75z m-162.273 0h-148.74c0-228.98-181.628-414.598-405.678-414.598v-152.01c306.205 0 554.418 253.68 554.418 566.608z m-446.24-221.12c59.748 0 108.189 49.503 108.189 110.557 0 61.063-48.44 110.563-108.188 110.563-59.747 0-108.18-49.5-108.18-110.563 0-61.054 48.433-110.556 108.18-110.556z" p-id="8939"/></svg></a></div><div class="widget-body related-posts fs14"><a class="item title" href="/RSSBOX/rss/44757927.html"><span class="title">Vocaloid Opera - the End (720p)</span></a><a class="item title" href="/RSSBOX/rss/5d3e505.html"><span class="title">いとしのムーコ 第01-17巻 [Itoshi No Muco Vol 01-17]</span></a><a class="item title" href="/RSSBOX/rss/48910fa7.html"><span class="title">Sorairo Utility S01E02 1080p WEB X264 AAC -Tsundere-Raws (ABEMA)</span></a><a class="item title" href="/RSSBOX/rss/ca53dfad.html"><span class="title">Tying.the.Knot.with.an.Amagami.Sister.S01E12.MULTi.1080p.WEB-DL.x264-T3KASHi</span></a><a class="item title" href="/RSSBOX/rss/c7690982.html"><span class="title">I.ll.Become.a.Villainess.who.Goes.Down.in.History.S01E12.MULTi.1080p.WEB-DL.x264-T3KASHi</span></a></div></widget>
+</div>
+<footer class="footer dis-select"><div class="social-wrap"><a class="social" href="https://github.com/SMGoro" target="_blank" rel="external nofollow noopener noreferrer"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cdn.jsdelivr.net/gh/SMGCDN/photos/icon/iconfont/social-github.svg"></a><a class="social" href="https://space.bilibili.com/359079394" target="_blank" rel="external nofollow noopener noreferrer"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cdn.jsdelivr.net/gh/SMGCDN/photos/icon/iconfont/bilibili.svg"></a><a class="social" href="https://l.imc.re/zhihu" target="_blank" rel="external nofollow noopener noreferrer"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cdn.jsdelivr.net/gh/SMGCDN/photos/icon/iconfont/zhihu.svg"></a><a class="social" href="https://l.imc.re/discord" target="_blank" rel="external nofollow noopener noreferrer"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cdn.jsdelivr.net/gh/SMGCDN/photos/icon/iconfont/discord.svg"></a><a class="social" href="https://blog.imc.re/contact" target="_blank" rel="external nofollow noopener noreferrer"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cdn.jsdelivr.net/gh/SMGCDN/photos/icon/iconfont/comments.svg"></a></div></footer>
+
+    </aside>
+    <div class="l_main">
+      
+
+      
+
+
+
+<div class="bread-nav fs12"><div id="breadcrumb"><a class="cap breadcrumb" href="/RSSBOX/">主页</a><span class="sep"></span><a class="cap breadcrumb" href="/RSSBOX/">文章</a><span class="sep"></span><a class="cap breadcrumb-link" href="/RSSBOX/categories/blogs/">Blogs</a> <span class="sep"></span> <a class="cap breadcrumb-link" href="/RSSBOX/categories/blogs/cloudflare/">Cloudflare</a></div><div id="post-meta">发布于&nbsp;<time datetime="2024-12-26T14:00:00.000Z">2024-12-26</time></div></div>
+
+<article class="md-text content post">
+<h1 class="article-title"><span>Sometimes I Cache: Implementing Lock-Free Probabilistic Caching</span></h1>
+<div>
+ <p>HTTP caching is conceptually simple: if the response to a request is in the cache, serve it, and if not, pull it from your origin, put it in the cache, and return it. When the response is old, you repeat the process. If you are worried about too many requests going to your origin at once, you protect it with a <a target="_blank" rel="external nofollow noopener noreferrer" href="https://developers.cloudflare.com/cache/concepts/revalidation/"><u>cache lock</u></a>: a small program, possibly distinct from your cache, that indicates if a request is already going to your origin. This is called cache revalidation.</p><p>In this blog post, we dive into how cache revalidation works, and present a new approach based on probability. For every request going to the origin, we simulate a die roll. If it’s 6, the request can go to the origin. Otherwise, it stays stale to protect our origin from being overloaded. To see how this is built and optimised, read on.</p>
+<div>
+<h2>Background</h2>
+<a href="#background">
+</a>
+</div>
+<p>Let's take the example of an online image library. When a client requests an image, the service first checks its cache to see if the resource is present. If it is, it returns it. If it is not, the image server processes the request, places the response into the cache for a day, and returns it. When the cache expires, the process is repeated.</p>
+<figure>
+<img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cf-assets.www.cloudflare.com/zkvhlag99gkb/6zdgMhKkU3cVKRk9T2CO2I/5302e6ef68cabd04b8bd65a7e416f033/BLOG-2639_2.png">
+</figure><p><i>Figure 1: Uncached request goes to the origin</i></p>
+<figure>
+<img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cf-assets.www.cloudflare.com/zkvhlag99gkb/4J5KIW2CocyvlLXLuVBTWH/1f6174983e1fc1de72b48a9801da160e/BLOG-2639_3.png">
+</figure><p><i>Figure 2: Cached request stops at the cache</i></p><p>And this is where things get complex. The image of a cat might be quite popular. Let's say it's requested 10 times per second. Let’s also assume the image server cannot handle more than 1 request per second. After a day, the cache expires. 10 requests hit the service. Given there are no up-to-date items in cache, these 10 requests are going to go directly to the image server. This problem is known as <a target="_blank" rel="external nofollow noopener noreferrer" href="https://en.wikipedia.org/wiki/Cache_stampede"><u>cache stampede</u></a>. When the image server sees these 10 requests all happening at the same time, it gets overloaded.</p>
+<figure>
+<img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cf-assets.www.cloudflare.com/zkvhlag99gkb/3xDMJ6iloIjNHWpAbkfXWv/bee11bc4e1bb83a5b330529d8d98fbaa/BLOG-2639_4.png">
+</figure><p><i>Figure 3: Image server overloaded upon cache expiration. This can happen to one or multiple users, across locations.</i></p><p>This all stops if the cache gets populated, as it can handle a lot more requests than the origin.</p>
+<figure>
+<img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cf-assets.www.cloudflare.com/zkvhlag99gkb/7LVi2SItiAUYWdEm3ll3ZH/368c6ff8e5d9017d2d3a8cc96246b73c/BLOG-2639_5.png">
+</figure><p><i>Figure 4: Cache is populated and can handle the load. The image server is healthy again.</i></p><p>In the following sections, we build this image service, see how it can prevent cache stampede with a cache lock, then dive into probabilistic cache revalidation, and its optimisation.</p>
+<div>
+<h2>Setup</h2>
+<a href="#setup">
+</a>
+</div>
+<p>Let's write this image service. We need an image, a server, and a cache. For the image we're going to use a picture of <a target="_blank" rel="external nofollow noopener noreferrer" href="https://files.research.cloudflare.com/images/cat.jpg"><u>my cat</u></a>, Cloudflare Workers for the server, and the Cloudflare Cache API for caching.</p><p>Note to the reader: On purpose, we aren’t using <a target="_blank" rel="external nofollow noopener noreferrer" href="https://developers.cloudflare.com/kv/"><u>Cloudflare KV</u></a> or <a target="_blank" rel="external nofollow noopener noreferrer" href="https://developers.cloudflare.com/cache/"><u>Cloudflare CDN Cache</u></a>, because they already solve our cache validation problem by using a cache lock.</p>
+<pre><code>let cache = caches.default
+const CACHE_KEY = new Request('https://cache.local/')
+const CACHE_AGE_IN_S = 86_400 // 1 day
+
+<p>function cacheExpirationDate() &amp;#123;<br>  return new Date(Date.now() + 1000*CACHE_AGE_IN_S)<br>&amp;#125;</p>
+<p>function fetchAndCache(ctx) &amp;#123;<br>  let response &#x3D; await fetch(‘<a target="_blank" rel="external nofollow noopener noreferrer" href="https://files.research.cloudflare.com/images/cat.jpg&#39;">https://files.research.cloudflare.com/images/cat.jpg&#39;</a>)<br>  response &#x3D; new Response(<br>    await response.arrayBuffer(),<br>    &amp;#123;<br>        headers: &amp;#123;<br>          ‘Content-Type’: response.headers.get(‘Content-Type’),<br>          ‘Expires’: cacheExpirationDate().toUTCString(),<br>        &amp;#125;,<br>    &amp;#125;,<br>  )<br>  ctx.waitUntil(cache.put(CACHE_KEY, response.clone()))<br>  return response<br>&amp;#125;</p>
+<p>export default &amp;#123;<br>  async fetch(request, env, ctx) &amp;#123;<br>    let cachedResponse &#x3D; await cache.match(CACHE_KEY)<br>    if (cachedResponse) &amp;#123;<br>        return cachedResponse<br>    &amp;#125;<br>    return fetchAndCache(ctx)<br>  &amp;#125;<br>&amp;#125;</p></code></pre><p></p>
+<p><i>Codeblock 1: Image server with a non-collapsing cache</i></p>
+<div>
+<h2>Expectation about cache revalidation</h2>
+<a href="#expectation-about-cache-revalidation">
+</a>
+</div>
+<p>The image service is receiving 10 requests per second, and it caches images for a day. It's reasonable to assume we would like to start revalidating the cache 5 minutes before it expires. The code evolves as follows:</p>
+<pre><code>let cache = caches.default
+const CACHE_KEY = new Request('https://cache.local/')
+const CACHE_AGE_IN_S = 86_400 // 1 day
+const CACHE_REVALIDATION_INTERVAL_IN_S = 300
+
+<p>function cacheExpirationDate() &amp;#123;<br>  &#x2F;&#x2F; Date constructor in workers takes Unix time in milliseconds<br>  &#x2F;&#x2F; Date.now() returns time in milliseconds as well<br>  return new Date(Date.now() + 1000*CACHE_AGE_IN_S)<br>&amp;#125;</p>
+<p>async function fetchAndCache(ctx) &amp;#123;<br>  let response &#x3D; await fetch(‘<a target="_blank" rel="external nofollow noopener noreferrer" href="https://files.research.cloudflare.com/images/cat.jpg&#39;">https://files.research.cloudflare.com/images/cat.jpg&#39;</a>)<br>  response &#x3D; new Response(<br>    await response.arrayBuffer(),<br>    &amp;#123;<br>        headers: &amp;#123;<br>          ‘Content-Type’: response.headers.get(‘Content-Type’),<br>          ‘Expires’: cacheExpirationDate().toUTCString(),<br>        &amp;#125;,<br>    &amp;#125;,<br>  )<br>  ctx.waitUntil(cache.put(CACHE_KEY, response.clone()))<br>  return response<br>&amp;#125;</p>
+<p>&#x2F;&#x2F; Revalidation function added here<br>&#x2F;&#x2F; This is were we are going to focus our effort: should the request be revalidated ?<br>function shouldRevalidate(expirationDate) &amp;#123;<br>  let remainingCacheTimeInS &#x3D; (expirationDate.getTime() - Date.now()) &#x2F; 1000</p>
+<p>  return remainingCacheTimeInS &lt;&#x3D; CACHE_REVALIDATION_INTERVAL_IN_S<br>&amp;#125;</p>
+<p>export default &amp;#123;<br>  async fetch(request, env, ctx) &amp;#123;<br>    let cachedResponse &#x3D; await cache.match(CACHE_KEY)<br>    if (cachedResponse) &amp;#123;<br>       &#x2F;&#x2F; revalidation happens only if the request was cached. Otherwise, the resource is fetched anyway<br>        if (shouldRevalidate()) &amp;#123;<br>            ctx.waitUntil(fetchAndCache(ctx))<br>        &amp;#125;<br>        return cachedResponse<br>    &amp;#125;<br>    return fetchAndCache(ctx)<br>  &amp;#125;<br>&amp;#125;</p></code></pre><p></p>
+<p><i>Codeblock 2: Image server with early-revalidation and a non-collapsing cache</i></p><p>That code works, and we can now revalidate 5 minutes in advance of cache expiration. However, instead of fetching the image from the origin server at expiration time, all requests are going to be made 5 minutes in advance, and that does not solve our cache stampede problem. This happens no matter if requests are coming to a single location or not, given the code above does not collapse requests.</p><p>To solve our cache stampede problem, we need the revalidation process to not send too many requests at the same time. Ideally, we would like only one request to be sent between <code>expiration - 5min</code> and <code>expiration</code>.</p>
+<div>
+<h2>The usual solution: a cache lock</h2>
+<a href="#the-usual-solution-a-cache-lock">
+</a>
+</div>
+<p>To make sure there is only one request at a time going to the origin server, the solution that's usually deployed is a cache lock. The idea is that for a specific item, a cat picture in our case, requests to the origin try to obtain a lock. The request obtaining the lock can go to the origin, the others will serve stale content.</p><p>The lock has two methods: <code>try_lock()</code> and <code>unlock</code>.
+* <code>try_lock</code> if the lock is free, take it and return <code>true</code>. If not, return <code>false</code>.
+* <code>unlock</code> releases the lock.</p><p>Such a lock can be implemented as a <a target="_blank" rel="external nofollow noopener noreferrer" href="https://developers.cloudflare.com/workers/runtime-apis/rpc/"><u>Cloudflare RPC service</u></a>:</p>
+<pre><code>import &#123; WorkerEntrypoint &#125; from 'cloudflare:workers'
+
+<p>class Lock extends WorkerEntryPoint &amp;#123;<br>  async try_lock(key) &amp;#123;<br>    let value &#x3D; await this.ctx.storage.get(key)<br>    if (!value) &amp;#123;<br>        await this.ctx.storage.put(key, true)<br>        return true<br>    &amp;#125;<br>    return false<br>  &amp;#125;</p>
+<p>  unlock() &amp;#123;<br>    return this.ctx.storage.delete(key)<br>  &amp;#125;<br>&amp;#125;<br></p></code></pre><p></p>
+<p><i>Codeblock 3: Lock service implemented with a Durable Object</i></p><p>That service can then be used as a cache lock.</p>
+<pre><code>// CACHE_LOCK is an instantiation of the above binding
+// Assuming the above is deployed as a worker with name `lock`
+// It can be bound in wrangler.toml as follows
+// services = [ &#123; binding = "CACHE_LOCK", service = "lock" &#125; ]
+
+<p>const LOCK_KEY &#x3D; “cat_image_service”</p>
+<p>async function fetchAndCache(env, ctx) &amp;#123;<br>  let response &#x3D; await fetch(‘…’)<br>  ctx.waitUntil(env.CACHE_LOCK.unlock(LOCK_KEY))<br>  …<br>&amp;#125;</p>
+<p>function shouldRevalidate(env, expirationDate) &amp;#123;<br>  let remainingCacheTimeInS &#x3D; (expirationDate.getTime() - Date.now()) &#x2F; 1000</p>
+<p>  &#x2F;&#x2F; check if the expiry window is now, and then if the revalidation lock is available. if it is, take it<br>  return remainingCacheTimeInS &lt;&#x3D; CACHE_REVALIDATION_INTERVAL_IN_S &amp;&amp; env.CACHE_LOCK.try_lock(LOCK_KEY)<br>&amp;#125;<br></p></code></pre><p></p>
+<p><i>Codeblock 4: Image server with early-revalidation and a cache using a cache-lock</i></p><p>Now you might say "Et voilà. No need for probabilities and mathematics. Peak engineering has triumphed." And you might be right, in most cases. That's why cache locks are so <a target="_blank" rel="external nofollow noopener noreferrer" href="https://developers.cloudflare.com/cache/concepts/revalidation/"><u>predominant</u></a>: they are conceptually simple, deterministic for the same key, and scale well with predictable resource usage.</p><p>On the other hand, cache locks add latency and fallibility. To take ownership of a lock, cache revalidation has to contact the lock service. This service is shared across different processes, possibly different machines in different locations. Requests therefore take time. In addition, this service might be unavailable. Probabilistic cache revalidation does not suffer from these, given it does not reach out to an external service but rolls a die with the local randomness generator. It does so at the cost of not guaranteeing the number of requests going to the origin server: maybe zero for an extended period, maybe more than one. On average, this is going to be fine. But there can be border cases, similar to how one can roll a die 10 times and get 10 sixes. It’s unlikely, but not unrealistic, and certain services need that certainty. In the following sections, we dissect this approach.</p>
+<div>
+<h2>First dive into probabilities given a stable request rate</h2>
+<a href="#first-dive-into-probabilities-given-a-stable-request-rate">
+</a>
+</div>
+<p>A first approach is to reduce the number of requests going to the origin server. Instead of always sending a request to revalidate, we are going to send 1 out of 10. This means that instead of sending 10 requests per second when the cache is invalidated, we send 1 per second.</p><p>Because we don't have a lock, we do that with probabilities. We set the probability of sending a request to the origin to be $p=\frac&#123;1&#125;&#123;10&#125;$. With a rate of 10 requests per second, after 1 second, the expectancy of a request being sent to the origin is $1-(1-p)^10=65\%$. We draw the evolution of the function $E(r, t)=1-(1-p)^&#123;r \times t&#125;$ representing the expectancy of a request being sent to the server over time. $r = 10$ and is the request rate.</p>
+<figure>
+<img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cf-assets.www.cloudflare.com/zkvhlag99gkb/78UvqHlQ6Se6cifbla3ozw/111decceed55ba1387b78a75e28f04cc/BLOG-2639_6.jpg">
+</figure><p><i>Figure 5: Revalidation time $E(t)$ with $r=10$ and $p=\frac&#123;1&#125;&#123;10&#125;$. At time $t$, $E(t)$ is the probability that an early revalidation occurred.</i></p><p>The graph moves very quickly towards $1$. This means we might still have space to reduce the number of requests going to our origin server. We can set a lower probability, such as $p_2=\frac&#123;1&#125;&#123;500&#125;$ (1 request every 5 seconds on average). The graph looks as follows:</p>
+<figure>
+<img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cf-assets.www.cloudflare.com/zkvhlag99gkb/TtLqU9nyKqtYxIz5oJefX/fba679de0599854ba344f19bd0b97939/BLOG-2639_7.jpg">
+</figure><p><i>Figure 6: Revalidation time $E(t)$ with $r=10$ and $p=\frac&#123;1&#125;&#123;500&#125;$.</i></p><p>This looks great. Let's implement it.</p>
+<pre><code>const CACHE_REVALIDATION_INTERVAL_IN_S = 300
+const CACHE_REVALIDATION_PROBABILITY = 1/500
+
+<p>function shouldRevalidate(expirationDate) &amp;#123;<br>  let remainingCacheTimeInS &#x3D; (expirationDate.getTime() - Date.now()) &#x2F; 1000</p>
+<p>  if (remainingCacheTimeInS &gt; CACHE_REVALIDATION_INTERVAL_IN_S) &amp;#123;<br>    return false<br>  &amp;#125;<br>  if (remainingCacheTimeInS &lt;&#x3D; 0) &amp;#123;<br>    return true<br>  &amp;#125;<br>  return Math.random() &lt; CACHE_REVALIDATION_PROBABILITY<br>&amp;#125;<br></p></code></pre><p></p>
+<p><i>Codeblock 5: Image server with early-revalidation and a probabilistic cache using uniform distribution</i></p><p>That's it. If the cache is not close to expiration, we don't revalidate. If the cache is expired, we revalidate. Otherwise, we revalidate based on a probability.</p>
+<div>
+<h2>Adaptive cache revalidation</h2>
+<a href="#adaptive-cache-revalidation">
+</a>
+</div>
+<p>Until now, we assumed the picture of the cat received a stable request rate. However, for a real service, this does not necessarily hold. For instance, if instead of 10 requests per second, imagine the service receives only 1. The expectancy function does not look as good. After 5 minutes (300s), $E(r=1, t=300)=45\%$. On the other hand, if the image service is receiving 10,000 requests per second, $E(r=10000, t = 300) \approx 100\%$, but our server receives on average $10000 \times \frac&#123;1&#125;&#123;500&#125; = 20$ requests per second. It would be ideal to design a probability function that would adapt to the request rate.</p><p>That function would return a low probability when expiration time is far in the future, and increase over time such that the cache is revalidated before it expires. It would cap the request rate going to the origin server.</p><p>Let’s design the variation of probability $p$ over 5 minutes. When far from the expiration, the probability to revalidate should be low. This should help match the high request rate. For example, with a request rate of 10k requests per second, we would like the revalidation probability $p$ to be $\frac&#123;1&#125;&#123;100000&#125;$. This ensures the request rates seen by our server are going to be low on average, at about 1 request every 10 seconds. As time passes, we increase this probability to allow for revalidation even at a lower request rate.</p><table><tr><td><p><b>Time to expiration $t$ (in s)</b></p></td><td><p><b>Revalidation probability $p$</b></p></td><td><p><b>Target request rate $r$ (in rps)</b></p></td></tr><tr><td><p>300</p></td><td><p>1/100000</p></td><td><p>10000</p></td></tr><tr><td><p>240</p></td><td><p>1/10000</p></td><td><p>1000</p></td></tr><tr><td><p>180</p></td><td><p>1/1000</p></td><td><p>100</p></td></tr><tr><td><p>120</p></td><td><p>1/100</p></td><td><p>10</p></td></tr><tr><td><p>60</p></td><td><p>1/10</p></td><td><p>1</p></td></tr><tr><td><p>0</p></td><td><p>1</p></td><td><p>-</p></td></tr></table><p><i>Table 1: Variation of revalidation probability over time</i></p><p>For each of these intervals, there is a high likelihood that a request rate <code>$r$</code> will trigger a cache revalidation, and low likelihood that a lower request rate will trigger it. If it does, it's ok.</p><p>We can update our revalidation function as follows:</p>
+<pre><code>const CACHE_REVALIDATION_INTERVAL_IN_S = 300
+const CACHE_REVALIDATION_PROBABILITY_PER_MIN = [1/100_000, 1/10_000, 1/1000, 1/100, 1/10, 1]
+
+<p>function shouldRevalidate(expirationDate) &amp;#123;<br>  let remainingCacheTimeInS &#x3D; (expirationDate.getTime() - Date.now()) &#x2F; 1000</p>
+<p>  if (remainingCacheTimeInS &gt; CACHE_REVALIDATION_INTERVAL_IN_S) &amp;#123;<br>    return false<br>  &amp;#125;<br>  if (remainingCacheTimeInS &lt;&#x3D; 0) &amp;#123;<br>    return true<br>  &amp;#125;<br>  let currentMinute &#x3D; Math.floor(remainingCacheTimeInS&#x2F;60)<br>  return Math.random() &lt; CACHE_REVALIDATION_PROBABILITY_PER_MIN[currentMinute]<br>&amp;#125;<br></p></code></pre><p></p>
+<p><i>Codeblock 6: Image server with early-revalidation and a probabilistic cache using piecewise uniform distribution</i></p>
+<div>
+<h2>Optimal cache stampede solution</h2>
+<a href="#optimal-cache-stampede-solution">
+</a>
+</div>
+<p>There seems to be a lot of decisions going on here. To solve this, we can reference an academic paper written by A Vattani, T Chierichetti, and K Lowenstein in 2015 called <a target="_blank" rel="external nofollow noopener noreferrer" href="https://cseweb.ucsd.edu/~avattani/papers/cache_stampede.pdf"><u>Optimal Probabilistic Cache Stampede Prevention</u></a>. If you read it, you'll recognise that what we have been discussing until now is close to what the paper presents. For instance, both the cache revalidation algorithm structure and the early revalidation function look similar.</p>
+<figure>
+<img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cf-assets.www.cloudflare.com/zkvhlag99gkb/1MLwwNsci3XxhK0uAvWcFu/62a17cc9056d6b12832160acc9e40fb9/BLOG-2639_8.png">
+</figure><p><i>Figure 7: Probabilistic early expiration of a cache item as defined by Figure 2 of Optimal Probabilistic Cache Stampede Prevention paper. In our case, $\mathcal&#123;D&#125;=300$</i></p><p>One takeaway from the paper is that instead of discretization, with a probability from 0 to 60s, then from 60s to 120s, …, the probability function can be continuous. Instead of a fixed $p$, there is a function $p(t)$ of time $t$.</p><p>$p(t)=e^&#123;-\lambda (expiry-t)&#125;, \text&#123; with &#125; expiry=300, \text&#123; and &#125; t \in [0, 300]$</p><p>We call $\lambda$ the steepness parameter, and set it to $\frac&#123;1&#125;&#123;300&#125;$, $300$ being our early expiration gap.</p><p>The expectancy over time is $E(r, t)=1-e^&#123;-rλt&#125;$. This leads to the expectancy below for various request rates. You can note that when $r=1$, there is not a $100%$ chance that the request will be revalidated before expiry.</p>
+<figure>
+<img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cf-assets.www.cloudflare.com/zkvhlag99gkb/3lHElc96ZDNbcMfXVQ9pUm/e70e98b4be158dcde11b95366a736742/BLOG-2639_9.jpg">
+</figure><p><i>Figure 8: Revalidation time $E(t)$ for multiple $r$ with an exponential distribution.</i></p><p>This leads to the final code snippet:</p>
+<pre><code>const CACHE_REVALIDATION_INTERVAL_IN_S = 300
+const REVALIDATION_STEEPNESS = 1/300
+
+<p>function shouldRevalidate(expirationDate) &amp;#123;<br>  let remainingCacheTimeInS &#x3D; (expirationDate.getTime() - Date.now()) &#x2F; 1000</p>
+<p>  if (remainingCacheTimeInS &gt; CACHE_REVALIDATION_INTERVAL_IN_S) &amp;#123;<br>    return false<br>  &amp;#125;<br>  if (remainingCacheTimeInS &lt;&#x3D; 0) &amp;#123;<br>    return true<br>  &amp;#125;<br>&#x2F;&#x2F; p(t) is evaluated here<br>  return Math.random() &lt; Math.exp(-REVALIDATION_STEEPNESS*remainingCacheTimeInS)<br>&amp;#125;<br></p></code></pre><p></p>
+<p><i>Codeblock 7: Image server with early-revalidation and a probabilistic cache using exponential distribution</i></p><p>And that's it. Given <code>Date.now(</code>) has a granularity, and is not continuous, it would also be possible to discretise these functions, even though the gains are minimal. This is what we have done in a <a target="_blank" rel="external nofollow noopener noreferrer" href="https://github.com/cloudflare/privacypass-issuer/blob/main/src/cache.ts#L60-L103"><u>production worker implementation</u></a>, where the number of requests is important. It is a service that benefits from caching for performance consideration, and that cannot use built-in <a target="_blank" rel="external nofollow noopener noreferrer" href="https://developers.cloudflare.com/workers/runtime-apis/cache/"><u>stale-while-revalidate</u></a> from within Cloudflare workers. Probabilistic cache stampede prevention is well-suited here, as no new component has to be built, and it performs well at different request rates.</p>
+<div>
+<h2>Conclusion</h2>
+<a href="#conclusion">
+</a>
+</div>
+<p>We have seen how to solve cache stampede without a lock, its implementation, and why it is optimal. In the real world, you likely will not encounter this issue: either because it’s good enough to optimize your origin service to serve more requests, or because you can leverage a CDN cache. In fact, most HTTP caches provide an API that follows <a target="_blank" rel="external nofollow noopener noreferrer" href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Cache-Control"><u>Cache Control</u></a>, and likely have all the tools you need. This primitive is also built into certain products, such as <a target="_blank" rel="external nofollow noopener noreferrer" href="https://developers.cloudflare.com/kv/platform/limits/"><u>Cloudflare KV</u></a>.</p><p>If you have not done so, you can go and experiment with all the code snippets presented in this blog on the Cloudflare Workers Playground at <a target="_blank" rel="external nofollow noopener noreferrer" href="https://cloudflareworkers.com"><u>cloudflareworkers.com</u></a>.</p> 
+</div>
+
+<div>
+<div class="tag-plugin link dis-select"><a class="link-card plain" title="Sometimes I cache: implementing lock-free probabilistic caching" href="https://blog.cloudflare.com/sometimes-i-cache/" target="_blank" rel="external nofollow noopener noreferrer" cardlink autofill="icon"><div class="left"><span class="title">Sometimes I cache: implementing lock-free probabilistic caching</span><span class="cap link fs12">https://blog.cloudflare.com/sometimes-i-cache/</span></div><div class="right"><div class="lazy img" data-bg="https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.4/link/8f277b4ee0ecd.svg"></div></div></a></div>
+</div>
+
+
+
+
+<div class="article-footer reveal fs14"><section id="license"><div class="header"><span>许可协议</span></div><div class="body"><p>本文采用 <a target="_blank" rel="external nofollow noopener noreferrer" href="https://github.com/me-shaon/GLWTPL/blob/master/translations/LICENSE_zh-CN">GLWT（Good Luck With That，祝你好运）公共许可证</a> 许可协议，转载请注明出处。</p>
+</div></section><section id="share"><div class="header"><span>分享文章</span></div><div class="body"><div class="link"><input class="copy-area" readonly="true" id="copy-link" value="https://blog.imc.re/RSSBOX/rss/8a655bdc.html"></div><div class="social-wrap dis-select"><a class="social share-item wechat" onclick="util.toggle(&quot;qrcode-wechat&quot)"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.4/social/b32ef3da1162a.svg"></a><a class="social share-item weibo" target="_blank" rel="external nofollow noopener noreferrer" href="https://service.weibo.com/share/share.php?url=https://blog.imc.re/RSSBOX/rss/8a655bdc.html&title=Sometimes I Cache: Implementing Lock-Free Probabilistic Caching - RSSBOX&pics=https://cf-assets.www.cloudflare.com/zkvhlag99gkb/6zdgMhKkU3cVKRk9T2CO2I/5302e6ef68cabd04b8bd65a7e416f033/BLOG-2639_2.png&summary=
+ HTTP caching is conceptually simple: if the response to a request is in the cache, serve it, and if not, pull it fr..."><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.4/social/80c07e4dbb303.svg"></a><a class="social share-item email" href="mailto:?subject=Sometimes I Cache: Implementing Lock-Free Probabilistic Caching - RSSBOX&amp;body=https://blog.imc.re/RSSBOX/rss/8a655bdc.html"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.4/social/a1b00e20f425d.svg"></a><a class="social share-item link" onclick="util.copy(&quot;copy-link&quot;, &quot;复制成功&quot;)"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.4/social/8411ed322ced6.svg"></a></div><div class="qrcode" id="qrcode-wechat" style="visibility:hidden;height:0"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://api.qrserver.com/v1/create-qr-code/?size=256x256&data=https://blog.imc.re/RSSBOX/rss/8a655bdc.html"></div></div></section></div>
+
+</article>
+
+<div class="related-wrap reveal" id="read-next"><section class="body"><div class="item" id="prev"><div class="note">较新文章</div><a href="/RSSBOX/rss/5d0e2abd.html">What’s New in Cloudflare: MASQUE Now Powers 1.1.1.1 & WARP Apps, DEX Now Generally Available With Remote Captures</a></div><div class="item" id="next"><div class="note">较早文章</div><a href="/RSSBOX/rss/d4d7562.html">Announcing CodeQL Community Packs</a></div></section></div>
+
+
+<div class="related-wrap reveal" id="related-posts">
+    <section class="header">
+      <div class="title cap theme">您可能感兴趣的文章</div>
+    </section>
+    <section class="body">
+    <div class="related-posts"><a class="item" href="/RSSBOX/rss/ef860f74.html" title="Bring Multimodal Real-Time Interaction to Your AI Applications With Cloudflare Calls"><span class="title">Bring Multimodal Real-Time Interaction to Your AI Applications With Cloudflare Calls</span></a><a class="item" href="/RSSBOX/rss/101c747.html" title="Behind the Scenes With Stream Live, Cloudflare’s Live Streaming Service"><span class="title">Behind the Scenes With Stream Live, Cloudflare’s Live Streaming Service</span></a><a class="item" href="/RSSBOX/rss/c3d79809.html" title="Grinch Bots Strike Again: Defending Your Holidays From Cyber Threats"><span class="title">Grinch Bots Strike Again: Defending Your Holidays From Cyber Threats</span></a><a class="item" href="/RSSBOX/rss/9920173b.html" title="Hi Claude, Build an MCP Server on Cloudflare Workers"><span class="title">Hi Claude, Build an MCP Server on Cloudflare Workers</span></a><a class="item" href="/RSSBOX/rss/ccded7a6.html" title="Global Elections in 2024: Internet Traffic and Cyber Threat Trends"><span class="title">Global Elections in 2024: Internet Traffic and Cyber Threat Trends</span></a></div></section></div>
+
+
+
+
+
+      
+<footer class="page-footer reveal fs12"><hr><div class="sitemap"><div class="sitemap-group"><span class="fs14">文章</span><a href="/RSSBOX/categories">分类</a><a href="/RSSBOX/tags">标签</a><a href="/RSSBOX/archives">归档</a></div><div class="sitemap-group"><span class="fs14">更多</span><a href="https://blog.imc.re/">博客</a><a target="_blank" rel="noopener" href="https://imc.re/">IMC.RE</a></div></div><div class="text"><p><a href="/">@RSSBOX</a> 2023 author by <a target="_blank" rel="external nofollow noopener noreferrer" href="https://github.com/MHG-LAB/RSSBOX">MHuiG</a> powered by SummerGoro。<br><br>本博客所有文章除特别声明外，均采用 <a target="_blank" rel="external nofollow noopener noreferrer" href="https://github.com/me-shaon/GLWTPL/blob/master/translations/LICENSE_zh-CN">GLWT（Good Luck With That，祝你好运）公共许可证</a> 许可协议，转载请注明出处。</p>
+</div></footer>
+
+      <div class="float-panel mobile-only blur" style="display:none">
+  <button type="button" class="sidebar-toggle mobile" onclick="sidebar.toggle()">
+    <svg class="icon" style="width: 1em; height: 1em;vertical-align: middle;fill: currentColor;overflow: hidden;" viewbox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="15301"><path d="M566.407 808.3c26.9-0.1 49.3-20.8 51.6-47.6-1.9-27.7-23.9-49.7-51.6-51.6h-412.6c-28.2-1.4-52.6 19.5-55.5 47.6 2.3 26.8 24.6 47.5 51.6 47.6h416.5v4z m309.3-249.9c26.9-0.1 49.3-20.8 51.6-47.6-2.2-26.8-24.6-47.5-51.6-47.6h-721.9c-27.7-2.8-52.5 17.4-55.3 45.1-0.1 0.8-0.1 1.7-0.2 2.5 0.9 27.2 23.6 48.5 50.7 47.6H875.707z m-103.1-245.9c26.9-0.1 49.3-20.8 51.6-47.6-0.4-28.3-23.2-51.1-51.5-51.6h-618.9c-29.5-1.1-54.3 21.9-55.5 51.4v0.2c1.4 27.8 25.2 49.2 53 47.8 0.8 0 1.7-0.1 2.5-0.2h618.8z" p-id="15302"/><path d="M566.407 808.3c26.9-0.1 49.3-20.8 51.6-47.6-1.9-27.7-23.9-49.7-51.6-51.6h-412.6c-28.2-1.4-52.6 19.5-55.5 47.6 1.9 27.7 23.9 49.7 51.6 51.6h416.5z m309.3-249.9c26.9-0.1 49.3-20.8 51.6-47.6-2.2-26.8-24.6-47.5-51.6-47.6h-721.9c-27.7-2.8-52.5 17.4-55.3 45.1-0.1 0.8-0.1 1.7-0.2 2.5 0.9 27.2 23.6 48.5 50.7 47.6H875.707z m-103.1-245.9c26.9-0.1 49.3-20.8 51.6-47.6-0.4-28.3-23.2-51.1-51.5-51.6h-618.9c-29.5-1.1-54.3 21.9-55.5 51.4v0.2c1.4 27.8 25.2 49.2 53 47.8 0.8 0 1.7-0.1 2.5-0.2h618.8z" p-id="15303"/></svg>
+  </button>
+</div>
+
+    </div>
+  </div>
+  <div class="scripts">
+    <script type="text/javascript">
+  const stellar = {
+    // 懒加载 css https://github.com/filamentgroup/loadCSS
+    loadCSS: (href, before, media, attributes) => {
+      var doc = window.document;
+      var ss = doc.createElement("link");
+      var ref;
+      if (before) {
+        ref = before;
+      } else {
+        var refs = (doc.body || doc.getElementsByTagName("head")[0]).childNodes;
+        ref = refs[refs.length - 1];
+      }
+      var sheets = doc.styleSheets;
+      if (attributes) {
+        for (var attributeName in attributes) {
+          if (attributes.hasOwnProperty(attributeName)) {
+            ss.setAttribute(attributeName, attributes[attributeName]);
+          }
+        }
+      }
+      ss.rel = "stylesheet";
+      ss.href = href;
+      ss.media = "only x";
+      function ready(cb) {
+        if (doc.body) {
+          return cb();
+        }
+        setTimeout(function () {
+          ready(cb);
+        });
+      }
+      ready(function () {
+        ref.parentNode.insertBefore(ss, before ? ref : ref.nextSibling);
+      });
+      var onloadcssdefined = function (cb) {
+        var resolvedHref = ss.href;
+        var i = sheets.length;
+        while (i--) {
+          if (sheets[i].href === resolvedHref) {
+            return cb();
+          }
+        }
+        setTimeout(function () {
+          onloadcssdefined(cb);
+        });
+      };
+      function loadCB() {
+        if (ss.addEventListener) {
+          ss.removeEventListener("load", loadCB);
+        }
+        ss.media = media || "all";
+      }
+      if (ss.addEventListener) {
+        ss.addEventListener("load", loadCB);
+      }
+      ss.onloadcssdefined = onloadcssdefined;
+      onloadcssdefined(loadCB);
+      return ss;
+    },
+
+    // 从 butterfly 和 volantis 获得灵感
+    loadScript: (src, opt) => new Promise((resolve, reject) => {
+      var script = document.createElement('script');
+      if (src.startsWith('/')){
+        src = stellar.config.root + src.substring(1);
+      }
+      script.src = src;
+      if (opt) {
+        for (let key of Object.keys(opt)) {
+          script[key] = opt[key]
+        }
+      } else {
+        // 默认异步，如果需要同步，第二个参数传入 {} 即可
+        script.async = true
+      }
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    }),
+
+    // https://github.com/jerryc127/hexo-theme-butterfly
+    jQuery: (fn) => {
+      if (typeof jQuery === 'undefined') {
+        stellar.loadScript(stellar.plugins.jQuery).then(fn)
+      } else {
+        fn()
+      }
+    }
+  };
+  stellar.version = '1.19.0';
+  stellar.github = 'https://github.com/xaoxuu/hexo-theme-stellar/tree/1.19.0';
+  stellar.config = {
+    date_suffix: {
+      just: '刚刚',
+      min: '分钟前',
+      hour: '小时前',
+      day: '天前',
+      month: '个月前',
+    },
+    root : '/RSSBOX/',
+  };
+
+  // required plugins (only load if needs)
+  stellar.plugins = {
+    jQuery: 'https://gcore.jsdelivr.net/npm/jquery@3.6.2/dist/jquery.min.js'
+  };
+
+  if ('local_search') {
+    stellar.search = {};
+    stellar.search.service = 'local_search';
+    if (stellar.search.service == 'local_search') {
+      let service_obj = Object.assign({}, {"field":"all","path":"/search.json","content":true,"codeblock":true,"sort":"-date"});
+      stellar.search[stellar.search.service] = service_obj;
+    }
+  }
+
+  // stellar js
+  stellar.plugins.stellar = Object.assign({"sites":"/js/plugins/sites.js","friends":"/js/plugins/friends.js","ghinfo":"/js/plugins/ghinfo.js","timeline":"/js/plugins/timeline.js","linkcard":"/js/plugins/linkcard.js","fcircle":"/js/plugins/fcircle.js","weibo":"/js/plugins/weibo.js"});
+
+  stellar.plugins.marked = Object.assign("https://cdn.bootcdn.net/ajax/libs/marked/4.0.18/marked.min.js");
+  // optional plugins
+  if ('true' == 'true') {
+    stellar.plugins.lazyload = Object.assign({"enable":true,"js":"https://gcore.jsdelivr.net/npm/vanilla-lazyload@17.8.3/dist/lazyload.min.js","transition":"blur"});
+  }
+  if ('true' == 'true') {
+    stellar.plugins.swiper = Object.assign({"enable":true,"css":"https://unpkg.com/swiper@8.4.5/swiper-bundle.min.css","js":"https://unpkg.com/swiper@8.4.5/swiper-bundle.min.js"});
+  }
+  if ('' == 'true') {
+    stellar.plugins.scrollreveal = Object.assign({"enable":null,"js":"https://gcore.jsdelivr.net/npm/scrollreveal@4.0.9/dist/scrollreveal.min.js","distance":"8px","duration":500,"interval":100,"scale":1});
+  }
+  if ('true' == 'true') {
+    stellar.plugins.preload = Object.assign({"enable":true,"service":"flying_pages","instant_page":"https://gcore.jsdelivr.net/gh/volantis-x/cdn-volantis@4.1.2/js/instant_page.js","flying_pages":"https://gcore.jsdelivr.net/gh/gijo-varghese/flying-pages@2.1.2/flying-pages.min.js"});
+  }
+  if ('true' == 'true') {
+    stellar.plugins.fancybox = Object.assign({"enable":true,"js":"https://gcore.jsdelivr.net/npm/@fancyapps/ui@4.0/dist/fancybox.umd.js","css":"https://gcore.jsdelivr.net/npm/@fancyapps/ui@4.0/dist/fancybox.css","selector":".swiper-slide img"});
+  }
+  if ('false' == 'true') {
+    stellar.plugins.heti = Object.assign({"enable":false,"css":"https://unpkg.com/heti@0.9.2/umd/heti.min.css","js":"https://unpkg.com/heti@0.9.2/umd/heti-addon.min.js"});
+  }
+  if ('true' == 'true') {
+    stellar.plugins.copycode = Object.assign({"enable":true,"js":"/js/plugins/copycode.js","default_text":"Copy","success_text":"Copied"});
+  }
+</script>
+
+<!-- required -->
+
+  
+<script src="/RSSBOX/js/main.js" async></script>
+
+
+
+<!-- optional -->
+
+  <script>
+  function loadJS() {
+    const els = document.querySelectorAll("#comments #giscus");
+    if (els.length === 0) return;
+    els.forEach((el, i) => {
+      try {
+        el.innerHTML = '';
+      } catch (error) {
+        console.log(error);
+      }
+      var script = document.createElement('script');
+      script.src = 'https://giscus.app/client.js';
+      script.async = true;
+      for (let key of Object.keys(el.attributes)) {
+        let attr = el.attributes[key];
+        if (['class', 'id'].includes(attr.name) === false) {
+          script.setAttribute(attr.name, attr.value);
+        }
+      }
+      el.appendChild(script);
+    });
+  }
+  window.addEventListener('DOMContentLoaded', (event) => {
+    loadJS();
+  });
+</script>
+
+
+
+
+<!-- inject -->
+
+
+  </div>
+</body>
+</html>

@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+  <meta name="generator" content="Hexo 6.3.0">
+  <meta name="hexo-theme" content="https://github.com/xaoxuu/hexo-theme-stellar/tree/1.19.0">
+  <meta charset="utf-8">
+  
+
+  <meta http-equiv="x-dns-prefetch-control" content="on">
+  <link rel="dns-prefetch" href="https://gcore.jsdelivr.net">
+  <link rel="preconnect" href="https://gcore.jsdelivr.net" crossorigin>
+  <link rel="dns-prefetch" href="//unpkg.com">
+
+  <meta name="renderer" content="webkit">
+  <meta name="force-rendering" content="webkit">
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+  <meta name="HandheldFriendly" content="True">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="theme-color" content="#f8f8f8">
+  
+  <title>Inside the Research: How GitHub Copilot Impacts the Nature of Work for Open Source Maintainers - RSSBOX</title>
+
+  
+    <meta name="description" content="I’m excited to share an interview with two researchers that I’ve had the privilege of collaborating with on a recently released paper studying how open source maintainers adjust their work after th">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Inside the Research: How GitHub Copilot Impacts the Nature of Work for Open Source Maintainers">
+<meta property="og:url" content="https://blog.imc.re/RSSBOX/rss/9f7a102c.html">
+<meta property="og:site_name" content="RSSBOX">
+<meta property="og:description" content="I’m excited to share an interview with two researchers that I’ve had the privilege of collaborating with on a recently released paper studying how open source maintainers adjust their work after th">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://github.blog/wp-content/uploads/2024/12/coding_relative_change_over_time.png?w=1024&amp;resize=2062%2C1626">
+<meta property="og:image" content="https://github.blog/wp-content/uploads/2024/12/project_management_relative_change_over_time.png?w=1024&amp;resize=2064%2C1632">
+<meta property="og:image" content="https://github.blog/wp-content/uploads/2024/12/coding_by_ability.png?w=1024&amp;resize=2300%2C1126">
+<meta property="og:image" content="https://github.blog/wp-content/uploads/2024/12/project_management_by_ability.png?w=1024&amp;resize=2316%2C1082">
+<meta property="article:published_time" content="2024-12-20T11:08:03.000Z">
+<meta property="article:modified_time" content="2024-12-20T11:08:03.000Z">
+<meta property="article:author" content="SMGoro">
+<meta property="article:tag" content="Blogs">
+<meta property="article:tag" content="Github">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://github.blog/wp-content/uploads/2024/12/coding_relative_change_over_time.png?w=1024&amp;resize=2062%2C1626">
+  
+  
+  
+  <meta name="keywords" content="Blogs,Github">
+
+  <!-- feed -->
+  
+    <link rel="alternate" href="/RSSBOX/atom.xml" title="RSSBOX" type="application/atom+xml">
+  
+
+  
+    
+<link rel="stylesheet" href="/RSSBOX/css/main.css">
+
+  
+
+  
+
+  
+
+  
+    <link rel="stylesheet" href="https://gcore.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.css" integrity="sha384-vKruj+a13U8yHIkAyGgK1J3ArTLzrFGBbBc0tDp4ad/EyewESeXE/Iv67Aj8gKZ0" crossorigin="anonymous">
+    <script defer src="https://gcore.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.js" integrity="sha384-PwRUT/YqbnEjkZO0zZxNqcxACrXe+j766U2amXcgMg5457rve2Y7I6ZJSm2A0mS4" crossorigin="anonymous"></script>
+    <script defer src="https://gcore.jsdelivr.net/npm/katex@0.16.4/dist/contrib/auto-render.min.js" integrity="sha384-+VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4+/RRE05" crossorigin="anonymous" onload="renderMathInElement(document.body);"></script>
+  
+
+
+  
+
+<!--百度统计-->
+<script>
+  var _hmt = _hmt || [];
+  (function() {
+    var hm = document.createElement("script");
+    hm.src = "https://hm.baidu.com/hm.js?f42afe3e5b76d22c8b1a8060171c7184";
+    var s = document.getElementsByTagName("script")[0]; 
+    s.parentNode.insertBefore(hm, s);
+  })();
+</script>  
+  <!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-V2NSKYGXNG"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-V2NSKYGXNG');
+</script>
+<!--Google Adsense-->
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4773172018528901" crossorigin="anonymous"></script>
+</head>
+
+<body>
+  
+
+
+
+
+  <div class="l_body" id="start">
+    <aside class="l_left" layout="post">
+    
+
+  
+
+<header class="header"><div class="logo-wrap"><a class="avatar" href="/RSSBOX/archives"><div class="bg" style="opacity:0;background-image:url(https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.4/avatar/round/rainbow64@3x.webp);"></div><img no-lazy class="avatar" src="https://cdn.jsdelivr.net/gh/SMGCDN/photos/icon/rsshub.png" onerror="javascript:this.classList.add('error');this.src='https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.4/image/2659360.svg';"></a><a class="title" href="/RSSBOX/"><div class="main" ff="title">RSSBOX</div><div class="sub normal cap">SMGoroのRSS订阅</div><div class="sub hover cap" style="opacity:0"> 一些好康的东西</div></a></div>
+
+<nav class="menu dis-select"><a class="nav-item active" href="/RSSBOX/">订阅</a><a class="nav-item" href="https://blog.imc.re/">博客</a><a class="nav-item" href="https://blog.imc.re/contact">联系</a><a class="nav-item" href="https://blog.imc.re/more">更多</a></nav>
+</header>
+
+
+<div class="widgets">
+
+<widget class="widget-wrapper toc single" id="data-toc"><div class="widget-header cap dis-select"><span class="name">Inside the Research: How GitHub Copilot Impacts the Nature of Work for Open Source Maintainers</span></div><div class="widget-body fs14"><div class="doc-tree active"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#research-qa"><span class="toc-text">Research Q&amp;A</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#personal-qa"><span class="toc-text">Personal Q&amp;A</span></a></li></ol></div></div></widget>
+
+
+
+<widget class="widget-wrapper search"><div class="widget-body"><div class="search-wrapper" id="search"><form class="search-form"><input type="text" class="search-input" id="search-input" data-filter="/rss/" placeholder="文章搜索"><svg t="1670596976048" class="icon search-icon" viewbox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2676" width="200" height="200"><path d="M938.2 832.6L723.8 618.1c-2.5-2.5-5.3-4.4-7.9-6.4 36.2-55.6 57.3-121.8 57.3-193.1C773.3 222.8 614.6 64 418.7 64S64 222.8 64 418.6c0 195.9 158.8 354.6 354.6 354.6 71.3 0 137.5-21.2 193.2-57.4 2 2.7 3.9 5.4 6.3 7.8L832.5 938c14.6 14.6 33.7 21.9 52.8 21.9 19.1 0 38.2-7.3 52.8-21.8 29.2-29.1 29.2-76.4 0.1-105.5M418.7 661.3C284.9 661.3 176 552.4 176 418.6 176 284.9 284.9 176 418.7 176c133.8 0 242.6 108.9 242.6 242.7 0 133.7-108.9 242.6-242.6 242.6" p-id="2677"/></svg></form><div id="search-result"></div><div class="search-no-result">没有找到内容！</div></div></div></widget>
+
+
+
+<widget class="widget-wrapper recent"><div class="widget-header cap theme dis-select"><span class="name">最近更新</span><a class="cap-action" id="rss" title="Subscribe" href="/atom.xml"><svg class="icon" viewbox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="8938"><path d="M800.966 947.251c0-404.522-320.872-732.448-716.69-732.448V62.785c477.972 0 865.44 395.987 865.44 884.466h-148.75z m-162.273 0h-148.74c0-228.98-181.628-414.598-405.678-414.598v-152.01c306.205 0 554.418 253.68 554.418 566.608z m-446.24-221.12c59.748 0 108.189 49.503 108.189 110.557 0 61.063-48.44 110.563-108.188 110.563-59.747 0-108.18-49.5-108.18-110.563 0-61.054 48.433-110.556 108.18-110.556z" p-id="8939"/></svg></a></div><div class="widget-body related-posts fs14"><a class="item title" href="/RSSBOX/rss/44757927.html"><span class="title">Vocaloid Opera - the End (720p)</span></a><a class="item title" href="/RSSBOX/rss/5d3e505.html"><span class="title">いとしのムーコ 第01-17巻 [Itoshi No Muco Vol 01-17]</span></a><a class="item title" href="/RSSBOX/rss/48910fa7.html"><span class="title">Sorairo Utility S01E02 1080p WEB X264 AAC -Tsundere-Raws (ABEMA)</span></a><a class="item title" href="/RSSBOX/rss/ca53dfad.html"><span class="title">Tying.the.Knot.with.an.Amagami.Sister.S01E12.MULTi.1080p.WEB-DL.x264-T3KASHi</span></a><a class="item title" href="/RSSBOX/rss/c7690982.html"><span class="title">I.ll.Become.a.Villainess.who.Goes.Down.in.History.S01E12.MULTi.1080p.WEB-DL.x264-T3KASHi</span></a></div></widget>
+</div>
+<footer class="footer dis-select"><div class="social-wrap"><a class="social" href="https://github.com/SMGoro" target="_blank" rel="external nofollow noopener noreferrer"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cdn.jsdelivr.net/gh/SMGCDN/photos/icon/iconfont/social-github.svg"></a><a class="social" href="https://space.bilibili.com/359079394" target="_blank" rel="external nofollow noopener noreferrer"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cdn.jsdelivr.net/gh/SMGCDN/photos/icon/iconfont/bilibili.svg"></a><a class="social" href="https://l.imc.re/zhihu" target="_blank" rel="external nofollow noopener noreferrer"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cdn.jsdelivr.net/gh/SMGCDN/photos/icon/iconfont/zhihu.svg"></a><a class="social" href="https://l.imc.re/discord" target="_blank" rel="external nofollow noopener noreferrer"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cdn.jsdelivr.net/gh/SMGCDN/photos/icon/iconfont/discord.svg"></a><a class="social" href="https://blog.imc.re/contact" target="_blank" rel="external nofollow noopener noreferrer"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cdn.jsdelivr.net/gh/SMGCDN/photos/icon/iconfont/comments.svg"></a></div></footer>
+
+    </aside>
+    <div class="l_main">
+      
+
+      
+
+
+
+<div class="bread-nav fs12"><div id="breadcrumb"><a class="cap breadcrumb" href="/RSSBOX/">主页</a><span class="sep"></span><a class="cap breadcrumb" href="/RSSBOX/">文章</a><span class="sep"></span><a class="cap breadcrumb-link" href="/RSSBOX/categories/blogs/">Blogs</a> <span class="sep"></span> <a class="cap breadcrumb-link" href="/RSSBOX/categories/blogs/github/">Github</a></div><div id="post-meta">发布于&nbsp;<time datetime="2024-12-20T11:08:03.000Z">2024-12-20</time></div></div>
+
+<article class="md-text content post">
+<h1 class="article-title"><span>Inside the Research: How GitHub Copilot Impacts the Nature of Work for Open Source Maintainers</span></h1>
+<div>
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN" "http://www.w3.org/TR/REC-html40/loose.dtd">
+
+<html><body><p>I’m excited to share an interview with two researchers that I’ve had the privilege of collaborating with on a recently released <a target="_blank" rel="external nofollow noopener noreferrer" href="https://papers.ssrn.com/sol3/papers.cfm?abstract_id=5007084">paper</a> studying how open source maintainers adjust their work after they start using GitHub Copilot:</p>
+<ul>
+<li><a href="www.manuelhoffmann.org">Manuel Hoffmann</a> is a postdoctoral scholar at the Laboratory for Innovation Science at Harvard housed within the Digital, Data, and Design Institute at Harvard Business School. He is also affiliated with Stanford University. His research interests lie in social and behavioral aspects around open source software and artificial intelligence, under the broader theme of innovation and technology management, with the aim of better understanding strategic aspects for large, medium-sized, and entrepreneurial firms.</li>
+<li><a target="_blank" rel="external nofollow noopener noreferrer" href="https://sboysel.github.io/">Sam Boysel</a> is a postdoctoral fellow at the Laboratory for Innovation Science at Harvard. He is an applied microeconomist with research interests at the intersection of digital economics, labor and productivity, industrial organization, and socio-technical networks. Specifically, his work has centered around the private provision of public goods, productivity in open collaboration, and welfare effects within the context of open source software (OSS) ecosystems.</li>
+</ul>
+<h2 id="research-qa">Research Q&amp;A<a aria-label="Research Q&amp;A" class="heading-link pl-2 text-italic text-bold" href="#research-qa"></a></h2>
+<p><strong>Kevin:</strong> Thanks so much for chatting, Manuel and Sam! So, it seems like the paper’s really making the <a target="_blank" rel="external nofollow noopener noreferrer" href="https://x.com/emollick/status/1853826293759869424?s=46&amp;t=K8URORCKeSdO5U1qGjMObg">rounds</a>. Could you give a quick high-level summary for our readers here?</p>
+<p><strong>Manuel:</strong> Thanks to the great collaboration with you, <a target="_blank" rel="external nofollow noopener noreferrer" href="https://www.sidapeng.com/">Sida Peng</a> from Microsoft and <a target="_blank" rel="external nofollow noopener noreferrer" href="https://www.linkedin.com/in/frank-nagle/">Frank Nagle</a> from Harvard Business School, we study the impact of GitHub Copilot on developers and how this generative AI alters the nature of work. We find that when you provide developers in the context of open source software with a generative AI tool that reduces the cost of the core work of coding, developers increase their coding activities and reduce their project management activities. We find our results are strongest in the first year after the introduction but still exist even two years later. The results are driven by developers who are working more autonomously and less collaboratively since they do not have to engage with other humans to solve a problem but they can solve the problem through AI assistance.</p>
+<figure class="wp-caption aligncenter mx-0" id="attachment_81759"><img><img alt="GitHub Copilot, on average, increases the share of coding for maintainers who use it. These effects are strongest in the first year, but they still persist over the course of two years." class="width-fit size-large wp-image-81759 width-fit" data-recalc-dims="1" data-src="data:image/gif;base64,R0lGODlhAQABAIAAAP///////yH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" decoding="async" height="1626" loading="lazy" sizes="auto, (max-width: 1000px) 100vw, 1000px" src="https://github.blog/wp-content/uploads/2024/12/coding_relative_change_over_time.png?w=1024&amp;resize=2062%2C1626" width="2062"><figcaption class="text-mono color-fg-muted mt-14px f5-mktg">GitHub Copilot, on average, increases the share of coding for maintainers who use it. These effects are strongest in the first year, but they still persist over the course of two years.</figcaption></figure>
+<figure class="wp-caption aligncenter mx-0" id="attachment_81760"><img><img alt="GitHub Copilot, on average, reduces the share of project management for maintainers who use it. These effects are strongest in the first year, but still persist over the course of two years." class="width-fit size-large wp-image-81760 width-fit" data-recalc-dims="1" data-src="data:image/gif;base64,R0lGODlhAQABAIAAAP///////yH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" decoding="async" height="1632" loading="lazy" sizes="auto, (max-width: 1000px) 100vw, 1000px" src="https://github.blog/wp-content/uploads/2024/12/project_management_relative_change_over_time.png?w=1024&amp;resize=2064%2C1632" width="2064"><figcaption class="text-mono color-fg-muted mt-14px f5-mktg">GitHub Copilot, on average, reduces the share of project management for maintainers who use it. These effects are strongest in the first year, but still persist over the course of two years.</figcaption></figure>
+<p><strong>Sam:</strong> That’s exactly right. We tried to even further understand the nature of work by digging into the paradigm of exploration vs exploitation. Loosely speaking, exploitation is the idea to exert effort towards the most lucrative of the already known options while exploration implies to experiment to find new options with a higher potential return. We tested this idea in the context of GitHub. Developers that had access to GitHub Copilot are engaged in more experimentation and less exploitation, that is, they start new projects with access to AI and have a lower propensity to work on older projects. Additionally, they expose themselves to more languages that they were previously not exposed to and in particular to languages that are valued higher in the labor market. A back-of-the-envelope calculation from purely experimentation among new languages due to GitHub Copilot suggests a value of around half a billion USD within a year.</p>
+<p><strong>Kevin:</strong> Interesting! Could you provide an overview of the methods you used in your analysis?</p>
+<p><strong>Manuel:</strong> Would be happy to! We are using a regression discontinuity design in this work, which is as close as you can get to a randomized control trial when purely using pre-existing data, such as the one from GitHub, without introducing randomization by the researcher. Instead, the regression discontinuity design is based on a ranking of developers and a threshold that GitHub uses to determine eligibility for <a target="_blank" rel="external nofollow noopener noreferrer" href="https://docs.github.com/copilot/managing-copilot/managing-copilot-as-an-individual-subscriber/managing-your-copilot-subscription/getting-free-access-to-copilot-as-a-student-teacher-or-maintainer#about-free-copilot-access">free access</a> to GitHub Copilot’s top maintainer program.</p>
+<p><strong>Sam:</strong> The main idea of this method is that a developer that is right below the threshold is roughly identical to a developer that is right above the threshold. Stated differently, by chance a developer happened to have a ranking that made them eligible for the generative AI while they could as well not have been eligible. Taken together with the idea that developers neither know the threshold nor the internal ranking from GitHub, we can be certain that the changes that we observe in coding, project management, and the other activities on the platform are only driven by the developers having access to GitHub Copilot and nothing else.</p>
+<p><strong>Kevin:</strong> Nice! Follow-up question: could you provide an “explain like I’m 5” overview of the methods you used in your analysis?</p>
+<p><strong>Manuel:</strong> Sure thing, let’s illustrate the problem a bit more. Some people use GitHub Copilot and others don’t. If we just looked at the differences between people who use GitHub Copilot vs. those who don’t, we’d be able to see that certain behaviors and characteristics are associated with GitHub Copilot usage. For example, we might find that people who use GitHub Copilot push more code than those who don’t. Crucially, though, that would be a statement about <em>correlation</em> and not about <em>causation</em>. Often, we want to figure out whether X causes Y, and not just that X is correlated with Y. Going back to the example, if it’s the case that those who use GitHub Copilot push more code than those who don’t, these are a few of the different explanations that might be at play:</p>
+<ol>
+<li>Using GitHub Copilot causes people to push more code.</li>
+<li>Pushing more code causes people to use GitHub Copilot.</li>
+<li>There’s something else that both causes people to use GitHub Copilot and causes them to push more code (for example, being a professional developer).</li>
+</ol>
+<p>Because (1), (2), and (3) could each result in data showing a correlation between GitHub Copilot usage and code pushes, just finding a correlation isn’t super interesting. One way you could isolate the cause and effect relationship between GitHub Copilot and code pushes, though, is through a randomized controlled trial (RCT).</p>
+<p>In an RCT, we randomly assign people to use GitHub Copilot (the treatment group), while others are forbidden from using GitHub Copilot (the control group). As long as the assignment process is truly random and the users comply with their assignments, any outcome differences between the treatment and control groups can be attributed to GitHub Copilot usage. In other words, you could say that GitHub Copilot <em>caused</em> those effects. However, as anyone in the healthcare field can tell you, large-scale RCTs over long-time periods are often prohibitively expensive, as you’d need to recruit subjects to participate, monitor them to see if they complied with their assignments, and follow up with them over time.</p>
+<p><strong>Sam:</strong> That’s right. So, instead, wouldn’t it be great if there would be a way to observe developers without running an RCT and <em>still</em> draw valid causal conclusions about GitHub Copilot usage? That’s where the regression discontinuity design (RDD) comes in. The random assignment aspect of an RCT allows us to compare the outcomes of two virtually identical groups. Sometimes, however, randomness already exists in a system, which we can use as a natural experiment. In the case of our paper, this randomness came in the form of GitHub’s internal ranking for determining which open source maintainers were eligible for free access to GitHub Copilot.</p>
+<p>Let’s walk through a simplified example. Let’s imagine that there were one million repositories that were ranked on some set of metrics and the rule was that the top 500,000 repositories are eligible for free access to GitHub Copilot. If we compared the #1 ranked repository with the #1,000,000 ranked repository, then we would probably find that those two are quite different from each other. After all, the #1 repository is the best repository on GitHub by this metric while the #1,000,000 repository is a whole 999,999 rankings away from it. There are probably meaningful differences in code quality, documentation quality, project purpose, maintainer quality, etc. between the two repositories, so we would not be able to say that the only reason why there was a difference in outcomes for the maintainers of repository #1 vs. repository #1,000,000 was because of free access to GitHub Copilot.</p>
+<p>However, what about repository #499,999 vs. repository #500,001? Those repositories are probably very similar to each other, and it was all down to random chance as to which repository made it over the eligibility threshold and which one did not. As a result, there is a strong argument that any differences in outcomes between those two repositories is solely due to repository #499,999 having free access to GitHub Copilot and repo #500,001 not having free access. Practically, you’ll want to have a larger sample size than just two, so you would compare a narrow set of repositories just above and below the eligibility threshold against each other.</p>
+<p><strong>Kevin:</strong> Thanks, that’s super helpful. I’d be curious about the limitations of your paper and data that you wished you had for further work. What would the ideal dataset(s) look like for you?</p>
+<p><strong>Manuel:</strong> Fantastic question! Certainly, no study is perfect and there will be limitations. We are excited to better understand generative AI and how it affects work in the future. As such, one limitation is the availability of information from private repositories. We believe that if we were to have information on private repositories we could test whether there is some more experimentation going on in private projects and that project improvements that were done with generative AI in private may spill over to the public to some degree over time.</p>
+<p><strong>Sam:</strong> Another limitation of our study is the language-based exercise to provide a value of GitHub Copilot. We show that developers focus on higher value languages that they did not know previously and we extrapolated this estimate to all top developers. However, this estimate is certainly only a partial equilibrium value since developer wages may change over time in a full equilibrium situation if more individuals offer their services for a given language. However, despite the limitation, the value seems to be an underestimate since it does not contain any non-language specific experimentation value and non-experimentation value that is derived from GitHub Copilot.</p>
+<p><strong>Kevin:</strong> Predictions for the future? Recommendations for policymakers? Recommendations for developers?</p>
+<p><strong>Manuel:</strong> One simple prediction for the future is that AI incentivizes the activity for which it lowers the cost. However, it is not clear yet which parts will be incentivized through AI tools since they can be applied to many domains. It is likely that there are going to be a multitude of AI tools that incentivize different work activities which will eventually lead to employees, managers at firms, and policy-makers having to consider on which activity they want to put weight. We also would have to think about  new recombinations of work activities. Those are difficult to predict. <a target="_blank" rel="external nofollow noopener noreferrer" href="https://www.rotman.utoronto.ca/the-rotman-experience/our-community/people/goldfarb-avi/">Avi Goldfarb</a>, a prolific professor from the University of Toronto, gave an example of the steam engine with his colleagues. Namely, work was organized in the past around the steam engine as a power source but once electric motors were invented, that was not necessary anymore and structural changes happened. Instead of arranging all of the machinery around a giant steam engine in the center of the factory floor, electricity enabled people to design better arrangements, which led to boosts in productivity. I find this historical narrative quite compelling and can imagine similarly for AI that the greatest power still remains to be unlocked and that it will be unlocked once we know how work processes can be re-organized. Developers can think as well about how their work may change in the future. Importantly, developers can actively shape that future since they are closest to the development of machine learning algorithms and artificial intelligence technologies.</p>
+<p><strong>Sam:</strong> Adding on to those points, it is not clear when work processes change and whether it will have an inequality reducing or enhancing effect. Many predictions point towards an inequality enhancing effect since the training of large-language models requires substantial computing power which is often only in the hands of a few players. On the other hand, it has been documented that especially lower ability individuals seem to benefit the most from generative AI, at least in the short-term. As such, it’s imperative to understand how the benefits of generative AI are distributed across society. If not, are there equitable, welfare-improving interventions that can correct these imbalances? An encouraging result of our study suggests that generative AI can be especially impactful for relatively lesser skilled workers:</p>
+<figure class="wp-caption aligncenter mx-0" id="attachment_81761"><img><img alt="Low ability developers are increasing their coding activity by more than high ability developers. The Max Centrality proxy measures the largest share of commits the developer made across all public repositories where they have made at least one commit. The Achievements proxy counts the cumulative total of “badges” the developer has earned on the GitHub platform. The Followers proxy counts the number of peers who subscribe to notifications for the developer’s activity on GitHub. The Tenure proxy is measured by counting the number of days since the developer created their GitHub account. A developer would be considered to be “high ability” for a proxy if they were above the median for that proxy and “low ability” for a proxy if they were below the median for that proxy. See Table A5 in the [paper](https://papers.ssrn.com/sol3/papers.cfm?abstract_id=5007084) for more information with summary statistics of each proxy." class="width-fit size-large wp-image-81761 width-fit" data-recalc-dims="1" data-src="data:image/gif;base64,R0lGODlhAQABAIAAAP///////yH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" decoding="async" height="1126" loading="lazy" sizes="auto, (max-width: 1000px) 100vw, 1000px" src="https://github.blog/wp-content/uploads/2024/12/coding_by_ability.png?w=1024&amp;resize=2300%2C1126" width="2300"><figcaption class="text-mono color-fg-muted mt-14px f5-mktg">Low ability developers are increasing their coding activity by more than high ability developers. The Max Centrality proxy measures the largest share of commits the developer made across all public repositories where they have made at least one commit. The Achievements proxy counts the cumulative total of “badges” the developer has earned on the GitHub platform. The Followers proxy counts the number of peers who subscribe to notifications for the developer’s activity on GitHub. The Tenure proxy is measured by counting the number of days since the developer created their GitHub account. A developer would be considered to be “high ability” for a proxy if they were above the median for that proxy and “low ability” for a proxy if they were below the median for that proxy.</figcaption></figure>
+<figure class="wp-caption aligncenter mx-0" id="attachment_81762"><img><img alt="Low ability developers are reducing their project management activity by more than high ability developers. The Max Centrality proxy measures the largest share of commits the developer made across all public repositories where they have made at least one commit. The Achievements proxy counts the cumulative total of “badges” the developer has earned on the GitHub platform. The Followers proxy counts the number of peers who subscribe to notifications for the developer’s activity on GitHub. The Tenure proxy is measured by counting the number of days since the developer created their GitHub account. A developer would be considered to be “high ability” for a proxy if they were above the median for that proxy and “low ability” for a proxy if they were below the median for that proxy. See Table A5 in the [paper](https://papers.ssrn.com/sol3/papers.cfm?abstract_id=5007084) for more information with summary statistics of each proxy." class="width-fit size-large wp-image-81762 width-fit" data-recalc-dims="1" data-src="data:image/gif;base64,R0lGODlhAQABAIAAAP///////yH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" decoding="async" height="1082" loading="lazy" sizes="auto, (max-width: 1000px) 100vw, 1000px" src="https://github.blog/wp-content/uploads/2024/12/project_management_by_ability.png?w=1024&amp;resize=2316%2C1082" width="2316"><figcaption class="text-mono color-fg-muted mt-14px f5-mktg">Low ability developers are reducing their project management activity by more than high ability developers.</figcaption></figure>
+<p><strong>Sam (continued):</strong> Counter to widespread speculation that generative AI will replace many entry level tasks, we find reason to believe that AI can also lower the costs of experimentation and exploration, reduce barriers to entry, and level the playing field in certain segments of the labor market. It would be prudent for policymakers to monitor distributional effects of generative AI, allowing the new technology to deliver equitable benefits where it does so naturally but at the same time intervening in cases where it falls short.</p>
+<h2 id="personal-qa">Personal Q&amp;A<a aria-label="Personal Q&amp;A" class="heading-link pl-2 text-italic text-bold" href="#personal-qa"></a></h2>
+<p><strong>Kevin:</strong> I’d like to change gears a bit to chat more about your personal stories. Manuel, I know you’ve worked on research analyzing health outcomes with Stanford, diversity in TV stations, and now you’re studying nerds on the internet. Would love to learn about your journey to getting there.</p>
+<p><strong>Manuel:</strong> Sure! I was actually involved with “nerds on the internet” longer than my vita might suggest. Prior to my studies, I was using open source software, including Linux and Ubuntu, and programming was a hobby for me. I enjoyed the freedom that one had on the personal computer and the internet. During my studies, I discovered economics and business studies as a field of particular interest. Since I was interested in causal inference and welfare from a broader perspective, I learned how to use experimental and quasi-experimental studies to better understand social, medical and technological innovation that are relevant for individuals, businesses, and policy makers. I focused on labor and health during my PhD and afterwards I was able to lean a bit more into health at Stanford University. During my time at Harvard Business School, the pendulum swung back a bit towards labor. As such, I was in the fortunate position—thanks to the study of the exciting field of open source software—to continuously better understand both spaces.</p>
+<p><strong>Kevin:</strong> Haha, great to hear your interest in open source runs deep! Sam, you also have quite the varied background, analyzing cleantech market conditions and the effects of employment verification policies, and you also seem to have been studying nerds on the internet for the past several years. Could you share a bit about your path?</p>
+<p><strong>Sam:</strong> I’ve been a computing and open source enthusiast since I got my hands on a copy of “OpenSUSE for Dummies” in middle school. As an undergraduate, I was drawn to the social science aspect of economics and its ability to explain or predict human behavior across a wide range of settings. After bouncing around a number of subfields in graduate school, I got the crazy idea to combine my field of study with my passion and never looked back. Open source is an incredibly data-rich environment with a wealth of research questions interesting to economists. I’ve studied the role of peer effects in driving contribution, modelled the formation of software dependency networks using strategic behavior and risk aversion, and explored how labor market competition shapes open source output.</p>
+<p>And thanks, Kevin. I’ll be sure to work “nerds on the internet” into the title of the next paper.</p>
+<p><strong>Kevin:</strong> Finding a niche that you’re passionate about is such a joy, and I’m curious about how you’ve found living in that niche. What’s the day-to-day like for you both?</p>
+<p><strong>Manuel:</strong> The day-to-day can vary but as an academic, there are a few tasks that are recurring at a big picture level. Research, teaching and other work. Let’s focus on the research bucket. I am quite busy with working on causal inference papers, refining them but also speaking to audiences to communicate our work. Some of the work is done jointly, some by oneself, so there is a lot of variation, and the great part of being an academic is that one can choose that variation oneself through the projects one selects. Over time one has to juggle many balls. Hence, I am working on finishing prior papers in the space of health; for example, some that you alluded to previously on <a target="_blank" rel="external nofollow noopener noreferrer" href="https://papers.ssrn.com/sol3/papers.cfm?abstract_id=3921511">Television, Health and Happiness</a> and <a target="_blank" rel="external nofollow noopener noreferrer" href="https://www.iza.org/de/publications/dp/12939/vaccines-at-work">Vaccination at Work</a>, but also in the space of open source software, importantly, to improve the paper on <a target="_blank" rel="external nofollow noopener noreferrer" href="https://papers.ssrn.com/sol3/papers.cfm?abstract_id=5007084">Generative AI and the Nature of Work</a>. We have continuously more ideas to better understand the world we are living and going to live in at the intersection of open source software and generative AI and, as such, it is very valuable to relate to the literature and eventually answer exciting questions around the future of work with real world data. GitHub is a great resource for that.</p>
+<p><strong>Sam:</strong> As an applied researcher, I use data to answer questions. The questions can come from current events, from conversations with both friends and colleagues, or simply musing on the intricacies of the open source space. Oftentimes the data comes from publicly observed behavior of firms and individuals recorded on the internet. For example, I’ve used static code analysis and version control history to characterize the development of open source codebases over time. I’ve used job postings data to measure firm demand for open source skills. I’ve used the dependency graphs of packaging ecosystems to track the relationships between projects. I can then use my training in economic theory, econometric methodology, and causal inference to rigorously explore the question. The end result is written up in an article, presented to peers, and iteratively improved from feedback.</p>
+<p><strong>Kevin:</strong> Have things changed since generative AI tooling came along? Have you found generative AI tools to be helpful?</p>
+<p><strong>Manuel:</strong> Definitely. I use GitHub Copilot when developing experiments and programming in Javascript together with another good colleague, <a target="_blank" rel="external nofollow noopener noreferrer" href="https://danielgstephenson.com/">Daniel Stephenson</a> from Virginia Commonwealth University. It is interesting to observe how often Copilot actually makes code suggestions based on context that are correct. As such, it is an incredibly helpful tool. However, the big picture of what our needs are can only be determined by us, as such, in my experience Copilot does seem to speed up the process and leads to avoiding some mistakes conditional on not just blindly following the AI.</p>
+<p><strong>Sam:</strong> I’ve only recently begun using GitHub Copilot, but it’s had quite an impact on my workflow. Most social sciences researchers are not skilled software engineers. However, they must also write code to hit deadlines. Before generative AI, the delay between problem and solution was usually characterized by many search queries, parsing Q&amp;A forums or documentation, and a significant time cost. Being able to resolve uncertainty within the IDE is incredible for productivity.</p>
+<p><strong>Kevin:</strong> Advice you might have for folks who are starting out in software engineering or research? What tips might you give to a younger version of yourself, say, from 10 years ago?</p>
+<p><strong>Manuel:</strong> I will talk a bit at a higher level. Find work, questions or problems that you deeply care about. I would say that is a universal rule to be satisfied, be it in software engineering, research or in any other area. In a way, think about the motto, “You only live once,” as a pretty applicable misnomer. Another universal advice that has high relevance is to not care too much about the things you cannot change but focus on what you can control. Finally, think about getting advice from many different people, then pick and choose. People have different mindsets and ideas. As such, that can be quite helpful.</p>
+<p><strong>Sam:</strong></p>
+<ul>
+<li>Being able to effectively communicate with both groups (software eng and research) is extremely important.</li>
+<li>You’ll do your best work on things you’re truly passionate about.</li>
+<li>Premature optimization <em>truly</em> is the root of all evil.</li>
+</ul>
+<p><strong>Kevin:</strong> Learning resources you might recommend to someone interested in learning more about this space?</p>
+<p><strong>Manuel:</strong> There are several aspects we have touched upon—Generative AI Research, Coding with Copilot, Causal Inference and Machine Learning, Economics, and Business Studies. As such, here is one link for each topic that I can recommend:</p>
+<ul>
+<li>Generative AI research: <a target="_blank" rel="external nofollow noopener noreferrer" href="https://www.linkedin.com/in/emollick/">Ethan Mollick’s social media posts</a></li>
+<li>Coding with Copilot: <a target="_blank" rel="external nofollow noopener noreferrer" href="https://learn.microsoft.com/en-us/training/modules/advanced-github-copilot/">Advanced GitHub Copilot features</a></li>
+<li>Causal Inference and Machine Learning: <a target="_blank" rel="external nofollow noopener noreferrer" href="https://www.gsb.stanford.edu/faculty-research/labs-initiatives/sil/research/methods/ai-machine-learning/short-course">Susan Athey’s Lab</a> </li>
+<li>Economics and Business Studies: <a target="_blank" rel="external nofollow noopener noreferrer" href="https://www.nber.org/papers?page=1&amp;perPage=50&amp;sortBy=public_date">NBER Working Papers</a></li>
+</ul>
+<p>I am sure that there are many other great resources out there, many that can also be found on GitHub.</p>
+<p><strong>Sam:</strong> If you’re interested to get more into how economists and other social scientists think about open source, I highly recommend the following (reasonably entry-level) articles that have helped shape my research approach.</p>
+<ul>
+<li>Lerner, J., &amp; Tirole, J. (2002). <a target="_blank" rel="external nofollow noopener noreferrer" href="https://onlinelibrary.wiley.com/doi/epdf/10.1111/1467-6451.00174">Some Simple Economics of Open Source</a>. The Journal of Industrial economics, 50(2), 197-234.</li>
+<li>Bessen, J., &amp; Maskin, E. (2009). <a target="_blank" rel="external nofollow noopener noreferrer" href="https://onlinelibrary.wiley.com/doi/abs/10.1111/j.1756-2171.2009.00081.x">Sequential innovation, patents, and imitation</a>. <em>The RAND Journal of Economics</em>, 40(4), 611-635.</li>
+<li>Athey, S., &amp; Ellison, G. (2014). <a target="_blank" rel="external nofollow noopener noreferrer" href="https://onlinelibrary.wiley.com/doi/abs/10.1111/jems.12053">Dynamics of open source movements</a>. <em>Journal of Economics &amp; Management Strategy</em>, 23(2), 294-316.</li>
+</ul>
+<p>For those interested in learning more about the toolkit used by empirical social scientists:</p>
+<ul>
+<li>Cunningham, S. (2021). <em><a target="_blank" rel="external nofollow noopener noreferrer" href="https://doi.org/10.2307/j.ctv1c29t27">Causal Inference: The Mixtape</a></em>. Yale University Press. (<a target="_blank" rel="external nofollow noopener noreferrer" href="https://mixtape.scunning.com/">website</a>)</li>
+</ul>
+<p>(<em>shameless plug</em>) We’ve been putting together a <a target="_blank" rel="external nofollow noopener noreferrer" href="https://github.com/sboysel/awesome-oss-research-data">collection of data sources for open source researchers</a>. Contributions welcome!</p>
+<p><strong>Kevin:</strong> Thank you, Manuel and Sam! We really appreciate you taking the time to share about what you’re working on and your journeys into researching open source.</p>
+</body></html>
+<p>The post <a target="_blank" rel="external nofollow noopener noreferrer" href="https://github.blog/news-insights/policy-news-and-insights/inside-the-research-github-copilot/">Inside the research: How GitHub Copilot impacts the nature of work for open source maintainers</a> appeared first on <a target="_blank" rel="external nofollow noopener noreferrer" href="https://github.blog">The GitHub Blog</a>.</p>
+
+</div>
+
+<div>
+<div class="tag-plugin link dis-select"><a class="link-card plain" title="Inside the research: How GitHub Copilot impacts the nature of work for open source maintainers" href="https://github.blog/news-insights/policy-news-and-insights/inside-the-research-github-copilot/" target="_blank" rel="external nofollow noopener noreferrer" cardlink autofill="icon"><div class="left"><span class="title">Inside the research: How GitHub Copilot impacts the nature of work for open source maintainers</span><span class="cap link fs12">https://github.blog/news-insights/policy-news-and-insights/inside-the-research-github-copilot/</span></div><div class="right"><div class="lazy img" data-bg="https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.4/link/8f277b4ee0ecd.svg"></div></div></a></div>
+</div>
+
+
+
+
+<div class="article-footer reveal fs14"><section id="license"><div class="header"><span>许可协议</span></div><div class="body"><p>本文采用 <a target="_blank" rel="external nofollow noopener noreferrer" href="https://github.com/me-shaon/GLWTPL/blob/master/translations/LICENSE_zh-CN">GLWT（Good Luck With That，祝你好运）公共许可证</a> 许可协议，转载请注明出处。</p>
+</div></section><section id="share"><div class="header"><span>分享文章</span></div><div class="body"><div class="link"><input class="copy-area" readonly="true" id="copy-link" value="https://blog.imc.re/RSSBOX/rss/9f7a102c.html"></div><div class="social-wrap dis-select"><a class="social share-item wechat" onclick="util.toggle(&quot;qrcode-wechat&quot)"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.4/social/b32ef3da1162a.svg"></a><a class="social share-item weibo" target="_blank" rel="external nofollow noopener noreferrer" href="https://service.weibo.com/share/share.php?url=https://blog.imc.re/RSSBOX/rss/9f7a102c.html&title=Inside the Research: How GitHub Copilot Impacts the Nature of Work for Open Source Maintainers - RSSBOX&pics=https://github.blog/wp-content/uploads/2024/12/coding_relative_change_over_time.png?w=1024&resize=2062%2C1626&summary=
+
+
+I’m excited to share an interview with two researchers that I’ve had the privilege of collaborating with on a rece..."><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.4/social/80c07e4dbb303.svg"></a><a class="social share-item email" href="mailto:?subject=Inside the Research: How GitHub Copilot Impacts the Nature of Work for Open Source Maintainers - RSSBOX&amp;body=https://blog.imc.re/RSSBOX/rss/9f7a102c.html"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.4/social/a1b00e20f425d.svg"></a><a class="social share-item link" onclick="util.copy(&quot;copy-link&quot;, &quot;复制成功&quot;)"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.4/social/8411ed322ced6.svg"></a></div><div class="qrcode" id="qrcode-wechat" style="visibility:hidden;height:0"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://api.qrserver.com/v1/create-qr-code/?size=256x256&data=https://blog.imc.re/RSSBOX/rss/9f7a102c.html"></div></div></section></div>
+
+</article>
+
+<div class="related-wrap reveal" id="read-next"><section class="body"><div class="item" id="prev"><div class="note">较新文章</div><a href="/RSSBOX/rss/ef860f74.html">Bring Multimodal Real-Time Interaction to Your AI Applications With Cloudflare Calls</a></div><div class="item" id="next"><div class="note">较早文章</div><a href="/RSSBOX/rss/9bb226be.html">OpenAI’s Latest O1 Model Now Available in GitHub Copilot and GitHub Models</a></div></section></div>
+
+
+<div class="related-wrap reveal" id="related-posts">
+    <section class="header">
+      <div class="title cap theme">您可能感兴趣的文章</div>
+    </section>
+    <section class="body">
+    <div class="related-posts"><a class="item" href="/RSSBOX/rss/d4d7562.html" title="Announcing CodeQL Community Packs"><span class="title">Announcing CodeQL Community Packs</span></a><a class="item" href="/RSSBOX/rss/868f80a5.html" title="Building LATAM&#8217;s Future Tech Workforce With AI"><span class="title">Building LATAM&#8217;s Future Tech Workforce With AI</span></a><a class="item" href="/RSSBOX/rss/92d6d03c.html" title="Enhance Build Security and Reach SLSA Level 3 With GitHub Artifact Attestations"><span class="title">Enhance Build Security and Reach SLSA Level 3 With GitHub Artifact Attestations</span></a><a class="item" href="/RSSBOX/rss/e38966e3.html" title="GitHub’s Top Blogs of 2024"><span class="title">GitHub’s Top Blogs of 2024</span></a><a class="item" href="/RSSBOX/rss/86d9f572.html" title="Highlights From Git 2.48"><span class="title">Highlights From Git 2.48</span></a></div></section></div>
+
+
+
+
+
+      
+<footer class="page-footer reveal fs12"><hr><div class="sitemap"><div class="sitemap-group"><span class="fs14">文章</span><a href="/RSSBOX/categories">分类</a><a href="/RSSBOX/tags">标签</a><a href="/RSSBOX/archives">归档</a></div><div class="sitemap-group"><span class="fs14">更多</span><a href="https://blog.imc.re/">博客</a><a target="_blank" rel="noopener" href="https://imc.re/">IMC.RE</a></div></div><div class="text"><p><a href="/">@RSSBOX</a> 2023 author by <a target="_blank" rel="external nofollow noopener noreferrer" href="https://github.com/MHG-LAB/RSSBOX">MHuiG</a> powered by SummerGoro。<br><br>本博客所有文章除特别声明外，均采用 <a target="_blank" rel="external nofollow noopener noreferrer" href="https://github.com/me-shaon/GLWTPL/blob/master/translations/LICENSE_zh-CN">GLWT（Good Luck With That，祝你好运）公共许可证</a> 许可协议，转载请注明出处。</p>
+</div></footer>
+
+      <div class="float-panel mobile-only blur" style="display:none">
+  <button type="button" class="sidebar-toggle mobile" onclick="sidebar.toggle()">
+    <svg class="icon" style="width: 1em; height: 1em;vertical-align: middle;fill: currentColor;overflow: hidden;" viewbox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="15301"><path d="M566.407 808.3c26.9-0.1 49.3-20.8 51.6-47.6-1.9-27.7-23.9-49.7-51.6-51.6h-412.6c-28.2-1.4-52.6 19.5-55.5 47.6 2.3 26.8 24.6 47.5 51.6 47.6h416.5v4z m309.3-249.9c26.9-0.1 49.3-20.8 51.6-47.6-2.2-26.8-24.6-47.5-51.6-47.6h-721.9c-27.7-2.8-52.5 17.4-55.3 45.1-0.1 0.8-0.1 1.7-0.2 2.5 0.9 27.2 23.6 48.5 50.7 47.6H875.707z m-103.1-245.9c26.9-0.1 49.3-20.8 51.6-47.6-0.4-28.3-23.2-51.1-51.5-51.6h-618.9c-29.5-1.1-54.3 21.9-55.5 51.4v0.2c1.4 27.8 25.2 49.2 53 47.8 0.8 0 1.7-0.1 2.5-0.2h618.8z" p-id="15302"/><path d="M566.407 808.3c26.9-0.1 49.3-20.8 51.6-47.6-1.9-27.7-23.9-49.7-51.6-51.6h-412.6c-28.2-1.4-52.6 19.5-55.5 47.6 1.9 27.7 23.9 49.7 51.6 51.6h416.5z m309.3-249.9c26.9-0.1 49.3-20.8 51.6-47.6-2.2-26.8-24.6-47.5-51.6-47.6h-721.9c-27.7-2.8-52.5 17.4-55.3 45.1-0.1 0.8-0.1 1.7-0.2 2.5 0.9 27.2 23.6 48.5 50.7 47.6H875.707z m-103.1-245.9c26.9-0.1 49.3-20.8 51.6-47.6-0.4-28.3-23.2-51.1-51.5-51.6h-618.9c-29.5-1.1-54.3 21.9-55.5 51.4v0.2c1.4 27.8 25.2 49.2 53 47.8 0.8 0 1.7-0.1 2.5-0.2h618.8z" p-id="15303"/></svg>
+  </button>
+</div>
+
+    </div>
+  </div>
+  <div class="scripts">
+    <script type="text/javascript">
+  const stellar = {
+    // 懒加载 css https://github.com/filamentgroup/loadCSS
+    loadCSS: (href, before, media, attributes) => {
+      var doc = window.document;
+      var ss = doc.createElement("link");
+      var ref;
+      if (before) {
+        ref = before;
+      } else {
+        var refs = (doc.body || doc.getElementsByTagName("head")[0]).childNodes;
+        ref = refs[refs.length - 1];
+      }
+      var sheets = doc.styleSheets;
+      if (attributes) {
+        for (var attributeName in attributes) {
+          if (attributes.hasOwnProperty(attributeName)) {
+            ss.setAttribute(attributeName, attributes[attributeName]);
+          }
+        }
+      }
+      ss.rel = "stylesheet";
+      ss.href = href;
+      ss.media = "only x";
+      function ready(cb) {
+        if (doc.body) {
+          return cb();
+        }
+        setTimeout(function () {
+          ready(cb);
+        });
+      }
+      ready(function () {
+        ref.parentNode.insertBefore(ss, before ? ref : ref.nextSibling);
+      });
+      var onloadcssdefined = function (cb) {
+        var resolvedHref = ss.href;
+        var i = sheets.length;
+        while (i--) {
+          if (sheets[i].href === resolvedHref) {
+            return cb();
+          }
+        }
+        setTimeout(function () {
+          onloadcssdefined(cb);
+        });
+      };
+      function loadCB() {
+        if (ss.addEventListener) {
+          ss.removeEventListener("load", loadCB);
+        }
+        ss.media = media || "all";
+      }
+      if (ss.addEventListener) {
+        ss.addEventListener("load", loadCB);
+      }
+      ss.onloadcssdefined = onloadcssdefined;
+      onloadcssdefined(loadCB);
+      return ss;
+    },
+
+    // 从 butterfly 和 volantis 获得灵感
+    loadScript: (src, opt) => new Promise((resolve, reject) => {
+      var script = document.createElement('script');
+      if (src.startsWith('/')){
+        src = stellar.config.root + src.substring(1);
+      }
+      script.src = src;
+      if (opt) {
+        for (let key of Object.keys(opt)) {
+          script[key] = opt[key]
+        }
+      } else {
+        // 默认异步，如果需要同步，第二个参数传入 {} 即可
+        script.async = true
+      }
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    }),
+
+    // https://github.com/jerryc127/hexo-theme-butterfly
+    jQuery: (fn) => {
+      if (typeof jQuery === 'undefined') {
+        stellar.loadScript(stellar.plugins.jQuery).then(fn)
+      } else {
+        fn()
+      }
+    }
+  };
+  stellar.version = '1.19.0';
+  stellar.github = 'https://github.com/xaoxuu/hexo-theme-stellar/tree/1.19.0';
+  stellar.config = {
+    date_suffix: {
+      just: '刚刚',
+      min: '分钟前',
+      hour: '小时前',
+      day: '天前',
+      month: '个月前',
+    },
+    root : '/RSSBOX/',
+  };
+
+  // required plugins (only load if needs)
+  stellar.plugins = {
+    jQuery: 'https://gcore.jsdelivr.net/npm/jquery@3.6.2/dist/jquery.min.js'
+  };
+
+  if ('local_search') {
+    stellar.search = {};
+    stellar.search.service = 'local_search';
+    if (stellar.search.service == 'local_search') {
+      let service_obj = Object.assign({}, {"field":"all","path":"/search.json","content":true,"codeblock":true,"sort":"-date"});
+      stellar.search[stellar.search.service] = service_obj;
+    }
+  }
+
+  // stellar js
+  stellar.plugins.stellar = Object.assign({"sites":"/js/plugins/sites.js","friends":"/js/plugins/friends.js","ghinfo":"/js/plugins/ghinfo.js","timeline":"/js/plugins/timeline.js","linkcard":"/js/plugins/linkcard.js","fcircle":"/js/plugins/fcircle.js","weibo":"/js/plugins/weibo.js"});
+
+  stellar.plugins.marked = Object.assign("https://cdn.bootcdn.net/ajax/libs/marked/4.0.18/marked.min.js");
+  // optional plugins
+  if ('true' == 'true') {
+    stellar.plugins.lazyload = Object.assign({"enable":true,"js":"https://gcore.jsdelivr.net/npm/vanilla-lazyload@17.8.3/dist/lazyload.min.js","transition":"blur"});
+  }
+  if ('true' == 'true') {
+    stellar.plugins.swiper = Object.assign({"enable":true,"css":"https://unpkg.com/swiper@8.4.5/swiper-bundle.min.css","js":"https://unpkg.com/swiper@8.4.5/swiper-bundle.min.js"});
+  }
+  if ('' == 'true') {
+    stellar.plugins.scrollreveal = Object.assign({"enable":null,"js":"https://gcore.jsdelivr.net/npm/scrollreveal@4.0.9/dist/scrollreveal.min.js","distance":"8px","duration":500,"interval":100,"scale":1});
+  }
+  if ('true' == 'true') {
+    stellar.plugins.preload = Object.assign({"enable":true,"service":"flying_pages","instant_page":"https://gcore.jsdelivr.net/gh/volantis-x/cdn-volantis@4.1.2/js/instant_page.js","flying_pages":"https://gcore.jsdelivr.net/gh/gijo-varghese/flying-pages@2.1.2/flying-pages.min.js"});
+  }
+  if ('true' == 'true') {
+    stellar.plugins.fancybox = Object.assign({"enable":true,"js":"https://gcore.jsdelivr.net/npm/@fancyapps/ui@4.0/dist/fancybox.umd.js","css":"https://gcore.jsdelivr.net/npm/@fancyapps/ui@4.0/dist/fancybox.css","selector":".swiper-slide img"});
+  }
+  if ('false' == 'true') {
+    stellar.plugins.heti = Object.assign({"enable":false,"css":"https://unpkg.com/heti@0.9.2/umd/heti.min.css","js":"https://unpkg.com/heti@0.9.2/umd/heti-addon.min.js"});
+  }
+  if ('true' == 'true') {
+    stellar.plugins.copycode = Object.assign({"enable":true,"js":"/js/plugins/copycode.js","default_text":"Copy","success_text":"Copied"});
+  }
+</script>
+
+<!-- required -->
+
+  
+<script src="/RSSBOX/js/main.js" async></script>
+
+
+
+<!-- optional -->
+
+  <script>
+  function loadJS() {
+    const els = document.querySelectorAll("#comments #giscus");
+    if (els.length === 0) return;
+    els.forEach((el, i) => {
+      try {
+        el.innerHTML = '';
+      } catch (error) {
+        console.log(error);
+      }
+      var script = document.createElement('script');
+      script.src = 'https://giscus.app/client.js';
+      script.async = true;
+      for (let key of Object.keys(el.attributes)) {
+        let attr = el.attributes[key];
+        if (['class', 'id'].includes(attr.name) === false) {
+          script.setAttribute(attr.name, attr.value);
+        }
+      }
+      el.appendChild(script);
+    });
+  }
+  window.addEventListener('DOMContentLoaded', (event) => {
+    loadJS();
+  });
+</script>
+
+
+
+
+<!-- inject -->
+
+
+  </div>
+</body>
+</html>

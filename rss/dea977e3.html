@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+  <meta name="generator" content="Hexo 6.3.0">
+  <meta name="hexo-theme" content="https://github.com/xaoxuu/hexo-theme-stellar/tree/1.19.0">
+  <meta charset="utf-8">
+  
+
+  <meta http-equiv="x-dns-prefetch-control" content="on">
+  <link rel="dns-prefetch" href="https://gcore.jsdelivr.net">
+  <link rel="preconnect" href="https://gcore.jsdelivr.net" crossorigin>
+  <link rel="dns-prefetch" href="//unpkg.com">
+
+  <meta name="renderer" content="webkit">
+  <meta name="force-rendering" content="webkit">
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+  <meta name="HandheldFriendly" content="True">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="theme-color" content="#f8f8f8">
+  
+  <title>Open Source All the Way Down: Upgrading Our Developer Documentation - RSSBOX</title>
+
+  
+    <meta name="description" content="At Cloudflare, we treat developer content like a product, where we take the user and their feedback into consideration. We are constantly iterating, testing, analyzing, and refining content. Inspire">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Open Source All the Way Down: Upgrading Our Developer Documentation">
+<meta property="og:url" content="https://blog.imc.re/RSSBOX/rss/dea977e3.html">
+<meta property="og:site_name" content="RSSBOX">
+<meta property="og:description" content="At Cloudflare, we treat developer content like a product, where we take the user and their feedback into consideration. We are constantly iterating, testing, analyzing, and refining content. Inspire">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://cf-assets.www.cloudflare.com/zkvhlag99gkb/1wz2uWlAwbHFG4QgG0d8tt/4eeb3fbcd4d9b33c5590be39654bbff1/BLOG-2600_2.png">
+<meta property="og:image" content="https://cf-assets.www.cloudflare.com/zkvhlag99gkb/3r9Hj2NwU40GPLTw5TbGYG/d292b405c097ebd577173f5d61c17d03/BLOG-2600_3.png">
+<meta property="article:published_time" content="2025-01-08T14:00:00.000Z">
+<meta property="article:modified_time" content="2025-01-08T14:00:00.000Z">
+<meta property="article:author" content="SMGoro">
+<meta property="article:tag" content="Blogs">
+<meta property="article:tag" content="Cloudflare">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://cf-assets.www.cloudflare.com/zkvhlag99gkb/1wz2uWlAwbHFG4QgG0d8tt/4eeb3fbcd4d9b33c5590be39654bbff1/BLOG-2600_2.png">
+  
+  
+  
+  <meta name="keywords" content="Blogs,Cloudflare">
+
+  <!-- feed -->
+  
+    <link rel="alternate" href="/RSSBOX/atom.xml" title="RSSBOX" type="application/atom+xml">
+  
+
+  
+    
+<link rel="stylesheet" href="/RSSBOX/css/main.css">
+
+  
+
+  
+
+  
+
+  
+    <link rel="stylesheet" href="https://gcore.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.css" integrity="sha384-vKruj+a13U8yHIkAyGgK1J3ArTLzrFGBbBc0tDp4ad/EyewESeXE/Iv67Aj8gKZ0" crossorigin="anonymous">
+    <script defer src="https://gcore.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.js" integrity="sha384-PwRUT/YqbnEjkZO0zZxNqcxACrXe+j766U2amXcgMg5457rve2Y7I6ZJSm2A0mS4" crossorigin="anonymous"></script>
+    <script defer src="https://gcore.jsdelivr.net/npm/katex@0.16.4/dist/contrib/auto-render.min.js" integrity="sha384-+VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4+/RRE05" crossorigin="anonymous" onload="renderMathInElement(document.body);"></script>
+  
+
+
+  
+
+<!--百度统计-->
+<script>
+  var _hmt = _hmt || [];
+  (function() {
+    var hm = document.createElement("script");
+    hm.src = "https://hm.baidu.com/hm.js?f42afe3e5b76d22c8b1a8060171c7184";
+    var s = document.getElementsByTagName("script")[0]; 
+    s.parentNode.insertBefore(hm, s);
+  })();
+</script>  
+  <!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-V2NSKYGXNG"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-V2NSKYGXNG');
+</script>
+<!--Google Adsense-->
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4773172018528901" crossorigin="anonymous"></script>
+</head>
+
+<body>
+  
+
+
+
+
+  <div class="l_body" id="start">
+    <aside class="l_left" layout="post">
+    
+
+  
+
+<header class="header"><div class="logo-wrap"><a class="avatar" href="/RSSBOX/archives"><div class="bg" style="opacity:0;background-image:url(https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.4/avatar/round/rainbow64@3x.webp);"></div><img no-lazy class="avatar" src="https://cdn.jsdelivr.net/gh/SMGCDN/photos/icon/rsshub.png" onerror="javascript:this.classList.add('error');this.src='https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.4/image/2659360.svg';"></a><a class="title" href="/RSSBOX/"><div class="main" ff="title">RSSBOX</div><div class="sub normal cap">SMGoroのRSS订阅</div><div class="sub hover cap" style="opacity:0"> 一些好康的东西</div></a></div>
+
+<nav class="menu dis-select"><a class="nav-item active" href="/RSSBOX/">订阅</a><a class="nav-item" href="https://blog.imc.re/">博客</a><a class="nav-item" href="https://blog.imc.re/contact">联系</a><a class="nav-item" href="https://blog.imc.re/more">更多</a></nav>
+</header>
+
+
+<div class="widgets">
+
+<widget class="widget-wrapper toc single" id="data-toc"><div class="widget-header cap dis-select"><span class="name">Open Source All the Way Down: Upgrading Our Developer Documentation</span></div><div class="widget-body fs14"><div class="doc-tree active"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">Building the best open source documentation experience</span></a></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">Cloudflare developer documentation: A collaborative open source approach</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-text">2021 update: enhanced documentation engine</span></a></li><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-text">2024 update: Say “hello, world!” to our new developer documentation, powered by Astro</span></a></li><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-text">How we migrated to Astro</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">The migration in numbers</span></a></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">What we learned</span></a></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text">Contribute to developers.cloudflare.com!</span></a></li></ol></div></div></widget>
+
+
+
+<widget class="widget-wrapper search"><div class="widget-body"><div class="search-wrapper" id="search"><form class="search-form"><input type="text" class="search-input" id="search-input" data-filter="/rss/" placeholder="文章搜索"><svg t="1670596976048" class="icon search-icon" viewbox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2676" width="200" height="200"><path d="M938.2 832.6L723.8 618.1c-2.5-2.5-5.3-4.4-7.9-6.4 36.2-55.6 57.3-121.8 57.3-193.1C773.3 222.8 614.6 64 418.7 64S64 222.8 64 418.6c0 195.9 158.8 354.6 354.6 354.6 71.3 0 137.5-21.2 193.2-57.4 2 2.7 3.9 5.4 6.3 7.8L832.5 938c14.6 14.6 33.7 21.9 52.8 21.9 19.1 0 38.2-7.3 52.8-21.8 29.2-29.1 29.2-76.4 0.1-105.5M418.7 661.3C284.9 661.3 176 552.4 176 418.6 176 284.9 284.9 176 418.7 176c133.8 0 242.6 108.9 242.6 242.7 0 133.7-108.9 242.6-242.6 242.6" p-id="2677"/></svg></form><div id="search-result"></div><div class="search-no-result">没有找到内容！</div></div></div></widget>
+
+
+
+<widget class="widget-wrapper recent"><div class="widget-header cap theme dis-select"><span class="name">最近更新</span><a class="cap-action" id="rss" title="Subscribe" href="/atom.xml"><svg class="icon" viewbox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="8938"><path d="M800.966 947.251c0-404.522-320.872-732.448-716.69-732.448V62.785c477.972 0 865.44 395.987 865.44 884.466h-148.75z m-162.273 0h-148.74c0-228.98-181.628-414.598-405.678-414.598v-152.01c306.205 0 554.418 253.68 554.418 566.608z m-446.24-221.12c59.748 0 108.189 49.503 108.189 110.557 0 61.063-48.44 110.563-108.188 110.563-59.747 0-108.18-49.5-108.18-110.563 0-61.054 48.433-110.556 108.18-110.556z" p-id="8939"/></svg></a></div><div class="widget-body related-posts fs14"><a class="item title" href="/RSSBOX/rss/44757927.html"><span class="title">Vocaloid Opera - the End (720p)</span></a><a class="item title" href="/RSSBOX/rss/5d3e505.html"><span class="title">いとしのムーコ 第01-17巻 [Itoshi No Muco Vol 01-17]</span></a><a class="item title" href="/RSSBOX/rss/48910fa7.html"><span class="title">Sorairo Utility S01E02 1080p WEB X264 AAC -Tsundere-Raws (ABEMA)</span></a><a class="item title" href="/RSSBOX/rss/ca53dfad.html"><span class="title">Tying.the.Knot.with.an.Amagami.Sister.S01E12.MULTi.1080p.WEB-DL.x264-T3KASHi</span></a><a class="item title" href="/RSSBOX/rss/c7690982.html"><span class="title">I.ll.Become.a.Villainess.who.Goes.Down.in.History.S01E12.MULTi.1080p.WEB-DL.x264-T3KASHi</span></a></div></widget>
+</div>
+<footer class="footer dis-select"><div class="social-wrap"><a class="social" href="https://github.com/SMGoro" target="_blank" rel="external nofollow noopener noreferrer"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cdn.jsdelivr.net/gh/SMGCDN/photos/icon/iconfont/social-github.svg"></a><a class="social" href="https://space.bilibili.com/359079394" target="_blank" rel="external nofollow noopener noreferrer"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cdn.jsdelivr.net/gh/SMGCDN/photos/icon/iconfont/bilibili.svg"></a><a class="social" href="https://l.imc.re/zhihu" target="_blank" rel="external nofollow noopener noreferrer"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cdn.jsdelivr.net/gh/SMGCDN/photos/icon/iconfont/zhihu.svg"></a><a class="social" href="https://l.imc.re/discord" target="_blank" rel="external nofollow noopener noreferrer"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cdn.jsdelivr.net/gh/SMGCDN/photos/icon/iconfont/discord.svg"></a><a class="social" href="https://blog.imc.re/contact" target="_blank" rel="external nofollow noopener noreferrer"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cdn.jsdelivr.net/gh/SMGCDN/photos/icon/iconfont/comments.svg"></a></div></footer>
+
+    </aside>
+    <div class="l_main">
+      
+
+      
+
+
+
+<div class="bread-nav fs12"><div id="breadcrumb"><a class="cap breadcrumb" href="/RSSBOX/">主页</a><span class="sep"></span><a class="cap breadcrumb" href="/RSSBOX/">文章</a><span class="sep"></span><a class="cap breadcrumb-link" href="/RSSBOX/categories/blogs/">Blogs</a> <span class="sep"></span> <a class="cap breadcrumb-link" href="/RSSBOX/categories/blogs/cloudflare/">Cloudflare</a></div><div id="post-meta">发布于&nbsp;<time datetime="2025-01-08T14:00:00.000Z">2025-01-08</time></div></div>
+
+<article class="md-text content post">
+<h1 class="article-title"><span>Open Source All the Way Down: Upgrading Our Developer Documentation</span></h1>
+<div>
+ <p>At Cloudflare, we treat developer <a target="_blank" rel="external nofollow noopener noreferrer" href="https://blog.cloudflare.com/content-as-a-product/"><u>content like a product</u></a>, where we take the user and their feedback into consideration. We are constantly iterating, testing, analyzing, and refining content. Inspired by agile practices, treating developer content like an open source product means we approach our documentation the same way an open source software project is created and maintained.  Open source documentation empowers the developer community because it allows anyone, anywhere, to contribute content. By making both the content and the framework of the documentation site publicly accessible, we provide developers with the opportunity to not only improve the material itself but also understand and engage with the processes that govern how the documentation is built, approved, and maintained. This transparency fosters collaboration, learning, and innovation, enabling developers to contribute their expertise and learn from others in a shared, open environment. We also provide feedback to other open source products and plugins, giving back to the same community that supports us.</p>
+<div>
+<h2>Building the best open source documentation experience</h2>
+<a href="#building-the-best-open-source-documentation-experience">
+</a>
+</div>
+<p>Great documentation empowers users to be successful with a new product as quickly as possible, showing them how to use the product and describing its benefits. Relevant, timely, and accurate content can save frustration, time, and money. Open source documentation adds a few more benefits, including building inclusive and supportive communities that help reduce the learning curve. We love being open source!</p><p>While the Cloudflare content team has scaled to deliver documentation alongside product launches, the open source documentation site itself was not scaling well. <a target="_blank" rel="external nofollow noopener noreferrer" href="http://developers.cloudflare.com"><u>developers.cloudflare.com</u></a> had outgrown the workflow for contributors, plus we were missing out on all the neat stuff created by developers in the community.</p><p>Just like a software product evaluation, we reviewed our business needs. We asked ourselves if remaining open source was appropriate? Were there other tools we wanted to use? What benefits did we want to see in a year or in five years? Our biggest limitations in addition to the contributor workflow challenges seemed to be around scalability and high maintenance costs for user experience improvements. </p><p>After compiling our wishlist of new features to implement, we reaffirmed our commitment to open source. We valued the benefit of open source in both the content and the underlying framework of our documentation site. This commitment goes beyond technical considerations, because it's a fundamental aspect of our relationship with our community and our philosophy of transparency and collaboration. While the choice of an open source framework to build the site on might not be visible to many visitors, we recognized its significance for our community of developers and contributors. Our decision-making process was heavily influenced by two primary factors: first, whether the update would enhance the collaborative ecosystem, and second, how it would improve the overall documentation experience. This focus reflects that our open source principles, applied to both content and infrastructure, are essential for fostering innovation, ensuring quality through peer review, and building a more engaged and empowered user community.</p>
+<div>
+<h2>Cloudflare developer documentation: A collaborative open source approach</h2>
+<a href="#cloudflare-developer-documentation-a-collaborative-open-source-approach">
+</a>
+</div>
+<p>Cloudflare’s developer documentation is <a target="_blank" rel="external nofollow noopener noreferrer" href="https://github.com/cloudflare/cloudflare-docs/"><u>open source on GitHub</u></a>, with content supporting all of Cloudflare’s products. The underlying documentation engine has gone through a few iterations, with the first version of the site released in 2020. That first version provided dev-friendly features such as dark mode and proper code syntax. </p>
+<div>
+<h3>2021 update: enhanced documentation engine</h3>
+<a href="#2021-update-enhanced-documentation-engine">
+</a>
+</div>
+<p>In 2021, we introduced a new custom documentation engine, bringing significant improvements to the Cloudflare content experience. The benefits of the Gatsby to Hugo <a target="_blank" rel="external nofollow noopener noreferrer" href="https://blog.cloudflare.com/new-dev-docs/"><u>migration</u></a> included:</p><ul><li><p><b>Faster development flow</b>: The development flow replicated production behavior, increasing iteration speed and confidence. <a target="_blank" rel="external nofollow noopener noreferrer" href="https://developers.cloudflare.com/pages/configuration/preview-deployments/"><u>Preview links</u></a> via Cloudflare Pages were also introduced, so the content team and stakeholders could quickly review what content would look like in production.</p></li><li><p><b>Custom components</b>: Introduced features like <a target="_blank" rel="external nofollow noopener noreferrer" href="https://github.com/cloudflare/cloudflare-docs/blob/4c3c819ebe3714df1698097135c645429bcbe7cc/layouts/shortcodes/resource-by-selector.html"><u>resources-by-selector</u></a> which let us reference content throughout the repository and gave us the flexibility to expand checks and automations.</p></li><li><p><b>Structured changelog management</b>: Implementation of <a target="_blank" rel="external nofollow noopener noreferrer" href="https://github.com/cloudflare/cloudflare-docs/tree/4c3c819ebe3714df1698097135c645429bcbe7cc/data/changelogs"><u>structured YAML</u></a> changelog entries which facilitated sharing with various platforms like <a target="_blank" rel="external nofollow noopener noreferrer" href="https://developers.cloudflare.com/changelog/index.xml"><u>RSS feeds</u></a>, <a target="_blank" rel="external nofollow noopener noreferrer" href="http://discord.cloudflare.com"><u>Developer Discord</u></a>, and within the docs themselves.</p></li><li><p><b>Improved performance</b>: Significant page load time improvements with the migration to HTML-first and almost instantaneous local builds.</p></li></ul><p>These features were non-negotiable as part of our evaluation of whether to migrate. We knew that any update to the site had to maintain the functionality we’d established as core parts of the new experience.</p>
+<div>
+<h3>2024 update: Say “hello, world!” to our new developer documentation, powered by Astro</h3>
+<a href="#2024-update-say-hello-world-to-our-new-developer-documentation-powered-by-astro">
+</a>
+</div>
+<p>After careful evaluation, we chose to migrate from Hugo to the <a target="_blank" rel="external nofollow noopener noreferrer" href="https://astro.build/"><u>Astro</u></a> (and by extension, JavaScript) ecosystem. Astro fulfilled many items on our wishlist including:</p><ul><li><p><b>Enhanced content organization</b>: Improved tagging and better cross-referencing of  related pages.</p></li><li><p><b>Extensibility</b>: Support for user plugins like <a target="_blank" rel="external nofollow noopener noreferrer" href="https://github.com/HiDeoo/starlight-image-zoom"><u>starlight-image-zoom</u></a> for lightbox functionality.</p></li><li><p><b>Development experience</b>: Type-checking at build time with <a target="_blank" rel="external nofollow noopener noreferrer" href="https://docs.astro.build/en/reference/cli-reference/#astro-check"><u>astro check</u></a>, along with syntax highlighting, Intellisense, diagnostic messages, and plugins for ESLint, Stylelint, and Prettier. </p></li><li><p><b>JavaScript/TypeScript support</b>: Aligned the docs site framework with the preferred languages of many contributors, facilitating easier contribution.</p></li><li><p><b>CSS management</b>: Introduction of Tailwind and <a target="_blank" rel="external nofollow noopener noreferrer" href="https://docs.astro.build/en/guides/styling/#scoped-styles"><u>scoped styles</u></a>.</p></li><li><p><a target="_blank" rel="external nofollow noopener noreferrer" href="https://docs.astro.build/en/guides/content-collections/"><b><u>Content collections</u></b></a>: Offered various ways to manage and enhance tagging practices including Markdown front matter <a target="_blank" rel="external nofollow noopener noreferrer" href="https://docs.astro.build/en/guides/content-collections/#defining-datatypes-with-zod"><u>validated by Zod schemas</u></a>, JSON schemas for <a target="_blank" rel="external nofollow noopener noreferrer" href="https://docs.astro.build/en/guides/content-collections/#enabling-json-schema-generation"><u>Intellisense</u></a>, and a JavaScript callback for <a target="_blank" rel="external nofollow noopener noreferrer" href="https://docs.astro.build/en/guides/content-collections/#filtering-collection-queries"><u>filtering returned entries</u></a>.</p></li></ul>
+<figure>
+<img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cf-assets.www.cloudflare.com/zkvhlag99gkb/1wz2uWlAwbHFG4QgG0d8tt/4eeb3fbcd4d9b33c5590be39654bbff1/BLOG-2600_2.png">
+</figure><p><a target="_blank" rel="external nofollow noopener noreferrer" href="https://starlight.astro.build/"><u>Starlight</u></a>, Astro’s documentation theme, was a key factor in the decision. Its powerful <a target="_blank" rel="external nofollow noopener noreferrer" href="https://starlight.astro.build/guides/overriding-components/"><u>component overrides</u></a> and <a target="_blank" rel="external nofollow noopener noreferrer" href="https://starlight.astro.build/resources/plugins/"><u>plugins</u></a> system allowed us to leverage built-in components and base styling.</p>
+<div>
+<h3>How we migrated to Astro</h3>
+<a href="#how-we-migrated-to-astro">
+</a>
+</div>
+<p>Content needed to be migrated quickly. With dozens of pull requests opened and merged each day, entering a code freeze for a week simply wasn’t feasible. This is where the nature of <a target="_blank" rel="external nofollow noopener noreferrer" href="https://en.wikipedia.org/wiki/Abstract_syntax_tree"><u>abstract syntax trees</u></a> (ASTs) came into play, only parsing the structure of a Markdown document rather than details like whitespace or indentation that would make a <a target="_blank" rel="external nofollow noopener noreferrer" href="https://en.wikipedia.org/wiki/Regular_expression"><u>regular expression</u></a> approach tricky.</p><p>With Hugo in 2021, we configured code block functionality like titles or line highlights with front matter inside the code block.</p>
+<pre><code>---
+title: index.js
+highlight: 1
+---
+const foo = "bar";
+</code></pre>
+<p>Starlight uses <a target="_blank" rel="external nofollow noopener noreferrer" href="https://expressive-code.com/"><u>Expressive Code</u></a> for code blocks, and these options are now on the opening code fence.</p>
+<pre><code>js title="index.js" &#123;1&#125;
+const foo = "bar";
+</code></pre>
+<p>With <a target="_blank" rel="external nofollow noopener noreferrer" href="https://www.npmjs.com/package/astray"><u>astray</u></a>, this is a simple as visiting the `code` nodes and:</p><ol><li><p>Parsing `node.value` with <a target="_blank" rel="external nofollow noopener noreferrer" href="https://www.npmjs.com/package/front-matter"><u>front-matter</u></a>.</p></li><li><p>Assigning the attributes from `front-matter` to `node.meta`.</p></li><li><p>Replacing `node.value` with the rest of the code block.</p></li></ol>
+<pre><code>import &#123; fromMarkdown &#125; from "mdast-util-from-markdown";
+import &#123; toMarkdown &#125; from "mdast-util-to-markdown";
+ 
+<p>import * as astray from “astray”;<br>import type * as MDAST from “mdast”;<br>import fm from “front-matter”;</p>
+<p>const markdown &#x3D; await Bun.file(“example.md”).text();</p>
+<p>const AST &#x3D; fromMarkdown(markdown);</p>
+<p>astray.walk&lt;MDAST.Root, void, any&gt;(AST, &amp;#123;<br>    code(node: MDAST.Code) &amp;#123;<br>        const &amp;#123; attributes, body &amp;#125; &#x3D; fm(node.value);<br>        const &amp;#123; title, highlight &amp;#125; &#x3D; attributes;</p>
+<pre><code>    if (title) &amp;#123;
+        node.meta = `title=&quot;$&amp;#123;title&amp;#125;&quot;`;
+    &amp;#125;
+
+    if (highlight) &amp;#123;
+        node.meta += ` &amp;#123;$&amp;#123;highlight&amp;#125;&amp;#125;`;
+    &amp;#125;
+
+    node.value = body;
+
+    return;
+&amp;#125;
+</code></pre>
+<p>&amp;#125;)<br></p></code></pre><p></p>
+<div>
+<h2>The migration in numbers</h2>
+<a href="#the-migration-in-numbers">
+</a>
+</div>
+<p>When we <a target="_blank" rel="external nofollow noopener noreferrer" href="https://blog.cloudflare.com/new-dev-docs/"><u>migrated from Gatsby to Hugo</u></a> in 2021, the <a target="_blank" rel="external nofollow noopener noreferrer" href="https://github.com/cloudflare/cloudflare-docs/pull/3609/"><u>pull request</u></a> included 4,850 files and the migration took close to three weeks from planning to implementation. This time around, the migration was nearly twice as large, with 8,060 files changed. Our planning and migration took six weeks in total:</p><ul><li><p>10 days: Evaluate platforms, vendors, and features </p></li><li><p>14 days: Migrate the <a target="_blank" rel="external nofollow noopener noreferrer" href="https://developers.cloudflare.com/style-guide/components/"><u>components</u></a> required by the documentation site</p></li><li><p>5 days: Staging and user acceptance testing (UAT) </p></li><li><p>8 hours: Code freeze and <a target="_blank" rel="external nofollow noopener noreferrer" href="https://github.com/cloudflare/cloudflare-docs/pull/16096"><u>migrate to Astro/Starlight</u></a></p></li></ul><p>The migration resulted in removing a net -19,624 lines of code from our maintenance burden.</p>
+<figure>
+<img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cf-assets.www.cloudflare.com/zkvhlag99gkb/3r9Hj2NwU40GPLTw5TbGYG/d292b405c097ebd577173f5d61c17d03/BLOG-2600_3.png">
+</figure><p>While the number of files had grown substantially since our last major migration, our strategy was very similar to the 2021 migration. We used <a target="_blank" rel="external nofollow noopener noreferrer" href="https://github.com/syntax-tree/mdast"><u>Markdown AST</u></a> and astray, a utility to walk ASTs, created specifically for the previous migration!</p>
+<div>
+<h2>What we learned</h2>
+<a href="#what-we-learned">
+</a>
+</div>
+<p>A website migration like our move to Astro/Starlight is a complex process that requires time to plan, review, and coordinate, and our preparation paid off! Including our <a target="_blank" rel="external nofollow noopener noreferrer" href="https://community.cloudflare.com/t/2025-mvp-nominations/705496"><u>Cloudflare Community MVPs</u></a> as part of the planning and review period proved incredibly helpful. They provided great guidance and feedback as we planned for the migration. We only needed one day of code freeze, and there were no rollbacks or major incidents. Visitors to the site never experienced downtime, and overall the migration was a major success.</p><p>During testing, we ran into several use cases that warranted using <a target="_blank" rel="external nofollow noopener noreferrer" href="https://docs.astro.build/en/reference/container-reference/"><u>experimental Astro APIs</u></a>. These APIs were always well documented, thanks to fantastic open source content from the Astro community. We were able to implement them quickly without impacting our release timeline.</p><p>We also ran into <a target="_blank" rel="external nofollow noopener noreferrer" href="https://github.com/withastro/starlight/issues/2215"><u>an edge case</u></a> with build time performance due to the number of pages on our site (4000+). The Astro team was quick to triage the problem and begin investigation for a <a target="_blank" rel="external nofollow noopener noreferrer" href="https://github.com/withastro/starlight/pull/2252"><u>permanent fix</u></a>. Their fast, helpful fixes made us truly grateful for the support from the Astro Discord server. A big thank you to the Astro/Starlight community!</p>
+<div>
+<h2>Contribute to developers.cloudflare.com!</h2>
+<a href="#contribute-to-developers-cloudflare-com">
+</a>
+</div>
+<p>Migrating <a target="_blank" rel="external nofollow noopener noreferrer" href="http://developers.cloudflare.com"><u>developers.cloudflare.com</u></a> to Astro/Starlight is just one example of the ways we prioritize world-class documentation and user experiences at Cloudflare. Our deep investment in documentation makes this a great place to work for technical writers, UX strategists, and many other content creators. Since adopting a <a target="_blank" rel="external nofollow noopener noreferrer" href="https://blog.cloudflare.com/content-as-a-product/"><u>content like a product</u></a> strategy in 2021, we have evolved to better serve the open source community by focusing on inclusivity and transparency, which ultimately leads to happier Cloudflare users. </p><p>We invite everyone to connect with us and explore these exciting new updates. Feel free to <a target="_blank" rel="external nofollow noopener noreferrer" href="https://github.com/cloudflare/cloudflare-docs/issues"><u>reach out</u></a> if you’d like to speak with someone on the content team or share feedback about our documentation. You can share your thoughts or submit a pull request directly on the cloudflare-docs <a target="_blank" rel="external nofollow noopener noreferrer" href="https://github.com/cloudflare/cloudflare-docs"><u>repository</u></a> in GitHub.</p> 
+</div>
+
+<div>
+<div class="tag-plugin link dis-select"><a class="link-card plain" title="Open source all the way down: Upgrading our developer documentation" href="https://blog.cloudflare.com/open-source-all-the-way-down-upgrading-our-developer-documentation/" target="_blank" rel="external nofollow noopener noreferrer" cardlink autofill="icon"><div class="left"><span class="title">Open source all the way down: Upgrading our developer documentation</span><span class="cap link fs12">https://blog.cloudflare.com/open-source-all-the-way-down-upgrading-our-developer-documentation/</span></div><div class="right"><div class="lazy img" data-bg="https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.4/link/8f277b4ee0ecd.svg"></div></div></a></div>
+</div>
+
+
+
+
+<div class="article-footer reveal fs14"><section id="license"><div class="header"><span>许可协议</span></div><div class="body"><p>本文采用 <a target="_blank" rel="external nofollow noopener noreferrer" href="https://github.com/me-shaon/GLWTPL/blob/master/translations/LICENSE_zh-CN">GLWT（Good Luck With That，祝你好运）公共许可证</a> 许可协议，转载请注明出处。</p>
+</div></section><section id="share"><div class="header"><span>分享文章</span></div><div class="body"><div class="link"><input class="copy-area" readonly="true" id="copy-link" value="https://blog.imc.re/RSSBOX/rss/dea977e3.html"></div><div class="social-wrap dis-select"><a class="social share-item wechat" onclick="util.toggle(&quot;qrcode-wechat&quot)"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.4/social/b32ef3da1162a.svg"></a><a class="social share-item weibo" target="_blank" rel="external nofollow noopener noreferrer" href="https://service.weibo.com/share/share.php?url=https://blog.imc.re/RSSBOX/rss/dea977e3.html&title=Open Source All the Way Down: Upgrading Our Developer Documentation - RSSBOX&pics=https://cf-assets.www.cloudflare.com/zkvhlag99gkb/1wz2uWlAwbHFG4QgG0d8tt/4eeb3fbcd4d9b33c5590be39654bbff1/BLOG-2600_2.png&summary=
+ At Cloudflare, we treat developer content like a product, where we take the user and their feedback into considerat..."><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.4/social/80c07e4dbb303.svg"></a><a class="social share-item email" href="mailto:?subject=Open Source All the Way Down: Upgrading Our Developer Documentation - RSSBOX&amp;body=https://blog.imc.re/RSSBOX/rss/dea977e3.html"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.4/social/a1b00e20f425d.svg"></a><a class="social share-item link" onclick="util.copy(&quot;copy-link&quot;, &quot;复制成功&quot;)"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.4/social/8411ed322ced6.svg"></a></div><div class="qrcode" id="qrcode-wechat" style="visibility:hidden;height:0"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://api.qrserver.com/v1/create-qr-code/?size=256x256&data=https://blog.imc.re/RSSBOX/rss/dea977e3.html"></div></div></section></div>
+
+</article>
+
+<div class="related-wrap reveal" id="read-next"><section class="body"><div class="item" id="prev"><div class="note">较新文章</div><a href="/RSSBOX/rss/8927e0cb.html">How to Use GitHub Copilot: What It Can Do and Real-World Examples</a></div><div class="item" id="next"><div class="note">较早文章</div><a href="/RSSBOX/rss/868f80a5.html">Building LATAM&#8217;s Future Tech Workforce With AI</a></div></section></div>
+
+
+<div class="related-wrap reveal" id="related-posts">
+    <section class="header">
+      <div class="title cap theme">您可能感兴趣的文章</div>
+    </section>
+    <section class="body">
+    <div class="related-posts"><a class="item" href="/RSSBOX/rss/ef860f74.html" title="Bring Multimodal Real-Time Interaction to Your AI Applications With Cloudflare Calls"><span class="title">Bring Multimodal Real-Time Interaction to Your AI Applications With Cloudflare Calls</span></a><a class="item" href="/RSSBOX/rss/101c747.html" title="Behind the Scenes With Stream Live, Cloudflare’s Live Streaming Service"><span class="title">Behind the Scenes With Stream Live, Cloudflare’s Live Streaming Service</span></a><a class="item" href="/RSSBOX/rss/c3d79809.html" title="Grinch Bots Strike Again: Defending Your Holidays From Cyber Threats"><span class="title">Grinch Bots Strike Again: Defending Your Holidays From Cyber Threats</span></a><a class="item" href="/RSSBOX/rss/9920173b.html" title="Hi Claude, Build an MCP Server on Cloudflare Workers"><span class="title">Hi Claude, Build an MCP Server on Cloudflare Workers</span></a><a class="item" href="/RSSBOX/rss/ccded7a6.html" title="Global Elections in 2024: Internet Traffic and Cyber Threat Trends"><span class="title">Global Elections in 2024: Internet Traffic and Cyber Threat Trends</span></a></div></section></div>
+
+
+
+
+
+      
+<footer class="page-footer reveal fs12"><hr><div class="sitemap"><div class="sitemap-group"><span class="fs14">文章</span><a href="/RSSBOX/categories">分类</a><a href="/RSSBOX/tags">标签</a><a href="/RSSBOX/archives">归档</a></div><div class="sitemap-group"><span class="fs14">更多</span><a href="https://blog.imc.re/">博客</a><a target="_blank" rel="noopener" href="https://imc.re/">IMC.RE</a></div></div><div class="text"><p><a href="/">@RSSBOX</a> 2023 author by <a target="_blank" rel="external nofollow noopener noreferrer" href="https://github.com/MHG-LAB/RSSBOX">MHuiG</a> powered by SummerGoro。<br><br>本博客所有文章除特别声明外，均采用 <a target="_blank" rel="external nofollow noopener noreferrer" href="https://github.com/me-shaon/GLWTPL/blob/master/translations/LICENSE_zh-CN">GLWT（Good Luck With That，祝你好运）公共许可证</a> 许可协议，转载请注明出处。</p>
+</div></footer>
+
+      <div class="float-panel mobile-only blur" style="display:none">
+  <button type="button" class="sidebar-toggle mobile" onclick="sidebar.toggle()">
+    <svg class="icon" style="width: 1em; height: 1em;vertical-align: middle;fill: currentColor;overflow: hidden;" viewbox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="15301"><path d="M566.407 808.3c26.9-0.1 49.3-20.8 51.6-47.6-1.9-27.7-23.9-49.7-51.6-51.6h-412.6c-28.2-1.4-52.6 19.5-55.5 47.6 2.3 26.8 24.6 47.5 51.6 47.6h416.5v4z m309.3-249.9c26.9-0.1 49.3-20.8 51.6-47.6-2.2-26.8-24.6-47.5-51.6-47.6h-721.9c-27.7-2.8-52.5 17.4-55.3 45.1-0.1 0.8-0.1 1.7-0.2 2.5 0.9 27.2 23.6 48.5 50.7 47.6H875.707z m-103.1-245.9c26.9-0.1 49.3-20.8 51.6-47.6-0.4-28.3-23.2-51.1-51.5-51.6h-618.9c-29.5-1.1-54.3 21.9-55.5 51.4v0.2c1.4 27.8 25.2 49.2 53 47.8 0.8 0 1.7-0.1 2.5-0.2h618.8z" p-id="15302"/><path d="M566.407 808.3c26.9-0.1 49.3-20.8 51.6-47.6-1.9-27.7-23.9-49.7-51.6-51.6h-412.6c-28.2-1.4-52.6 19.5-55.5 47.6 1.9 27.7 23.9 49.7 51.6 51.6h416.5z m309.3-249.9c26.9-0.1 49.3-20.8 51.6-47.6-2.2-26.8-24.6-47.5-51.6-47.6h-721.9c-27.7-2.8-52.5 17.4-55.3 45.1-0.1 0.8-0.1 1.7-0.2 2.5 0.9 27.2 23.6 48.5 50.7 47.6H875.707z m-103.1-245.9c26.9-0.1 49.3-20.8 51.6-47.6-0.4-28.3-23.2-51.1-51.5-51.6h-618.9c-29.5-1.1-54.3 21.9-55.5 51.4v0.2c1.4 27.8 25.2 49.2 53 47.8 0.8 0 1.7-0.1 2.5-0.2h618.8z" p-id="15303"/></svg>
+  </button>
+</div>
+
+    </div>
+  </div>
+  <div class="scripts">
+    <script type="text/javascript">
+  const stellar = {
+    // 懒加载 css https://github.com/filamentgroup/loadCSS
+    loadCSS: (href, before, media, attributes) => {
+      var doc = window.document;
+      var ss = doc.createElement("link");
+      var ref;
+      if (before) {
+        ref = before;
+      } else {
+        var refs = (doc.body || doc.getElementsByTagName("head")[0]).childNodes;
+        ref = refs[refs.length - 1];
+      }
+      var sheets = doc.styleSheets;
+      if (attributes) {
+        for (var attributeName in attributes) {
+          if (attributes.hasOwnProperty(attributeName)) {
+            ss.setAttribute(attributeName, attributes[attributeName]);
+          }
+        }
+      }
+      ss.rel = "stylesheet";
+      ss.href = href;
+      ss.media = "only x";
+      function ready(cb) {
+        if (doc.body) {
+          return cb();
+        }
+        setTimeout(function () {
+          ready(cb);
+        });
+      }
+      ready(function () {
+        ref.parentNode.insertBefore(ss, before ? ref : ref.nextSibling);
+      });
+      var onloadcssdefined = function (cb) {
+        var resolvedHref = ss.href;
+        var i = sheets.length;
+        while (i--) {
+          if (sheets[i].href === resolvedHref) {
+            return cb();
+          }
+        }
+        setTimeout(function () {
+          onloadcssdefined(cb);
+        });
+      };
+      function loadCB() {
+        if (ss.addEventListener) {
+          ss.removeEventListener("load", loadCB);
+        }
+        ss.media = media || "all";
+      }
+      if (ss.addEventListener) {
+        ss.addEventListener("load", loadCB);
+      }
+      ss.onloadcssdefined = onloadcssdefined;
+      onloadcssdefined(loadCB);
+      return ss;
+    },
+
+    // 从 butterfly 和 volantis 获得灵感
+    loadScript: (src, opt) => new Promise((resolve, reject) => {
+      var script = document.createElement('script');
+      if (src.startsWith('/')){
+        src = stellar.config.root + src.substring(1);
+      }
+      script.src = src;
+      if (opt) {
+        for (let key of Object.keys(opt)) {
+          script[key] = opt[key]
+        }
+      } else {
+        // 默认异步，如果需要同步，第二个参数传入 {} 即可
+        script.async = true
+      }
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    }),
+
+    // https://github.com/jerryc127/hexo-theme-butterfly
+    jQuery: (fn) => {
+      if (typeof jQuery === 'undefined') {
+        stellar.loadScript(stellar.plugins.jQuery).then(fn)
+      } else {
+        fn()
+      }
+    }
+  };
+  stellar.version = '1.19.0';
+  stellar.github = 'https://github.com/xaoxuu/hexo-theme-stellar/tree/1.19.0';
+  stellar.config = {
+    date_suffix: {
+      just: '刚刚',
+      min: '分钟前',
+      hour: '小时前',
+      day: '天前',
+      month: '个月前',
+    },
+    root : '/RSSBOX/',
+  };
+
+  // required plugins (only load if needs)
+  stellar.plugins = {
+    jQuery: 'https://gcore.jsdelivr.net/npm/jquery@3.6.2/dist/jquery.min.js'
+  };
+
+  if ('local_search') {
+    stellar.search = {};
+    stellar.search.service = 'local_search';
+    if (stellar.search.service == 'local_search') {
+      let service_obj = Object.assign({}, {"field":"all","path":"/search.json","content":true,"codeblock":true,"sort":"-date"});
+      stellar.search[stellar.search.service] = service_obj;
+    }
+  }
+
+  // stellar js
+  stellar.plugins.stellar = Object.assign({"sites":"/js/plugins/sites.js","friends":"/js/plugins/friends.js","ghinfo":"/js/plugins/ghinfo.js","timeline":"/js/plugins/timeline.js","linkcard":"/js/plugins/linkcard.js","fcircle":"/js/plugins/fcircle.js","weibo":"/js/plugins/weibo.js"});
+
+  stellar.plugins.marked = Object.assign("https://cdn.bootcdn.net/ajax/libs/marked/4.0.18/marked.min.js");
+  // optional plugins
+  if ('true' == 'true') {
+    stellar.plugins.lazyload = Object.assign({"enable":true,"js":"https://gcore.jsdelivr.net/npm/vanilla-lazyload@17.8.3/dist/lazyload.min.js","transition":"blur"});
+  }
+  if ('true' == 'true') {
+    stellar.plugins.swiper = Object.assign({"enable":true,"css":"https://unpkg.com/swiper@8.4.5/swiper-bundle.min.css","js":"https://unpkg.com/swiper@8.4.5/swiper-bundle.min.js"});
+  }
+  if ('' == 'true') {
+    stellar.plugins.scrollreveal = Object.assign({"enable":null,"js":"https://gcore.jsdelivr.net/npm/scrollreveal@4.0.9/dist/scrollreveal.min.js","distance":"8px","duration":500,"interval":100,"scale":1});
+  }
+  if ('true' == 'true') {
+    stellar.plugins.preload = Object.assign({"enable":true,"service":"flying_pages","instant_page":"https://gcore.jsdelivr.net/gh/volantis-x/cdn-volantis@4.1.2/js/instant_page.js","flying_pages":"https://gcore.jsdelivr.net/gh/gijo-varghese/flying-pages@2.1.2/flying-pages.min.js"});
+  }
+  if ('true' == 'true') {
+    stellar.plugins.fancybox = Object.assign({"enable":true,"js":"https://gcore.jsdelivr.net/npm/@fancyapps/ui@4.0/dist/fancybox.umd.js","css":"https://gcore.jsdelivr.net/npm/@fancyapps/ui@4.0/dist/fancybox.css","selector":".swiper-slide img"});
+  }
+  if ('false' == 'true') {
+    stellar.plugins.heti = Object.assign({"enable":false,"css":"https://unpkg.com/heti@0.9.2/umd/heti.min.css","js":"https://unpkg.com/heti@0.9.2/umd/heti-addon.min.js"});
+  }
+  if ('true' == 'true') {
+    stellar.plugins.copycode = Object.assign({"enable":true,"js":"/js/plugins/copycode.js","default_text":"Copy","success_text":"Copied"});
+  }
+</script>
+
+<!-- required -->
+
+  
+<script src="/RSSBOX/js/main.js" async></script>
+
+
+
+<!-- optional -->
+
+  <script>
+  function loadJS() {
+    const els = document.querySelectorAll("#comments #giscus");
+    if (els.length === 0) return;
+    els.forEach((el, i) => {
+      try {
+        el.innerHTML = '';
+      } catch (error) {
+        console.log(error);
+      }
+      var script = document.createElement('script');
+      script.src = 'https://giscus.app/client.js';
+      script.async = true;
+      for (let key of Object.keys(el.attributes)) {
+        let attr = el.attributes[key];
+        if (['class', 'id'].includes(attr.name) === false) {
+          script.setAttribute(attr.name, attr.value);
+        }
+      }
+      el.appendChild(script);
+    });
+  }
+  window.addEventListener('DOMContentLoaded', (event) => {
+    loadJS();
+  });
+</script>
+
+
+
+
+<!-- inject -->
+
+
+  </div>
+</body>
+</html>
